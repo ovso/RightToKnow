@@ -2,6 +2,8 @@ package io.github.ovso.righttoknow.main;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
+import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +12,11 @@ import java.util.List;
  * Created by jaeho on 2017. 8. 1
  */
 
-public class MainPagerAdapter extends FragmentPagerAdapter
-    implements MainAdapterView, MainAdapterDataModel<BaseFragment> {
+public class PagerBaseAdapter extends FragmentPagerAdapter
+    implements BaseAdapterView, BaseAdapterDataModel<BaseFragment> {
   private ArrayList<BaseFragment> items = new ArrayList<>();
 
-  public MainPagerAdapter(FragmentManager fm) {
+  public PagerBaseAdapter(FragmentManager fm) {
     super(fm);
   }
 

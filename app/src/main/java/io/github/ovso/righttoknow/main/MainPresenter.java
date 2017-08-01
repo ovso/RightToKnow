@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.main;
 
 import android.os.Bundle;
+import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -13,7 +14,7 @@ public interface MainPresenter {
 
   void onBottomNavigationItemSelected(int id);
 
-  void setAdapterDataModel(MainAdapterDataModel adapterDataModel);
+  void setAdapterDataModel(BaseAdapterDataModel adapterDataModel);
 
   void onPageChanged(int position);
 

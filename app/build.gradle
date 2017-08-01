@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'idea'
 
 android {
   compileSdkVersion 26
@@ -32,4 +33,7 @@ dependencies {
   compile 'org.jsoup:jsoup:1.10.3'
   compile 'com.jakewharton:butterknife:8.7.0'
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+  compile 'org.projectlombok:lombok:1.16.16'
+  compile 'com.google.code.gson:gson:2.8.1'
+  provided 'javax.annotation:jsr250-api:1.0'
 }

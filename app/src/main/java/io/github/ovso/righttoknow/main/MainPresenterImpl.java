@@ -2,9 +2,10 @@ package io.github.ovso.righttoknow.main;
 
 import android.os.Bundle;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.violation.ViolationFragment;
-import io.github.ovso.righttoknow.wrongdoer.WrongdoerFragment;
+import io.github.ovso.righttoknow.violator.ViolatorFragment;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class MainPresenterImpl implements MainPresenter {
 
   private MainPresenter.View view;
-  private MainAdapterDataModel adapterDataModel;
+  private BaseAdapterDataModel adapterDataModel;
 
   MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
@@ -31,7 +32,7 @@ public class MainPresenterImpl implements MainPresenter {
   private void refreshAdapter() {
     List<BaseFragment> fragments = new ArrayList<>();
     fragments.add(ViolationFragment.newInstance(null));
-    fragments.add(WrongdoerFragment.newInstance(null));
+    fragments.add(ViolatorFragment.newInstance(null));
     adapterDataModel.addAll(fragments);
     view.refreshAdapter();
   }
@@ -58,7 +59,7 @@ public class MainPresenterImpl implements MainPresenter {
     }
   }
 
-  @Override public void setAdapterDataModel(MainAdapterDataModel adapterDataModel) {
+  @Override public void setAdapterDataModel(BaseAdapterDataModel adapterDataModel) {
     this.adapterDataModel = adapterDataModel;
   }
 

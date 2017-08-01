@@ -8,17 +8,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.MenuItem;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import java.io.IOException;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 
 public class MainActivity extends BaseActivity
     implements NavigationView.OnNavigationItemSelectedListener, MainPresenter.View {
@@ -34,7 +27,7 @@ public class MainActivity extends BaseActivity
     presenter = new MainPresenterImpl(this);
     presenter.onCreate(null);
 
-    final String source = "http://info.childcare.go.kr/info/cfvp/VioltfcltySlL.jsp";
+    final String source = "http://info.childcare.go.kr/info/cfvp/VioltfcltySlL.jsp?total=89&offset=0&limit=100";
   }
 
   @Override public int getLayoutResId() {
@@ -59,15 +52,9 @@ public class MainActivity extends BaseActivity
 
   @Override public void showWrongdoerFragment() {
     viewPager.setCurrentItem(1, true);
-    /*
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    transaction.replace(R.id.fragment_container, WrongdoerFragment.newInstance(null));
-    transaction.addToBackStack(null);
-    transaction.commit();
-    */
   }
 
-  private MainAdapterView adapterView = null;
+  private BaseAdapterView baseAdapterView = null;
 
   @Override public void setViewPager() {
     viewPager.setAdapter(adapter);
@@ -79,43 +66,18 @@ public class MainActivity extends BaseActivity
   }
 
   @Override public void refreshAdapter() {
-    adapterView.refresh();
+    baseAdapterView.refresh();
     viewPager.setAdapter(adapter);
   }
-  private MainPagerAdapter adapter;
+  private PagerBaseAdapter adapter;
   @Override public void setAdapter() {
-    adapter = new MainPagerAdapter(getSupportFragmentManager());
+    adapter = new PagerBaseAdapter(getSupportFragmentManager());
     presenter.setAdapterDataModel(adapter);
-    adapterView = adapter;
+    baseAdapterView = adapter;
   }
 
   @Override public void setSelectedBottomNavigation(int id) {
     bottomNavigationView.setSelectedItemId(id);
-  }
-
-  public String TableToJson(String source) throws JSONException {
-
-    Document doc;
-    JSONObject rootJsonObject = new JSONObject();
-
-    try {
-      doc = Jsoup.connect(source).get();
-
-      for (Element thead : doc.select("thead")) {
-        Elements e = thead.select("tr").get(0).select("th");
-        for (Element element : e) {
-          String a = element.childNode(0).toString();
-          Log.d("child", a);
-        }
-      }
-      for (Element tbody : doc.select("tbody")) {
-
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return rootJsonObject.toString();
   }
 
   @Override public void onBackPressed() {
