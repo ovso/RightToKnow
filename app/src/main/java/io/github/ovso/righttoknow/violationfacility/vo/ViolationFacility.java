@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.violation.vo;
+package io.github.ovso.righttoknow.violationfacility.vo;
 
 import lombok.Data;
 import lombok.ToString;
@@ -7,8 +7,8 @@ import lombok.ToString;
  * Created by jaeho on 2017. 8. 1
  */
 
-@Data @ToString public class Violation {
-  private int turn;
+@Data @ToString public class ViolationFacility {
+  private String turn;
   private String sido;
   private String sigungu;
   private String name;
@@ -16,4 +16,5 @@ import lombok.ToString;
   private String boss;
   private String director;
   private String address;
+  private String link;
 }

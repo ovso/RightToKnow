@@ -4,7 +4,7 @@ import android.os.Bundle;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
-import io.github.ovso.righttoknow.violation.ViolationFragment;
+import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class MainPresenterImpl implements MainPresenter {
 
   private void refreshAdapter() {
     List<BaseFragment> fragments = new ArrayList<>();
-    fragments.add(ViolationFragment.newInstance(null));
+    fragments.add(ViolationFacilityFragment.newInstance(null));
     fragments.add(ViolatorFragment.newInstance(null));
     adapterDataModel.addAll(fragments);
     view.refreshAdapter();

@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.violation;
+package io.github.ovso.righttoknow.violationfacility;
 
 import android.os.Bundle;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
@@ -7,7 +7,7 @@ import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
  * Created by jaeho on 2017. 8. 1
  */
 
-public interface ViolationPresenter {
+public interface ViolationFacilityPresenter {
 
   void onActivityCreated(Bundle savedInstanceState);
 
@@ -20,5 +20,9 @@ public interface ViolationPresenter {
     void setAdapter();
 
     void refresh();
+
+    void showLoading();
+
+    void hideLoading();
   }
 }
