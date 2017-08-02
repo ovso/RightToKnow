@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.violationfacility;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,12 +9,14 @@ import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
 
 /**
  * Created by jaeho on 2017. 7. 31
  */
 
-public class ViolationFacilityFragment extends BaseFragment implements ViolationFacilityPresenter.View {
+public class ViolationFacilityFragment extends BaseFragment
+    implements ViolationFacilityPresenter.View {
 
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
   private ViolationFacilityPresenter presenter;
@@ -62,5 +65,11 @@ public class ViolationFacilityFragment extends BaseFragment implements Violation
 
   @Override public void hideLoading() {
 
+  }
+
+  @Override public void navigateToViolationFacilityDetail(String link) {
+    Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
+    intent.putExtra("link", link);
+    startActivity(intent);
   }
 }

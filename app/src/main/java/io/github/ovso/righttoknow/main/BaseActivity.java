@@ -24,6 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     setContentView(getLayoutResId());
     unbinder = ButterKnife.bind(this);
     setSupportActionBar(toolbar);
+
   }
 
   @LayoutRes protected abstract int getLayoutResId();

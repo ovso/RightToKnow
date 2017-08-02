@@ -19,20 +19,21 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   ViolationFacilityPresenterImpl(ViolationFacilityPresenter.View view) {
     this.view = view;
     violationFacilityInteractor = new ViolationFacilityInteractor();
-    violationFacilityInteractor.setOnViolationfacilityResultListener(new ViolationFacilityInteractor.OnViolationfacilityResultListener() {
-      @Override public void onPre() {
-        view.showLoading();
-      }
+    violationFacilityInteractor.setOnViolationfacilityResultListener(
+        new ViolationFacilityInteractor.OnViolationfacilityResultListener<List<ViolationFacility>>() {
+          @Override public void onPre() {
+            view.showLoading();
+          }
 
-      @Override public void onResult(List<ViolationFacility> violationFacilities) {
-        adapterDataModel.addAll(violationFacilities);
-        view.refresh();
-      }
+          @Override public void onResult(List<ViolationFacility> violationFacilities) {
+            adapterDataModel.addAll(violationFacilities);
+            view.refresh();
+          }
 
-      @Override public void onPost() {
-        view.hideLoading();
-      }
-    });
+          @Override public void onPost() {
+            view.hideLoading();
+          }
+        });
   }
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
@@ -47,6 +48,6 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   }
 
   @Override public void onRecyclerItemClick(ViolationFacility violationFacility) {
-
+    view.navigateToViolationFacilityDetail(violationFacility.getLink());
   }
 }

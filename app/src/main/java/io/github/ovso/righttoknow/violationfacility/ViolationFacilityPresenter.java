@@ -27,5 +27,7 @@ public interface ViolationFacilityPresenter {
     void showLoading();
 
     void hideLoading();
+
+    void navigateToViolationFacilityDetail(String link);
   }
 }

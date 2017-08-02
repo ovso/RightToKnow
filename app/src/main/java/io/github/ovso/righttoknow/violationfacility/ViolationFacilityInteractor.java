@@ -17,7 +17,7 @@ import org.jsoup.select.Elements;
  * Created by jaeho on 2017. 8. 1
  */
 
-class ViolationFacilityInteractor {
+public class ViolationFacilityInteractor {
   private MyAsyncTask myAsyncTask;
 
   public void req(String url) {
@@ -25,11 +25,11 @@ class ViolationFacilityInteractor {
     myAsyncTask.execute(new String[] { url });
   }
 
-  private List<ViolationFacility> getData(String source) {
+  private List<ViolationFacility> getData(String url) {
     List<ViolationFacility> violationFacilities = new ArrayList<>();
     Document document;
     try {
-      document = Jsoup.connect(source).get();
+      document = Jsoup.connect(url).get();
       Elements tbodyElements = document.select("tbody");
       for (Element tbodyElement : tbodyElements) {
         Elements trElements = tbodyElement.select("tr");
@@ -95,9 +95,9 @@ class ViolationFacilityInteractor {
 
   @Getter @Setter private OnViolationfacilityResultListener onViolationfacilityResultListener;
 
-  public interface OnViolationfacilityResultListener {
+  public interface OnViolationfacilityResultListener<T> {
     void onPre();
-    void onResult(List<ViolationFacility> violationFacilities);
+    void onResult(T result);
     void onPost();
   }
 }
