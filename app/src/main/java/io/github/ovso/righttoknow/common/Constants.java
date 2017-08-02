@@ -5,8 +5,7 @@ package io.github.ovso.righttoknow.common;
  */
 
 public class Constants {
-  public final static String BASE_URL = "http://info.childcare.go.kr";
-  public final static String VIOLATION_PATH = "/info/cfvp/VioltfcltySlL.jsp";
-  public final static String VIOLATION_PARAM = "?total=89&offset=0&limit=100";
-
+  public final static String BASE_URL = "http://info.childcare.go.kr/info/cfvp";
+  public final static String VIOLATION_FACILITY_PATH = "/VioltfcltySlL.jsp";
+  public final static String VIOLATION_FACILITY_PARAMS = "?total=89&offset=0&limit=100";
 }

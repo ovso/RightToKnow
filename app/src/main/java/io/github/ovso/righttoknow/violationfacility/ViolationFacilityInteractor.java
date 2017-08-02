@@ -1,13 +1,13 @@
 package io.github.ovso.righttoknow.violationfacility;
 
 import android.os.AsyncTask;
+import io.github.ovso.righttoknow.listener.OnViolationFacilityResultListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,13 +19,14 @@ import org.jsoup.select.Elements;
 
 public class ViolationFacilityInteractor {
   private MyAsyncTask myAsyncTask;
-
-  public void req(String url) {
+  public ViolationFacilityInteractor() {
     myAsyncTask = new MyAsyncTask();
+  }
+  public void req(String url) {
     myAsyncTask.execute(new String[] { url });
   }
 
-  private List<ViolationFacility> getData(String url) {
+  protected List<ViolationFacility> getData(String url) {
     List<ViolationFacility> violationFacilities = new ArrayList<>();
     Document document;
     try {
@@ -41,6 +42,7 @@ public class ViolationFacilityInteractor {
           String sido = tdElements.get(1).childNode(0).toString();
           String sigungu = tdElements.get(2).childNode(0).toString();
           String link = tdElements.get(3).childNode(1).attributes().get("href");
+          link = link.substring(1, link.length());
           String name = tdElements.get(3).childNode(1).childNode(0).toString();
           String type = tdElements.get(4).childNode(0).toString();
           String boss = tdElements.get(5).childNode(0).toString();
@@ -72,7 +74,7 @@ public class ViolationFacilityInteractor {
 
   private class MyAsyncTask extends AsyncTask<String, Void, List<ViolationFacility>> {
     @Override protected void onPreExecute() {
-      onViolationfacilityResultListener.onPre();
+      onViolationFacilityResultListener.onPre();
       super.onPreExecute();
     }
 
@@ -80,33 +82,13 @@ public class ViolationFacilityInteractor {
       return getData(params[0]);
     }
 
-    private String getJson(String table) {
-      JSONObject rootJsonObject = new JSONObject();
-
-      return rootJsonObject.toString();
-    }
-
     @Override protected void onPostExecute(List<ViolationFacility> violationFacilities) {
       super.onPostExecute(violationFacilities);
-      onViolationfacilityResultListener.onResult(violationFacilities);
-      onViolationfacilityResultListener.onPost();
+      onViolationFacilityResultListener.onResult(violationFacilities);
+      onViolationFacilityResultListener.onPost();
     }
   }
 
-  @Getter @Setter private OnViolationfacilityResultListener onViolationfacilityResultListener;
+  @Getter @Setter private OnViolationFacilityResultListener onViolationFacilityResultListener;
 
-  public interface OnViolationfacilityResultListener<T> {
-    void onPre();
-    void onResult(T result);
-    void onPost();
-  }
 }
-/*
-      for (Element thead : document.select("thead")) {
-        Elements e = thead.select("tr").get(0).select("th");
-        for (Element element : e) {
-          String a = element.childNode(0).toString();
-        }
-      }
-
- */

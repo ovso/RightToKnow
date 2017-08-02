@@ -11,8 +11,12 @@
     tools:showIn="@layout/app_bar_vfacilitydetail"
     >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="상세 페이지~~"/>
+    <TextView
+        android:id="@+id/contents_textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="TextView"
+        android:scrollbars="vertical"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        />
 </LinearLayout>
