@@ -47,6 +47,9 @@ public class ViolationFacilityFragment extends BaseFragment implements Violation
     violationFacilityAdapter = new ViolationFacilityAdapter();
     presenter.setAdapterModel(violationFacilityAdapter);
     adapterView = violationFacilityAdapter;
+    violationFacilityAdapter.setOnRecyclerItemClickListener(violationFacility -> {
+      presenter.onRecyclerItemClick(violationFacility);
+    });
   }
 
   @Override public void refresh() {

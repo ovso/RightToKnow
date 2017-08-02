@@ -45,4 +45,8 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   @Override public void setAdapterModel(BaseAdapterDataModel adapterDataModel) {
     this.adapterDataModel = adapterDataModel;
   }
+
+  @Override public void onRecyclerItemClick(ViolationFacility violationFacility) {
+
+  }
 }

@@ -28,8 +28,6 @@ class ViolationFacilityInteractor {
   private List<ViolationFacility> getData(String source) {
     List<ViolationFacility> violationFacilities = new ArrayList<>();
     Document document;
-    JSONObject rootJsonObject = new JSONObject();
-
     try {
       document = Jsoup.connect(source).get();
       Elements tbodyElements = document.select("tbody");
