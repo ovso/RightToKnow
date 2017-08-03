@@ -43,20 +43,18 @@ public class ViolatorInteractor {
           String sigungu = tdElements.get(2).childNode(0).toString();
           String link = tdElements.get(3).childNode(1).attributes().get("href");
           link = link.substring(1, link.length());
-          String centerName = tdElements.get(3).childNode(1).childNode(0).toString();
-          String type = tdElements.get(4).childNode(0).toString();
-          String boss = tdElements.get(5).childNode(0).toString();
-          String director = tdElements.get(6).childNode(0).toString();
-          String address = tdElements.get(7).childNode(0).toString();
+          String violatorName = tdElements.get(3).childNode(1).childNode(0).toString().trim();
+          String centerName = tdElements.get(4).childNode(0).toString();
+          String address = tdElements.get(5).childNode(0).toString();
+          String history = tdElements.get(6).childNode(0).toString();
 
           violator.setTurn(turn);
           violator.setSido(sido);
           violator.setSigungu(sigungu);
+          violator.setViolator(violatorName);
           violator.setName(centerName);
-          violator.setType(type);
-          violator.setBoss(boss);
-          violator.setDirector(director);
           violator.setAddress(address);
+          violator.setHistory(history);
           violator.setLink(link);
 
           violators.add(violator);

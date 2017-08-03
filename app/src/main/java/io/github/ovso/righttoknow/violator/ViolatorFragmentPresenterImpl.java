@@ -1,7 +1,6 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
-import android.util.Log;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.listener.OnViolationFacilityResultListener;
 import io.github.ovso.righttoknow.violator.vo.Violator;
@@ -26,7 +25,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
           }
 
           @Override public void onResult(List<Violator> results) {
-            Log.d("","");
+            
           }
 
           @Override public void onPost() {
