@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
-import io.github.ovso.righttoknow.listener.OnViolationFacilityResultListener;
+import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.vfacilitydetail.vo.VFacilityDetail;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -110,7 +110,7 @@ public class VFacilityDetailInteractor {
     }
   }
 
-  @Getter @Setter private OnViolationFacilityResultListener onViolationFacilityResultListener;
+  @Getter @Setter private OnViolationResultListener onViolationFacilityResultListener;
 
   public static String getResultParse(VFacilityDetail vFacilityDetail) {
     Resources res = MyApplication.getInstance().getResources();

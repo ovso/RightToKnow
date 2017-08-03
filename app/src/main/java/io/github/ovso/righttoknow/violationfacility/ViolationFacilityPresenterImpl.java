@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.violationfacility;
 import android.os.Bundle;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.common.Constants;
-import io.github.ovso.righttoknow.listener.OnViolationFacilityResultListener;
+import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     this.view = view;
     violationFacilityInteractor = new ViolationFacilityInteractor();
     violationFacilityInteractor.setOnViolationFacilityResultListener(
-        new OnViolationFacilityResultListener<List<ViolationFacility>>() {
+        new OnViolationResultListener<List<ViolationFacility>>() {
           @Override public void onPre() {
             view.showLoading();
           }

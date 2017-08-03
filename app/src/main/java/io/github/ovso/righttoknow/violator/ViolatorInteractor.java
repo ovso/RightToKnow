@@ -1,7 +1,7 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.AsyncTask;
-import io.github.ovso.righttoknow.listener.OnViolationFacilityResultListener;
+import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class ViolatorInteractor {
     }
   }
 
-  @Getter @Setter private OnViolationFacilityResultListener onViolationFacilityResultListener;
+  @Getter @Setter private OnViolationResultListener onViolationFacilityResultListener;
 
 
 }

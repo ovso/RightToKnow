@@ -24,4 +24,6 @@
   <string name="contents_share">내용 공유</string>
   <string name="map_view">위치 보기</string>
   <string name="share_message">어린이집 위반시설 행정처분 공유</string>
+  <string name="name">이름</string>
+  <string name="vio_old_center_name">위반행위당시 어린이집</string>
 </resources>

@@ -14,4 +14,6 @@ import lombok.Data;
   private String action;
   private String disposal;
   private String tbody;
+  private String violatorName;
+  private String history;
 }

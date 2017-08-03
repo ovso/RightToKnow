@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
+import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -50,9 +52,12 @@ public class ViolationFacilityFragment extends BaseFragment
     violationFacilityAdapter = new ViolationFacilityAdapter();
     presenter.setAdapterModel(violationFacilityAdapter);
     adapterView = violationFacilityAdapter;
-    violationFacilityAdapter.setOnRecyclerItemClickListener(violationFacility -> {
-      presenter.onRecyclerItemClick(violationFacility);
-    });
+    violationFacilityAdapter.setOnRecyclerItemClickListener(
+        new OnRecyclerItemClickListener<ViolationFacility>() {
+          @Override public void onItemClick(ViolationFacility violationFacility) {
+            presenter.onRecyclerItemClick(violationFacility);
+          }
+        });
   }
 
   @Override public void refresh() {

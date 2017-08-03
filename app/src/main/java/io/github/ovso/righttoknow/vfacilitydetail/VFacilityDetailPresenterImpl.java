@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.common.ObjectUtils;
-import io.github.ovso.righttoknow.listener.OnViolationFacilityResultListener;
+import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.vfacilitydetail.vo.VFacilityDetail;
 import java.util.List;
 
@@ -15,22 +15,22 @@ import java.util.List;
 public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
   private VFacilityDetailPresenter.View view;
   private VFacilityDetailInteractor vFacilityDetailInteractor;
+
   VFacilityDetailPresenterImpl(VFacilityDetailPresenter.View view) {
     this.view = view;
     vFacilityDetailInteractor = new VFacilityDetailInteractor();
     vFacilityDetailInteractor.setOnViolationFacilityResultListener(
-        new OnViolationFacilityResultListener<List<VFacilityDetail>>() {
+        new OnViolationResultListener<List<VFacilityDetail>>() {
           @Override public void onPre() {
             view.showLoading();
           }
 
           @Override public void onResult(List<VFacilityDetail> result) {
-            if(!ObjectUtils.isEmpty(result)) {
+            if (!ObjectUtils.isEmpty(result)) {
               view.showContents(VFacilityDetailInteractor.getResultParse(result.get(0)));
             } else {
               view.showNoContents();
             }
-
           }
 
           @Override public void onPost() {
@@ -38,6 +38,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
           }
         });
   }
+
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
     view.setSupportActionBar();
     if (intent.hasExtra("link")) {

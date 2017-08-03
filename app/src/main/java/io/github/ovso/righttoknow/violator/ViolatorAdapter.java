@@ -9,7 +9,7 @@ import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
+import io.github.ovso.righttoknow.violator.vo.Violator;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
@@ -19,9 +19,9 @@ import lombok.Setter;
  */
 
 public class ViolatorAdapter extends BaseRecyclerAdapter
-    implements BaseAdapterView, BaseAdapterDataModel<ViolationFacility> {
+    implements BaseAdapterView, BaseAdapterDataModel<Violator> {
 
-  private List<ViolationFacility> violationFacilities = new ArrayList<>();
+  private List<Violator> violators = new ArrayList<>();
 
   @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
     if (viewType == ITEM_VIEW_TYPE_HEADER) {
@@ -33,24 +33,24 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
 
   @Override public int getLayoutRes(int viewType) {
     if (viewType == ITEM_VIEW_TYPE_DEFAULT) {
-      return R.layout.fragment_violation_item;
+      return R.layout.fragment_violator_item;
     } else {
-      return R.layout.fragment_violation_item_header;
+      return R.layout.fragment_violator_item_header;
     }
   }
 
   @Override public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
     if (baseHolder instanceof ViolatorViewHolder) {
-      ViolatorViewHolder holder =
-          (ViolatorViewHolder) baseHolder;
-      ViolationFacility violationFacility = violationFacilities.get(position);
-      holder.turnTextview.setText(violationFacility.getTurn());
-      holder.sidoTextView.setText(violationFacility.getSido());
-      holder.sigunguTextView.setText(violationFacility.getSigungu());
-      holder.nameTextView.setText(violationFacility.getName());
-      holder.typeTextView.setText(violationFacility.getType());
+      ViolatorViewHolder holder = (ViolatorViewHolder) baseHolder;
+      Violator violator = violators.get(position);
+      holder.turnTextview.setText(violator.getTurn());
+      holder.sidoTextView.setText(violator.getSido());
+      holder.sigunguTextView.setText(violator.getSigungu());
+      holder.violatorTextView.setText(violator.getViolator());
+      holder.centerNameTextView.setText(violator.getName());
+      holder.historyTextView.setText(violator.getHistory());
 
-      holder.violationFacility = violationFacility;
+      holder.violator = violator;
 
       holder.onRecyclerItemClickListener = onRecyclerItemClickListener;
     }
@@ -64,24 +64,24 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
     notifyDataSetChanged();
   }
 
-  @Override public void add(ViolationFacility item) {
-    violationFacilities.add(item);
+  @Override public void add(Violator item) {
+    violators.add(item);
   }
 
-  @Override public void addAll(List<ViolationFacility> items) {
-    violationFacilities.addAll(items);
+  @Override public void addAll(List<Violator> items) {
+    violators.addAll(items);
   }
 
-  @Override public ViolationFacility remove(int position) {
+  @Override public Violator remove(int position) {
     return null;
   }
 
-  @Override public ViolationFacility getItem(int position) {
-    return null;
+  @Override public Violator getItem(int position) {
+    return violators.get(position);
   }
 
   @Override public int getSize() {
-    return violationFacilities.size();
+    return violators.size();
   }
 
   @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
@@ -98,17 +98,19 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
     @BindView(R.id.turn_textview) TextView turnTextview;
     @BindView(R.id.sido_textview) TextView sidoTextView;
     @BindView(R.id.sigungu_textview) TextView sigunguTextView;
-    @BindView(R.id.name_textview) TextView nameTextView;
-    @BindView(R.id.type_textview) TextView typeTextView;
+    @BindView(R.id.violator_textview) TextView violatorTextView;
+    @BindView(R.id.name_textview) TextView centerNameTextView;
+    @BindView(R.id.history_textview) TextView historyTextView;
+
     OnRecyclerItemClickListener onRecyclerItemClickListener;
-    ViolationFacility violationFacility;
+    Violator violator;
 
     public ViolatorViewHolder(View itemView) {
       super(itemView);
     }
 
     @OnClick(R.id.container_view) void onItemClick() {
-      onRecyclerItemClickListener.onItemClick(violationFacility);
+      onRecyclerItemClickListener.onItemClick(violator);
     }
   }
 
