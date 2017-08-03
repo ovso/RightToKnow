@@ -14,13 +14,13 @@ import butterknife.ButterKnife;
 public abstract class BaseRecyclerAdapter
     extends RecyclerView.Adapter<BaseRecyclerAdapter.BaseViewHolder> {
   @Override public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(parent.getContext()).inflate(getLayoutRes(), parent, false);
-    return createViewHolder(view);
+    View view = LayoutInflater.from(parent.getContext()).inflate(getLayoutRes(viewType), parent, false);
+    return createViewHolder(view, viewType);
   }
 
-  protected abstract BaseViewHolder createViewHolder(View view);
+  protected abstract BaseViewHolder createViewHolder(View view, int viewType);
 
-  @LayoutRes public abstract int getLayoutRes();
+  @LayoutRes public abstract int getLayoutRes(int viewType);
 
   @Override public abstract void onBindViewHolder(BaseViewHolder holder, int position);
 

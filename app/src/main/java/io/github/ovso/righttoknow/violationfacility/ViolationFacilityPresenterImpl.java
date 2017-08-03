@@ -27,6 +27,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
           }
 
           @Override public void onResult(List<ViolationFacility> violationFacilities) {
+            adapterDataModel.add(new ViolationFacility());
             adapterDataModel.addAll(violationFacilities);
             view.refresh();
           }

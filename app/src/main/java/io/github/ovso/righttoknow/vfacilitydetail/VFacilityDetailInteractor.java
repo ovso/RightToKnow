@@ -114,16 +114,16 @@ public class VFacilityDetailInteractor {
 
   public static String getResultParse(VFacilityDetail vFacilityDetail) {
     Resources res = MyApplication.getInstance().getResources();
-    String sido = res.getString(R.string.sido);
-    String sigungu = res.getString(R.string.sigungu);
-    String now = res.getString(R.string.now);
-    String daycareCenter = res.getString(R.string.daycare_center);
-    String boss = res.getString(R.string.boss);
-    String director = res.getString(R.string.director);
-    String vioOld = res.getString(R.string.vio_old);
-    String address = res.getString(R.string.address);
-    String vioAction = res.getString(R.string.vio_action);
-    String vioDisposal = res.getString(R.string.vio_disposal);
+    String sido = res.getString(R.string.detail_sido);
+    String sigungu = res.getString(R.string.detail_sigungu);
+    String now = res.getString(R.string.detail_now);
+    String daycareCenter = res.getString(R.string.detail_daycare_center);
+    String boss = res.getString(R.string.detail_boss);
+    String director = res.getString(R.string.detail_director);
+    String vioOld = res.getString(R.string.detail_vio_old);
+    String address = res.getString(R.string.detail_address);
+    String vioAction = res.getString(R.string.detail_vio_action);
+    String vioDisposal = res.getString(R.string.detail_vio_disposal);
 
     StringBuilder builder = new StringBuilder();
     builder.append(sido).append(vFacilityDetail.getSido()).append("\n\n");

@@ -39,7 +39,7 @@
       android:id="@+id/name_textview"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_weight="10"
+      android:layout_weight="8"
       android:gravity="center"
       tools:text="에이앤비스쿨어린이집"
       android:textAppearance="@style/TextAppearance.AppCompat.Body1"

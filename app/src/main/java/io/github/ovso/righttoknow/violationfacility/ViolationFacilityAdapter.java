@@ -20,14 +20,26 @@ import lombok.Setter;
 
 public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     implements BaseAdapterView, BaseAdapterDataModel<ViolationFacility> {
+  private final static int ITEM_VIEW_TYPE_HEADER = 0;
+  private static final int ITEM_VIEW_TYPE_DEFAULT = 1;
+
   private List<ViolationFacility> violationFacilities = new ArrayList<>();
 
-  @Override protected BaseViewHolder createViewHolder(View view) {
-    return new ViolationFacilityViewHolder(view);
+  @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
+    if (viewType == ITEM_VIEW_TYPE_HEADER) {
+      return new ViolationFacilityHeaderViewHolder(view);
+    } else {
+      return new ViolationFacilityViewHolder(view);
+    }
   }
 
-  @Override public int getLayoutRes() {
-    return R.layout.fragment_violation_item;
+  @Override public int getLayoutRes(int viewType) {
+    if(viewType == ITEM_VIEW_TYPE_DEFAULT) {
+      return R.layout.fragment_violation_item;
+    } else {
+      return R.layout.fragment_violation_item_header;
+    }
+
   }
 
   @Override public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
@@ -76,6 +88,14 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
 
   @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
 
+  @Override public int getItemViewType(int position) {
+    if (position < 1) {
+      return ITEM_VIEW_TYPE_HEADER;
+    } else {
+      return ITEM_VIEW_TYPE_DEFAULT;
+    }
+  }
+
   final static class ViolationFacilityViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
     @BindView(R.id.turn_textview) TextView turnTextview;
     @BindView(R.id.sido_textview) TextView sidoTextView;
@@ -91,6 +111,12 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
 
     @OnClick(R.id.container_view) void onItemClick() {
       onRecyclerItemClickListener.onItemClick(violationFacility);
+    }
+  }
+
+  final static class ViolationFacilityHeaderViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
+    public ViolationFacilityHeaderViewHolder(View itemView) {
+      super(itemView);
     }
   }
 }
