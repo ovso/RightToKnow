@@ -108,4 +108,24 @@ public class VFacilityDetailInteractor {
   }
 
   @Getter @Setter private OnViolationFacilityResultListener onViolationFacilityResultListener;
+
+  public static String getResultParse(VFacilityDetail vFacilityDetail) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("✔︎ 시도 : ").append(vFacilityDetail.getSido()).append("\n\n");
+    builder.append("✔︎ 시군구 : ").append(vFacilityDetail.getSigungu()).append("\n\n");
+    builder.append("✔︎ 현재").append("\n");
+    builder.append(" 1. 어린이집명 : ").append(vFacilityDetail.getName()).append("\n");;
+    builder.append(" 2. 대표자 : ").append(vFacilityDetail.getBoss()).append("\n");
+    builder.append(" 3. 원장 : ").append(vFacilityDetail.getDirector()).append("\n\n");
+    builder.append("✔︎ 위반당시").append("\n");
+    builder.append("1. 어린이집명 : ").append(vFacilityDetail.getOldName()).append("\n");;
+    builder.append("2. 대표자 : ").append(vFacilityDetail.getOldBoss()).append("\n");
+    builder.append("3. 원장 : ").append(vFacilityDetail.getOldDirector()).append("\n\n");
+    builder.append("✔ 주소 : ").append(vFacilityDetail.getAddress()).append("\n\n");
+    builder.append("✔︎ 위반행위").append("\n");
+    builder.append(vFacilityDetail.getAction().replaceAll("&nbsp;", "")).append("\n\n");
+    builder.append("✔︎ 처분내용").append("\n");
+    builder.append(vFacilityDetail.getDisposal().replaceAll("&nbsp;", ""));
+    return builder.toString();
+  }
 }

@@ -26,7 +26,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
 
           @Override public void onResult(List<VFacilityDetail> result) {
             if(!ObjectUtils.isEmpty(result)) {
-              view.showContents(result.get(0));
+              view.showContents(VFacilityDetailInteractor.getResultParse(result.get(0)));
             } else {
               view.showNoContents();
             }

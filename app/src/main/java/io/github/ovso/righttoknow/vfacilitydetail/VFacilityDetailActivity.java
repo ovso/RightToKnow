@@ -8,7 +8,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.main.BaseActivity;
-import io.github.ovso.righttoknow.vfacilitydetail.vo.VFacilityDetail;
 
 /**
  * Created by jaeho on 2017. 8. 2
@@ -41,24 +40,9 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   }
 
-  @Override public void showContents(VFacilityDetail vFacilityDetail) {
-    StringBuilder builder = new StringBuilder();
-    builder.append("시도 : ").append(vFacilityDetail.getSido()).append("\n");
-    builder.append("시군구 : ").append(vFacilityDetail.getSigungu()).append("\n");
-    builder.append("> 현재 <").append("\n");
-    builder.append(vFacilityDetail.getName()).append("\n");;
-    builder.append("대표자 : ").append(vFacilityDetail.getBoss()).append("\n");
-    builder.append("원장 : ").append(vFacilityDetail.getDirector()).append("\n");
-    builder.append("> 위반당시 <").append("\n");
-    builder.append(vFacilityDetail.getOldName()).append("\n");;
-    builder.append("대표자 : ").append(vFacilityDetail.getOldBoss()).append("\n");
-    builder.append("원장 : ").append(vFacilityDetail.getOldDirector()).append("\n");
-    builder.append("> 위반헹위 <").append("\n");
-    builder.append(vFacilityDetail.getAction()).append("\n");
-    builder.append("> 처분내용 <").append("\n");
-    builder.append(vFacilityDetail.getDisposal());
+  @Override public void showContents(String contents) {
     contentsTextView.setMovementMethod(new ScrollingMovementMethod());
-    contentsTextView.setText(builder.toString());
+    contentsTextView.setText(contents);
   }
 
   @Override public void showNoContents() {
