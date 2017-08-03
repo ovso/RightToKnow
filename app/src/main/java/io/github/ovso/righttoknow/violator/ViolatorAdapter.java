@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.violationfacility;
+package io.github.ovso.righttoknow.violator;
 
 import android.view.View;
 import android.widget.TextView;
@@ -15,34 +15,34 @@ import java.util.List;
 import lombok.Setter;
 
 /**
- * Created by jaeho on 2017. 8. 1
+ * Created by jaeho on 2017. 8. 3
  */
 
-public class ViolationFacilityAdapter extends BaseRecyclerAdapter
+public class ViolatorAdapter extends BaseRecyclerAdapter
     implements BaseAdapterView, BaseAdapterDataModel<ViolationFacility> {
 
   private List<ViolationFacility> violationFacilities = new ArrayList<>();
 
   @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
     if (viewType == ITEM_VIEW_TYPE_HEADER) {
-      return new ViolationFacilityHeaderViewHolder(view);
+      return new ViolatorHeaderViewHolder(view);
     } else {
-      return new ViolationFacilityViewHolder(view);
+      return new ViolatorViewHolder(view);
     }
   }
 
   @Override public int getLayoutRes(int viewType) {
-    if(viewType == ITEM_VIEW_TYPE_DEFAULT) {
+    if (viewType == ITEM_VIEW_TYPE_DEFAULT) {
       return R.layout.fragment_violation_item;
     } else {
       return R.layout.fragment_violation_item_header;
     }
-
   }
 
   @Override public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
-    if (baseHolder instanceof ViolationFacilityViewHolder) {
-      ViolationFacilityViewHolder holder = (ViolationFacilityViewHolder) baseHolder;
+    if (baseHolder instanceof ViolatorViewHolder) {
+      ViolatorViewHolder holder =
+          (ViolatorViewHolder) baseHolder;
       ViolationFacility violationFacility = violationFacilities.get(position);
       holder.turnTextview.setText(violationFacility.getTurn());
       holder.sidoTextView.setText(violationFacility.getSido());
@@ -94,7 +94,7 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     }
   }
 
-  final static class ViolationFacilityViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
+  final static class ViolatorViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
     @BindView(R.id.turn_textview) TextView turnTextview;
     @BindView(R.id.sido_textview) TextView sidoTextView;
     @BindView(R.id.sigungu_textview) TextView sigunguTextView;
@@ -103,7 +103,7 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     OnRecyclerItemClickListener onRecyclerItemClickListener;
     ViolationFacility violationFacility;
 
-    public ViolationFacilityViewHolder(View itemView) {
+    public ViolatorViewHolder(View itemView) {
       super(itemView);
     }
 
@@ -112,8 +112,8 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     }
   }
 
-  final static class ViolationFacilityHeaderViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
-    public ViolationFacilityHeaderViewHolder(View itemView) {
+  final static class ViolatorHeaderViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
+    public ViolatorHeaderViewHolder(View itemView) {
       super(itemView);
     }
   }
