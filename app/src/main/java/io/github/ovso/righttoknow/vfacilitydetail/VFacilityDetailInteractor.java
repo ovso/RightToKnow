@@ -116,6 +116,7 @@ public class VFacilityDetailInteractor {
     Resources res = MyApplication.getInstance().getResources();
     String sido = res.getString(R.string.detail_sido);
     String sigungu = res.getString(R.string.detail_sigungu);
+    String type = res.getString(R.string.detail_type);
     String now = res.getString(R.string.detail_now);
     String daycareCenter = res.getString(R.string.detail_daycare_center);
     String boss = res.getString(R.string.detail_boss);
@@ -128,6 +129,7 @@ public class VFacilityDetailInteractor {
     StringBuilder builder = new StringBuilder();
     builder.append(sido).append(vFacilityDetail.getSido()).append("\n\n");
     builder.append(sigungu).append(vFacilityDetail.getSigungu()).append("\n\n");
+    builder.append(type).append(vFacilityDetail.getType()).append("\n\n");
     builder.append(now).append("\n");
     builder.append(daycareCenter).append(vFacilityDetail.getName()).append("\n");
     builder.append(boss).append(vFacilityDetail.getBoss()).append("\n");

@@ -19,7 +19,7 @@
       android:padding="16dp"
       android:scrollbars="vertical"
       tools:text="TextView"
-      android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+      android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"/>
   <View
       android:layout_width="match_parent"
       android:layout_height="1dp"
