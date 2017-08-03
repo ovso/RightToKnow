@@ -21,4 +21,7 @@
   <string name="sigungu">시군구</string>
   <string name="daycare_center_name">어린이집명</string>
   <string name="type">유형</string>
+  <string name="contents_share">내용 공유</string>
+  <string name="map_view">위치 보기</string>
+  <string name="share_message">어린이집 위반시설 행정처분 공유</string>
 </resources>

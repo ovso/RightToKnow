@@ -1,11 +1,13 @@
 package io.github.ovso.righttoknow.vfacilitydetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.main.BaseActivity;
 
@@ -52,5 +54,16 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     finish();
     return true;
+  }
+
+  @OnClick(R.id.share_button) void onShareClick() {
+    Intent intent = new Intent();
+    intent.setAction(Intent.ACTION_SEND);
+    intent.setType("text/plain");
+    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_message));
+    intent.putExtra(Intent.EXTRA_TEXT, contentsTextView.getText().toString());
+
+    Intent chooser = Intent.createChooser(intent, getString(R.string.share_message));
+    startActivity(chooser);
   }
 }

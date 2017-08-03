@@ -30,18 +30,20 @@
       android:layout_width="match_parent"
       android:layout_height="?android:attr/actionBarSize">
       <Button
+          android:id="@+id/map_button"
           android:layout_width="0dp"
           android:layout_height="match_parent"
           android:layout_weight="1"
-          android:text="위치보기"
+          android:text="@string/map_view"
           android:textStyle="bold"
           android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
           style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
       <Button
+          android:id="@+id/share_button"
           android:layout_width="0dp"
           android:layout_height="match_parent"
           android:layout_weight="1"
-          android:text="내용공유"
+          android:text="@string/contents_share"
           android:textStyle="bold"
           android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
           style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
