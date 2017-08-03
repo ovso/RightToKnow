@@ -1,6 +1,9 @@
 package io.github.ovso.righttoknow.vfacilitydetail;
 
+import android.content.res.Resources;
 import android.os.AsyncTask;
+import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.listener.OnViolationFacilityResultListener;
 import io.github.ovso.righttoknow.vfacilitydetail.vo.VFacilityDetail;
 import java.io.IOException;
@@ -110,21 +113,33 @@ public class VFacilityDetailInteractor {
   @Getter @Setter private OnViolationFacilityResultListener onViolationFacilityResultListener;
 
   public static String getResultParse(VFacilityDetail vFacilityDetail) {
+    Resources res = MyApplication.getInstance().getResources();
+    String sido = res.getString(R.string.sido);
+    String sigungu = res.getString(R.string.sigungu);
+    String now = res.getString(R.string.now);
+    String daycareCenter = res.getString(R.string.daycare_center);
+    String boss = res.getString(R.string.boss);
+    String director = res.getString(R.string.director);
+    String vioOld = res.getString(R.string.vio_old);
+    String address = res.getString(R.string.address);
+    String vioAction = res.getString(R.string.vio_action);
+    String vioDisposal = res.getString(R.string.vio_disposal);
+
     StringBuilder builder = new StringBuilder();
-    builder.append("✔︎ 시도 : ").append(vFacilityDetail.getSido()).append("\n\n");
-    builder.append("✔︎ 시군구 : ").append(vFacilityDetail.getSigungu()).append("\n\n");
-    builder.append("✔︎ 현재").append("\n");
-    builder.append(" 1. 어린이집명 : ").append(vFacilityDetail.getName()).append("\n");;
-    builder.append(" 2. 대표자 : ").append(vFacilityDetail.getBoss()).append("\n");
-    builder.append(" 3. 원장 : ").append(vFacilityDetail.getDirector()).append("\n\n");
-    builder.append("✔︎ 위반당시").append("\n");
-    builder.append("1. 어린이집명 : ").append(vFacilityDetail.getOldName()).append("\n");;
-    builder.append("2. 대표자 : ").append(vFacilityDetail.getOldBoss()).append("\n");
-    builder.append("3. 원장 : ").append(vFacilityDetail.getOldDirector()).append("\n\n");
-    builder.append("✔ 주소 : ").append(vFacilityDetail.getAddress()).append("\n\n");
-    builder.append("✔︎ 위반행위").append("\n");
+    builder.append(sido).append(vFacilityDetail.getSido()).append("\n\n");
+    builder.append(sigungu).append(vFacilityDetail.getSigungu()).append("\n\n");
+    builder.append(now).append("\n");
+    builder.append(daycareCenter).append(vFacilityDetail.getName()).append("\n");
+    builder.append(boss).append(vFacilityDetail.getBoss()).append("\n");
+    builder.append(director).append(vFacilityDetail.getDirector()).append("\n\n");
+    builder.append(vioOld).append("\n");
+    builder.append(daycareCenter).append(vFacilityDetail.getOldName()).append("\n");
+    builder.append(boss).append(vFacilityDetail.getOldBoss()).append("\n");
+    builder.append(director).append(vFacilityDetail.getOldDirector()).append("\n\n");
+    builder.append(address).append(vFacilityDetail.getAddress()).append("\n\n");
+    builder.append(vioAction).append("\n");
     builder.append(vFacilityDetail.getAction().replaceAll("&nbsp;", "")).append("\n\n");
-    builder.append("✔︎ 처분내용").append("\n");
+    builder.append(vioDisposal).append("\n");
     builder.append(vFacilityDetail.getDisposal().replaceAll("&nbsp;", ""));
     return builder.toString();
   }

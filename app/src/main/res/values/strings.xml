@@ -5,4 +5,14 @@
   <string name="navigation_drawer_close">Close navigation drawer</string>
 
   <string name="action_settings">Settings</string>
+  <string name="sido">✔︎ 시도 :&#160;</string>
+  <string name="sigungu">✔︎ 시군구 :&#160;</string>
+  <string name="now">✔︎ 현재</string>
+  <string name="daycare_center">&#160;1. 어린이집명 :&#160;</string>
+  <string name="boss">&#160;2. 대표자 :&#160;</string>
+  <string name="director">&#160;3. 원장 :&#160;</string>
+  <string name="vio_old">✔︎︎ 위반당시</string>
+  <string name="address">✔︎︎ 주소 :&#160;</string>
+  <string name="vio_action">✔︎︎ 위반행위</string>
+  <string name="vio_disposal">✔︎︎ 처분내용</string>
 </resources>
