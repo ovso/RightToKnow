@@ -75,6 +75,7 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void navigateToViolationFacilityDetail(String link) {
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
     intent.putExtra("link", link);
+    intent.putExtra("from", R.layout.fragment_violation);
     startActivity(intent);
   }
 }

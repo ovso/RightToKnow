@@ -112,7 +112,7 @@ public class VFacilityDetailInteractor {
 
   @Getter @Setter private OnViolationResultListener onViolationFacilityResultListener;
 
-  public static String getResultParse(VFacilityDetail vFacilityDetail) {
+  protected String getResultParse(VFacilityDetail vFacilityDetail) {
     Resources res = MyApplication.getInstance().getResources();
     String sido = res.getString(R.string.detail_sido);
     String sigungu = res.getString(R.string.detail_sigungu);

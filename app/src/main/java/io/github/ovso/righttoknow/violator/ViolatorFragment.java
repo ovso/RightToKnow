@@ -73,6 +73,7 @@ public class ViolatorFragment extends BaseFragment implements ViolatorFragmentPr
   @DebugLog @Override public void navigateToViolatorDetail(String link) {
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
     intent.putExtra("link", link);
+    intent.putExtra("from", R.layout.fragment_violator);
     startActivity(intent);
 
   }
