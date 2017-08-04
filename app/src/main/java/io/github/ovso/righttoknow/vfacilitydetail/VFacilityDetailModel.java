@@ -18,10 +18,16 @@ class VFacilityDetailModel {
   public void setIntent(Intent intent) {
     link = Constants.BASE_URL + intent.getStringExtra("link");
     from = intent.getIntExtra("from", R.layout.fragment_violation);
-    if(from == R.layout.fragment_violation) {
-      title = MyApplication.getInstance().getString(R.string.title_vioation_facility_inquiry);
-    } else if(from == R.layout.fragment_violator) {
-      title = MyApplication.getInstance().getString(R.string.title_violator_inquiry);
+    if (from == R.layout.fragment_violation) {
+      title = MyApplication.getInstance().getString(R.string.title_vioation_facility_inquiry)
+          + "("
+          + MyApplication.getInstance().getString(R.string.detail)
+          + ")";
+    } else if (from == R.layout.fragment_violator) {
+      title = MyApplication.getInstance().getString(R.string.title_violator_inquiry)
+          + "("
+          + MyApplication.getInstance().getString(R.string.detail)
+          + ")";
     }
   }
 }

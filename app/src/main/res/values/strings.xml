@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">RightToKnow</string>
+  <string name="app_name">시온지킴이(아이지킴이)</string>//Right To Know
 
   <string name="navigation_drawer_open">Open navigation drawer</string>
   <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -36,4 +36,5 @@
   <string name="title_violator_inquiry">어린이집 위반행위자 조회</string>
   <string name="msg_latest_info">최신정보입니다.</string>
   <string name="day_care_center">어린이집</string>
+  <string name="detail">상세</string>
 </resources>
