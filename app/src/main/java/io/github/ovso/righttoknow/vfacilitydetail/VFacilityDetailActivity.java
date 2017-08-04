@@ -3,7 +3,6 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -43,7 +42,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public void showContents(String contents) {
-    contentsTextView.setMovementMethod(new ScrollingMovementMethod());
     contentsTextView.setText(contents);
   }
 

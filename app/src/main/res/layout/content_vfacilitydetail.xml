@@ -10,42 +10,50 @@
     tools:context="io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity"
     tools:showIn="@layout/app_bar_vfacilitydetail"
     >
-
-  <TextView
-      android:id="@+id/contents_textview"
+  <ScrollView
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:padding="16dp"
-      android:scrollbars="vertical"
-      tools:text="TextView"
-      android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"/>
+      >
+    <TextView
+        android:id="@+id/contents_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+        tools:text="contents"
+        />
+  </ScrollView>
   <View
       android:layout_width="match_parent"
       android:layout_height="1dp"
-      android:background="@android:color/darker_gray"
       android:layout_marginLeft="16dp"
-      android:layout_marginRight="16dp"/>
+      android:layout_marginRight="16dp"
+      android:background="@android:color/darker_gray"
+      />
   <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="?android:attr/actionBarSize">
-      <Button
-          android:id="@+id/map_button"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="1"
-          android:text="@string/map_view"
-          android:textStyle="bold"
-          android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-          style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-      <Button
-          android:id="@+id/share_button"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="1"
-          android:text="@string/contents_share"
-          android:textStyle="bold"
-          android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-          style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+      android:layout_height="?android:attr/actionBarSize"
+      >
+    <Button
+        android:id="@+id/map_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/map_view"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+        android:textStyle="bold"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        />
+    <Button
+        android:id="@+id/share_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/contents_share"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+        android:textStyle="bold"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        />
   </LinearLayout>
 </LinearLayout>

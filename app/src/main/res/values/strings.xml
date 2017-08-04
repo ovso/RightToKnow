@@ -31,4 +31,5 @@
   <string name="vio_old_center_name">위반행위당시 어린이집</string>
   <string name="detail_vio_old_center_name">✔︎︎ 위반행위당시 어린이집 :&#160;</string>
   <string name="detail_violation_history">✔︎︎ 법 위반 이력 :&#160;</string>
+  <string name="violation_history">위반이력</string>
 </resources>
