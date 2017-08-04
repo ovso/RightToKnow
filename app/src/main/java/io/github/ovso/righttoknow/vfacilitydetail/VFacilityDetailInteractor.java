@@ -23,11 +23,8 @@ import org.jsoup.select.Elements;
 public class VFacilityDetailInteractor {
   private MyAsyncTask myAsyncTask;
 
-  public VFacilityDetailInteractor() {
-    myAsyncTask = new MyAsyncTask();
-  }
-
   public void req(String url) {
+    myAsyncTask = new MyAsyncTask();
     myAsyncTask.execute(new String[] { url });
   }
 
@@ -91,6 +88,10 @@ public class VFacilityDetailInteractor {
     }
 
     return vFacilityDetails;
+  }
+
+  public void cancel() {
+    myAsyncTask.cancel(true);
   }
 
   private class MyAsyncTask extends AsyncTask<String, Void, List<VFacilityDetail>> {

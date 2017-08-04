@@ -11,6 +11,12 @@ public interface VFacilityDetailPresenter {
 
   void onCreate(Bundle savedInstanceState, Intent intent);
 
+  void onRefresh();
+
+  void onBackPressed();
+
+  void onDestroy();
+
   interface View {
 
     void hideLoading();
@@ -21,6 +27,10 @@ public interface VFacilityDetailPresenter {
 
     void showContents(String contents);
 
-    void showNoContents();
+    void setListener();
+
+    void showSnackbar(String msg);
+
+    void setTitle(String title);
   }
 }

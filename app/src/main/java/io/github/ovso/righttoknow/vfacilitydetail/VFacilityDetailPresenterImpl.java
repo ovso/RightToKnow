@@ -2,9 +2,8 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.ObjectUtils;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.vfacilitydetail.vo.VFacilityDetail;
@@ -18,6 +17,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
   private VFacilityDetailPresenter.View view;
   private VFacilityDetailInteractor vFacilityDetailInteractor;
   private ViolatorDetailInteractor violatorDetailInteractor;
+  private VFacilityDetailModel model;
 
   VFacilityDetailPresenterImpl(VFacilityDetailPresenter.View view) {
     this.view = view;
@@ -25,6 +25,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
     violatorDetailInteractor = new ViolatorDetailInteractor();
     vFacilityDetailInteractor.setOnViolationFacilityResultListener(onViolationResultListener);
     violatorDetailInteractor.setOnViolationFacilityResultListener(onViolationResultListener);
+    model = new VFacilityDetailModel();
   }
 
   OnViolationResultListener onViolationResultListener =
@@ -35,13 +36,16 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
 
         @Override public void onResult(List<VFacilityDetail> result) {
           if (!ObjectUtils.isEmpty(result)) {
-            if(TextUtils.isEmpty(result.get(0).getHistory())) {
+            if (model.getFrom() == R.layout.fragment_violation) {
               view.showContents(vFacilityDetailInteractor.getResultParse(result.get(0)));
             } else {
               view.showContents(violatorDetailInteractor.getResultParse(result.get(0)));
             }
-          } else {
-            view.showNoContents();
+
+            if (showSnackbar) {
+              view.showSnackbar(MyApplication.getInstance().getString(R.string.msg_latest_info));
+              showSnackbar = false;
+            }
           }
         }
 
@@ -51,21 +55,46 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
       };
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
+    view.setListener();
     view.setSupportActionBar();
+
     if (intent.hasExtra("link")) {
-      String link = intent.getStringExtra("link");
+      model.setIntent(intent);
       if (intent.hasExtra("from")) {
-        int from = intent.getIntExtra("from", R.layout.fragment_violation);
-        if (from == R.layout.fragment_violation) {
-          link = Constants.BASE_URL + link;
-          vFacilityDetailInteractor.req(link);
-        } else if (from == R.layout.fragment_violator) {
-          link = Constants.BASE_URL + link;
-          violatorDetailInteractor.req(link);
+        if (model.getFrom() == R.layout.fragment_violation) {
+          vFacilityDetailInteractor.req(model.getLink());
+        } else if (model.getFrom() == R.layout.fragment_violator) {
+          violatorDetailInteractor.req(model.getLink());
         } else {
           new RuntimeException("What the..");
         }
+        view.setTitle(model.getTitle());
       }
     }
+  }
+
+  private boolean showSnackbar = false;
+
+  @Override public void onRefresh() {
+    showSnackbar = true;
+    if (model.getFrom() == R.layout.fragment_violation) {
+      vFacilityDetailInteractor.req(model.getLink());
+    } else if (model.getFrom() == R.layout.fragment_violator) {
+      violatorDetailInteractor.req(model.getLink());
+    } else {
+      new RuntimeException("What the...");
+    }
+  }
+
+  @Override public void onDestroy() {
+    if (model.getFrom() == R.layout.fragment_violation) {
+      vFacilityDetailInteractor.cancel();
+    } else {
+      violatorDetailInteractor.cancel();
+    }
+
+  }
+
+  @Override public void onBackPressed() {
   }
 }

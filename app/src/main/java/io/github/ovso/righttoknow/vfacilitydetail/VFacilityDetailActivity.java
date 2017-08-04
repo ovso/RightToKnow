@@ -3,7 +3,10 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,12 +32,14 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     return R.layout.activity_vfacilitydetail;
   }
 
-  @Override public void hideLoading() {
+  @BindView(R.id.swiperefresh) SwipeRefreshLayout swipeRefreshLayout;
 
+  @Override public void hideLoading() {
+    swipeRefreshLayout.setRefreshing(false);
   }
 
   @Override public void showLoading() {
-
+    swipeRefreshLayout.setRefreshing(true);
   }
 
   @Override public void setSupportActionBar() {
@@ -45,8 +50,18 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     contentsTextView.setText(contents);
   }
 
-  @Override public void showNoContents() {
+  @Override public void setListener() {
+    swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
+  }
 
+  @BindView(R.id.content_view) View contentView;
+
+  @Override public void showSnackbar(String msg) {
+    Snackbar.make(contentView, msg, Snackbar.LENGTH_SHORT).show();
+  }
+
+  @Override public void setTitle(String title) {
+    getSupportActionBar().setTitle(title);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
@@ -63,5 +78,15 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
     Intent chooser = Intent.createChooser(intent, getString(R.string.share_message));
     startActivity(chooser);
+  }
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    presenter.onDestroy();
+  }
+
+  @Override public void onBackPressed() {
+    super.onBackPressed();
+    presenter.onBackPressed();
   }
 }

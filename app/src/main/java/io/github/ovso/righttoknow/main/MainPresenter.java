@@ -32,5 +32,7 @@ public interface MainPresenter {
     void setAdapter();
 
     void setSelectedBottomNavigation(int id);
+
+    void setTitle(String title);
   }
 }

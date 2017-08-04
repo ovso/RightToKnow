@@ -3,6 +3,7 @@ package io.github.ovso.righttoknow.main;
 import android.os.Bundle;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
+import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
@@ -23,6 +24,8 @@ public class MainPresenterImpl implements MainPresenter {
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
+    view.setTitle(MyApplication.getInstance().getString(R.string.title_vioation_facility_inquiry));
+
     view.setListener();
     view.setAdapter();
     view.setViewPager();
@@ -67,9 +70,12 @@ public class MainPresenterImpl implements MainPresenter {
     switch (position) {
       case 0:
         view.setSelectedBottomNavigation(R.id.bottom_nav_violate);
+        view.setTitle(
+            MyApplication.getInstance().getString(R.string.title_vioation_facility_inquiry));
         break;
       case 1:
         view.setSelectedBottomNavigation(R.id.bottom_nav_wrongdoer);
+        view.setTitle(MyApplication.getInstance().getString(R.string.title_violator_inquiry));
         break;
     }
   }

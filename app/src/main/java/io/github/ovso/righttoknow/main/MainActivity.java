@@ -80,6 +80,10 @@ public class MainActivity extends BaseActivity
     bottomNavigationView.setSelectedItemId(id);
   }
 
+  @Override public void setTitle(String title) {
+    getSupportActionBar().setTitle(title);
+  }
+
   @Override public void onBackPressed() {
     if (drawer.isDrawerOpen(GravityCompat.START)) {
       drawer.closeDrawer(GravityCompat.START);

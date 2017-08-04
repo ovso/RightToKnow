@@ -37,4 +37,5 @@ public abstract class BaseActivity extends AppCompatActivity {
   protected Toolbar getToolbar() {
     return toolbar;
   }
+
 }
