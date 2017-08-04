@@ -40,6 +40,10 @@ public class PagerBaseAdapter extends FragmentPagerAdapter
     return items.size();
   }
 
+  @Override public void clear() {
+
+  }
+
   @Override public int getCount() {
     return getSize();
   }

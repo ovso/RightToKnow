@@ -84,6 +84,10 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     return violationFacilities.size();
   }
 
+  @Override public void clear() {
+    violationFacilities.clear();
+  }
+
   @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
 
   @Override public int getItemViewType(int position) {

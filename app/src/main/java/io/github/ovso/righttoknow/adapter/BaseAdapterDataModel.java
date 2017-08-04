@@ -13,4 +13,6 @@ public interface BaseAdapterDataModel<T> {
   T getItem(int position);
 
   int getSize();
+
+  void clear();
 }

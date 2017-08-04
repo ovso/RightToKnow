@@ -119,4 +119,8 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
       super(itemView);
     }
   }
+
+  @Override public void clear() {
+    violators.clear();
+  }
 }

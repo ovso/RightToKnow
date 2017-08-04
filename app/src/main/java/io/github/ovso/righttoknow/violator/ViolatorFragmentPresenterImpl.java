@@ -1,9 +1,7 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
-import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
-import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 import java.util.List;
@@ -24,16 +22,14 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
         new OnViolationResultListener<List<Violator>>() {
           @Override public void onPre() {
             view.showLoading();
+            adapterDataModel.clear();
+            view.refresh();
           }
 
           @Override public void onResult(List<Violator> results) {
             adapterDataModel.add(new Violator());
             adapterDataModel.addAll(results);
             view.refresh();
-            if (showSnackbar) {
-              view.showSnackbar(MyApplication.getInstance().getString(R.string.msg_latest_info));
-              showSnackbar = false;
-            }
           }
 
           @Override public void onPost() {
@@ -57,10 +53,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     view.navigateToViolatorDetail(violator.getLink());
   }
 
-  private boolean showSnackbar = false;
-
   @Override public void onRefresh() {
-    showSnackbar = true;
     violatorInteractor.req();
   }
 
