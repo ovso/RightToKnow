@@ -34,4 +34,5 @@
   <string name="violation_history">위반이력</string>
   <string name="violation_facility_inquiry">위반시설 조회</string>
   <string name="violation_agent_inquiry">위반행위자 조회</string>
+  <string name="msg_latest_info">최신정보입니다.</string>
 </resources>

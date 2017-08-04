@@ -16,6 +16,8 @@ public interface ViolationFacilityPresenter {
 
   void onRecyclerItemClick(ViolationFacility violationFacility);
 
+  void onRefresh();
+
   interface View {
 
     void setRecyclerView();
@@ -29,5 +31,9 @@ public interface ViolationFacilityPresenter {
     void hideLoading();
 
     void navigateToViolationFacilityDetail(String link);
+
+    void setListener();
+
+    void showSnackbar(String msg);
   }
 }

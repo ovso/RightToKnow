@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.violationfacility;
 
 import android.os.AsyncTask;
+import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.io.IOException;
@@ -19,10 +20,12 @@ import org.jsoup.select.Elements;
 
 public class ViolationFacilityInteractor {
   private MyAsyncTask myAsyncTask;
-  public ViolationFacilityInteractor() {
+
+  public void req() {
+    String url = Constants.BASE_URL
+        + Constants.VIOLATION_FACILITY_PATH
+        + Constants.VIOLATION_FACILITY_PARAMS;
     myAsyncTask = new MyAsyncTask();
-  }
-  public void req(String url) {
     myAsyncTask.execute(new String[] { url });
   }
 
@@ -90,5 +93,4 @@ public class ViolationFacilityInteractor {
   }
 
   @Getter @Setter private OnViolationResultListener onViolationFacilityResultListener;
-
 }
