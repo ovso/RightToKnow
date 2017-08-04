@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.main;
 
+import android.net.Uri;
 import android.os.Bundle;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 
@@ -34,5 +35,9 @@ public interface MainPresenter {
     void setSelectedBottomNavigation(int id);
 
     void setTitle(String title);
+
+    void navigateToReview(Uri uri);
+
+    void navigateToShare(String url);
   }
 }

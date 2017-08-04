@@ -1,9 +1,11 @@
 package io.github.ovso.righttoknow.main;
 
+import android.net.Uri;
 import android.os.Bundle;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
@@ -42,11 +44,11 @@ public class MainPresenterImpl implements MainPresenter {
 
   @Override public void onNavigationItemSelected(int id) {
     switch (id) {
-      case R.id.nav_violation:
-        view.showViolateFragment();
+      case R.id.nav_review:
+        view.navigateToReview(Uri.parse(Constants.URL_REVIEW));
         break;
-      case R.id.nav_wrongdoer:
-        view.showWrongdoerFragment();
+      case R.id.nav_share:
+        view.navigateToShare(Constants.URL_SHARE);
         break;
     }
   }

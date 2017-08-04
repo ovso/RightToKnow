@@ -1,5 +1,7 @@
 package io.github.ovso.righttoknow.main;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -26,8 +28,6 @@ public class MainActivity extends BaseActivity
     super.onCreate(savedInstanceState);
     presenter = new MainPresenterImpl(this);
     presenter.onCreate(null);
-
-    final String source = "http://info.childcare.go.kr/info/cfvp/VioltfcltySlL.jsp?total=89&offset=0&limit=100";
   }
 
   @Override public int getLayoutResId() {
@@ -82,6 +82,23 @@ public class MainActivity extends BaseActivity
 
   @Override public void setTitle(String title) {
     getSupportActionBar().setTitle(title);
+  }
+
+  @Override public void navigateToReview(Uri uri) {
+    Intent intent = new Intent(Intent.ACTION_VIEW);
+    intent.setData(uri);
+    startActivity(intent);
+  }
+
+  @Override public void navigateToShare(String url) {
+    Intent intent = new Intent(Intent.ACTION_SEND);
+    intent.addCategory(Intent.CATEGORY_DEFAULT);
+    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+    intent.putExtra(Intent.EXTRA_TEXT, url);
+    intent.setType("text/plain");
+
+    intent = Intent.createChooser(intent, getString(R.string.app_share));
+    startActivity(intent);
   }
 
   @Override public void onBackPressed() {
