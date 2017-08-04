@@ -3,8 +3,11 @@ package io.github.ovso.righttoknow.violator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import butterknife.BindView;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
@@ -37,12 +40,14 @@ public class ViolatorFragment extends BaseFragment implements ViolatorFragmentPr
     presenter.onActivityCreate(savedInstanceState);
   }
 
-  @Override public void hideLoading() {
+  @BindView(R.id.swiperefresh) SwipeRefreshLayout swipeRefreshLayout;
 
+  @Override public void hideLoading() {
+    swipeRefreshLayout.setRefreshing(false);
   }
 
   @Override public void showLoading() {
-
+    swipeRefreshLayout.setRefreshing(true);
   }
 
   @Override public void refresh() {
@@ -75,6 +80,21 @@ public class ViolatorFragment extends BaseFragment implements ViolatorFragmentPr
     intent.putExtra("link", link);
     intent.putExtra("from", R.layout.fragment_violator);
     startActivity(intent);
-
   }
+
+  @Override public void setListener() {
+    swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
+  }
+
+  @BindView(R.id.container_view) View containerView;
+
+  @Override public void showSnackbar(String msg) {
+    Snackbar.make(containerView, msg, Snackbar.LENGTH_SHORT).show();
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    presenter.onDestroyView();
+  }
+
 }

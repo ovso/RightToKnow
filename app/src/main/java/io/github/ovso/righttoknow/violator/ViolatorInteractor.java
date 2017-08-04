@@ -19,10 +19,10 @@ import org.jsoup.select.Elements;
 
 public class ViolatorInteractor {
   private MyAsyncTask myAsyncTask;
-  public ViolatorInteractor() {
+
+  public void req() {
+    String url = "http://info.childcare.go.kr/info/cfvp/VioltactorSlL.jsp?limit=200";
     myAsyncTask = new MyAsyncTask();
-  }
-  public void req(String url) {
     myAsyncTask.execute(new String[] { url });
   }
 
@@ -70,6 +70,10 @@ public class ViolatorInteractor {
     return violators;
   }
 
+  public void cancel() {
+    myAsyncTask.cancel(true);
+  }
+
   private class MyAsyncTask extends AsyncTask<String, Void, List<Violator>> {
     @Override protected void onPreExecute() {
       onViolationFacilityResultListener.onPre();
@@ -88,6 +92,4 @@ public class ViolatorInteractor {
   }
 
   @Getter @Setter private OnViolationResultListener onViolationFacilityResultListener;
-
-
 }

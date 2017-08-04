@@ -92,4 +92,9 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void showSnackbar(String msg) {
     Snackbar.make(containerView, msg, Snackbar.LENGTH_SHORT).show();
   }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    presenter.ondestroyView();
+  }
 }

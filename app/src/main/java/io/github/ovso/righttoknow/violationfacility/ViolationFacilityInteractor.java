@@ -75,6 +75,10 @@ public class ViolationFacilityInteractor {
     return violationFacilities;
   }
 
+  public void cancel() {
+    myAsyncTask.cancel(true);
+  }
+
   private class MyAsyncTask extends AsyncTask<String, Void, List<ViolationFacility>> {
     @Override protected void onPreExecute() {
       onViolationFacilityResultListener.onPre();

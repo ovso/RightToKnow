@@ -16,6 +16,10 @@ public interface ViolatorFragmentPresenter {
 
   void onRecyclerItemClick(Violator violator);
 
+  void onRefresh();
+
+  void onDestroyView();
+
   interface View {
 
     void hideLoading();
@@ -29,5 +33,9 @@ public interface ViolatorFragmentPresenter {
     void setRecyclerView();
 
     void navigateToViolatorDetail(String link);
+
+    void setListener();
+
+    void showSnackbar(String msg);
   }
 }

@@ -18,6 +18,8 @@ public interface ViolationFacilityPresenter {
 
   void onRefresh();
 
+  void ondestroyView();
+
   interface View {
 
     void setRecyclerView();

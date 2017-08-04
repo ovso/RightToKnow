@@ -1,7 +1,9 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
+import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
+import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 import java.util.List;
@@ -28,7 +30,10 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
             adapterDataModel.add(new Violator());
             adapterDataModel.addAll(results);
             view.refresh();
-
+            if (showSnackbar) {
+              view.showSnackbar(MyApplication.getInstance().getString(R.string.msg_latest_info));
+              showSnackbar = false;
+            }
           }
 
           @Override public void onPost() {
@@ -38,10 +43,10 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   @Override public void onActivityCreate(Bundle savedInstanceState) {
+    view.setListener();
     view.setAdapter();
     view.setRecyclerView();
-    String url = "http://info.childcare.go.kr/info/cfvp/VioltactorSlL.jsp?limit=100";
-    violatorInteractor.req(url);
+    violatorInteractor.req();
   }
 
   @Override public void setAdapterModel(BaseAdapterDataModel adapterDataModel) {
@@ -50,5 +55,16 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
   @Override public void onRecyclerItemClick(Violator violator) {
     view.navigateToViolatorDetail(violator.getLink());
+  }
+
+  private boolean showSnackbar = false;
+
+  @Override public void onRefresh() {
+    showSnackbar = true;
+    violatorInteractor.req();
+  }
+
+  @Override public void onDestroyView() {
+    violatorInteractor.cancel();
   }
 }

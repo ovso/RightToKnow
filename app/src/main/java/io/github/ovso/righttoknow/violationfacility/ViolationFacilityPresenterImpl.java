@@ -64,4 +64,8 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     violationFacilityInteractor.req();
     showSnackbar = true;
   }
+
+  @Override public void ondestroyView() {
+    violationFacilityInteractor.cancel();
+  }
 }
