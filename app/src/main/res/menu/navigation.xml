@@ -3,12 +3,12 @@
 
   <item
       android:id="@+id/bottom_nav_violate"
-      android:icon="@drawable/ic_menu_camera"
-      android:title="위반시설"/>
+      android:icon="@drawable/ic_home_black_24dp"
+      android:title="@string/violation_facility_inquiry"/>
 
   <item
       android:id="@+id/bottom_nav_wrongdoer"
-      android:icon="@drawable/ic_menu_gallery"
-      android:title="위반행위자"/>
+      android:icon="@drawable/ic_person_black_24dp"
+      android:title="@string/violation_agent_inquiry"/>
 
 </menu>
