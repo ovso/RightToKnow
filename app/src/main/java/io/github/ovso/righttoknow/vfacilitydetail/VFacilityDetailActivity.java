@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -32,14 +31,10 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     return R.layout.activity_vfacilitydetail;
   }
 
-  @BindView(R.id.swiperefresh) SwipeRefreshLayout swipeRefreshLayout;
-
   @Override public void hideLoading() {
-    swipeRefreshLayout.setRefreshing(false);
   }
 
   @Override public void showLoading() {
-    swipeRefreshLayout.setRefreshing(true);
   }
 
   @Override public void setSupportActionBar() {
@@ -51,7 +46,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public void setListener() {
-    swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
   }
 
   @BindView(R.id.content_view) View contentView;

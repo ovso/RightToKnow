@@ -55,11 +55,6 @@ public class MainActivity extends BaseActivity
     }
   }
 
-  /*
-  mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
-  CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mBottomNavigationView.getLayoutParams();
-      layoutParams.setBehavior(new BottomNavigationViewBehavior());
-   */
   @Override public void showViolateFragment() {
     viewPager.setCurrentItem(0, true);
   }

@@ -25,8 +25,9 @@
 
   </android.support.design.widget.AppBarLayout>
 
-  <!--<include layout="@layout/content_main"/>-->
+  <include layout="@layout/content_main"/>
 
+<!--
   <android.support.v4.view.ViewPager
       android:id="@+id/viewpager"
       android:layout_width="match_parent"
@@ -40,5 +41,6 @@
       android:background="?android:attr/windowBackground"
       app:menu="@menu/navigation"
       />
+-->
 
 </android.support.design.widget.CoordinatorLayout>

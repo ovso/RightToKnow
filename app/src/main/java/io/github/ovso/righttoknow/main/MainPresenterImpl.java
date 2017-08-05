@@ -72,12 +72,13 @@ public class MainPresenterImpl implements MainPresenter {
     switch (position) {
       case 0:
         view.setSelectedBottomNavigation(R.id.bottom_nav_violate);
-        view.setTitle(
+        view.setTitle(MyApplication.getInstance().getString(R.string.day_care_center) + " " +
             MyApplication.getInstance().getString(R.string.title_vioation_facility_inquiry));
         break;
       case 1:
         view.setSelectedBottomNavigation(R.id.bottom_nav_wrongdoer);
-        view.setTitle(MyApplication.getInstance().getString(R.string.title_violator_inquiry));
+        view.setTitle(MyApplication.getInstance().getString(R.string.day_care_center) + " " +
+            MyApplication.getInstance().getString(R.string.title_violator_inquiry));
         break;
     }
   }

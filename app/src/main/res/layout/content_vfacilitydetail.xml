@@ -10,12 +10,6 @@
     tools:context="io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity"
     tools:showIn="@layout/app_bar_vfacilitydetail"
     android:id="@+id/content_view">
-  <android.support.v4.widget.SwipeRefreshLayout
-      android:id="@+id/swiperefresh"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      >
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +23,6 @@
           tools:text="contents"
           />
     </ScrollView>
-  </android.support.v4.widget.SwipeRefreshLayout>
   <View
       android:layout_width="match_parent"
       android:layout_height="1dp"

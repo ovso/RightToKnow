@@ -14,7 +14,7 @@
       android:layout_height="wrap_content"
       android:layout_weight="2"
       android:gravity="center"
-      tools:text="87"
+      tools:text="순번"
       android:textAppearance="@style/TextAppearance.AppCompat.Body1"
       />
   <TextView

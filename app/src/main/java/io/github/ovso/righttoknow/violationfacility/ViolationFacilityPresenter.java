@@ -16,8 +16,6 @@ public interface ViolationFacilityPresenter {
 
   void onRecyclerItemClick(ViolationFacility violationFacility);
 
-  void onRefresh();
-
   void ondestroyView();
 
   interface View {

@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.violator;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -32,10 +33,10 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   }
 
   @Override public int getLayoutRes(int viewType) {
-    if (viewType == ITEM_VIEW_TYPE_DEFAULT) {
-      return R.layout.fragment_violator_item;
-    } else {
+    if (viewType == ITEM_VIEW_TYPE_HEADER) {
       return R.layout.fragment_violator_item_header;
+    } else {
+      return R.layout.fragment_violator_item;
     }
   }
 
@@ -87,7 +88,7 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
 
   @Override public int getItemViewType(int position) {
-    if (position < 1) {
+    if (TextUtils.isEmpty(violators.get(position).getTurn())) {
       return ITEM_VIEW_TYPE_HEADER;
     } else {
       return ITEM_VIEW_TYPE_DEFAULT;

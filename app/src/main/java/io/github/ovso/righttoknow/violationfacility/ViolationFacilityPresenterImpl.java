@@ -23,11 +23,12 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
         new OnViolationResultListener<List<ViolationFacility>>() {
           @Override public void onPre() {
             view.showLoading();
-            adapterDataModel.clear();
-            view.refresh();
+            //adapterDataModel.clear();
+            //view.refresh();
           }
 
           @Override public void onResult(List<ViolationFacility> violationFacilities) {
+            adapterDataModel.clear();
             adapterDataModel.add(new ViolationFacility());
             adapterDataModel.addAll(violationFacilities);
             view.refresh();
@@ -52,10 +53,6 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
 
   @Override public void onRecyclerItemClick(ViolationFacility violationFacility) {
     view.navigateToViolationFacilityDetail(violationFacility.getLink());
-  }
-
-  @Override public void onRefresh() {
-    violationFacilityInteractor.req();
   }
 
   @Override public void ondestroyView() {

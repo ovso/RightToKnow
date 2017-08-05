@@ -22,8 +22,6 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
         new OnViolationResultListener<List<Violator>>() {
           @Override public void onPre() {
             view.showLoading();
-            adapterDataModel.clear();
-            view.refresh();
           }
 
           @Override public void onResult(List<Violator> results) {

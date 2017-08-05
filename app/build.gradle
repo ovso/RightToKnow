@@ -41,4 +41,5 @@ dependencies {
   compile 'org.projectlombok:lombok:1.16.16'
   compile 'com.google.code.gson:gson:2.8.1'
   provided 'javax.annotation:jsr250-api:1.0'
+  compile 'com.wang.avi:library:2.1.3'
 }

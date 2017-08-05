@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -40,14 +39,12 @@ public class ViolatorFragment extends BaseFragment implements ViolatorFragmentPr
     presenter.onActivityCreate(savedInstanceState);
   }
 
-  @BindView(R.id.swiperefresh) SwipeRefreshLayout swipeRefreshLayout;
-
   @Override public void hideLoading() {
-    swipeRefreshLayout.setRefreshing(false);
+
   }
 
   @Override public void showLoading() {
-    swipeRefreshLayout.setRefreshing(true);
+
   }
 
   @Override public void refresh() {
@@ -83,7 +80,6 @@ public class ViolatorFragment extends BaseFragment implements ViolatorFragmentPr
   }
 
   @Override public void setListener() {
-    swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
   }
 
   @BindView(R.id.container_view) View containerView;
