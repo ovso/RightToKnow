@@ -3,10 +3,8 @@ package io.github.ovso.righttoknow.main;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -15,7 +13,6 @@ import android.view.MenuItem;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
 
 public class MainActivity extends BaseActivity
     implements NavigationView.OnNavigationItemSelectedListener, MainPresenter.View {
@@ -23,8 +20,8 @@ public class MainActivity extends BaseActivity
   private MainPresenter presenter;
   @BindView(R.id.drawer_layout) DrawerLayout drawer;
   @BindView(R.id.nav_view) NavigationView navigationView;
-  @BindView(R.id.bottom_navigation) BottomNavigationView bottomNavigationView;
   @BindView(R.id.viewpager) ViewPager viewPager;
+  @BindView(R.id.tabLayout) TabLayout tabLayout;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -44,15 +41,6 @@ public class MainActivity extends BaseActivity
     toggle.syncState();
 
     navigationView.setNavigationItemSelectedListener(this);
-    bottomNavigationView.setOnNavigationItemSelectedListener(
-        onBottomNavigationItemSelectedListener);
-    try {
-      CoordinatorLayout.LayoutParams layoutParams =
-          (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
-      layoutParams.setBehavior(new BottomNavigationViewBehavior());
-    } catch (ClassCastException e) {
-      e.printStackTrace();
-    }
   }
 
   @Override public void showViolateFragment() {
@@ -72,6 +60,7 @@ public class MainActivity extends BaseActivity
         presenter.onPageChanged(position);
       }
     });
+    viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
   }
 
   @Override public void refreshAdapter() {
@@ -88,7 +77,6 @@ public class MainActivity extends BaseActivity
   }
 
   @Override public void setSelectedBottomNavigation(int id) {
-    bottomNavigationView.setSelectedItemId(id);
   }
 
   @Override public void setTitle(String title) {
@@ -112,6 +100,28 @@ public class MainActivity extends BaseActivity
     startActivity(intent);
   }
 
+  @Override public void setTabLayout() {
+    tabLayout.addTab(tabLayout.newTab().setText("어린이집 위반시설 조회"));
+    tabLayout.addTab(tabLayout.newTab().setText("어린이집 위반행위자 조회"));
+    tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+    tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+      @Override
+      public void onTabSelected(TabLayout.Tab tab) {
+        viewPager.setCurrentItem(tab.getPosition());
+      }
+
+      @Override
+      public void onTabUnselected(TabLayout.Tab tab) {
+
+      }
+
+      @Override
+      public void onTabReselected(TabLayout.Tab tab) {
+
+      }
+    });
+  }
+
   @Override public void onBackPressed() {
     if (drawer.isDrawerOpen(GravityCompat.START)) {
       drawer.closeDrawer(GravityCompat.START);
@@ -126,13 +136,4 @@ public class MainActivity extends BaseActivity
     drawer.closeDrawer(GravityCompat.START);
     return true;
   }
-
-  private BottomNavigationView.OnNavigationItemSelectedListener
-      onBottomNavigationItemSelectedListener =
-      new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-          presenter.onBottomNavigationItemSelected(item.getItemId());
-          return true;
-        }
-      };
 }

@@ -27,9 +27,9 @@ public class MainPresenterImpl implements MainPresenter {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     view.setTitle(MyApplication.getInstance().getString(R.string.title_vioation_facility_inquiry));
-
     view.setListener();
     view.setAdapter();
+    view.setTabLayout();
     view.setViewPager();
     refreshAdapter();
   }

@@ -39,5 +39,7 @@ public interface MainPresenter {
     void navigateToReview(Uri uri);
 
     void navigateToShare(String url);
+
+    void setTabLayout();
   }
 }
