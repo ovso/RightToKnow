@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.main;
+package io.github.ovso.righttoknow.listener;
 
 import android.support.v4.view.ViewPager;
 

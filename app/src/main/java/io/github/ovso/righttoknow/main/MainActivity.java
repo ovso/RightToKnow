@@ -3,25 +3,25 @@ package io.github.ovso.righttoknow.main;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.MenuItem;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
+import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
+import io.github.ovso.righttoknow.violator.ViolatorFragment;
 
-public class MainActivity extends BaseActivity
-    implements NavigationView.OnNavigationItemSelectedListener, MainPresenter.View {
+public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   private MainPresenter presenter;
   @BindView(R.id.drawer_layout) DrawerLayout drawer;
   @BindView(R.id.nav_view) NavigationView navigationView;
-  @BindView(R.id.viewpager) ViewPager viewPager;
-  @BindView(R.id.tabLayout) TabLayout tabLayout;
+  @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -40,40 +40,15 @@ public class MainActivity extends BaseActivity
     drawer.setDrawerListener(toggle);
     toggle.syncState();
 
-    navigationView.setNavigationItemSelectedListener(this);
-  }
-
-  @Override public void showViolateFragment() {
-    viewPager.setCurrentItem(0, true);
-  }
-
-  @Override public void showWrongdoerFragment() {
-    viewPager.setCurrentItem(1, true);
-  }
-
-  private BaseAdapterView baseAdapterView = null;
-
-  @Override public void setViewPager() {
-    viewPager.setAdapter(adapter);
-    viewPager.addOnPageChangeListener(new OnSimplePageChangeListener() {
-      @Override public void onPageChanged(int position) {
-        presenter.onPageChanged(position);
-      }
+    navigationView.setNavigationItemSelectedListener(item -> {
+      presenter.onNavigationItemSelected(item.getItemId());
+      drawer.closeDrawer(GravityCompat.START);
+      return true;
     });
-    viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-  }
-
-  @Override public void refreshAdapter() {
-    baseAdapterView.refresh();
-    viewPager.setAdapter(adapter);
-  }
-
-  private PagerBaseAdapter adapter;
-
-  @Override public void setAdapter() {
-    adapter = new PagerBaseAdapter(getSupportFragmentManager());
-    presenter.setAdapterDataModel(adapter);
-    baseAdapterView = adapter;
+    bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+      presenter.onBottomNavigationItemSelected(item.getItemId());
+      return true;
+    });
   }
 
   @Override public void setSelectedBottomNavigation(int id) {
@@ -100,26 +75,37 @@ public class MainActivity extends BaseActivity
     startActivity(intent);
   }
 
-  @Override public void setTabLayout() {
-    tabLayout.addTab(tabLayout.newTab().setText("어린이집 위반시설 조회"));
-    tabLayout.addTab(tabLayout.newTab().setText("어린이집 위반행위자 조회"));
-    tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-    tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-      @Override
-      public void onTabSelected(TabLayout.Tab tab) {
-        viewPager.setCurrentItem(tab.getPosition());
-      }
+  private ViolationFacilityFragment vFacilityFragment;
+  private ViolatorFragment violatorFragment;
 
-      @Override
-      public void onTabUnselected(TabLayout.Tab tab) {
+  @Override public void showViolationFacilityFragment() {
+    if (vFacilityFragment == null) {
+      vFacilityFragment = ViolationFacilityFragment.newInstance(null);
+    }
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    transaction.replace(R.id.fragment_container, vFacilityFragment);
+    transaction.addToBackStack(null);
+    transaction.commit();
+  }
 
-      }
+  @Override public void showViolatorFragment() {
+    if (violatorFragment == null) {
+      violatorFragment = ViolatorFragment.newInstance(null);
+    }
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    transaction.replace(R.id.fragment_container, violatorFragment);
+    transaction.addToBackStack(null);
+    transaction.commit();
+  }
 
-      @Override
-      public void onTabReselected(TabLayout.Tab tab) {
-
-      }
-    });
+  @Override public void setBottomNavigationView() {
+    try {
+      CoordinatorLayout.LayoutParams layoutParams =
+          (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
+      layoutParams.setBehavior(new BottomNavigationViewBehavior());
+    } catch (ClassCastException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override public void onBackPressed() {
@@ -128,12 +114,5 @@ public class MainActivity extends BaseActivity
     } else {
       super.onBackPressed();
     }
-  }
-
-  @SuppressWarnings("StatementWithEmptyBody") @Override
-  public boolean onNavigationItemSelected(MenuItem item) {
-    presenter.onNavigationItemSelected(item.getItemId());
-    drawer.closeDrawer(GravityCompat.START);
-    return true;
   }
 }

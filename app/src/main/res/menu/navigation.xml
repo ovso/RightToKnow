@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
   <item
-      android:id="@+id/bottom_nav_violate"
+      android:id="@+id/bottom_nav_violation_facility"
       android:icon="@drawable/ic_home_black_24dp"
       android:title="@string/title_vioation_facility_inquiry"/>
 
   <item
-      android:id="@+id/bottom_nav_wrongdoer"
+      android:id="@+id/bottom_nav_violator"
       android:icon="@drawable/ic_person_black_24dp"
       android:title="@string/title_violator_inquiry"/>
 
