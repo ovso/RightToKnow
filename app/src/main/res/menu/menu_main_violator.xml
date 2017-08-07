@@ -6,7 +6,7 @@
       <item
           android:title="시도"/>
       <item
-          android:title="유형"/>
+          android:title="위반 이력"/>
     </menu>
   </item>
   <item

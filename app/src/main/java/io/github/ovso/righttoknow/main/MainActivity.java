@@ -3,6 +3,7 @@ package io.github.ovso.righttoknow.main;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.MenuRes;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -11,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
+import android.view.MenuItem;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
@@ -37,8 +39,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_main, menu);
+    presenter.onCreateOptionsMenu(viewPager.getCurrentItem(), menu);
     return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    return super.onOptionsItemSelected(item);
   }
 
   @Override public int getLayoutResId() {
@@ -114,6 +120,14 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void setViewPagerCurrentItem(int position) {
     viewPager.setCurrentItem(position, true);
+  }
+
+  @Override public void setOptionsMenu(@MenuRes int menuRes, Menu menu) {
+    getMenuInflater().inflate(menuRes, menu);
+  }
+
+  @Override public void refreshOptionsMenu() {
+    invalidateOptionsMenu();
   }
 
   @Override public void onBackPressed() {

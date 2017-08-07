@@ -3,6 +3,7 @@ package io.github.ovso.righttoknow.main;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
@@ -52,6 +53,18 @@ public class MainPresenterImpl implements MainPresenter {
     view.setCheckedBottomNavigationView(position);
     view.setViewPagerCurrentItem(position);
     view.setTitle(getTitle(position));
+  }
+
+  @Override public void onCreateOptionsMenu(int currentItem, Menu menu) {
+    switch (currentItem) {
+      case Constants.ITEM_VIOLATION_FACILITY:
+        view.setOptionsMenu(R.menu.menu_main, menu);
+        break;
+      case Constants.ITEM_VIOLATOR:
+        view.setOptionsMenu(R.menu.menu_main_violator, menu);
+        break;
+    }
+    view.refreshOptionsMenu();
   }
 
   private String getTitle(int position) {
