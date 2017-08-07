@@ -36,7 +36,7 @@
   <string name="title_violator_inquiry">위반행위자 조회</string>
   <string name="msg_latest_info">최신정보입니다.</string>
   <string name="day_care_center">어린이집</string>
-  <string name="detail">상세</string>
+  <string name="detail">(상세)</string>
   <string name="app_share">앱 공유하기</string>
   <string name="review_write">리뷰 남기기</string>
 </resources>

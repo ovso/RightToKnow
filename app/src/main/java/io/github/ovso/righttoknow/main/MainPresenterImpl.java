@@ -1,9 +1,9 @@
 package io.github.ovso.righttoknow.main;
 
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
 
@@ -14,7 +14,6 @@ import io.github.ovso.righttoknow.common.Constants;
 public class MainPresenterImpl implements MainPresenter {
 
   private MainPresenter.View view;
-  private BaseAdapterDataModel adapterDataModel;
 
   MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
@@ -23,8 +22,8 @@ public class MainPresenterImpl implements MainPresenter {
   @Override public void onCreate(Bundle savedInstanceState) {
     view.setTitle(MyApplication.getInstance().getString(R.string.title_vioation_facility_inquiry));
     view.setListener();
-    view.showViolationFacilityFragment();
-    view.setBottomNavigationView();
+    view.setViewPager();
+    view.setBottomNavigationViewBehavior();
   }
 
   @Override public void onNavigationItemSelected(int id) {
@@ -41,11 +40,36 @@ public class MainPresenterImpl implements MainPresenter {
   @Override public void onBottomNavigationItemSelected(int id) {
     switch (id) {
       case R.id.bottom_nav_violation_facility:
-        view.showViolationFacilityFragment();
+        view.setViewPagerCurrentItem(Constants.ITEM_VIOLATION_FACILITY);
         break;
       case R.id.bottom_nav_violator:
-        view.showViolatorFragment();
+        view.setViewPagerCurrentItem(Constants.ITEM_VIOLATOR);
         break;
     }
+  }
+
+  @Override public void onAdapterPageChanged(int position) {
+    view.setCheckedBottomNavigationView(position);
+    view.setViewPagerCurrentItem(position);
+    view.setTitle(getTitle(position));
+  }
+
+  private String getTitle(int position) {
+    Resources res = MyApplication.getInstance().getResources();
+    String title = res.getString(R.string.title_vioation_facility_inquiry);
+    switch (position) {
+      case Constants.ITEM_VIOLATION_FACILITY:
+        title = res.getString(R.string.day_care_center) + " " + res.getString(
+            R.string.title_vioation_facility_inquiry);
+        break;
+      case Constants.ITEM_VIOLATOR:
+        title = res.getString(R.string.day_care_center) + " " + res.getString(
+            R.string.title_violator_inquiry);
+        break;
+      default:
+
+        break;
+    }
+    return title;
   }
 }

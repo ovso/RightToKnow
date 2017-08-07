@@ -11,4 +11,7 @@ public class Constants {
   public final static String URL_REVIEW = "market://details?id=kr.blogspot.ovsoce.hotkey";
   public final static String URL_SHARE =
       "https://play.google.com/store/apps/details?id=kr.blogspot.ovsoce.hotkey";
+  public final static int ITEM_VIOLATION_FACILITY = 0;
+  public final static int ITEM_VIOLATOR = 1;
+
 }

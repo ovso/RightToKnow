@@ -6,15 +6,19 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
+import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.listener.OnSimplePageChangeListener;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends BaseActivity implements MainPresenter.View {
 
@@ -22,6 +26,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.drawer_layout) DrawerLayout drawer;
   @BindView(R.id.nav_view) NavigationView navigationView;
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
+  @BindView(R.id.viewpager) ViewPager viewPager;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -49,9 +54,11 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
       presenter.onBottomNavigationItemSelected(item.getItemId());
       return true;
     });
-  }
-
-  @Override public void setSelectedBottomNavigation(int id) {
+    viewPager.addOnPageChangeListener(new OnSimplePageChangeListener() {
+      @Override public void onPageChanged(int position) {
+        presenter.onAdapterPageChanged(position);
+      }
+    });
   }
 
   @Override public void setTitle(String title) {
@@ -75,30 +82,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     startActivity(intent);
   }
 
-  private ViolationFacilityFragment vFacilityFragment;
-  private ViolatorFragment violatorFragment;
-
-  @Override public void showViolationFacilityFragment() {
-    if (vFacilityFragment == null) {
-      vFacilityFragment = ViolationFacilityFragment.newInstance(null);
-    }
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    transaction.replace(R.id.fragment_container, vFacilityFragment);
-    transaction.addToBackStack(null);
-    transaction.commit();
-  }
-
-  @Override public void showViolatorFragment() {
-    if (violatorFragment == null) {
-      violatorFragment = ViolatorFragment.newInstance(null);
-    }
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    transaction.replace(R.id.fragment_container, violatorFragment);
-    transaction.addToBackStack(null);
-    transaction.commit();
-  }
-
-  @Override public void setBottomNavigationView() {
+  @Override public void setBottomNavigationViewBehavior() {
     try {
       CoordinatorLayout.LayoutParams layoutParams =
           (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
@@ -106,6 +90,23 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     } catch (ClassCastException e) {
       e.printStackTrace();
     }
+  }
+
+  @Override public void setViewPager() {
+    List<BaseFragment> fragments = new ArrayList<>();
+    fragments.add(ViolationFacilityFragment.newInstance(null));
+    fragments.add(ViolatorFragment.newInstance(null));
+    PagerBaseAdapter adapter = new PagerBaseAdapter(getSupportFragmentManager());
+    adapter.addAll(fragments);
+    viewPager.setAdapter(adapter);
+  }
+
+  @Override public void setCheckedBottomNavigationView(int position) {
+    bottomNavigationView.getMenu().getItem(position).setChecked(true);
+  }
+
+  @Override public void setViewPagerCurrentItem(int position) {
+    viewPager.setCurrentItem(position, true);
   }
 
   @Override public void onBackPressed() {

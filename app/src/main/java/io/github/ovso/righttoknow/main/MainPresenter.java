@@ -14,10 +14,10 @@ public interface MainPresenter {
 
   void onBottomNavigationItemSelected(int id);
 
+  void onAdapterPageChanged(int position);
+
   interface View {
     void setListener();
-
-    void setSelectedBottomNavigation(int id);
 
     void setTitle(String title);
 
@@ -25,10 +25,12 @@ public interface MainPresenter {
 
     void navigateToShare(String url);
 
-    void showViolationFacilityFragment();
+    void setBottomNavigationViewBehavior();
 
-    void showViolatorFragment();
+    void setViewPager();
 
-    void setBottomNavigationView();
+    void setCheckedBottomNavigationView(int position);
+
+    void setViewPagerCurrentItem(int position);
   }
 }
