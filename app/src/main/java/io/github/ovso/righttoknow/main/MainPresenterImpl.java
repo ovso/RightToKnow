@@ -67,6 +67,10 @@ public class MainPresenterImpl implements MainPresenter {
     view.refreshOptionsMenu();
   }
 
+  @Override public void onOptionsItemSelected(int itemId) {
+
+  }
+
   private String getTitle(int position) {
     Resources res = MyApplication.getInstance().getResources();
     String title = res.getString(R.string.title_vioation_facility_inquiry);

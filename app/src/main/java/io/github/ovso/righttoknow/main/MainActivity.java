@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
+    presenter.onOptionsItemSelected(item.getItemId());
     return super.onOptionsItemSelected(item);
   }
 

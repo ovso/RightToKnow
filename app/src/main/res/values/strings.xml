@@ -39,4 +39,6 @@
   <string name="detail">(상세)</string>
   <string name="app_share">앱 공유하기</string>
   <string name="review_write">리뷰 남기기</string>
+  <string name="sort">정렬</string>
+  <string name="my_location">내 지역</string>
 </resources>

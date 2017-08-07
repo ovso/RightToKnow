@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item
-      android:title="정렬">
+      android:title="@string/sort">
     <menu>
       <item
-          android:title="시도"/>
+          android:title="@string/sido"/>
       <item
-          android:title="위반 이력"/>
+          android:title="@string/violation_history"/>
     </menu>
   </item>
   <item
       android:id="@+id/menu_my_location"
-      android:title="내 지역 조회">
+      android:title="@string/my_location">
   </item>
 </menu>
