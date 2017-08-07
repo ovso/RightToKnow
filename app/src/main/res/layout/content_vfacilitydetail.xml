@@ -15,8 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
       <TextView
           android:id="@+id/contents_textview"
           android:layout_width="match_parent"
@@ -25,15 +24,13 @@
           android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
           tools:text="contents"
           />
-      <Button
+      <ImageButton
           android:id="@+id/share_button"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="@string/contents_share"
-          android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
           android:textStyle="bold"
           style="@style/Widget.AppCompat.Button.Borderless.Colored"
-          />
+          android:src="@drawable/ic_menu_share"/>
     </LinearLayout>
   </ScrollView>
   <com.wang.avi.AVLoadingIndicatorView
