@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
+import com.wang.avi.AVLoadingIndicatorView;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
@@ -22,7 +23,7 @@ import io.github.ovso.righttoknow.violator.vo.Violator;
 
 public class ViolatorFragment extends BaseFragment implements ViolatorFragmentPresenter.View {
   private ViolatorFragmentPresenter presenter;
-
+  @BindView(R.id.loading_view) AVLoadingIndicatorView loadingView;
   public static ViolatorFragment newInstance(Bundle args) {
     ViolatorFragment f = new ViolatorFragment();
     f.setArguments(args);
@@ -40,11 +41,11 @@ public class ViolatorFragment extends BaseFragment implements ViolatorFragmentPr
   }
 
   @Override public void hideLoading() {
-
+    loadingView.hide();
   }
 
   @Override public void showLoading() {
-
+    loadingView.show();
   }
 
   @Override public void refresh() {

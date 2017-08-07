@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import com.wang.avi.AVLoadingIndicatorView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.main.BaseActivity;
 
@@ -20,7 +21,7 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
   VFacilityDetailPresenter presenter;
   @BindView(R.id.contents_textview) TextView contentsTextView;
-
+  @BindView(R.id.loading_view) AVLoadingIndicatorView loadingView;
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     presenter = new VFacilityDetailPresenterImpl(this);
@@ -32,9 +33,11 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public void hideLoading() {
+    loadingView.hide();
   }
 
   @Override public void showLoading() {
+    loadingView.show();
   }
 
   @Override public void setSupportActionBar() {

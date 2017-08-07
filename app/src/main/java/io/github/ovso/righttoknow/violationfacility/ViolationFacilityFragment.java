@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
+import com.wang.avi.AVLoadingIndicatorView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
@@ -23,6 +24,7 @@ public class ViolationFacilityFragment extends BaseFragment
     implements ViolationFacilityPresenter.View {
 
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
+  @BindView(R.id.loading_view) AVLoadingIndicatorView loadingView;
   private ViolationFacilityPresenter presenter;
 
   public static ViolationFacilityFragment newInstance(Bundle args) {
@@ -67,9 +69,11 @@ public class ViolationFacilityFragment extends BaseFragment
   }
 
   @Override public void showLoading() {
+    loadingView.show();
   }
 
   @Override public void hideLoading() {
+    loadingView.hide();
   }
 
   @Override public void navigateToViolationFacilityDetail(String link) {

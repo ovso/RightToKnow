@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity"
     tools:showIn="@layout/app_bar_vfacilitydetail"
-    >
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
   <ScrollView
       android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
+      android:layout_height="match_parent"
       >
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,5 +36,15 @@
           />
     </LinearLayout>
   </ScrollView>
+  <com.wang.avi.AVLoadingIndicatorView
+      android:id="@+id/loading_view"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:visibility="visible"
+      app:indicatorColor="@color/colorPrimaryDark"
+      app:indicatorName="BallTrianglePathIndicator"
+      style="@style/AVLoadingIndicatorView.Large"
+      />
 
-</LinearLayout>
+</FrameLayout>
