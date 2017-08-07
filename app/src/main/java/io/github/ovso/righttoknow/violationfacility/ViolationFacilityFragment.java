@@ -7,12 +7,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 import butterknife.BindView;
 import com.wang.avi.AVLoadingIndicatorView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 
@@ -21,7 +23,7 @@ import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
  */
 
 public class ViolationFacilityFragment extends BaseFragment
-    implements ViolationFacilityPresenter.View {
+    implements ViolationFacilityPresenter.View, OnFragmentEventListener {
 
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
   @BindView(R.id.loading_view) AVLoadingIndicatorView loadingView;
@@ -93,5 +95,13 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void onDestroyView() {
     super.onDestroyView();
     presenter.ondestroyView();
+  }
+
+  @Override public void onSort(int id) {
+    Toast.makeText(getContext(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+  }
+
+  @Override public void onMyLocation(String loc) {
+    Toast.makeText(getContext(), loc, Toast.LENGTH_SHORT).show();
   }
 }

@@ -17,6 +17,7 @@ import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.listener.OnSimplePageChangeListener;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
@@ -105,11 +106,14 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
       e.printStackTrace();
     }
   }
-
+  private OnFragmentEventListener onViolationFacilityFragListener;
   @Override public void setViewPager() {
+    ViolationFacilityFragment vff = ViolationFacilityFragment.newInstance(null);
+    onViolationFacilityFragListener = vff;
     List<BaseFragment> fragments = new ArrayList<>();
-    fragments.add(ViolationFacilityFragment.newInstance(null));
-    fragments.add(ViolatorFragment.newInstance(null));
+    fragments.add(vff);
+    ViolatorFragment vf = ViolatorFragment.newInstance(null);
+    fragments.add(vf);
     PagerBaseAdapter adapter = new PagerBaseAdapter(getSupportFragmentManager());
     adapter.addAll(fragments);
     viewPager.setAdapter(adapter);
