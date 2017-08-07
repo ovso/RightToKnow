@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Menu;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
@@ -32,6 +33,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     super.onCreate(savedInstanceState);
     presenter = new MainPresenterImpl(this);
     presenter.onCreate(null);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_main, menu);
+    return true;
   }
 
   @Override public int getLayoutResId() {
