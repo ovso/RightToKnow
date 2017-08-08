@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,7 +59,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     return R.layout.activity_main;
   }
 
-  @Override public void setListener() {
+  @SuppressWarnings("deprecation") @Override public void setListener() {
     ActionBarDrawerToggle toggle =
         new ActionBarDrawerToggle(this, drawer, getToolbar(), R.string.navigation_drawer_open,
             R.string.navigation_drawer_close);
@@ -82,7 +83,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public void setTitle(String title) {
-    getSupportActionBar().setTitle(title);
+    ActionBar actionBar = getSupportActionBar();
+    if (actionBar != null) {
+      actionBar.setTitle(title);
+    }
   }
 
   @Override public void navigateToReview(Uri uri) {
