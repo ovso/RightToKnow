@@ -112,7 +112,7 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   }
 
   @Override public void sortHistory() {
-    Comparator<Violator> comparator = (t1, t2) -> t1.getHistory().compareTo(t2.getHistory());
+    Comparator<Violator> comparator = (t1, t2) -> t2.getHistory().compareTo(t1.getHistory());
     Collections.sort(violators, comparator);
   }
 
