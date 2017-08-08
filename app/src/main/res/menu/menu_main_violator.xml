@@ -5,7 +5,7 @@
     <menu>
       <item
           android:id="@+id/menu_violator_turn"
-          android:title="@string/turn"/>
+          android:title="@string/back_again"/>
       <item
           android:id="@+id/menu_violator_sido"
           android:title="@string/sido"/>

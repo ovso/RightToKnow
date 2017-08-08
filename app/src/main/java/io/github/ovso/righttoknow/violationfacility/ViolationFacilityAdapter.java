@@ -5,13 +5,14 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import lombok.Setter;
 
@@ -80,6 +81,10 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     return violationFacilities.get(position);
   }
 
+  @Override public void add(int index, ViolationFacility item) {
+    violationFacilities.add(index, item);
+  }
+
   @Override public int getSize() {
     return violationFacilities.size();
   }
@@ -91,23 +96,27 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
   @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
 
   @Override public int getItemViewType(int position) {
-    if(TextUtils.isEmpty(violationFacilities.get(position).getTurn())) {
+    if (TextUtils.isEmpty(violationFacilities.get(position).getTurn())) {
       return ITEM_VIEW_TYPE_HEADER;
     } else {
       return ITEM_VIEW_TYPE_DEFAULT;
     }
   }
 
-  @DebugLog @Override public void sortTurn() {
-
+  @Override public void sortTurn() {
+    Comparator<ViolationFacility> comparator =
+        (t1, t2) -> Integer.valueOf(t2.getTurn()).compareTo(Integer.valueOf(t1.getTurn()));
+    Collections.sort(violationFacilities, comparator);
   }
 
-  @DebugLog @Override public void sortSido() {
-
+  @Override public void sortSido() {
+    Comparator<ViolationFacility> comparator = (t1, t2) -> t1.getSido().compareTo(t2.getSido());
+    Collections.sort(violationFacilities, comparator);
   }
 
-  @DebugLog @Override public void sortType() {
-
+  @Override public void sortType() {
+    Comparator<ViolationFacility> comparator = (t1, t2) -> t1.getType().compareTo(t2.getType());
+    Collections.sort(violationFacilities, comparator);
   }
 
   final static class ViolationFacilityViewHolder extends BaseRecyclerAdapter.BaseViewHolder {

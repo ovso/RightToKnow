@@ -58,11 +58,18 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
   @Override public void onMenuSelected(@IdRes int id) {
     if (id == R.id.menu_violator_turn) {
+      adapterDataModel.remove(0);
       adapterDataModel.sortTurn();
+      adapterDataModel.add(0, new Violator());
     } else if (id == R.id.menu_violator_sido) {
+      adapterDataModel.remove(0);
       adapterDataModel.sortSido();
+      adapterDataModel.add(0, new Violator());
     } else if (id == R.id.menu_violator_history) {
+      adapterDataModel.remove(0);
       adapterDataModel.sortHistory();
+      adapterDataModel.add(0, new Violator());
     }
+    view.refresh();
   }
 }

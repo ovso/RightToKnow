@@ -36,6 +36,10 @@ public class PagerBaseAdapter extends FragmentPagerAdapter
     return items.get(position);
   }
 
+  @Override public void add(int index, BaseFragment item) {
+
+  }
+
   @Override public int getSize() {
     return items.size();
   }

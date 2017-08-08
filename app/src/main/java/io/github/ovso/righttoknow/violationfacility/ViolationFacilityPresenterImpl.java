@@ -60,11 +60,18 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
 
   @Override public void onMenuSelected(@IdRes int id) {
     if (id == R.id.menu_facility_turn) {
+      adapterDataModel.remove(0);
       adapterDataModel.sortTurn();
+      adapterDataModel.add(0, new ViolationFacility());
     } else if (id == R.id.menu_facility_sido) {
+      adapterDataModel.remove(0);
       adapterDataModel.sortSido();
+      adapterDataModel.add(0, new ViolationFacility());
     } else if (id == R.id.menu_facility_type) {
+      adapterDataModel.remove(0);
       adapterDataModel.sortType();
+      adapterDataModel.add(0, new ViolationFacility());
     }
+    view.refresh();
   }
 }

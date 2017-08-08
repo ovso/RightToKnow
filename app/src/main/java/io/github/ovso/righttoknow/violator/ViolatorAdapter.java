@@ -5,13 +5,14 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import lombok.Setter;
 
@@ -74,11 +75,15 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   }
 
   @Override public Violator remove(int position) {
-    return null;
+    return violators.remove(position);
   }
 
   @Override public Violator getItem(int position) {
     return violators.get(position);
+  }
+
+  @Override public void add(int index, Violator item) {
+    violators.add(index, item);
   }
 
   @Override public int getSize() {
@@ -95,16 +100,20 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
     }
   }
 
-  @DebugLog @Override public void sortTurn() {
-
+  @Override public void sortTurn() {
+    Comparator<Violator> comparator =
+        (t1, t2) -> Integer.valueOf(t2.getTurn()).compareTo(Integer.valueOf(t1.getTurn()));
+    Collections.sort(violators, comparator);
   }
 
-  @DebugLog @Override public void sortSido() {
-
+  @Override public void sortSido() {
+    Comparator<Violator> comparator = (t1, t2) -> t1.getSido().compareTo(t2.getSido());
+    Collections.sort(violators, comparator);
   }
 
-  @DebugLog @Override public void sortHistory() {
-
+  @Override public void sortHistory() {
+    Comparator<Violator> comparator = (t1, t2) -> t1.getHistory().compareTo(t2.getHistory());
+    Collections.sort(violators, comparator);
   }
 
   final static class ViolatorViewHolder extends BaseRecyclerAdapter.BaseViewHolder {

@@ -11,7 +11,7 @@ public interface BaseAdapterDataModel<T> {
   void addAll(List<T> items);
   T remove(int position);
   T getItem(int position);
-
+  void add(int index, T item);
   int getSize();
 
   void clear();
