@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.violationfacility;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
@@ -16,7 +17,7 @@ public interface ViolationFacilityPresenter {
 
   void onRecyclerItemClick(ViolationFacility violationFacility);
 
-  void ondestroyView();
+  void onDestroyView();
 
   void onMenuSelected(@IdRes int id);
 
@@ -39,5 +40,7 @@ public interface ViolationFacilityPresenter {
     void setListener();
 
     void showSnackbar(String msg);
+
+    Activity getActivity();
   }
 }

@@ -97,7 +97,7 @@ public class ViolationFacilityFragment extends BaseFragment
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    presenter.ondestroyView();
+    presenter.onDestroyView();
   }
 
   @DebugLog @Override public void onMenuSelected(@IdRes int id) {

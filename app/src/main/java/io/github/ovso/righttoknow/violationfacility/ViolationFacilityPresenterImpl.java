@@ -3,10 +3,13 @@ package io.github.ovso.righttoknow.violationfacility;
 import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.util.Log;
+import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.common.LocationAware;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.ArrayList;
@@ -21,29 +24,47 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   private ViolationFacilityPresenter.View view;
   private FacilityAdapterDataModel<ViolationFacility> adapterDataModel;
   private ViolationFacilityInteractor violationFacilityInteractor;
-  private LocationInteractor locationInteractor;
+  private LocationAware locationAware;
+
   ViolationFacilityPresenterImpl(ViolationFacilityPresenter.View view) {
     this.view = view;
-    locationInteractor = new LocationInteractor();
     violationFacilityInteractor = new ViolationFacilityInteractor();
-    violationFacilityInteractor.setOnViolationFacilityResultListener(
-        new OnViolationResultListener<List<ViolationFacility>>() {
-          @Override public void onPre() {
-            view.showLoading();
-          }
+    violationFacilityInteractor.setOnViolationFacilityResultListener(onViolationResultListener);
+    locationAware = new LocationAware(view.getActivity());
+    locationAware.setLocationListener((latitude, longitude, date) -> {
+      Toast.makeText(MyApplication.getInstance(), "" + latitude + ", " + longitude,
+          Toast.LENGTH_SHORT).show();
+      locationAware.stop();
+      Log.d("OJH", "latitude = " + latitude + ", longitude = " + longitude);
+    });
+    locationAware.setOnRequestCallbackListener(new LocationAware.OnRequestCallbackListener() {
+      @Override public void onSettingsChangeUnavailable() {
+        //locationAware.stop();
+      }
 
-          @Override public void onResult(List<ViolationFacility> violationFacilities) {
-            adapterDataModel.clear();
-            adapterDataModel.add(new ViolationFacility());
-            adapterDataModel.addAll(violationFacilities);
-            view.refresh();
-          }
-
-          @Override public void onPost() {
-            view.hideLoading();
-          }
-        });
+      @Override public void onLocationSettingsSuccess() {
+        //locationAware.stop();
+      }
+    });
   }
+
+  OnViolationResultListener<List<ViolationFacility>> onViolationResultListener =
+      new OnViolationResultListener<List<ViolationFacility>>() {
+        @Override public void onPre() {
+          view.showLoading();
+        }
+
+        @Override public void onResult(List<ViolationFacility> violationFacilities) {
+          adapterDataModel.clear();
+          adapterDataModel.add(new ViolationFacility());
+          adapterDataModel.addAll(violationFacilities);
+          view.refresh();
+        }
+
+        @Override public void onPost() {
+          view.hideLoading();
+        }
+      };
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     view.setListener();
@@ -60,7 +81,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     view.navigateToViolationFacilityDetail(violationFacility.getLink());
   }
 
-  @Override public void ondestroyView() {
+  @Override public void onDestroyView() {
     violationFacilityInteractor.cancel();
   }
 
@@ -85,13 +106,13 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     new TedPermission(MyApplication.getInstance()).setPermissionListener(permissionlistener)
         .setDeniedMessage(
             "If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-        .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
+        .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
         .check();
   }
 
   private PermissionListener permissionlistener = new PermissionListener() {
     @Override public void onPermissionGranted() {
-      locationInteractor.req();
+      locationAware.start();
     }
 
     @Override public void onPermissionDenied(ArrayList<String> deniedPermissions) {
