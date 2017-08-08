@@ -20,6 +20,8 @@ public interface ViolationFacilityPresenter {
 
   void onMenuSelected(@IdRes int id);
 
+  void onMyLocationMenuSelected();
+
   interface View {
 
     void setRecyclerView();

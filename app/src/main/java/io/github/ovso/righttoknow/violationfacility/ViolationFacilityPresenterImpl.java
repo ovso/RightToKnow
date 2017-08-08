@@ -1,10 +1,15 @@
 package io.github.ovso.righttoknow.violationfacility;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,9 +21,10 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   private ViolationFacilityPresenter.View view;
   private FacilityAdapterDataModel<ViolationFacility> adapterDataModel;
   private ViolationFacilityInteractor violationFacilityInteractor;
-
+  private LocationInteractor locationInteractor;
   ViolationFacilityPresenterImpl(ViolationFacilityPresenter.View view) {
     this.view = view;
+    locationInteractor = new LocationInteractor();
     violationFacilityInteractor = new ViolationFacilityInteractor();
     violationFacilityInteractor.setOnViolationFacilityResultListener(
         new OnViolationResultListener<List<ViolationFacility>>() {
@@ -74,4 +80,21 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     }
     view.refresh();
   }
+
+  @Override public void onMyLocationMenuSelected() {
+    new TedPermission(MyApplication.getInstance()).setPermissionListener(permissionlistener)
+        .setDeniedMessage(
+            "If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+        .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
+        .check();
+  }
+
+  private PermissionListener permissionlistener = new PermissionListener() {
+    @Override public void onPermissionGranted() {
+      locationInteractor.req();
+    }
+
+    @Override public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+    }
+  };
 }

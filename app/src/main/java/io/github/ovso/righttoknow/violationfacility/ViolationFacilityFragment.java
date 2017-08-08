@@ -101,6 +101,10 @@ public class ViolationFacilityFragment extends BaseFragment
   }
 
   @DebugLog @Override public void onMenuSelected(@IdRes int id) {
-    presenter.onMenuSelected(id);
+    if(id == R.id.menu_facility_my_location){
+      presenter.onMyLocationMenuSelected();
+    } else {
+      presenter.onMenuSelected(id);
+    }
   }
 }
