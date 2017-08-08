@@ -99,5 +99,6 @@ public class ViolatorFragment extends BaseFragment
   }
 
   @DebugLog @Override public void onMenuSelected(@IdRes int id) {
+    presenter.onMenuSelected(id);
   }
 }

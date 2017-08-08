@@ -1,6 +1,8 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 import java.util.List;
@@ -52,5 +54,15 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
   @Override public void onDestroyView() {
     violatorInteractor.cancel();
+  }
+
+  @Override public void onMenuSelected(@IdRes int id) {
+    if (id == R.id.menu_violator_turn) {
+      adapterDataModel.sortTurn();
+    } else if (id == R.id.menu_violator_sido) {
+      adapterDataModel.sortSido();
+    } else if (id == R.id.menu_violator_history) {
+      adapterDataModel.sortHistory();
+    }
   }
 }

@@ -4,6 +4,9 @@
       android:title="@string/sort">
     <menu>
       <item
+          android:id="@+id/menu_violator_turn"
+          android:title="@string/turn"/>
+      <item
           android:id="@+id/menu_violator_sido"
           android:title="@string/sido"/>
       <item

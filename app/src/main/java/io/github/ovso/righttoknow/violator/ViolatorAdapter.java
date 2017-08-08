@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
@@ -94,15 +95,15 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
     }
   }
 
-  @Override public void sortTurn() {
+  @DebugLog @Override public void sortTurn() {
 
   }
 
-  @Override public void sortSido() {
+  @DebugLog @Override public void sortSido() {
 
   }
 
-  @Override public void sortHistory() {
+  @DebugLog @Override public void sortHistory() {
 
   }
 

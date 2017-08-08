@@ -59,7 +59,6 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   }
 
   @Override public void onMenuSelected(@IdRes int id) {
-
     if (id == R.id.menu_facility_turn) {
       adapterDataModel.sortTurn();
     } else if (id == R.id.menu_facility_sido) {

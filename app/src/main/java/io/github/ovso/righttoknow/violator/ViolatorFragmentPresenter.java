@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 
 /**
@@ -16,6 +17,8 @@ public interface ViolatorFragmentPresenter {
   void onRecyclerItemClick(Violator violator);
 
   void onDestroyView();
+
+  void onMenuSelected(@IdRes int id);
 
   interface View {
 
