@@ -1,7 +1,6 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
 public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter {
   private ViolatorFragmentPresenter.View view;
   private ViolatorInteractor violatorInteractor;
-  private BaseAdapterDataModel adapterDataModel;
+  private ViolatorAdapterDataModel adapterDataModel;
 
   ViolatorFragmentPresenterImpl(ViolatorFragmentPresenter.View view) {
     this.view = view;
@@ -43,16 +42,12 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     violatorInteractor.req();
   }
 
-  @Override public void setAdapterModel(BaseAdapterDataModel adapterDataModel) {
+  @Override public void setAdapterModel(ViolatorAdapterDataModel adapterDataModel) {
     this.adapterDataModel = adapterDataModel;
   }
 
   @Override public void onRecyclerItemClick(Violator violator) {
     view.navigateToViolatorDetail(violator.getLink());
-  }
-
-  @Override public void onRefresh() {
-    violatorInteractor.req();
   }
 
   @Override public void onDestroyView() {

@@ -1,7 +1,6 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 
 /**
@@ -12,11 +11,9 @@ public interface ViolatorFragmentPresenter {
 
   void onActivityCreate(Bundle savedInstanceState);
 
-  void setAdapterModel(BaseAdapterDataModel adapterDataModel);
+  void setAdapterModel(ViolatorAdapterDataModel adapterDataModel);
 
   void onRecyclerItemClick(Violator violator);
-
-  void onRefresh();
 
   void onDestroyView();
 

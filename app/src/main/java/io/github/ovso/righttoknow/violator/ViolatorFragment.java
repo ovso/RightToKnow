@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.violator;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 
@@ -21,9 +23,11 @@ import io.github.ovso.righttoknow.violator.vo.Violator;
  * Created by jaeho on 2017. 7. 31
  */
 
-public class ViolatorFragment extends BaseFragment implements ViolatorFragmentPresenter.View {
+public class ViolatorFragment extends BaseFragment
+    implements ViolatorFragmentPresenter.View, OnFragmentEventListener {
   private ViolatorFragmentPresenter presenter;
   @BindView(R.id.loading_view) AVLoadingIndicatorView loadingView;
+
   public static ViolatorFragment newInstance(Bundle args) {
     ViolatorFragment f = new ViolatorFragment();
     f.setArguments(args);
@@ -94,4 +98,6 @@ public class ViolatorFragment extends BaseFragment implements ViolatorFragmentPr
     presenter.onDestroyView();
   }
 
+  @DebugLog @Override public void onMenuSelected(@IdRes int id) {
+  }
 }

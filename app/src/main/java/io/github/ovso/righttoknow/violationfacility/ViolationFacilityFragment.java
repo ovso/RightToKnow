@@ -2,14 +2,15 @@ package io.github.ovso.righttoknow.violationfacility;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 import butterknife.BindView;
 import com.wang.avi.AVLoadingIndicatorView;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
@@ -87,7 +88,9 @@ public class ViolationFacilityFragment extends BaseFragment
 
   @Override public void setListener() {
   }
+
   @BindView(R.id.container_view) View containerView;
+
   @Override public void showSnackbar(String msg) {
     Snackbar.make(containerView, msg, Snackbar.LENGTH_SHORT).show();
   }
@@ -97,11 +100,7 @@ public class ViolationFacilityFragment extends BaseFragment
     presenter.ondestroyView();
   }
 
-  @Override public void onSort(int id) {
-    Toast.makeText(getContext(), String.valueOf(id), Toast.LENGTH_SHORT).show();
-  }
-
-  @Override public void onMyLocation(String loc) {
-    Toast.makeText(getContext(), loc, Toast.LENGTH_SHORT).show();
+  @DebugLog @Override public void onMenuSelected(@IdRes int id) {
+    presenter.onMenuSelected(id);
   }
 }

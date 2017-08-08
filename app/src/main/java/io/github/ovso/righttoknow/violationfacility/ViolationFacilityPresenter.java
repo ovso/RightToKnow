@@ -1,7 +1,7 @@
 package io.github.ovso.righttoknow.violationfacility;
 
 import android.os.Bundle;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
+import android.support.annotation.IdRes;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 
 /**
@@ -12,11 +12,13 @@ public interface ViolationFacilityPresenter {
 
   void onActivityCreated(Bundle savedInstanceState);
 
-  void setAdapterModel(BaseAdapterDataModel adapterDataModel);
+  void setAdapterModel(FacilityAdapterDataModel adapterDataModel);
 
   void onRecyclerItemClick(ViolationFacility violationFacility);
 
   void ondestroyView();
+
+  void onMenuSelected(@IdRes int id);
 
   interface View {
 

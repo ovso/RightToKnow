@@ -7,6 +7,5 @@ import android.support.annotation.IdRes;
  */
 
 public interface OnFragmentEventListener {
-  void onSort(@IdRes int id);
-  void onMyLocation(String loc);
+  void onMenuSelected(@IdRes int id);
 }

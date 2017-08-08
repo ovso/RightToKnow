@@ -38,14 +38,19 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     presenter.onCreate(null);
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
     presenter.onCreateOptionsMenu(viewPager.getCurrentItem(), menu);
     return true;
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
-    presenter.onOptionsItemSelected(item.getItemId());
+    if (onViolationFacilityFragListener != null) {
+      onViolationFacilityFragListener.onMenuSelected(item.getItemId());
+    }
+    if (onViolatorFragListener != null) {
+      onViolatorFragListener.onMenuSelected(item.getItemId());
+    }
+
     return super.onOptionsItemSelected(item);
   }
 
@@ -106,14 +111,18 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
       e.printStackTrace();
     }
   }
+
   private OnFragmentEventListener onViolationFacilityFragListener;
+  private OnFragmentEventListener onViolatorFragListener;
+
   @Override public void setViewPager() {
-    ViolationFacilityFragment vff = ViolationFacilityFragment.newInstance(null);
-    onViolationFacilityFragListener = vff;
+    ViolationFacilityFragment facilityFragment = ViolationFacilityFragment.newInstance(null);
+    ViolatorFragment violatorFragment = ViolatorFragment.newInstance(null);
+    onViolationFacilityFragListener = facilityFragment;
+    onViolatorFragListener = violatorFragment;
     List<BaseFragment> fragments = new ArrayList<>();
-    fragments.add(vff);
-    ViolatorFragment vf = ViolatorFragment.newInstance(null);
-    fragments.add(vf);
+    fragments.add(facilityFragment);
+    fragments.add(violatorFragment);
     PagerBaseAdapter adapter = new PagerBaseAdapter(getSupportFragmentManager());
     adapter.addAll(fragments);
     viewPager.setAdapter(adapter);

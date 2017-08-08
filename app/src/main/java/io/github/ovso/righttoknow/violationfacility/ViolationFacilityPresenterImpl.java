@@ -1,7 +1,8 @@
 package io.github.ovso.righttoknow.violationfacility;
 
 import android.os.Bundle;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
+import android.support.annotation.IdRes;
+import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public class ViolationFacilityPresenterImpl implements ViolationFacilityPresenter {
 
   private ViolationFacilityPresenter.View view;
-  private BaseAdapterDataModel adapterDataModel;
+  private FacilityAdapterDataModel<ViolationFacility> adapterDataModel;
   private ViolationFacilityInteractor violationFacilityInteractor;
 
   ViolationFacilityPresenterImpl(ViolationFacilityPresenter.View view) {
@@ -23,8 +24,6 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
         new OnViolationResultListener<List<ViolationFacility>>() {
           @Override public void onPre() {
             view.showLoading();
-            //adapterDataModel.clear();
-            //view.refresh();
           }
 
           @Override public void onResult(List<ViolationFacility> violationFacilities) {
@@ -47,7 +46,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     violationFacilityInteractor.req();
   }
 
-  @Override public void setAdapterModel(BaseAdapterDataModel adapterDataModel) {
+  @Override public void setAdapterModel(FacilityAdapterDataModel adapterDataModel) {
     this.adapterDataModel = adapterDataModel;
   }
 
@@ -57,5 +56,16 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
 
   @Override public void ondestroyView() {
     violationFacilityInteractor.cancel();
+  }
+
+  @Override public void onMenuSelected(@IdRes int id) {
+
+    if (id == R.id.menu_facility_turn) {
+      adapterDataModel.sortTurn();
+    } else if (id == R.id.menu_facility_sido) {
+      adapterDataModel.sortSido();
+    } else if (id == R.id.menu_facility_type) {
+      adapterDataModel.sortType();
+    }
   }
 }

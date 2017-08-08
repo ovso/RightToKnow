@@ -6,7 +6,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
@@ -20,7 +19,7 @@ import lombok.Setter;
  */
 
 public class ViolationFacilityAdapter extends BaseRecyclerAdapter
-    implements BaseAdapterView, BaseAdapterDataModel<ViolationFacility> {
+    implements BaseAdapterView, FacilityAdapterDataModel<ViolationFacility> {
 
   private List<ViolationFacility> violationFacilities = new ArrayList<>();
 
@@ -96,6 +95,18 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     } else {
       return ITEM_VIEW_TYPE_DEFAULT;
     }
+  }
+
+  @Override public void sortTurn() {
+
+  }
+
+  @Override public void sortSido() {
+
+  }
+
+  @Override public void sortType() {
+
   }
 
   final static class ViolationFacilityViewHolder extends BaseRecyclerAdapter.BaseViewHolder {

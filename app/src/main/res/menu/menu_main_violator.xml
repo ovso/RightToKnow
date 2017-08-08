@@ -4,13 +4,15 @@
       android:title="@string/sort">
     <menu>
       <item
+          android:id="@+id/menu_violator_sido"
           android:title="@string/sido"/>
       <item
+          android:id="@+id/menu_violator_history"
           android:title="@string/violation_history"/>
     </menu>
   </item>
   <item
-      android:id="@+id/menu_my_location"
+      android:id="@+id/menu_violator_my_location"
       android:title="@string/my_location">
   </item>
 </menu>

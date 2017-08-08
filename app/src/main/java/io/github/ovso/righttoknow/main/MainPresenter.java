@@ -20,8 +20,6 @@ public interface MainPresenter {
 
   void onCreateOptionsMenu(int currentItem, Menu menu);
 
-  void onOptionsItemSelected(int itemId);
-
   interface View {
     void setListener();
 

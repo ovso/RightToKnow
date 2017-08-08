@@ -4,15 +4,18 @@
       android:title="@string/sort">
     <menu>
       <item
-          android:id="@+id/menu_sido"
+          android:id="@+id/menu_facility_turn"
+          android:title="@string/turn"/>
+      <item
+          android:id="@+id/menu_facility_sido"
           android:title="@string/sido"/>
       <item
-          android:id="@+id/menu_type"
+          android:id="@+id/menu_facility_type"
           android:title="@string/type"/>
     </menu>
   </item>
   <item
-      android:id="@+id/menu_my_location"
+      android:id="@+id/menu_facility_my_location"
       android:title="@string/my_location">
   </item>
 </menu>
