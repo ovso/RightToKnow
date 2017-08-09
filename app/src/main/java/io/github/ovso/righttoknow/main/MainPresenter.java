@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.main;
 
 import android.app.Activity;
+import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -37,5 +38,11 @@ public interface MainPresenter {
     void setViewPagerCurrentItem(int position);
 
     Activity getActivity();
+
+    void hideLoading();
+
+    void showLoading();
+
+    void postAddress(Address address);
   }
 }

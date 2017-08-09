@@ -2,12 +2,11 @@ package io.github.ovso.righttoknow.main;
 
 import android.Manifest;
 import android.content.res.Resources;
+import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
@@ -22,9 +21,11 @@ public class MainPresenterImpl implements MainPresenter {
   private MainPresenter.View view;
 
   private LocationAware locationAware;
+
   MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
   }
+
   @Override public void onCreate(Bundle savedInstanceState) {
     view.setTitle(getTitle(Constants.ITEM_VIOLATION_FACILITY));
     view.setListener();
@@ -32,24 +33,24 @@ public class MainPresenterImpl implements MainPresenter {
     view.setBottomNavigationViewBehavior();
 
     locationAware = new LocationAware(view.getActivity());
-    locationAware.setLocationListener((latitude, longitude, date) -> {
-      locationAware.stop();
-      Log.d("OJH", "latitude = " + latitude + ", longitude = " + longitude);
-      
-    });
-    locationAware.setOnRequestCallbackListener(new LocationAware.OnRequestCallbackListener() {
-      @DebugLog @Override public void onSettingsChangeUnavailable() {
-        //locationAware.stop();
-
-      }
-
-      @DebugLog @Override public void onLocationSettingsSuccess() {
-        //locationAware.stop();
-      }
-    });
-
-
+    locationAware.setLocationListener(onLocationListener);
   }
+
+  private LocationAware.OnLocationListener onLocationListener =
+      new LocationAware.OnLocationListener() {
+        @Override public void onLocationChanged(double latitude, double longitude, String date) {
+          view.hideLoading();
+        }
+
+        @Override public void onAddressChanged(Address address) {
+          view.hideLoading();
+          view.postAddress(address);
+        }
+
+        @Override public void onError(String error) {
+          view.hideLoading();
+        }
+      };
 
   @Override public void onNavigationItemSelected(int id) {
     switch (id) {
@@ -80,7 +81,7 @@ public class MainPresenterImpl implements MainPresenter {
   }
 
   @Override public void onOptionsItemSelected(int itemId) {
-    if(itemId == R.id.option_menu_my_location) {
+    if (itemId == R.id.option_menu_my_location) {
       requestPermission();
     }
   }
@@ -92,8 +93,10 @@ public class MainPresenterImpl implements MainPresenter {
         .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
         .check();
   }
+
   private PermissionListener permissionlistener = new PermissionListener() {
     @Override public void onPermissionGranted() {
+      view.showLoading();
       locationAware.start();
     }
 

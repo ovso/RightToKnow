@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.violationfacility;
 
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -23,7 +24,7 @@ import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
  */
 
 public class ViolationFacilityFragment extends BaseFragment
-    implements ViolationFacilityPresenter.View, OnFragmentEventListener {
+    implements ViolationFacilityPresenter.View, OnFragmentEventListener<Address> {
 
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
   @BindView(R.id.loading_view) AVLoadingIndicatorView loadingView;
@@ -95,7 +96,8 @@ public class ViolationFacilityFragment extends BaseFragment
     presenter.onDestroyView();
   }
 
-  @DebugLog @Override public void onMenuSelected(@IdRes int id) {
-    presenter.onMenuSelected(id);
+  @DebugLog @Override public void onMenuSelected(@IdRes int id, Address address) {
+    presenter.onMenuSelected(id, address);
   }
+
 }

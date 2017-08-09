@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.violationfacility;
 
+import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
@@ -60,7 +61,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     violationFacilityInteractor.cancel();
   }
 
-  @Override public void onMenuSelected(@IdRes int id) {
+  @Override public void onMenuSelected(@IdRes int id, Address address) {
 
   }
 }

@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -144,6 +145,23 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public Activity getActivity() {
     return this;
+  }
+
+  @Override public void hideLoading() {
+
+  }
+
+  @Override public void showLoading() {
+
+  }
+
+  @Override public void postAddress(Address address) {
+    if (onViolationFacilityFragListener != null) {
+      onViolationFacilityFragListener.onAddress(address);
+    }
+    if (onViolatorFragListener != null) {
+      onViolationFacilityFragListener.onAddress(address);
+    }
   }
 
   @Override public void onBackPressed() {
