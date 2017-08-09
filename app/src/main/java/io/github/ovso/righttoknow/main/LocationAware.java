@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.common;
+package io.github.ovso.righttoknow.main;
 
 import android.app.Activity;
 import android.content.Context;

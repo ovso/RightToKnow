@@ -1,9 +1,8 @@
 package io.github.ovso.righttoknow.main;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.MenuRes;
-import android.view.Menu;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -18,7 +17,7 @@ public interface MainPresenter {
 
   void onAdapterPageChanged(int position);
 
-  void onCreateOptionsMenu(int currentItem, Menu menu);
+  void onOptionsItemSelected(int itemId);
 
   interface View {
     void setListener();
@@ -37,8 +36,6 @@ public interface MainPresenter {
 
     void setViewPagerCurrentItem(int position);
 
-    void setOptionsMenu(@MenuRes int menuRes, Menu menu);
-
-    void refreshOptionsMenu();
+    Activity getActivity();
   }
 }

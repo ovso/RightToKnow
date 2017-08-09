@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item
-      android:title="@string/sort">
-    <menu>
-      <item
-          android:id="@+id/menu_facility_turn"
-          android:title="@string/back_again"/>
-      <item
-          android:id="@+id/menu_facility_sido"
-          android:title="@string/sido"/>
-      <item
-          android:id="@+id/menu_facility_type"
-          android:title="@string/type"/>
-    </menu>
-  </item>
-  <item
-      android:id="@+id/menu_facility_my_location"
+      android:id="@+id/option_menu_my_location"
       android:title="@string/my_location">
   </item>
 </menu>

@@ -1,9 +1,9 @@
 package io.github.ovso.righttoknow.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.MenuRes;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -40,18 +40,20 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
-    presenter.onCreateOptionsMenu(viewPager.getCurrentItem(), menu);
+    getMenuInflater().inflate(R.menu.menu_main, menu);
     return true;
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
+    /*
     if (onViolationFacilityFragListener != null) {
       onViolationFacilityFragListener.onMenuSelected(item.getItemId());
     }
     if (onViolatorFragListener != null) {
       onViolatorFragListener.onMenuSelected(item.getItemId());
     }
-
+    */
+    presenter.onOptionsItemSelected(item.getItemId());
     return super.onOptionsItemSelected(item);
   }
 
@@ -140,12 +142,8 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     viewPager.setCurrentItem(position, true);
   }
 
-  @Override public void setOptionsMenu(@MenuRes int menuRes, Menu menu) {
-    getMenuInflater().inflate(menuRes, menu);
-  }
-
-  @Override public void refreshOptionsMenu() {
-    invalidateOptionsMenu();
+  @Override public Activity getActivity() {
+    return this;
   }
 
   @Override public void onBackPressed() {

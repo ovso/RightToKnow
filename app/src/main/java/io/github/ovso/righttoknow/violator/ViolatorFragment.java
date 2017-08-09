@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -88,10 +87,6 @@ public class ViolatorFragment extends BaseFragment
   }
 
   @BindView(R.id.container_view) View containerView;
-
-  @Override public void showSnackbar(String msg) {
-    Snackbar.make(containerView, msg, Snackbar.LENGTH_SHORT).show();
-  }
 
   @Override public void onDestroyView() {
     super.onDestroyView();

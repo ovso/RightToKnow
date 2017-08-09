@@ -35,7 +35,5 @@ public interface ViolatorFragmentPresenter {
     void navigateToViolatorDetail(String link);
 
     void setListener();
-
-    void showSnackbar(String msg);
   }
 }
