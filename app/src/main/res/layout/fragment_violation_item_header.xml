@@ -14,27 +14,54 @@
       android:gravity="center"
       android:orientation="horizontal"
       >
-    <TextView
+    <FrameLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="2"
-        android:gravity="center"
-        android:text="@string/turn"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textStyle="bold"
-        />
-    <TextView
+        >
+      <TextView
+          android:id="@+id/turn_textview"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_gravity="center"
+          android:text="@string/turn"
+          android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+          android:textStyle="bold"
+          android:gravity="center"
+          />
+      <ImageView
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_gravity="bottom|center_horizontal"
+          android:src="@drawable/ic_arrow_drop_down_black_24dp"
+          />
+    </FrameLayout>
+    <FrameLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="5"
         android:gravity="center"
-        android:text="@string/sido"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textStyle="bold"
-        />
+        >
+      <TextView
+          android:id="@+id/sido_textview"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:text="@string/sido"
+          android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+          android:textStyle="bold"
+          />
+      <ImageView
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_gravity="bottom|center_horizontal"
+          android:src="@drawable/ic_arrow_drop_down_black_24dp"
+          />
+    </FrameLayout>
     <TextView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="3"
         android:gravity="center"
         android:text="@string/sigungu"
@@ -50,19 +77,34 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="bold"
         />
-    <TextView
+    <FrameLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="3"
         android:gravity="center"
-        android:text="@string/type"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textStyle="bold"
-        />
+        >
+      <TextView
+          android:id="@+id/type_textview"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:text="@string/type"
+          android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+          android:textStyle="bold"
+          />
+      <ImageView
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_gravity="bottom|center_horizontal"
+          android:src="@drawable/ic_arrow_drop_down_black_24dp"
+          />
+    </FrameLayout>
+
   </LinearLayout>
   <View
       android:layout_width="match_parent"
-      android:layout_height="1dp"
+      android:layout_height="0.5dp"
       android:background="@color/colorPrimary"
       />
 </LinearLayout>

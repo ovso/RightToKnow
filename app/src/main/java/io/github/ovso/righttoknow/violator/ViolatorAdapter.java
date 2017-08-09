@@ -55,6 +55,9 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
       holder.violator = violator;
 
       holder.onRecyclerItemClickListener = onRecyclerItemClickListener;
+    } else if(baseHolder instanceof ViolatorHeaderViewHolder) {
+      ViolatorHeaderViewHolder holder = (ViolatorHeaderViewHolder) baseHolder;
+      holder.selfAdapter = this;
     }
   }
 
@@ -137,8 +140,35 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   }
 
   final static class ViolatorHeaderViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
+    @BindView(R.id.turn_textview) TextView turnTextview;
+    @BindView(R.id.sido_textview) TextView sidoTextView;
+    @BindView(R.id.history_textview) TextView historyTextView;
+    private ViolatorAdapter selfAdapter;
     public ViolatorHeaderViewHolder(View itemView) {
       super(itemView);
+    }
+
+    @OnClick({ R.id.turn_textview, R.id.sido_textview, R.id.history_textview }) void onSortClick(
+        View view) {
+      switch (view.getId()) {
+        case R.id.turn_textview:
+          selfAdapter.remove(0);
+          selfAdapter.sortTurn();
+          selfAdapter.add(0, new Violator());
+          break;
+        case R.id.sido_textview:
+          selfAdapter.remove(0);
+          selfAdapter.sortSido();
+          selfAdapter.add(0, new Violator());
+          break;
+        case R.id.history_textview:
+          selfAdapter.remove(0);
+          selfAdapter.sortHistory();
+          selfAdapter.add(0, new Violator());
+          break;
+      }
+      selfAdapter.refresh();
+
     }
   }
 

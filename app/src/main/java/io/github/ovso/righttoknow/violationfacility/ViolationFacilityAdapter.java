@@ -54,6 +54,9 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
       holder.violationFacility = violationFacility;
 
       holder.onRecyclerItemClickListener = onRecyclerItemClickListener;
+    } else if (baseHolder instanceof ViolationFacilityHeaderViewHolder) {
+      ViolationFacilityHeaderViewHolder holder = (ViolationFacilityHeaderViewHolder) baseHolder;
+      holder.selfAdapter = this;
     }
   }
 
@@ -138,8 +141,35 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
   }
 
   final static class ViolationFacilityHeaderViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
+    @BindView(R.id.turn_textview) TextView turnTextview;
+    @BindView(R.id.sido_textview) TextView sidoTextView;
+    @BindView(R.id.type_textview) TextView typeTextView;
+    private ViolationFacilityAdapter selfAdapter;
+
     public ViolationFacilityHeaderViewHolder(View itemView) {
       super(itemView);
+    }
+
+    @OnClick({ R.id.turn_textview, R.id.sido_textview, R.id.type_textview }) void onSortClick(
+        View view) {
+      switch (view.getId()) {
+        case R.id.turn_textview:
+          selfAdapter.remove(0);
+          selfAdapter.sortTurn();
+          selfAdapter.add(0, new ViolationFacility());
+          break;
+        case R.id.sido_textview:
+          selfAdapter.remove(0);
+          selfAdapter.sortSido();
+          selfAdapter.add(0, new ViolationFacility());
+          break;
+        case R.id.type_textview:
+          selfAdapter.remove(0);
+          selfAdapter.sortType();
+          selfAdapter.add(0, new ViolationFacility());
+          break;
+      }
+      selfAdapter.refresh();
     }
   }
 }
