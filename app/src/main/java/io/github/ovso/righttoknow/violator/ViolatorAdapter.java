@@ -6,6 +6,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
@@ -21,7 +22,7 @@ import lombok.Setter;
  */
 
 public class ViolatorAdapter extends BaseRecyclerAdapter
-    implements BaseAdapterView, ViolatorAdapterDataModel<Violator> {
+    implements BaseAdapterView, BaseAdapterDataModel<Violator> {
 
   private List<Violator> violators = new ArrayList<>();
 
@@ -103,18 +104,18 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
     }
   }
 
-  @Override public void sortTurn() {
+  private void sortTurn() {
     Comparator<Violator> comparator =
         (t1, t2) -> Integer.valueOf(t2.getTurn()).compareTo(Integer.valueOf(t1.getTurn()));
     Collections.sort(violators, comparator);
   }
 
-  @Override public void sortSido() {
+  private void sortSido() {
     Comparator<Violator> comparator = (t1, t2) -> t1.getSido().compareTo(t2.getSido());
     Collections.sort(violators, comparator);
   }
 
-  @Override public void sortHistory() {
+  private void sortHistory() {
     Comparator<Violator> comparator = (t1, t2) -> t2.getHistory().compareTo(t1.getHistory());
     Collections.sort(violators, comparator);
   }

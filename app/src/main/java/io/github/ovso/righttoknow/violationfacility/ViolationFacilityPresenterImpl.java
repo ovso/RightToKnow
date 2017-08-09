@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.violationfacility;
 
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public class ViolationFacilityPresenterImpl implements ViolationFacilityPresenter {
 
   private ViolationFacilityPresenter.View view;
-  private FacilityAdapterDataModel<ViolationFacility> adapterDataModel;
+  private BaseAdapterDataModel<ViolationFacility> adapterDataModel;
   private ViolationFacilityInteractor violationFacilityInteractor;
 
   ViolationFacilityPresenterImpl(ViolationFacilityPresenter.View view) {
@@ -47,7 +48,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     violationFacilityInteractor.req();
   }
 
-  @Override public void setAdapterModel(FacilityAdapterDataModel adapterDataModel) {
+  @Override public void setAdapterModel(BaseAdapterDataModel adapterDataModel) {
     this.adapterDataModel = adapterDataModel;
   }
 
