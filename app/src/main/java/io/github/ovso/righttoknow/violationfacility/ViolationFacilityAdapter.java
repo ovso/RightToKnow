@@ -1,11 +1,11 @@
 package io.github.ovso.righttoknow.violationfacility;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
@@ -123,8 +123,20 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     Collections.sort(violationFacilities, comparator);
   }
 
-  @DebugLog @Override public void searchMyLocation(String locality, String subLocality) {
-
+  @Override public void searchMyLocation(String locality, String subLocality) {
+    List<ViolationFacility> temps = new ArrayList<>();
+    for (ViolationFacility v : violationFacilities) {
+      if (v.getSido() != null && v.getSigungu() != null) {
+        if (v.getSido().indexOf(locality) != -1 && v.getSigungu().indexOf(subLocality) != -1) {
+          Log.d("OJH", v.getSido() + " " + v.getSigungu());
+          temps.add(v);
+        }
+      }
+    }
+    violationFacilities.clear();
+    violationFacilities.add(0, new ViolationFacility());
+    violationFacilities.addAll(temps);
+    notifyDataSetChanged();
   }
 
   final static class ViolationFacilityViewHolder extends BaseRecyclerAdapter.BaseViewHolder {

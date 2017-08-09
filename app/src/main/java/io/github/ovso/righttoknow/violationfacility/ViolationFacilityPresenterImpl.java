@@ -24,6 +24,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     violationFacilityInteractor.setOnViolationFacilityResultListener(onViolationResultListener);
   }
 
+  private List<ViolationFacility> violationFacilities;
   OnViolationResultListener<List<ViolationFacility>> onViolationResultListener =
       new OnViolationResultListener<List<ViolationFacility>>() {
         @Override public void onPre() {
@@ -34,6 +35,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
           adapterDataModel.clear();
           adapterDataModel.add(new ViolationFacility());
           adapterDataModel.addAll(violationFacilities);
+          ViolationFacilityPresenterImpl.this.violationFacilities = violationFacilities;
           view.refresh();
         }
 
@@ -62,7 +64,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   }
 
   @Override public void onMenuSelected(@IdRes int id, Address address) {
-    if(id == R.id.option_menu_my_location) {
+    if (id == R.id.option_menu_my_location) {
       adapterDataModel.searchMyLocation(address.getLocality(), address.getSubLocality());
     }
   }

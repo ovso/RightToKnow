@@ -154,7 +154,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
       onViolationFacilityFragListener.onMenuSelected(id, address);
     }
     if (onViolatorFragListener != null) {
-      onViolationFacilityFragListener.onMenuSelected(id, address);
+      onViolatorFragListener.onMenuSelected(id, address);
     }
   }
 
