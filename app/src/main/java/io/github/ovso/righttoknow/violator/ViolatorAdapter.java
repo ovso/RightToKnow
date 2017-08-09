@@ -6,7 +6,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
@@ -22,7 +21,7 @@ import lombok.Setter;
  */
 
 public class ViolatorAdapter extends BaseRecyclerAdapter
-    implements BaseAdapterView, BaseAdapterDataModel<Violator> {
+    implements BaseAdapterView, ViolatorAdapterDataModel<Violator> {
 
   private List<Violator> violators = new ArrayList<>();
 
@@ -175,5 +174,9 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
 
   @Override public void clear() {
     violators.clear();
+  }
+
+  @Override public void searchMyLocation(String locality, String subLocality) {
+
   }
 }

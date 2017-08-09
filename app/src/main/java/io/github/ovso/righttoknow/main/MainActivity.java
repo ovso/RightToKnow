@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.BindView;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
@@ -46,16 +47,9 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
-    /*
-    if (onViolationFacilityFragListener != null) {
-      onViolationFacilityFragListener.onMenuSelected(item.getItemId());
-    }
-    if (onViolatorFragListener != null) {
-      onViolatorFragListener.onMenuSelected(item.getItemId());
-    }
-    */
     presenter.onOptionsItemSelected(item.getItemId());
-    return super.onOptionsItemSelected(item);
+    return true;
+    //return super.onOptionsItemSelected(item);
   }
 
   @Override public int getLayoutResId() {
@@ -155,12 +149,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   }
 
-  @Override public void postAddress(Address address) {
+  @DebugLog @Override public void postAddress(int id, Address address) {
     if (onViolationFacilityFragListener != null) {
-      onViolationFacilityFragListener.onAddress(address);
+      onViolationFacilityFragListener.onMenuSelected(id, address);
     }
     if (onViolatorFragListener != null) {
-      onViolationFacilityFragListener.onAddress(address);
+      onViolationFacilityFragListener.onMenuSelected(id, address);
     }
   }
 

@@ -2,12 +2,14 @@ package io.github.ovso.righttoknow.vfacilitydetail.vo;
 
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Created by jaeho on 2017. 8. 2
  */
 
-@Data public class VFacilityDetail extends ViolationFacility {
+@Data @ToString @EqualsAndHashCode(callSuper = false) public class VFacilityDetail extends ViolationFacility {
   private String oldName;
   private String oldBoss;
   private String oldDirector;

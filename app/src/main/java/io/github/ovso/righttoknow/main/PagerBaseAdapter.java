@@ -47,7 +47,7 @@ public class PagerBaseAdapter extends FragmentPagerAdapter
   @Override public void clear() {
 
   }
-
+  
   @Override public int getCount() {
     return getSize();
   }

@@ -21,6 +21,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import java.io.IOException;
@@ -109,14 +110,14 @@ public class LocationAware
     }
   }
 
-  public void start() {
+  @DebugLog public void start() {
     buildGoogleApiClient();
     if (mGoogleApiClient.isConnected() && !mRequestingLocationUpdates) {
       startLocationUpdates();
     }
   }
 
-  public void stop() {
+  @DebugLog public void stop() {
     if (mGoogleApiClient != null) {
       stopLocationUpdates();
       if (mGoogleApiClient.isConnected()) {
@@ -126,7 +127,7 @@ public class LocationAware
     }
   }
 
-  private void startLocationUpdates() {
+  @DebugLog private void startLocationUpdates() {
     mRequestingLocationUpdates = true;
     LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest,
         this);

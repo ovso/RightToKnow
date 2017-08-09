@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.violationfacility;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
+import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 public class ViolationFacilityPresenterImpl implements ViolationFacilityPresenter {
 
   private ViolationFacilityPresenter.View view;
-  private BaseAdapterDataModel<ViolationFacility> adapterDataModel;
+  private FacilityAdapterDataModel<ViolationFacility> adapterDataModel;
   private ViolationFacilityInteractor violationFacilityInteractor;
 
   ViolationFacilityPresenterImpl(ViolationFacilityPresenter.View view) {
@@ -49,7 +49,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     violationFacilityInteractor.req();
   }
 
-  @Override public void setAdapterModel(BaseAdapterDataModel adapterDataModel) {
+  @Override public void setAdapterModel(FacilityAdapterDataModel adapterDataModel) {
     this.adapterDataModel = adapterDataModel;
   }
 
@@ -62,6 +62,8 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   }
 
   @Override public void onMenuSelected(@IdRes int id, Address address) {
-
+    if(id == R.id.option_menu_my_location) {
+      adapterDataModel.searchMyLocation(address.getLocality(), address.getSubLocality());
+    }
   }
 }

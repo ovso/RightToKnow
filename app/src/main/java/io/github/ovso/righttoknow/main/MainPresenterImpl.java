@@ -44,7 +44,7 @@ public class MainPresenterImpl implements MainPresenter {
 
         @Override public void onAddressChanged(Address address) {
           view.hideLoading();
-          view.postAddress(address);
+          view.postAddress(optionsItemId, address);
         }
 
         @Override public void onError(String error) {
@@ -80,8 +80,11 @@ public class MainPresenterImpl implements MainPresenter {
     view.setTitle(getTitle(position));
   }
 
+  private int optionsItemId;
+
   @Override public void onOptionsItemSelected(int itemId) {
     if (itemId == R.id.option_menu_my_location) {
+      optionsItemId = itemId;
       requestPermission();
     }
   }
@@ -90,7 +93,8 @@ public class MainPresenterImpl implements MainPresenter {
     new TedPermission(MyApplication.getInstance()).setPermissionListener(permissionlistener)
         .setDeniedMessage(
             "If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-        .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
+        .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION)
         .check();
   }
 
@@ -101,6 +105,7 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
     @Override public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+      //locationAware.stop();
     }
   };
 
