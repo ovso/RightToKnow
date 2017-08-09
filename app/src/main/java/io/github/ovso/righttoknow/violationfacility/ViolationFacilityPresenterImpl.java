@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.LocationAware;
@@ -38,11 +39,12 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
       Log.d("OJH", "latitude = " + latitude + ", longitude = " + longitude);
     });
     locationAware.setOnRequestCallbackListener(new LocationAware.OnRequestCallbackListener() {
-      @Override public void onSettingsChangeUnavailable() {
+      @DebugLog @Override public void onSettingsChangeUnavailable() {
         //locationAware.stop();
+
       }
 
-      @Override public void onLocationSettingsSuccess() {
+      @DebugLog @Override public void onLocationSettingsSuccess() {
         //locationAware.stop();
       }
     });

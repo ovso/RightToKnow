@@ -57,7 +57,7 @@ public class LocationAware
     mLocationRequest = new LocationRequest();
     mLocationRequest.setInterval(5000);
     mLocationRequest.setFastestInterval(5000);
-    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
     LocationSettingsRequest.Builder builder =
         new LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest);
