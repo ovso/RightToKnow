@@ -4,4 +4,8 @@
       android:id="@+id/option_menu_my_location"
       android:title="@string/my_location">
   </item>
+  <item
+      android:id="@+id/option_menu_back_again"
+      android:title="@string/back_again">
+  </item>
 </menu>

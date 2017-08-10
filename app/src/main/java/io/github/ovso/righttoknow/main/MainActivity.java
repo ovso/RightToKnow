@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   }
 
-  @DebugLog @Override public void postAddress(int id, Address address) {
+  @DebugLog @Override public void postFragments(int id, Address address) {
     if (onViolationFacilityFragListener != null) {
       onViolationFacilityFragListener.onMenuSelected(id, address);
     }

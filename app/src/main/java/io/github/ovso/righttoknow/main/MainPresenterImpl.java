@@ -44,7 +44,7 @@ public class MainPresenterImpl implements MainPresenter {
 
         @Override public void onAddressChanged(Address address) {
           view.hideLoading();
-          view.postAddress(optionsItemId, address);
+          view.postFragments(optionsItemId, address);
         }
 
         @Override public void onError(String error) {
@@ -83,9 +83,11 @@ public class MainPresenterImpl implements MainPresenter {
   private int optionsItemId;
 
   @Override public void onOptionsItemSelected(int itemId) {
+    optionsItemId = itemId;
     if (itemId == R.id.option_menu_my_location) {
-      optionsItemId = itemId;
       requestPermission();
+    } else if(itemId == R.id.option_menu_back_again) {
+      view.postFragments(itemId, null);
     }
   }
 

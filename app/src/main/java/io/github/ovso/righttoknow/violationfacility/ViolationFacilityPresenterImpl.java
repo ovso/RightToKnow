@@ -66,6 +66,12 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   @Override public void onMenuSelected(@IdRes int id, Address address) {
     if (id == R.id.option_menu_my_location) {
       adapterDataModel.searchMyLocation(address.getLocality(), address.getSubLocality());
+      view.refresh();
+    } else if (id == R.id.option_menu_back_again) {
+      adapterDataModel.clear();
+      adapterDataModel.add(new ViolationFacility());
+      adapterDataModel.addAll(violationFacilities);
+      view.refresh();
     }
   }
 }

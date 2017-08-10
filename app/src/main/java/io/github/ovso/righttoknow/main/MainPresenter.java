@@ -44,6 +44,6 @@ public interface MainPresenter {
 
     void showLoading();
 
-    void postAddress(@IdRes int id,  Address address);
+    void postFragments(@IdRes int id,  Address address);
   }
 }

@@ -136,7 +136,6 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     violationFacilities.clear();
     violationFacilities.add(0, new ViolationFacility());
     violationFacilities.addAll(temps);
-    notifyDataSetChanged();
   }
 
   final static class ViolationFacilityViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
