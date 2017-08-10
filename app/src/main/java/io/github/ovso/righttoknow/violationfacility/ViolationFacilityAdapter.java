@@ -1,7 +1,6 @@
 package io.github.ovso.righttoknow.violationfacility;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -128,7 +127,6 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     for (ViolationFacility v : violationFacilities) {
       if (v.getSido() != null && v.getSigungu() != null) {
         if (v.getSido().indexOf(locality) != -1 && v.getSigungu().indexOf(subLocality) != -1) {
-          Log.d("OJH", v.getSido() + " " + v.getSigungu());
           temps.add(v);
         }
       }

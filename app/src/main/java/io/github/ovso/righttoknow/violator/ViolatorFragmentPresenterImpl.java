@@ -3,8 +3,10 @@ package io.github.ovso.righttoknow.violator;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violator.vo.Violator;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +18,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   private ViolatorInteractor violatorInteractor;
   private ViolatorAdapterDataModel adapterDataModel;
 
+  private List<Violator> violators = new ArrayList<>();
   ViolatorFragmentPresenterImpl(ViolatorFragmentPresenter.View view) {
     this.view = view;
     violatorInteractor = new ViolatorInteractor();
@@ -25,10 +28,11 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
             view.showLoading();
           }
 
-          @Override public void onResult(List<Violator> results) {
+          @Override public void onResult(List<Violator> violators) {
             adapterDataModel.add(new Violator());
-            adapterDataModel.addAll(results);
+            adapterDataModel.addAll(violators);
             view.refresh();
+            ViolatorFragmentPresenterImpl.this.violators = violators;
           }
 
           @Override public void onPost() {
@@ -57,6 +61,15 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   @Override public void onMenuSelected(@IdRes int id, Address address) {
+    if (id == R.id.option_menu_my_location) {
+      adapterDataModel.searchMyLocation(address.getLocality(), address.getSubLocality());
+      view.refresh();
+    } else if (id == R.id.option_menu_back_again) {
+      adapterDataModel.clear();
+      adapterDataModel.add(new Violator());
+      adapterDataModel.addAll(violators);
+      view.refresh();
+    }
 
   }
 }
