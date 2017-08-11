@@ -1,110 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?android:attr/windowTitleSize"
+    android:layout_marginBottom="2.5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="2.5dp"
     android:background="?android:attr/selectableItemBackground"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
+    app:cardBackgroundColor="@color/colorPrimaryDark"
+    app:cardCornerRadius="5dp"
     >
   <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="?android:attr/windowTitleSize"
-      android:gravity="center"
-      android:orientation="horizontal"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical"
+      android:orientation="vertical"
       >
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/windowTitleSize"
+        android:gravity="center"
+        android:orientation="horizontal"
         >
-      <TextView
-          android:id="@+id/turn_textview"
-          android:layout_width="match_parent"
+      <FrameLayout
+          android:layout_width="0dp"
           android:layout_height="match_parent"
-          android:layout_gravity="center"
-          android:text="@string/turn"
-          android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-          android:textStyle="bold"
-          android:gravity="center"
-          />
-      <ImageView
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_gravity="bottom|center_horizontal"
-          android:src="@drawable/ic_arrow_drop_down_black_24dp"
-          />
-    </FrameLayout>
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:gravity="center"
-        >
-      <TextView
-          android:id="@+id/sido_textview"
-          android:layout_width="match_parent"
+          android:layout_weight="2"
+          >
+        <TextView
+            android:id="@+id/turn_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/turn"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"
+            />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:src="@drawable/ic_arrow_drop_down_black_24dp"
+            />
+      </FrameLayout>
+      <FrameLayout
+          android:layout_width="0dp"
           android:layout_height="match_parent"
-          android:layout_gravity="center"
+          android:layout_weight="5"
           android:gravity="center"
-          android:text="@string/sido"
-          android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-          android:textStyle="bold"
-          />
-      <ImageView
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_gravity="bottom|center_horizontal"
-          android:src="@drawable/ic_arrow_drop_down_black_24dp"
-          />
-    </FrameLayout>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:gravity="center"
-        android:text="@string/sigungu"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textStyle="bold"
-        />
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="8"
-        android:gravity="center"
-        android:text="@string/daycare_center_name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textStyle="bold"
-        />
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:gravity="center"
-        >
+          >
+        <TextView
+            android:id="@+id/sido_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/sido"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"
+            />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:src="@drawable/ic_arrow_drop_down_black_24dp"
+            />
+      </FrameLayout>
       <TextView
-          android:id="@+id/type_textview"
-          android:layout_width="match_parent"
+          android:layout_width="0dp"
           android:layout_height="match_parent"
-          android:layout_gravity="center"
+          android:layout_weight="3"
           android:gravity="center"
-          android:text="@string/type"
+          android:text="@string/sigungu"
           android:textAppearance="@style/TextAppearance.AppCompat.Body1"
           android:textStyle="bold"
           />
-      <ImageView
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_gravity="bottom|center_horizontal"
-          android:src="@drawable/ic_arrow_drop_down_black_24dp"
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="8"
+          android:gravity="center"
+          android:text="@string/daycare_center_name"
+          android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+          android:textStyle="bold"
           />
-    </FrameLayout>
+      <FrameLayout
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="3"
+          android:gravity="center"
+          >
+        <TextView
+            android:id="@+id/type_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/type"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"
+            />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:src="@drawable/ic_arrow_drop_down_black_24dp"
+            />
+      </FrameLayout>
 
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorPrimary"
+        />
   </LinearLayout>
-  <View
-      android:layout_width="match_parent"
-      android:layout_height="0.5dp"
-      android:background="@color/colorPrimary"
-      />
-</LinearLayout>
+</android.support.v7.widget.CardView>

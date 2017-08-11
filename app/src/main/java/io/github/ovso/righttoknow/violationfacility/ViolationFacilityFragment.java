@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
 import com.wang.avi.AVLoadingIndicatorView;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
@@ -96,7 +95,7 @@ public class ViolationFacilityFragment extends BaseFragment
     presenter.onDestroyView();
   }
 
-  @DebugLog @Override public void onMenuSelected(@IdRes int id, Address address) {
+  @Override public void onMenuSelected(@IdRes int id, Address address) {
     presenter.onMenuSelected(id, address);
   }
 

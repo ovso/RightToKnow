@@ -10,7 +10,7 @@
       android:id="@+id/recyclerview"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="@color/colorLight"
+      android:layout_marginTop="5dp"
       />
   <com.wang.avi.AVLoadingIndicatorView
       android:id="@+id/loading_view"
