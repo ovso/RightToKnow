@@ -5,11 +5,11 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
-import com.wang.avi.AVLoadingIndicatorView;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
@@ -26,7 +26,7 @@ import io.github.ovso.righttoknow.violator.vo.Violator;
 public class ViolatorFragment extends BaseFragment
     implements ViolatorFragmentPresenter.View, OnFragmentEventListener<Address> {
   private ViolatorFragmentPresenter presenter;
-  @BindView(R.id.loading_view) AVLoadingIndicatorView loadingView;
+  @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
 
   public static ViolatorFragment newInstance(Bundle args) {
     ViolatorFragment f = new ViolatorFragment();
@@ -45,11 +45,11 @@ public class ViolatorFragment extends BaseFragment
   }
 
   @Override public void hideLoading() {
-    loadingView.hide();
+    swipeRefresh.setRefreshing(false);
   }
 
   @Override public void showLoading() {
-    loadingView.show();
+    swipeRefresh.setRefreshing(true);
   }
 
   @Override public void refresh() {
@@ -85,6 +85,10 @@ public class ViolatorFragment extends BaseFragment
   }
 
   @Override public void setListener() {
+    swipeRefresh.setOnRefreshListener(() -> {
+      presenter.onRefresh();
+    });
+    swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }
 
   @BindView(R.id.container_view) View containerView;
@@ -94,7 +98,7 @@ public class ViolatorFragment extends BaseFragment
     presenter.onDestroyView();
   }
 
-  @DebugLog @Override public void onMenuSelected(@IdRes int id,Address address ) {
+  @DebugLog @Override public void onMenuSelected(@IdRes int id, Address address) {
     presenter.onMenuSelected(id, address);
   }
 }

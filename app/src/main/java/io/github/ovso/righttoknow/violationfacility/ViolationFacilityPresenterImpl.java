@@ -74,4 +74,10 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
       view.refresh();
     }
   }
+
+  @Override public void onRefresh() {
+    adapterDataModel.clear();
+    view.refresh();
+    violationFacilityInteractor.req();
+  }
 }

@@ -21,6 +21,8 @@ public interface ViolationFacilityPresenter {
 
   void onMenuSelected(@IdRes int id, Address address);
 
+  void onRefresh();
+
   interface View {
 
     void setRecyclerView();
@@ -36,5 +38,6 @@ public interface ViolationFacilityPresenter {
     void navigateToViolationFacilityDetail(String link);
 
     void setListener();
+
   }
 }

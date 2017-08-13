@@ -21,6 +21,8 @@ public interface ViolatorFragmentPresenter {
 
   void onMenuSelected(@IdRes int id, Address address);
 
+  void onRefresh();
+
   interface View {
 
     void hideLoading();
