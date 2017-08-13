@@ -1,8 +1,7 @@
 package io.github.ovso.righttoknow.violator;
 
-import android.location.Address;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 
 /**
@@ -19,9 +18,9 @@ public interface ViolatorFragmentPresenter {
 
   void onDestroyView();
 
-  void onMenuSelected(@IdRes int id, Address address);
-
   void onRefresh();
+
+  void onNearbyClick();
 
   interface View {
 
@@ -38,5 +37,7 @@ public interface ViolatorFragmentPresenter {
     void navigateToViolatorDetail(String link);
 
     void setListener();
+
+    Context getActivity();
   }
 }

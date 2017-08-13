@@ -3,7 +3,6 @@ package io.github.ovso.righttoknow.violationfacility;
 import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -97,7 +96,7 @@ public class ViolationFacilityFragment extends BaseFragment
     presenter.onDestroyView();
   }
 
-  @Override public void onMenuSelected(@IdRes int id, Address address) {
-    presenter.onMenuSelected(id, address);
+  @Override public void onNearbyClick() {
+    presenter.onNearbyClick();
   }
 }

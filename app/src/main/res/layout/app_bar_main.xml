@@ -26,14 +26,7 @@
   </android.support.design.widget.AppBarLayout>
 
   <!--<include layout="@layout/content_main"/>-->
-  <ProgressBar
-      android:id="@+id/progress_bar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:indeterminate="true"
-      app:layout_behavior="@string/appbar_scrolling_view_behavior"
-      style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-      android:visibility="gone"/>
+
   <android.support.v4.view.ViewPager
       android:id="@+id/viewpager"
       android:layout_width="match_parent"

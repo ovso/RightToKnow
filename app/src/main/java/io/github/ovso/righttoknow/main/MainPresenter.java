@@ -1,10 +1,8 @@
 package io.github.ovso.righttoknow.main;
 
 import android.app.Activity;
-import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -44,6 +42,6 @@ public interface MainPresenter {
 
     void showLoading();
 
-    void postFragments(@IdRes int id,  Address address);
+    void onNearbyClick();
   }
 }

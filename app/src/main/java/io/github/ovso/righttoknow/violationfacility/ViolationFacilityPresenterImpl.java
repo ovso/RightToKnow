@@ -2,9 +2,8 @@ package io.github.ovso.righttoknow.violationfacility;
 
 import android.location.Address;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
+import io.github.ovso.righttoknow.main.LocationAware;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.List;
 
@@ -17,14 +16,34 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   private ViolationFacilityPresenter.View view;
   private FacilityAdapterDataModel<ViolationFacility> adapterDataModel;
   private ViolationFacilityInteractor violationFacilityInteractor;
+  private LocationAware locationAware;
 
   ViolationFacilityPresenterImpl(ViolationFacilityPresenter.View view) {
     this.view = view;
     violationFacilityInteractor = new ViolationFacilityInteractor();
     violationFacilityInteractor.setOnViolationFacilityResultListener(onViolationResultListener);
+
+    locationAware = new LocationAware(view.getActivity());
+    locationAware.setLocationListener(onLocationListener);
   }
 
-  private List<ViolationFacility> violationFacilities;
+  private LocationAware.OnLocationListener onLocationListener =
+      new LocationAware.OnLocationListener() {
+        @Override public void onLocationChanged(double latitude, double longitude, String date) {
+          //view.hideLoading();
+        }
+
+        @Override public void onAddressChanged(Address address) {
+          adapterDataModel.searchMyLocation(address.getLocality(), address.getSubLocality());
+          view.refresh();
+          view.hideLoading();
+        }
+
+        @Override public void onError(String error) {
+          view.hideLoading();
+        }
+      };
+
   OnViolationResultListener<List<ViolationFacility>> onViolationResultListener =
       new OnViolationResultListener<List<ViolationFacility>>() {
         @Override public void onPre() {
@@ -35,7 +54,6 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
           adapterDataModel.clear();
           adapterDataModel.add(new ViolationFacility());
           adapterDataModel.addAll(violationFacilities);
-          ViolationFacilityPresenterImpl.this.violationFacilities = violationFacilities;
           view.refresh();
         }
 
@@ -63,21 +81,14 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     violationFacilityInteractor.cancel();
   }
 
-  @Override public void onMenuSelected(@IdRes int id, Address address) {
-    if (id == R.id.option_menu_my_location) {
-      adapterDataModel.searchMyLocation(address.getLocality(), address.getSubLocality());
-      view.refresh();
-    } else if (id == R.id.option_menu_back_again) {
-      adapterDataModel.clear();
-      adapterDataModel.add(new ViolationFacility());
-      adapterDataModel.addAll(violationFacilities);
-      view.refresh();
-    }
-  }
-
   @Override public void onRefresh() {
     adapterDataModel.clear();
     view.refresh();
     violationFacilityInteractor.req();
+  }
+
+  @Override public void onNearbyClick() {
+    view.showLoading();
+    locationAware.start();
   }
 }
