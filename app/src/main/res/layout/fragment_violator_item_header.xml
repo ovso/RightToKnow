@@ -8,7 +8,7 @@
     android:layout_marginBottom="2.5dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:layout_marginTop="2.5dp"
+    android:layout_marginTop="5dp"
     android:background="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/colorPrimaryDark"
     app:cardCornerRadius="5dp"

@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import io.github.ovso.righttoknow.R;
@@ -103,7 +104,7 @@ public class MainPresenterImpl implements MainPresenter {
   private PermissionListener permissionlistener = new PermissionListener() {
     @Override public void onPermissionGranted() {
       view.showLoading();
-      locationAware.start();
+      new Handler().postDelayed(() -> locationAware.start(), 2000);
     }
 
     @Override public void onPermissionDenied(ArrayList<String> deniedPermissions) {

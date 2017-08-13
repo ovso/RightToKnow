@@ -15,6 +15,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import butterknife.BindView;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
@@ -34,6 +36,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.nav_view) NavigationView navigationView;
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
   @BindView(R.id.viewpager) ViewPager viewPager;
+  @BindView(R.id.progress_bar) ProgressBar progressBar;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -142,11 +145,11 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public void hideLoading() {
-
+    progressBar.setVisibility(View.GONE);
   }
 
   @Override public void showLoading() {
-
+    progressBar.setVisibility(View.VISIBLE);
   }
 
   @DebugLog @Override public void postFragments(int id, Address address) {
