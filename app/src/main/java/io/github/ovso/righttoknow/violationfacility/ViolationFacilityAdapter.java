@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
@@ -122,11 +123,12 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     Collections.sort(violationFacilities, comparator);
   }
 
-  @Override public void searchMyLocation(String locality, String subLocality) {
+  @DebugLog @Override public void searchMyLocation(String locality, String subLocality) {
     List<ViolationFacility> temps = new ArrayList<>();
     for (ViolationFacility v : violationFacilities) {
-      if (v.getSido() != null && v.getSigungu() != null) {
-        if (v.getSido().indexOf(locality) != -1 && v.getSigungu().indexOf(subLocality) != -1) {
+      String sigungu = v.getSigungu();
+      if (!TextUtils.isEmpty(sigungu)) {
+        if (sigungu.indexOf(locality) != -1) {
           temps.add(v);
         }
       }

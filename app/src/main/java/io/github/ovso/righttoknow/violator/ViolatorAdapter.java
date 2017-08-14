@@ -55,7 +55,7 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
       holder.violator = violator;
 
       holder.onRecyclerItemClickListener = onRecyclerItemClickListener;
-    } else if(baseHolder instanceof ViolatorHeaderViewHolder) {
+    } else if (baseHolder instanceof ViolatorHeaderViewHolder) {
       ViolatorHeaderViewHolder holder = (ViolatorHeaderViewHolder) baseHolder;
       holder.selfAdapter = this;
     }
@@ -144,6 +144,7 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
     @BindView(R.id.sido_textview) TextView sidoTextView;
     @BindView(R.id.history_textview) TextView historyTextView;
     private ViolatorAdapter selfAdapter;
+
     public ViolatorHeaderViewHolder(View itemView) {
       super(itemView);
     }
@@ -168,7 +169,6 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
           break;
       }
       selfAdapter.refresh();
-
     }
   }
 
@@ -179,8 +179,9 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   @Override public void searchMyLocation(String locality, String subLocality) {
     List<Violator> temps = new ArrayList<>();
     for (Violator v : violators) {
-      if (v.getSido() != null && v.getSigungu() != null) {
-        if (v.getSido().indexOf(locality) != -1 && v.getSigungu().indexOf(subLocality) != -1) {
+      String sigungu = v.getSigungu();
+      if (!TextUtils.isEmpty(sigungu)) {
+        if (sigungu.indexOf(locality) != -1) {
           temps.add(v);
         }
       }
