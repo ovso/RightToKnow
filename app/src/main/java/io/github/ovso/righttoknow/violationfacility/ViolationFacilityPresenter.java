@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.violationfacility;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 
 /**
@@ -39,5 +40,7 @@ public interface ViolationFacilityPresenter {
     void setListener();
 
     Context getActivity();
+
+    void setSearchResultText(@StringRes int resId);
   }
 }

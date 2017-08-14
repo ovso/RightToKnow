@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
@@ -87,6 +88,12 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void setListener() {
     swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+  }
+
+  @BindView(R.id.search_result_textview) TextView searchResultTextView;
+
+  @Override public void setSearchResultText(int resId) {
+    searchResultTextView.setText(resId);
   }
 
   @BindView(R.id.container_view) View containerView;

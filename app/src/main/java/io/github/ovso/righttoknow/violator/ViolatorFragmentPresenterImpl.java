@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.violator;
 
 import android.location.Address;
 import android.os.Bundle;
+import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.main.LocationAware;
 import io.github.ovso.righttoknow.violator.vo.Violator;
@@ -34,7 +35,15 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
         @Override public void onAddressChanged(Address address) {
           adapterDataModel.searchMyLocation(address.getLocality(), address.getSubLocality());
+          //adapterDataModel.searchMyLocation("구구구", address.getSubLocality());
           view.refresh();
+          int itemSize = adapterDataModel.getSize();
+          if(itemSize < 2) {
+            view.setSearchResultText(R.string.no_result);
+          } else {
+            view.setSearchResultText(R.string.empty);
+          }
+
           view.hideLoading();
         }
 
@@ -83,6 +92,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   @Override public void onRefresh() {
     adapterDataModel.clear();
     view.refresh();
+    view.setSearchResultText(R.string.empty);
     violatorInteractor.req();
   }
 

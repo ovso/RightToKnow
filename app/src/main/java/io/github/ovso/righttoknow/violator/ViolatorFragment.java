@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 import butterknife.BindView;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
@@ -88,6 +90,12 @@ public class ViolatorFragment extends BaseFragment
       presenter.onRefresh();
     });
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+  }
+
+  @BindView(R.id.search_result_textview) TextView searchResultTextView;
+
+  @Override public void setSearchResultText(@StringRes int resId) {
+    searchResultTextView.setText(resId);
   }
 
   @BindView(R.id.container_view) View containerView;
