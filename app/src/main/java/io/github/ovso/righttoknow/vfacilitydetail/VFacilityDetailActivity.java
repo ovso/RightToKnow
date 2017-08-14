@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.main.BaseActivity;
 
@@ -34,12 +36,12 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     return R.layout.activity_vfacilitydetail;
   }
 
-  @Override public void hideLoading() {
-    progressbar.setVisibility(View.INVISIBLE);
+  @DebugLog @Override public void hideLoading() {
+    new Handler().postDelayed(() -> progressbar.setVisibility(View.INVISIBLE), 500);
   }
 
-  @Override public void showLoading() {
-    progressbar.setVisibility(View.VISIBLE);
+  @DebugLog @Override public void showLoading() {
+    //progressbar.setVisibility(View.VISIBLE);
   }
 
   @Override public void setSupportActionBar() {
