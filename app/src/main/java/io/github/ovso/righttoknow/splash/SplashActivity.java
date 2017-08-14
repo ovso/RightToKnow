@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.common.NetworkCheck;
+import io.github.ovso.righttoknow.common.Utility;
 import io.github.ovso.righttoknow.main.BaseActivity;
 import io.github.ovso.righttoknow.main.MainActivity;
 
@@ -24,12 +24,13 @@ public class SplashActivity extends BaseActivity {
   private Handler handler = new Handler();
   private Runnable runnable = () -> {
     progressBar.setVisibility(View.INVISIBLE);
-    if (NetworkCheck.isOnline(getApplicationContext())) {
+    if (Utility.isOnline(getApplicationContext())) {
       navigateToMain();
     } else {
       new AlertDialog.Builder(this).setMessage(R.string.not_connected_internet)
           .setCancelable(false)
-          .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> finish()).show();
+          .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> finish())
+          .show();
     }
   };
 
@@ -46,6 +47,9 @@ public class SplashActivity extends BaseActivity {
     progressBar.getIndeterminateDrawable()
         .setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary),
             android.graphics.PorterDuff.Mode.MULTIPLY);
+
+    Utility.setStatusBarColor(this,
+        ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
   }
 
   @Override protected int getLayoutResId() {
