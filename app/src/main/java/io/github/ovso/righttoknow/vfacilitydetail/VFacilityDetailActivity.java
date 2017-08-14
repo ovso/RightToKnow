@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
-import com.wang.avi.AVLoadingIndicatorView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.main.BaseActivity;
 
@@ -21,7 +22,8 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
   VFacilityDetailPresenter presenter;
   @BindView(R.id.contents_textview) TextView contentsTextView;
-  @BindView(R.id.loading_view) AVLoadingIndicatorView loadingView;
+  @BindView(R.id.progressbar) ProgressBar progressbar;
+
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     presenter = new VFacilityDetailPresenterImpl(this);
@@ -33,11 +35,11 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public void hideLoading() {
-    loadingView.hide();
+    progressbar.setVisibility(View.INVISIBLE);
   }
 
   @Override public void showLoading() {
-    loadingView.show();
+    progressbar.setVisibility(View.VISIBLE);
   }
 
   @Override public void setSupportActionBar() {
@@ -49,6 +51,9 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public void setListener() {
+    progressbar.getIndeterminateDrawable()
+        .setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary),
+            android.graphics.PorterDuff.Mode.MULTIPLY);
   }
 
   @BindView(R.id.content_view) View contentView;
@@ -72,7 +77,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     intent.setType("text/plain");
     intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_message));
     intent.putExtra(Intent.EXTRA_TEXT, contentsTextView.getText().toString());
-
     Intent chooser = Intent.createChooser(intent, getString(R.string.share_message));
     startActivity(chooser);
   }
