@@ -45,4 +45,5 @@
   <string name="not_connected_internet">인터넷에 연결되지 않았습니다.</string>
   <string name="no_result">내 근처 위반 검색 결과가 없습니다.</string>
   <string name="empty"/>
+  <string name="photo_credit_by">Photo credit by Edukame.com</string>
 </resources>
