@@ -36,9 +36,10 @@
   <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="@string/photo_credit_by"
       android:gravity="right"
+      android:text="@string/photo_credit_by"
+      android:textColor="@color/colorPrimaryDark"
       android:textSize="12sp"
       android:textStyle="italic"
-      android:textColor="@color/colorPrimaryDark"/>
+      />
 </LinearLayout>

@@ -20,7 +20,6 @@ import io.github.ovso.righttoknow.main.MainActivity;
 
 public class SplashActivity extends BaseActivity {
   @BindView(R.id.progressbar) ProgressBar progressBar;
-
   private Handler handler = new Handler();
   private Runnable runnable = () -> {
     progressBar.setVisibility(View.INVISIBLE);
