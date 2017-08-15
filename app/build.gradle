@@ -2,26 +2,63 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'hugo'
 
+// keystorePropertiesFile 변수를 만들고 프로젝트 폴더의 keystore.properties 파일로 초기화 한다.
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+// keystoreProperties 변수를 만들고 Properties() 객체를 초기화 한다.
+def keystoreProperties = new Properties()
+// keystore.properties 파일을 keystoreProperties 객체에 로드한다.
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+
 android {
   compileSdkVersion 26
   buildToolsVersion "26.0.0"
+
+  def versionMajor = 0
+  def versionMinor = 0
+  def versionCodeNumber = 1
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 16
     targetSdkVersion 26
-    versionCode 1
-    versionName "1.0"
+    versionCode versionCodeNumber
+    versionName "${versionMajor}.${versionMinor}.${versionCodeNumber}"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
+
+  signingConfigs {
+    release {
+      keyAlias keystoreProperties['keyAlias']
+      storePassword keystoreProperties['storePassword']
+      keyPassword keystoreProperties['keyPassword']
+      storeFile file(keystoreProperties['storeFile'])
+    }
+    debug {}
+  }
+
   buildTypes {
     release {
       minifyEnabled false
       proguardFile getDefaultProguardFile('proguard-android.txt')
       proguardFile 'proguard-rules.pro'
       proguardFile 'proguard-tedpermission.pro'
-
+      signingConfig signingConfigs.release
+      applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+          def formattedDate = new Date().format('yyyyMMdd_HHmmss')
+          def apkName = "RightToKnow_" + variant.versionName +
+              "_" +
+              variant.versionCode +
+              "_" +
+              formattedDate +
+              "_release.apk"
+          output.outputFile = new File(output.outputFile.parent, apkName)
+        }
+      }
     }
+    debug {}
   }
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
