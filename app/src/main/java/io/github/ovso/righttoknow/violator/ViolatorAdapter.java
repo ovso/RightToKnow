@@ -177,11 +177,20 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   }
 
   @Override public void searchMyLocation(String locality, String subLocality) {
+    String nowLocality;
+    if (!TextUtils.isEmpty(locality) && !TextUtils.isEmpty(subLocality)) {
+      nowLocality = subLocality;
+    } else if (!TextUtils.isEmpty(locality) && TextUtils.isEmpty(subLocality)) {
+      nowLocality = locality;
+    } else {
+      nowLocality = subLocality;
+    }
+
     List<Violator> temps = new ArrayList<>();
     for (Violator v : violators) {
       String sigungu = v.getSigungu();
       if (!TextUtils.isEmpty(sigungu)) {
-        if (sigungu.indexOf(locality) != -1) {
+        if (sigungu.indexOf(nowLocality) != -1) {
           temps.add(v);
         }
       }

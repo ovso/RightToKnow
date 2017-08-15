@@ -13,7 +13,6 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
   compileSdkVersion 26
   buildToolsVersion "26.0.0"
-
   def versionMajor = 0
   def versionMinor = 0
   def versionCodeNumber = 1
