@@ -14,6 +14,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
@@ -32,6 +34,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.nav_view) NavigationView navigationView;
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
   @BindView(R.id.viewpager) ViewPager viewPager;
+  //private TextView versionNameTextView;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -153,6 +156,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     if (onViolatorFragListener != null) {
       onViolatorFragListener.onNearbyClick();
     }
+  }
+
+  @Override public void setVersionName(String versionName) {
+    View view = navigationView.getHeaderView(0);
+    TextView versionNameView = view.findViewById(R.id.version_name_textview);
+    versionNameView.setText(versionName);
   }
 
   @Override public void onBackPressed() {

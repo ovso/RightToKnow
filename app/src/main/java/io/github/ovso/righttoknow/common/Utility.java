@@ -2,6 +2,8 @@ package io.github.ovso.righttoknow.common;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -32,5 +34,18 @@ public class Utility {
 
   public static String getEmojiByUnicode(int unicode){
     return new String(Character.toChars(unicode));
+  }
+
+
+  public static String getVersionName(Context context) {
+    String versionName = "";
+    try {
+      PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+      versionName = info.versionName;
+    } catch (PackageManager.NameNotFoundException e) {
+      e.printStackTrace();
+    }
+
+    return versionName;
   }
 }

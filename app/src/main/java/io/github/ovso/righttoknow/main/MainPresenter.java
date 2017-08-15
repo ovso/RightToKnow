@@ -43,5 +43,7 @@ public interface MainPresenter {
     void showLoading();
 
     void onNearbyClick();
+
+    void setVersionName(String versionName);
   }
 }

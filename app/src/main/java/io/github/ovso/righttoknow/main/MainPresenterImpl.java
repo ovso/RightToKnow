@@ -9,6 +9,7 @@ import com.gun0912.tedpermission.TedPermission;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.common.Utility;
 import java.util.ArrayList;
 
 /**
@@ -25,6 +26,9 @@ public class MainPresenterImpl implements MainPresenter {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     view.setTitle(getTitle(Constants.ITEM_VIOLATION_FACILITY));
+    view.setVersionName(
+        MyApplication.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
+            MyApplication.getInstance()));
     view.setListener();
     view.setViewPager();
     view.setBottomNavigationViewBehavior();
