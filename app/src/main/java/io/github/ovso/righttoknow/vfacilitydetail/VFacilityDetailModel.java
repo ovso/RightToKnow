@@ -31,10 +31,10 @@ class VFacilityDetailModel {
   }
 
   public String getContents(Serializable serializable) {
-    if (serializable instanceof ViolationFacility) {
-      return getFacContents((ViolationFacility) serializable);
-    } else if (serializable instanceof Violator) {
+    if (serializable instanceof Violator) { // Violator ex
       return getViolatorContents((Violator) serializable);
+    } else if (serializable instanceof ViolationFacility) {
+      return getFacContents((ViolationFacility) serializable);
     } else {
       return "";
     }

@@ -35,7 +35,7 @@ public interface ViolatorFragmentPresenter {
 
     void setRecyclerView();
 
-    void navigateToViolatorDetail(String link);
+    void navigateToViolatorDetail(Violator violator);
 
     void setListener();
 

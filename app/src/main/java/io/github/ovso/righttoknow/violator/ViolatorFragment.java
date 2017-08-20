@@ -78,10 +78,9 @@ public class ViolatorFragment extends BaseFragment
     recyclerView.setAdapter(violatorAdapter);
   }
 
-  @DebugLog @Override public void navigateToViolatorDetail(String link) {
+  @DebugLog @Override public void navigateToViolatorDetail(Violator violator) {
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
-    intent.putExtra("link", link);
-    intent.putExtra("from", R.layout.fragment_violator);
+    intent.putExtra("contents", violator);
     startActivity(intent);
   }
 

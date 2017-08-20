@@ -86,7 +86,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   @Override public void onRecyclerItemClick(Violator violator) {
-    view.navigateToViolatorDetail(null);
+    view.navigateToViolatorDetail(violator);
   }
 
   @Override public void onDestroyView() {
