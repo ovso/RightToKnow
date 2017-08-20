@@ -45,10 +45,10 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     if (baseHolder instanceof ViolationFacilityViewHolder) {
       ViolationFacilityViewHolder holder = (ViolationFacilityViewHolder) baseHolder;
       ViolationFacility violationFacility = violationFacilities.get(position);
-      holder.turnTextview.setText(violationFacility.getTurn());
+      holder.turnTextview.setText(String.valueOf(violationFacility.getReg_number()));
       holder.sidoTextView.setText(violationFacility.getSido());
       holder.sigunguTextView.setText(violationFacility.getSigungu());
-      holder.nameTextView.setText(violationFacility.getName());
+      holder.nameTextView.setText(violationFacility.getNow_fac_name());
       holder.typeTextView.setText(violationFacility.getType());
 
       holder.violationFacility = violationFacility;
@@ -99,16 +99,17 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
   @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
 
   @Override public int getItemViewType(int position) {
-    if (TextUtils.isEmpty(violationFacilities.get(position).getTurn())) {
-      return ITEM_VIEW_TYPE_HEADER;
-    } else {
+    int regNumber = violationFacilities.get(position).getReg_number();
+    if (regNumber > 0) {
       return ITEM_VIEW_TYPE_DEFAULT;
+    } else {
+      return ITEM_VIEW_TYPE_HEADER;
     }
   }
 
-  private void sortTurn() {
-    Comparator<ViolationFacility> comparator =
-        (t1, t2) -> Integer.valueOf(t2.getTurn()).compareTo(Integer.valueOf(t1.getTurn()));
+  private void sortRegNumber() {
+    Comparator<ViolationFacility> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
+        .compareTo(Integer.valueOf(t1.getReg_number()));
     Collections.sort(violationFacilities, comparator);
   }
 
@@ -179,7 +180,7 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
       switch (view.getId()) {
         case R.id.turn_textview:
           selfAdapter.remove(0);
-          selfAdapter.sortTurn();
+          selfAdapter.sortRegNumber();
           selfAdapter.add(0, new ViolationFacility());
           break;
         case R.id.sido_textview:

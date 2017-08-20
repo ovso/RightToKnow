@@ -40,7 +40,7 @@ public class ViolatorDetailInteractor extends VFacilityDetailInteractor {
               String violatorName = tdElements.get(0).childNode(0).toString();
               String centerName = tdElements.get(1).childNode(0).toString();
               vFacilityDetail.setViolatorName(violatorName);
-              vFacilityDetail.setName(centerName);
+              vFacilityDetail.setOld_fac_name(centerName);
               break;
             case 2:
               String history = tdElements.get(0).childNode(0).toString();
@@ -50,11 +50,11 @@ public class ViolatorDetailInteractor extends VFacilityDetailInteractor {
               break;
             case 3:
               String action = tdElements.get(0).html().replaceAll("<br>", "\n");
-              vFacilityDetail.setAction(action);
+              vFacilityDetail.setAction(null);
               break;
             case 4:
               String disposal = tdElements.get(0).html().replaceAll("<br>", "\n");
-              vFacilityDetail.setDisposal(disposal);
+              vFacilityDetail.setDisposal(null);
               break;
           }
         }
@@ -84,7 +84,7 @@ public class ViolatorDetailInteractor extends VFacilityDetailInteractor {
     builder.append(sido).append(vFacilityDetail.getSido()).append("\n\n");
     builder.append(sigungu).append(vFacilityDetail.getSigungu()).append("\n\n");
     builder.append(vioatorName).append(vFacilityDetail.getViolatorName()).append("\n\n");
-    builder.append(vioOldCenterName).append(vFacilityDetail.getName()).append("\n\n");
+    builder.append(vioOldCenterName).append(vFacilityDetail.getOld_fac_name()).append("\n\n");
     builder.append(history).append(vFacilityDetail.getHistory()).append("\n\n");
     builder.append(action).append(vFacilityDetail.getAction()).append("\n\n");
     builder.append(disposal).append(vFacilityDetail.getDisposal()).append("\n\n");

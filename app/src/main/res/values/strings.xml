@@ -44,6 +44,7 @@
   <string name="location_permission_denied_message">위치 사용 권한을 반드시 설정해 주셔야 합니다.\n감사합니다.</string>
   <string name="not_connected_internet">인터넷에 연결되지 않았습니다.</string>
   <string name="no_result">내 근처 위반 검색 결과가 없습니다.</string>
+  <string name="please_retry">죄송합니다. 문제가 생겼습니다. 잠시후 다시 시도해주세요.</string>
   <string name="empty"/>
   <string name="photo_credit_by">Photo credit by Edukame.com</string>
   <string name="version">ver</string>

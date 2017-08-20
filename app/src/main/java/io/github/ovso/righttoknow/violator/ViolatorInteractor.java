@@ -48,14 +48,14 @@ public class ViolatorInteractor {
           String address = tdElements.get(5).childNode(0).toString();
           String history = tdElements.get(6).childNode(0).toString();
 
-          violator.setTurn(turn);
+          //violator.setTurn(turn);
           violator.setSido(sido);
           violator.setSigungu(sigungu);
           violator.setViolator(violatorName);
-          violator.setName(centerName);
+          //violator.setName(centerName);
           violator.setAddress(address);
           violator.setHistory(history);
-          violator.setLink(link);
+          //violator.setLink(link);
 
           violators.add(violator);
         }

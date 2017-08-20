@@ -52,9 +52,9 @@ public class VFacilityDetailInteractor {
               String nowName = tdElements.get(0).childNode(0).toString();
               String nowBoss = tdElements.get(1).childNode(0).toString();
               String nowDirector = tdElements.get(2).childNode(0).toString();
-              vFacilityDetail.setName(nowName);
-              vFacilityDetail.setBoss(nowBoss);
-              vFacilityDetail.setDirector(nowDirector);
+              //vFacilityDetail.setName(nowName);
+              //vFacilityDetail.setBoss(nowBoss);
+              //vFacilityDetail.setDirector(nowDirector);
               break;
             case 2:
               String oldName = tdElements.get(0).childNode(0).toString();
@@ -70,11 +70,11 @@ public class VFacilityDetailInteractor {
               break;
             case 4:
               String action = tdElements.get(0).html().replaceAll("<br>", "\n");
-              vFacilityDetail.setAction(action);
+              vFacilityDetail.setAction(null);
               break;
             case 5:
               String disposal = tdElements.get(0).html().replaceAll("<br>", "\n");
-              vFacilityDetail.setDisposal(disposal);
+              vFacilityDetail.setDisposal(null);
               break;
           }
         }
@@ -132,18 +132,18 @@ public class VFacilityDetailInteractor {
     builder.append(sigungu).append(vFacilityDetail.getSigungu()).append("\n\n");
     builder.append(type).append(vFacilityDetail.getType()).append("\n\n");
     builder.append(now).append("\n");
-    builder.append(daycareCenter).append(vFacilityDetail.getName()).append("\n");
-    builder.append(boss).append(vFacilityDetail.getBoss()).append("\n");
-    builder.append(director).append(vFacilityDetail.getDirector()).append("\n\n");
+    //builder.append(daycareCenter).append(vFacilityDetail.getName()).append("\n");
+    //builder.append(boss).append(vFacilityDetail.getBoss()).append("\n");
+    //builder.append(director).append(vFacilityDetail.getDirector()).append("\n\n");
     builder.append(vioOld).append("\n");
     builder.append(daycareCenter).append(vFacilityDetail.getOldName()).append("\n");
     builder.append(boss).append(vFacilityDetail.getOldBoss()).append("\n");
     builder.append(director).append(vFacilityDetail.getOldDirector()).append("\n\n");
     builder.append(address).append(vFacilityDetail.getAddress()).append("\n\n");
     builder.append(vioAction).append("\n");
-    builder.append(vFacilityDetail.getAction().replaceAll("&nbsp;", "")).append("\n\n");
+    builder.append("");
     builder.append(vioDisposal).append("\n");
-    builder.append(vFacilityDetail.getDisposal().replaceAll("&nbsp;", ""));
+    builder.append("");
     return builder.toString();
   }
 }

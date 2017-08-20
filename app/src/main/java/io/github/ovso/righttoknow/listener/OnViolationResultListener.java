@@ -8,4 +8,5 @@ public interface OnViolationResultListener<T> {
   void onPre();
   void onResult(T result);
   void onPost();
+  void onError();
 }

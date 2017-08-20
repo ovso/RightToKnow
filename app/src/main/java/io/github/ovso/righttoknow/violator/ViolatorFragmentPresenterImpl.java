@@ -68,6 +68,10 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
         @Override public void onPost() {
           view.hideLoading();
         }
+
+        @Override public void onError() {
+          view.setSearchResultText(R.string.please_retry);
+        }
       };
 
   @Override public void onActivityCreate(Bundle savedInstanceState) {
@@ -82,7 +86,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   @Override public void onRecyclerItemClick(Violator violator) {
-    view.navigateToViolatorDetail(violator.getLink());
+    view.navigateToViolatorDetail(null);
   }
 
   @Override public void onDestroyView() {

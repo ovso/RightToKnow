@@ -52,6 +52,10 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
         @Override public void onPost() {
           view.hideLoading();
         }
+
+        @Override public void onError() {
+
+        }
       };
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {

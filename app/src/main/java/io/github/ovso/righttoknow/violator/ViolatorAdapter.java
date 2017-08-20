@@ -45,11 +45,11 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
     if (baseHolder instanceof ViolatorViewHolder) {
       ViolatorViewHolder holder = (ViolatorViewHolder) baseHolder;
       Violator violator = violators.get(position);
-      holder.turnTextview.setText(violator.getTurn());
+      holder.turnTextview.setText(violator.getReg_number());
       holder.sidoTextView.setText(violator.getSido());
       holder.sigunguTextView.setText(violator.getSigungu());
       holder.violatorTextView.setText(violator.getViolator());
-      holder.centerNameTextView.setText(violator.getName());
+      holder.centerNameTextView.setText(violator.getViolator());
       holder.historyTextView.setText(violator.getHistory());
 
       holder.violator = violator;
@@ -96,16 +96,17 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
 
   @Override public int getItemViewType(int position) {
-    if (TextUtils.isEmpty(violators.get(position).getTurn())) {
-      return ITEM_VIEW_TYPE_HEADER;
-    } else {
+    int regNumber = violators.get(position).getReg_number();
+    if (regNumber > 0) {
       return ITEM_VIEW_TYPE_DEFAULT;
+    } else {
+      return ITEM_VIEW_TYPE_HEADER;
     }
   }
 
   private void sortTurn() {
-    Comparator<Violator> comparator =
-        (t1, t2) -> Integer.valueOf(t2.getTurn()).compareTo(Integer.valueOf(t1.getTurn()));
+    Comparator<Violator> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
+        .compareTo(Integer.valueOf(t1.getReg_number()));
     Collections.sort(violators, comparator);
   }
 

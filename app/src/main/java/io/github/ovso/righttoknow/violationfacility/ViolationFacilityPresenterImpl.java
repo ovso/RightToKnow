@@ -68,6 +68,10 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
         @Override public void onPost() {
           view.hideLoading();
         }
+
+        @Override public void onError() {
+          view.setSearchResultText(R.string.please_retry);
+        }
       };
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
@@ -82,7 +86,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   }
 
   @Override public void onRecyclerItemClick(ViolationFacility violationFacility) {
-    view.navigateToViolationFacilityDetail(violationFacility.getLink());
+    view.navigateToViolationFacilityDetail(null);
   }
 
   @Override public void onDestroyView() {

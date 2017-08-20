@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.violationfacility.vo;
 
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -9,13 +10,17 @@ import lombok.ToString;
  */
 
 @Data @ToString @EqualsAndHashCode(callSuper = false) public class ViolationFacility {
-  private String turn;
+  private int reg_number;
   private String sido;
   private String sigungu;
-  private String name;
   private String type;
-  private String boss;
-  private String director;
+  private String now_boss;
+  private String now_director;
+  private String now_fac_name;
+  private String old_boss;
+  private String old_director;
+  private String old_fac_name;
   private String address;
-  private String link;
+  private List<String> action;
+  private List<String> disposal;
 }
