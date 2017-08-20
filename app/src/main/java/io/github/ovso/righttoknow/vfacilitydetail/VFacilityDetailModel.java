@@ -49,7 +49,7 @@ class VFacilityDetailModel {
     builder.append(res.getString(R.string.detail_sigungu)).append(violator.getSigungu());
     builder.append("\n");
     //name
-    builder.append(res.getString(R.string.detail_violator_name)).append(violator.getViolator());
+    builder.append(res.getString(R.string.detail_violator_name)).append(violator.getName());
     builder.append("\n");
     //old center name
     builder.append(res.getString(R.string.detail_vio_old_center_name))

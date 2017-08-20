@@ -48,8 +48,8 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
       holder.turnTextview.setText(String.valueOf(violator.getReg_number()));
       holder.sidoTextView.setText(violator.getSido());
       holder.sigunguTextView.setText(violator.getSigungu());
-      holder.violatorTextView.setText(violator.getViolator());
-      holder.centerNameTextView.setText(violator.getViolator());
+      holder.violatorTextView.setText(violator.getName());
+      holder.centerNameTextView.setText(violator.getOld_fac_name());
       String history = violator.getHistory() + holder.violatorTextView.getContext()
           .getString(R.string.violation_history_count);
       holder.historyTextView.setText(history);

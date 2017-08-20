@@ -11,6 +11,6 @@ import lombok.ToString;
 
 @Data @ToString @EqualsAndHashCode(callSuper = false) public class Violator
     extends ViolationFacility {
-  private String violator;
+  private String name;
   private int history;
 }
