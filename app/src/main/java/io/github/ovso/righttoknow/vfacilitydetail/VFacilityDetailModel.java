@@ -81,13 +81,13 @@ class VFacilityDetailModel {
     StringBuilder builder = new StringBuilder();
     //sido
     builder.append(res.getString(R.string.detail_sido)).append(fac.getSido());
-    builder.append("\n");
+    builder.append("\n\n");
     //sigungu
     builder.append(res.getString(R.string.detail_sigungu)).append(fac.getSigungu());
-    builder.append("\n");
+    builder.append("\n\n");
     //type
     builder.append(res.getString(R.string.detail_type)).append(fac.getType());
-    builder.append("\n");
+    builder.append("\n\n");
     //now
     builder.append(res.getString(R.string.detail_now));
     builder.append("\n");
@@ -96,7 +96,7 @@ class VFacilityDetailModel {
     builder.append(res.getString(R.string.detail_boss)).append(fac.getNow_boss());
     builder.append("\n");
     builder.append(res.getString(R.string.detail_director)).append(fac.getNow_director());
-    builder.append("\n");
+    builder.append("\n\n");
     //old
     builder.append(res.getString(R.string.detail_vio_old));
     builder.append("\n");
@@ -105,17 +105,17 @@ class VFacilityDetailModel {
     builder.append(res.getString(R.string.detail_boss)).append(fac.getOld_boss());
     builder.append("\n");
     builder.append(res.getString(R.string.detail_director)).append(fac.getOld_director());
-    builder.append("\n");
+    builder.append("\n\n");
     //address
     builder.append(res.getString(R.string.detail_address)).append(fac.getAddress());
-    builder.append("\n");
+    builder.append("\n\n");
     //action
     builder.append(res.getString(R.string.detail_vio_action));
     builder.append("\n");
     for (String action : fac.getAction()) {
       builder.append(action).append("\n");
     }
-    builder.append("n");
+    builder.append("\n");
     //disposal
     builder.append(res.getString(R.string.detail_vio_disposal));
     builder.append("\n");

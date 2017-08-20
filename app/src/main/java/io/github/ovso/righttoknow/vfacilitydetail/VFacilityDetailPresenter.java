@@ -17,17 +17,11 @@ public interface VFacilityDetailPresenter {
 
   interface View {
 
-    void hideLoading();
-
-    void showLoading();
-
     void setSupportActionBar();
 
     void showContents(String contents);
 
     void setListener();
-
-    void showSnackbar(String msg);
 
     void setTitle(String title);
   }

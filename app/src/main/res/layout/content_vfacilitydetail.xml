@@ -6,8 +6,9 @@
     android:id="@+id/content_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_vfacilitydetail"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    >
   <ScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
@@ -15,7 +16,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
       <TextView
           android:id="@+id/contents_textview"
           android:layout_width="match_parent"
@@ -28,14 +30,10 @@
           android:id="@+id/share_button"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:src="@drawable/ic_menu_share"
           android:textStyle="bold"
           style="@style/Widget.AppCompat.Button.Borderless.Colored"
-          android:src="@drawable/ic_menu_share"/>
+          />
     </LinearLayout>
   </ScrollView>
-  <ProgressBar
-      android:id="@+id/progressbar"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"/>
 </FrameLayout>
