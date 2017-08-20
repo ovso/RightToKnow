@@ -5,7 +5,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.listener.OnViolationResultListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.ArrayList;
@@ -22,11 +21,6 @@ public class ViolationFacilityInteractor {
   private DatabaseReference databaseReference;
 
   public void req() {
-    String url = Constants.BASE_URL
-        + Constants.VIOLATION_FACILITY_PATH
-        + Constants.VIOLATION_FACILITY_PARAMS;
-    //myAsyncTask.execute(new String[] { url });
-
     onViolationFacilityResultListener.onPre();
     databaseReference = FirebaseDatabase.getInstance().getReference().child("child_vio_fac");
     databaseReference.addValueEventListener(new ValueEventListener() {

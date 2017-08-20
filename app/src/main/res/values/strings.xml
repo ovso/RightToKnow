@@ -32,6 +32,7 @@
   <string name="detail_vio_old_center_name">✔︎︎ 위반행위당시 어린이집 :&#160;</string>
   <string name="detail_violation_history">✔︎︎ 법 위반 이력 :&#160;</string>
   <string name="violation_history">이력</string>
+  <string name="violation_history_count">회</string>
   <string name="title_vioation_facility_inquiry">위반시설 조회</string>
   <string name="title_violator_inquiry">위반행위자 조회</string>
   <string name="msg_latest_info">최신정보입니다.</string>

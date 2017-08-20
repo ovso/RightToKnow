@@ -11,8 +11,6 @@ public interface VFacilityDetailPresenter {
 
   void onCreate(Bundle savedInstanceState, Intent intent);
 
-  void onRefresh();
-
   void onBackPressed();
 
   void onDestroy();

@@ -45,12 +45,14 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
     if (baseHolder instanceof ViolatorViewHolder) {
       ViolatorViewHolder holder = (ViolatorViewHolder) baseHolder;
       Violator violator = violators.get(position);
-      holder.turnTextview.setText(violator.getReg_number());
+      holder.turnTextview.setText(String.valueOf(violator.getReg_number()));
       holder.sidoTextView.setText(violator.getSido());
       holder.sigunguTextView.setText(violator.getSigungu());
       holder.violatorTextView.setText(violator.getViolator());
       holder.centerNameTextView.setText(violator.getViolator());
-      holder.historyTextView.setText(violator.getHistory());
+      String history = violator.getHistory() + holder.violatorTextView.getContext()
+          .getString(R.string.violation_history_count);
+      holder.historyTextView.setText(history);
 
       holder.violator = violator;
 
@@ -116,7 +118,8 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   }
 
   private void sortHistory() {
-    Comparator<Violator> comparator = (t1, t2) -> t2.getHistory().compareTo(t1.getHistory());
+    Comparator<Violator> comparator =
+        (t1, t2) -> Integer.valueOf(t2.getHistory()).compareTo(t1.getHistory());
     Collections.sort(violators, comparator);
   }
 

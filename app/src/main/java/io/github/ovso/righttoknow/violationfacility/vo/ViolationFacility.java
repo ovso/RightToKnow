@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.violationfacility.vo;
 
+import java.io.Serializable;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,7 +10,8 @@ import lombok.ToString;
  * Created by jaeho on 2017. 8. 1
  */
 
-@Data @ToString @EqualsAndHashCode(callSuper = false) public class ViolationFacility {
+@Data @ToString @EqualsAndHashCode(callSuper = false) public class ViolationFacility
+    implements Serializable {
   private int reg_number;
   private String sido;
   private String sigungu;

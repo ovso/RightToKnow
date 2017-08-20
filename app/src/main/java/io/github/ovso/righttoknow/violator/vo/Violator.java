@@ -9,7 +9,8 @@ import lombok.ToString;
  * Created by jaeho on 2017. 8. 3
  */
 
-@Data @ToString @EqualsAndHashCode(callSuper = false) public class Violator extends ViolationFacility {
+@Data @ToString @EqualsAndHashCode(callSuper = false) public class Violator
+    extends ViolationFacility {
   private String violator;
-  private String history;
+  private int history;
 }

@@ -86,7 +86,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   }
 
   @Override public void onRecyclerItemClick(ViolationFacility violationFacility) {
-    view.navigateToViolationFacilityDetail(null);
+    view.navigateToViolationFacilityDetail(violationFacility);
   }
 
   @Override public void onDestroyView() {

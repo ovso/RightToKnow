@@ -78,10 +78,10 @@ public class ViolationFacilityFragment extends BaseFragment
     swipeRefresh.setRefreshing(false);
   }
 
-  @Override public void navigateToViolationFacilityDetail(String link) {
+  @Override public void navigateToViolationFacilityDetail(ViolationFacility fac) {
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
-    intent.putExtra("link", link);
-    intent.putExtra("from", R.layout.fragment_violation);
+    intent.putExtra("contents", fac);
+    //intent.putExtra("from", R.layout.fragment_violation);
     startActivity(intent);
   }
 

@@ -30,7 +30,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   private LocationAware.OnLocationListener onLocationListener =
       new LocationAware.OnLocationListener() {
         @Override public void onLocationChanged(double latitude, double longitude, String date) {
-          //view.hideLoading();
+
         }
 
         @Override public void onAddressChanged(Address address) {
@@ -38,7 +38,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
           //adapterDataModel.searchMyLocation("구구구", address.getSubLocality());
           view.refresh();
           int itemSize = adapterDataModel.getSize();
-          if(itemSize < 2) {
+          if (itemSize < 2) {
             view.setSearchResultText(R.string.no_result);
           } else {
             view.setSearchResultText(R.string.empty);

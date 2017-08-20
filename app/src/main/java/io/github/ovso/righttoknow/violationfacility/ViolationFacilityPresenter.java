@@ -35,7 +35,7 @@ public interface ViolationFacilityPresenter {
 
     void hideLoading();
 
-    void navigateToViolationFacilityDetail(String link);
+    void navigateToViolationFacilityDetail(ViolationFacility violationFacility);
 
     void setListener();
 
