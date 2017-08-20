@@ -9,6 +9,9 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.view.Window;
 import android.view.WindowManager;
+import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.app.MyApplication;
+import java.util.List;
 
 /**
  * Created by jaeho on 2017. 8. 14
@@ -32,10 +35,19 @@ public class Utility {
     }
   }
 
-  public static String getEmojiByUnicode(int unicode){
+  public static String getEmojiByUnicode(int unicode) {
     return new String(Character.toChars(unicode));
   }
 
+  public static String getActionEmoji(List<String> actions) {
+    for (String action : actions) {
+      if (action.contains(MyApplication.getInstance().getString(R.string.abused))) {
+        return Utility.getEmojiByUnicode(Constants.EMOJI_ABUSED);
+      }
+    }
+
+    return "";
+  }
 
   public static String getVersionName(Context context) {
     String versionName = "";

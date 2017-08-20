@@ -9,6 +9,7 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.common.Utility;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +49,8 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
       holder.turnTextview.setText(String.valueOf(violator.getReg_number()));
       holder.sidoTextView.setText(violator.getSido());
       holder.sigunguTextView.setText(violator.getSigungu());
-      holder.violatorTextView.setText(violator.getName());
+      holder.violatorTextView.setText(
+          violator.getName() + Utility.getActionEmoji(violator.getAction()));
       holder.centerNameTextView.setText(violator.getOld_fac_name());
       String history = violator.getHistory() + holder.violatorTextView.getContext()
           .getString(R.string.violation_history_count);

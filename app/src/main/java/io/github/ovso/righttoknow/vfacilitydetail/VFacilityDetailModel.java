@@ -44,30 +44,31 @@ class VFacilityDetailModel {
     StringBuilder builder = new StringBuilder();
     //sido
     builder.append(res.getString(R.string.detail_sido)).append(violator.getSido());
-    builder.append("\n");
+    builder.append("\n\n");
     //sigungu
     builder.append(res.getString(R.string.detail_sigungu)).append(violator.getSigungu());
-    builder.append("\n");
+    builder.append("\n\n");
     //name
     builder.append(res.getString(R.string.detail_violator_name)).append(violator.getName());
-    builder.append("\n");
+    builder.append("\n\n");
     //old center name
     builder.append(res.getString(R.string.detail_vio_old_center_name))
         .append(violator.getOld_fac_name());
-    builder.append("\n");
+    builder.append("\n\n");
     //history
     builder.append(res.getString(R.string.detail_violation_history)).append(violator.getHistory());
-    builder.append("\n");
+    builder.append("\n\n");
     //address
     builder.append(res.getString(R.string.detail_vio_old_center_name))
         .append(violator.getAddress());
-    builder.append("\n");
+    builder.append("\n\n");
     //action
     builder.append(res.getString(R.string.detail_violator_action));
     builder.append("\n");
     for (String action : violator.getAction()) {
       builder.append(action).append("\n");
     }
+    builder.append("\n");
     //disposal
     builder.append(res.getString(R.string.detail_violator_disposal));
     builder.append("\n");

@@ -9,6 +9,7 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.common.Utility;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,14 +45,15 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
   @Override public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
     if (baseHolder instanceof ViolationFacilityViewHolder) {
       ViolationFacilityViewHolder holder = (ViolationFacilityViewHolder) baseHolder;
-      ViolationFacility violationFacility = violationFacilities.get(position);
-      holder.turnTextview.setText(String.valueOf(violationFacility.getReg_number()));
-      holder.sidoTextView.setText(violationFacility.getSido());
-      holder.sigunguTextView.setText(violationFacility.getSigungu());
-      holder.nameTextView.setText(violationFacility.getNow_fac_name());
-      holder.typeTextView.setText(violationFacility.getType());
+      ViolationFacility fac = violationFacilities.get(position);
+      holder.turnTextview.setText(String.valueOf(fac.getReg_number()));
+      holder.sidoTextView.setText(fac.getSido());
+      holder.sigunguTextView.setText(fac.getSigungu());
 
-      holder.violationFacility = violationFacility;
+      holder.nameTextView.setText(fac.getNow_fac_name() + Utility.getActionEmoji(fac.getAction()));
+      holder.typeTextView.setText(fac.getType());
+
+      holder.violationFacility = fac;
 
       holder.onRecyclerItemClickListener = onRecyclerItemClickListener;
     } else if (baseHolder instanceof ViolationFacilityHeaderViewHolder) {
