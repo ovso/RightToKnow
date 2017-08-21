@@ -2,6 +2,8 @@ package io.github.ovso.righttoknow.pdfviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import java.io.File;
 
@@ -13,6 +15,7 @@ public class PDFViewerPresenterImpl implements PDFViewerPresenter {
 
   private PDFViewerPresenter.View view;
   private PDFViewerInteractor interactor;
+
   PDFViewerPresenterImpl(PDFViewerPresenter.View view) {
     this.view = view;
     interactor = new PDFViewerInteractor();
@@ -36,9 +39,11 @@ public class PDFViewerPresenterImpl implements PDFViewerPresenter {
   }
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
-    if(intent.hasExtra("name")) {
+    if (intent.hasExtra("name")) {
       interactor.setFileName(intent.getStringExtra("name"));
       interactor.req();
     }
+
+    view.setTitle(MyApplication.getInstance().getString(R.string.title_child_certified));
   }
 }

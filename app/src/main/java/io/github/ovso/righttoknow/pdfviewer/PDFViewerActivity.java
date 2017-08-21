@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.pdfviewer;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import butterknife.BindView;
 import com.github.barteksc.pdfviewer.PDFView;
 import io.github.ovso.righttoknow.R;
@@ -37,4 +38,12 @@ public class PDFViewerActivity extends BaseActivity implements PDFViewerPresente
   @Override public void showPDF(File file) {
     pdfView.fromFile(file).load();
   }
+
+  @Override public void setTitle(String title) {
+    ActionBar actionBar = getSupportActionBar();
+    if (actionBar != null) {
+      actionBar.setTitle(title);
+    }
+  }
+
 }

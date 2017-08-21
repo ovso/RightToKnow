@@ -19,5 +19,7 @@ public interface PDFViewerPresenter {
     void hideLoading();
 
     void showPDF(File file);
+
+    void setTitle(String title);
   }
 }

@@ -102,7 +102,7 @@ public class MainPresenterImpl implements MainPresenter {
             R.string.title_violator_inquiry);
         break;
       case Constants.ITEM_CERTIFIED:
-        title = res.getString(R.string.title_child_certified) + " " + res.getString(
+        title = res.getString(R.string.title_certified) + " " + res.getString(
             R.string.day_care_center);
         break;
       default:
