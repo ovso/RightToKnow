@@ -34,20 +34,11 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.nav_view) NavigationView navigationView;
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
   @BindView(R.id.viewpager) ViewPager viewPager;
-  //private TextView versionNameTextView;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     presenter = new MainPresenterImpl(this);
     presenter.onCreate(null);
-    /*
-    new Handler().postDelayed(new Runnable() {
-      @Override public void run() {
-
-        startActivity(new Intent(getActivity(), PDFViewerActivity.class));
-      }
-    }, 3000);
-    */
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
