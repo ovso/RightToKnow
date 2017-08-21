@@ -35,6 +35,7 @@ public class CertifiedAdapter extends BaseRecyclerAdapter
     if (baseHolder instanceof CertifiedViewHolder) {
       CertifiedViewHolder holder = (CertifiedViewHolder) baseHolder;
       ChildCertified certified = certifieds.get(position);
+      holder.certified = certified;
       holder.titleTextview.setText(certified.getTitle());
       holder.onRecyclerItemClickListener = onRecyclerItemClickListener;
     }

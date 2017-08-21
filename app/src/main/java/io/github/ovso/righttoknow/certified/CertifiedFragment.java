@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.certified;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.certified.vo.ChildCertified;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.pdfviewer.PDFViewerActivity;
 
 /**
  * Created by jaeho on 2017. 8. 21
@@ -76,11 +78,12 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
       presenter.onRefresh();
     });
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
-
   }
 
-  @Override public void navigatePDFViewer(String name) {
-    
+  @Override public void navigateToPDFViewer(String name) {
+    Intent intent = new Intent(getContext(), PDFViewerActivity.class);
+    intent.putExtra("name", name);
+    startActivity(intent);
   }
 
   @Override public void onDestroyView() {

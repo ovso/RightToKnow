@@ -47,7 +47,7 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
   }
 
   @Override public void onRecyclerItemClick(ChildCertified certified) {
-    view.navigatePDFViewer(certified.getPdf_name());
+    view.navigateToPDFViewer(certified.getPdf_name());
   }
 
   @Override public void setAdapterModel(BaseAdapterDataModel<ChildCertified> adapter) {
