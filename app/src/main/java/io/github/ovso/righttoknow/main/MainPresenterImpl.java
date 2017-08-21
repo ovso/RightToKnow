@@ -62,6 +62,7 @@ public class MainPresenterImpl implements MainPresenter {
     view.setCheckedBottomNavigationView(position);
     view.setViewPagerCurrentItem(position);
     view.setTitle(getTitle(position));
+    view.invalidateOptionsMenu();
   }
 
   @Override public void onOptionsItemSelected(int itemId) {

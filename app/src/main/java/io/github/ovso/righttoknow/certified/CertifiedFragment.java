@@ -79,6 +79,10 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
 
   }
 
+  @Override public void navigatePDFViewer(String name) {
+    
+  }
+
   @Override public void onDestroyView() {
     super.onDestroyView();
     presenter.onDestroyView();

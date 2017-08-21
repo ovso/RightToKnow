@@ -45,5 +45,7 @@ public interface MainPresenter {
     void onNearbyClick();
 
     void setVersionName(String versionName);
+
+    void invalidateOptionsMenu();
   }
 }

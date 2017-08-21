@@ -34,5 +34,8 @@ public interface CertifiedFragmentPresenter {
     void refresh();
 
     void setListener();
+
+    void navigatePDFViewer(String name);
+
   }
 }
