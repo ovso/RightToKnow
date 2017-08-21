@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.violationfacility;
 import android.location.Address;
 import android.os.Bundle;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.listener.OnViolationResultListener;
+import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import io.github.ovso.righttoknow.main.LocationAware;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.List;
@@ -52,8 +52,8 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
         }
       };
 
-  OnViolationResultListener<List<ViolationFacility>> onViolationResultListener =
-      new OnViolationResultListener<List<ViolationFacility>>() {
+  OnChildResultListener<List<ViolationFacility>> onViolationResultListener =
+      new OnChildResultListener<List<ViolationFacility>>() {
         @Override public void onPre() {
           view.showLoading();
         }

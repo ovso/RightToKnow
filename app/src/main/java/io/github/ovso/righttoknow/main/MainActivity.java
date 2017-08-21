@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
@@ -39,6 +40,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     super.onCreate(savedInstanceState);
     presenter = new MainPresenterImpl(this);
     presenter.onCreate(null);
+    //startActivity(new Intent(this, PDFViewerActivity.class));
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,9 +122,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     ViolatorFragment violatorFragment = ViolatorFragment.newInstance(null);
     onViolationFacilityFragListener = facilityFragment;
     onViolatorFragListener = violatorFragment;
+
     List<BaseFragment> fragments = new ArrayList<>();
     fragments.add(facilityFragment);
     fragments.add(violatorFragment);
+    fragments.add(CertifiedFragment.newInstance(null));
+
     PagerBaseAdapter adapter = new PagerBaseAdapter(getSupportFragmentManager());
     adapter.addAll(fragments);
     viewPager.setAdapter(adapter);

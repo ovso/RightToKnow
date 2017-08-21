@@ -53,6 +53,8 @@ public class MainPresenterImpl implements MainPresenter {
       case R.id.bottom_nav_violator:
         view.setViewPagerCurrentItem(Constants.ITEM_VIOLATOR);
         break;
+      case R.id.bottom_nav_certified:
+        view.setViewPagerCurrentItem(Constants.ITEM_CERTIFIED);
     }
   }
 
@@ -97,6 +99,10 @@ public class MainPresenterImpl implements MainPresenter {
       case Constants.ITEM_VIOLATOR:
         title = res.getString(R.string.day_care_center) + " " + res.getString(
             R.string.title_violator_inquiry);
+        break;
+      case Constants.ITEM_CERTIFIED:
+        title = res.getString(R.string.title_child_certified) + " " + res.getString(
+            R.string.day_care_center);
         break;
       default:
 

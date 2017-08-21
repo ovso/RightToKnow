@@ -5,7 +5,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import io.github.ovso.righttoknow.listener.OnViolationResultListener;
+import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +44,5 @@ public class ViolationFacilityInteractor {
     databaseReference.onDisconnect();
   }
 
-  @Getter @Setter private OnViolationResultListener onViolationFacilityResultListener;
+  @Getter @Setter private OnChildResultListener onViolationFacilityResultListener;
 }

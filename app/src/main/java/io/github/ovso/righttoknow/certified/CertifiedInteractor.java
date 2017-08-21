@@ -1,41 +1,40 @@
-package io.github.ovso.righttoknow.violator;
+package io.github.ovso.righttoknow.certified;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import io.github.ovso.righttoknow.certified.vo.ChildCertified;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
-import io.github.ovso.righttoknow.violator.vo.Violator;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Created by jaeho on 2017. 8. 3
+ * Created by jaeho on 2017. 8. 21
  */
 
-public class ViolatorInteractor {
-
+class CertifiedInteractor {
   private DatabaseReference databaseReference;
 
   public void req() {
-    onViolationFacilityResultListener.onPre();
-    databaseReference = FirebaseDatabase.getInstance().getReference().child("child_violator");
+    onChildResultListener.onPre();
+    databaseReference = FirebaseDatabase.getInstance().getReference().child("child_certified");
     databaseReference.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
-        List<Violator> violators = new ArrayList<>();
+        List<ChildCertified> childCertifieds = new ArrayList<>();
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-          Violator violator = snapshot.getValue(Violator.class);
-          violators.add(violator);
+          ChildCertified certified = snapshot.getValue(ChildCertified.class);
+          childCertifieds.add(certified);
         }
-        onViolationFacilityResultListener.onResult(violators);
-        onViolationFacilityResultListener.onPost();
+        onChildResultListener.onResult(childCertifieds);
+        onChildResultListener.onPost();
       }
 
       @Override public void onCancelled(DatabaseError databaseError) {
-        onViolationFacilityResultListener.onError();
+        onChildResultListener.onError();
       }
     });
   }
@@ -44,5 +43,5 @@ public class ViolatorInteractor {
     databaseReference.onDisconnect();
   }
 
-  @Getter @Setter private OnChildResultListener onViolationFacilityResultListener;
+  @Getter @Setter private OnChildResultListener onChildResultListener;
 }
