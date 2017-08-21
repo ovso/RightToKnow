@@ -41,7 +41,7 @@ public class SplashActivity extends BaseActivity {
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    handler.postDelayed(runnable, 2500);
+    handler.postDelayed(runnable, 1000);
 
     progressBar.getIndeterminateDrawable()
         .setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary),

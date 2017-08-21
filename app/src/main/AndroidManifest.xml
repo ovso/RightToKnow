@@ -30,11 +30,12 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar"></activity>
     <activity
-        android:name=".splash.SplashActivity"
+        android:name="io.github.ovso.righttoknow.splash.SplashActivity"
         android:screenOrientation="portrait"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/SplashTheme">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
+
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
 
