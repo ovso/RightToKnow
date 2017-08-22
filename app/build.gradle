@@ -43,6 +43,8 @@ android {
       proguardFile 'proguard-rules.pro'
       proguardFile 'proguard-tedpermission.pro'
       proguardFile 'proguard-firebase.pro'
+      proguardFile 'proguard-butterknipe.pro'
+      proguardFile 'proguard-pdfviewer.pro'
       signingConfig signingConfigs.release
       applicationVariants.all { variant ->
         variant.outputs.each { output ->

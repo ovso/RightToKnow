@@ -1,7 +1,6 @@
 package io.github.ovso.righttoknow.pdfviewer;
 
 import android.text.TextUtils;
-import android.util.Log;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -51,6 +50,8 @@ class PDFViewerInteractor {
   @Setter @Getter private OnChildResultListener onChildResultListener;
 
   @DebugLog public void cancel() {
-    fileDownloadTask.cancel();
+    if (fileDownloadTask != null) {
+      fileDownloadTask.cancel();
+    }
   }
 }
