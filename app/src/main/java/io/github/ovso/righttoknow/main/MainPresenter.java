@@ -1,6 +1,9 @@
 package io.github.ovso.righttoknow.main;
 
+import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
+import de.psdev.licensesdialog.model.Notices;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -13,23 +16,39 @@ public interface MainPresenter {
 
   void onBottomNavigationItemSelected(int id);
 
-  void setAdapterDataModel(MainAdapterDataModel adapterDataModel);
+  void onAdapterPageChanged(int position);
 
-  void onPageChanged(int position);
+  void onOptionsItemSelected(int itemId);
 
   interface View {
     void setListener();
 
-    void showViolateFragment();
+    void setTitle(String title);
 
-    void showWrongdoerFragment();
+    void navigateToReview(Uri uri);
+
+    void navigateToShare(String url);
+
+    void setBottomNavigationViewBehavior();
 
     void setViewPager();
 
-    void refreshAdapter();
+    void setCheckedBottomNavigationView(int position);
 
-    void setAdapter();
+    void setViewPagerCurrentItem(int position);
 
-    void setSelectedBottomNavigation(int id);
+    Activity getActivity();
+
+    void hideLoading();
+
+    void showLoading();
+
+    void onNearbyClick();
+
+    void setVersionName(String versionName);
+
+    void invalidateOptionsMenu();
+
+    void showOpensourceLicenses(Notices notices);
   }
 }

@@ -2,13 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
   <item
-      android:id="@+id/bottom_nav_violate"
-      android:icon="@drawable/ic_menu_camera"
-      android:title="위반시설"/>
+      android:id="@+id/bottom_nav_violation_facility"
+      android:icon="@drawable/ic_home_black_24dp"
+      android:title="@string/title_vioation_facility_inquiry"/>
 
   <item
-      android:id="@+id/bottom_nav_wrongdoer"
-      android:icon="@drawable/ic_menu_gallery"
-      android:title="위반행위자"/>
+      android:id="@+id/bottom_nav_violator"
+      android:icon="@drawable/ic_person_black_24dp"
+      android:title="@string/title_violator_inquiry"/>
+  <item
+      android:id="@+id/bottom_nav_certified"
+      android:icon="@drawable/ic_school_black_24dp"
+      android:title="@string/title_certified"/>
 
 </menu>

@@ -1,121 +1,179 @@
 package io.github.ovso.righttoknow.main;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import butterknife.BindView;
+import de.psdev.licensesdialog.LicensesDialog;
+import de.psdev.licensesdialog.model.Notices;
 import io.github.ovso.righttoknow.R;
-import java.io.IOException;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import io.github.ovso.righttoknow.certified.CertifiedFragment;
+import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
+import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
+import io.github.ovso.righttoknow.listener.OnSimplePageChangeListener;
+import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
+import io.github.ovso.righttoknow.violator.ViolatorFragment;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends BaseActivity
-    implements NavigationView.OnNavigationItemSelectedListener, MainPresenter.View {
+public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   private MainPresenter presenter;
   @BindView(R.id.drawer_layout) DrawerLayout drawer;
   @BindView(R.id.nav_view) NavigationView navigationView;
-  @BindView(R.id.bottom_navigation) BottomNavigationView bottomNavigationView;
+  @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
   @BindView(R.id.viewpager) ViewPager viewPager;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     presenter = new MainPresenterImpl(this);
     presenter.onCreate(null);
+    //startActivity(new Intent(this, PDFViewerActivity.class));
+  }
 
-    final String source = "http://info.childcare.go.kr/info/cfvp/VioltfcltySlL.jsp";
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    if (viewPager.getCurrentItem() < 2) {
+      getMenuInflater().inflate(R.menu.main, menu);
+    }
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    presenter.onOptionsItemSelected(item.getItemId());
+    return true;
   }
 
   @Override public int getLayoutResId() {
     return R.layout.activity_main;
   }
 
-  @Override public void setListener() {
+  @SuppressWarnings("deprecation") @Override public void setListener() {
     ActionBarDrawerToggle toggle =
         new ActionBarDrawerToggle(this, drawer, getToolbar(), R.string.navigation_drawer_open,
             R.string.navigation_drawer_close);
     drawer.setDrawerListener(toggle);
     toggle.syncState();
 
-    navigationView.setNavigationItemSelectedListener(this);
-    bottomNavigationView.setOnNavigationItemSelectedListener(
-        onBottomNavigationItemSelectedListener);
-  }
-
-  @Override public void showViolateFragment() {
-    viewPager.setCurrentItem(0, true);
-  }
-
-  @Override public void showWrongdoerFragment() {
-    viewPager.setCurrentItem(1, true);
-    /*
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    transaction.replace(R.id.fragment_container, WrongdoerFragment.newInstance(null));
-    transaction.addToBackStack(null);
-    transaction.commit();
-    */
-  }
-
-  private MainAdapterView adapterView = null;
-
-  @Override public void setViewPager() {
-    viewPager.setAdapter(adapter);
+    navigationView.setNavigationItemSelectedListener(item -> {
+      presenter.onNavigationItemSelected(item.getItemId());
+      drawer.closeDrawer(GravityCompat.START);
+      return true;
+    });
+    bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+      presenter.onBottomNavigationItemSelected(item.getItemId());
+      return true;
+    });
     viewPager.addOnPageChangeListener(new OnSimplePageChangeListener() {
       @Override public void onPageChanged(int position) {
-        presenter.onPageChanged(position);
+        presenter.onAdapterPageChanged(position);
       }
     });
   }
 
-  @Override public void refreshAdapter() {
-    adapterView.refresh();
-    viewPager.setAdapter(adapter);
-  }
-  private MainPagerAdapter adapter;
-  @Override public void setAdapter() {
-    adapter = new MainPagerAdapter(getSupportFragmentManager());
-    presenter.setAdapterDataModel(adapter);
-    adapterView = adapter;
+  @Override public void setTitle(String title) {
+    ActionBar actionBar = getSupportActionBar();
+    if (actionBar != null) {
+      actionBar.setTitle(title);
+    }
   }
 
-  @Override public void setSelectedBottomNavigation(int id) {
-    bottomNavigationView.setSelectedItemId(id);
+  @Override public void navigateToReview(Uri uri) {
+    Intent intent = new Intent(Intent.ACTION_VIEW);
+    intent.setData(uri);
+    startActivity(intent);
   }
 
-  public String TableToJson(String source) throws JSONException {
+  @Override public void navigateToShare(String url) {
+    Intent intent = new Intent(Intent.ACTION_SEND);
+    intent.addCategory(Intent.CATEGORY_DEFAULT);
+    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+    intent.putExtra(Intent.EXTRA_TEXT, url);
+    intent.setType("text/plain");
 
-    Document doc;
-    JSONObject rootJsonObject = new JSONObject();
+    intent = Intent.createChooser(intent, getString(R.string.app_share));
+    startActivity(intent);
+  }
 
+  @Override public void setBottomNavigationViewBehavior() {
     try {
-      doc = Jsoup.connect(source).get();
-
-      for (Element thead : doc.select("thead")) {
-        Elements e = thead.select("tr").get(0).select("th");
-        for (Element element : e) {
-          String a = element.childNode(0).toString();
-          Log.d("child", a);
-        }
-      }
-      for (Element tbody : doc.select("tbody")) {
-
-      }
-    } catch (IOException e) {
+      CoordinatorLayout.LayoutParams layoutParams =
+          (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
+      layoutParams.setBehavior(new BottomNavigationViewBehavior());
+    } catch (ClassCastException e) {
       e.printStackTrace();
     }
+  }
 
-    return rootJsonObject.toString();
+  private OnFragmentEventListener onViolationFacilityFragListener;
+  private OnFragmentEventListener onViolatorFragListener;
+
+  @Override public void setViewPager() {
+    ViolationFacilityFragment facilityFragment = ViolationFacilityFragment.newInstance(null);
+    ViolatorFragment violatorFragment = ViolatorFragment.newInstance(null);
+    onViolationFacilityFragListener = facilityFragment;
+    onViolatorFragListener = violatorFragment;
+
+    List<BaseFragment> fragments = new ArrayList<>();
+    fragments.add(facilityFragment);
+    fragments.add(violatorFragment);
+    fragments.add(CertifiedFragment.newInstance(null));
+
+    PagerBaseAdapter adapter = new PagerBaseAdapter(getSupportFragmentManager());
+    adapter.addAll(fragments);
+    viewPager.setAdapter(adapter);
+  }
+
+  @Override public void setCheckedBottomNavigationView(int position) {
+    bottomNavigationView.getMenu().getItem(position).setChecked(true);
+  }
+
+  @Override public void setViewPagerCurrentItem(int position) {
+    viewPager.setCurrentItem(position, true);
+  }
+
+  @Override public Activity getActivity() {
+    return this;
+  }
+
+  @Override public void hideLoading() {
+
+  }
+
+  @Override public void showLoading() {
+
+  }
+
+  @Override public void onNearbyClick() {
+    if (onViolationFacilityFragListener != null) {
+      onViolationFacilityFragListener.onNearbyClick();
+    }
+    if (onViolatorFragListener != null) {
+      onViolatorFragListener.onNearbyClick();
+    }
+  }
+
+  @Override public void setVersionName(String versionName) {
+    View view = navigationView.getHeaderView(0);
+    TextView versionNameView = view.findViewById(R.id.version_name_textview);
+    versionNameView.setText(versionName);
+  }
+
+  @Override public void showOpensourceLicenses(Notices notices) {
+    new LicensesDialog.Builder(this).setNotices(notices).setIncludeOwnLicense(true).build().show();
   }
 
   @Override public void onBackPressed() {
@@ -125,20 +183,4 @@ public class MainActivity extends BaseActivity
       super.onBackPressed();
     }
   }
-
-  @SuppressWarnings("StatementWithEmptyBody") @Override
-  public boolean onNavigationItemSelected(MenuItem item) {
-    presenter.onNavigationItemSelected(item.getItemId());
-    drawer.closeDrawer(GravityCompat.START);
-    return true;
-  }
-
-  private BottomNavigationView.OnNavigationItemSelectedListener
-      onBottomNavigationItemSelectedListener =
-      new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-          presenter.onBottomNavigationItemSelected(item.getItemId());
-          return true;
-        }
-      };
 }
