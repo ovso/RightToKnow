@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     if (viewPager.getCurrentItem() < 2) {
-      getMenuInflater().inflate(R.menu.menu_main, menu);
+      getMenuInflater().inflate(R.menu.main, menu);
     }
     return true;
   }
