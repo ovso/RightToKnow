@@ -19,9 +19,10 @@ import java.util.ArrayList;
 public class MainPresenterImpl implements MainPresenter {
 
   private MainPresenter.View view;
-
+  private MainModel model;
   MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
+    model = new MainModel();
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,9 @@ public class MainPresenterImpl implements MainPresenter {
         break;
       case R.id.nav_share:
         view.navigateToShare(Constants.URL_SHARE);
+        break;
+      case R.id.nav_open_source:
+        view.showOpensourceLicenses(model.getNotices());
         break;
     }
   }

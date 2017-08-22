@@ -17,6 +17,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
+import de.psdev.licensesdialog.LicensesDialog;
+import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
+import de.psdev.licensesdialog.licenses.GnuLesserGeneralPublicLicense21;
+import de.psdev.licensesdialog.model.Notice;
+import de.psdev.licensesdialog.model.Notices;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
@@ -168,6 +173,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     View view = navigationView.getHeaderView(0);
     TextView versionNameView = view.findViewById(R.id.version_name_textview);
     versionNameView.setText(versionName);
+  }
+
+  @Override public void showOpensourceLicenses(Notices notices) {
+    new LicensesDialog.Builder(this).setNotices(notices).setIncludeOwnLicense(true).build().show();
   }
 
   @Override public void onBackPressed() {

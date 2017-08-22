@@ -3,6 +3,7 @@ package io.github.ovso.righttoknow.main;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import de.psdev.licensesdialog.model.Notices;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -47,5 +48,7 @@ public interface MainPresenter {
     void setVersionName(String versionName);
 
     void invalidateOptionsMenu();
+
+    void showOpensourceLicenses(Notices notices);
   }
 }
