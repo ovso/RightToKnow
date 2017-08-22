@@ -61,8 +61,16 @@ public class PDFViewerActivity extends BaseActivity implements PDFViewerPresente
 
   }
 
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public void finishActivity() {
     finish();
+  }
+
+  @Override public void onBackPressed() {
+    presenter.onBackPressed();
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    presenter.onOptionsItemSelected();
     return true;
   }
 }

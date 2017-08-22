@@ -13,6 +13,10 @@ public interface PDFViewerPresenter {
 
   void onCreate(Bundle savedInstanceState, Intent intent);
 
+  void onBackPressed();
+
+  void onOptionsItemSelected();
+
   public interface View {
 
     void showLoading();
@@ -24,5 +28,7 @@ public interface PDFViewerPresenter {
     void setTitle(String title);
 
     void setProgressbarColor(@ColorRes int color);
+
+    void finishActivity();
   }
 }

@@ -36,7 +36,7 @@ public class PDFViewerPresenterImpl implements PDFViewerPresenter {
       }
 
       @DebugLog @Override public void onError() {
-        view.hideLoading();
+        //view.hideLoading();
       }
     });
   }
@@ -49,6 +49,15 @@ public class PDFViewerPresenterImpl implements PDFViewerPresenter {
       interactor.setFileName(fileName);
       interactor.req();
     }
+  }
+
+  @Override public void onBackPressed() {
+    interactor.cancel();
+    view.finishActivity();
+  }
+
+  @Override public void onOptionsItemSelected() {
+    view.finishActivity();
   }
 
   private String getTitle(String fileName) {

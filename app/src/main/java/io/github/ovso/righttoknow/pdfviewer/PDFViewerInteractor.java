@@ -1,8 +1,10 @@
 package io.github.ovso.righttoknow.pdfviewer;
 
 import android.text.TextUtils;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import lombok.Setter;
 class PDFViewerInteractor {
   private File localFile;
   @Setter private String fileName;
+  private FileDownloadTask fileDownloadTask;
 
   public void req() {
     onChildResultListener.onPre();
@@ -24,7 +27,8 @@ class PDFViewerInteractor {
       try {
         localFile = File.createTempFile(fileName, "pdf");
         StorageReference childReference = storageRef.child("child_certified/" + fileName);
-        childReference.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+        fileDownloadTask = childReference.getFile(localFile);
+        fileDownloadTask.addOnSuccessListener(taskSnapshot -> {
           onChildResultListener.onResult(localFile);
           onChildResultListener.onPost();
         }).addOnFailureListener(e -> {
@@ -38,4 +42,8 @@ class PDFViewerInteractor {
   }
 
   @Setter @Getter private OnChildResultListener onChildResultListener;
+
+  @DebugLog public void cancel() {
+    fileDownloadTask.cancel();
+  }
 }
