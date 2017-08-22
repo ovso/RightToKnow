@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
@@ -29,6 +30,7 @@ public class PDFViewerPresenterImpl implements PDFViewerPresenter {
 
       @DebugLog @Override public void onResult(File result) {
         view.showPDF(result);
+        Log.d("OJH", "result = " + result.toString());
       }
 
       @DebugLog @Override public void onPost() {

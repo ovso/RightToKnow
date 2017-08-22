@@ -1,13 +1,14 @@
 package io.github.ovso.righttoknow.pdfviewer;
 
 import android.text.TextUtils;
+import android.util.Log;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import hugo.weaving.DebugLog;
+import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import java.io.File;
-import java.io.IOException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,9 +24,15 @@ class PDFViewerInteractor {
   public void req() {
     onChildResultListener.onPre();
     if (!TextUtils.isEmpty(fileName)) {
+      File file = new File(MyApplication.getInstance().getFilesDir() + "/" + fileName);
+      if (file.exists()) {
+        onChildResultListener.onResult(file);
+        onChildResultListener.onPost();
+        return;
+      }
       StorageReference storageRef = FirebaseStorage.getInstance().getReference();
       try {
-        localFile = File.createTempFile(fileName, "pdf");
+        localFile = new File(MyApplication.getInstance().getFilesDir(), fileName);
         StorageReference childReference = storageRef.child("child_certified/" + fileName);
         fileDownloadTask = childReference.getFile(localFile);
         fileDownloadTask.addOnSuccessListener(taskSnapshot -> {
@@ -35,7 +42,7 @@ class PDFViewerInteractor {
           e.printStackTrace();
           onChildResultListener.onError();
         });
-      } catch (IOException e) {
+      } catch (Exception e) {
         e.printStackTrace();
       }
     }
