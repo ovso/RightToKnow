@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.view.View;
 import android.widget.ProgressBar;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
@@ -22,7 +21,6 @@ public class SplashActivity extends BaseActivity {
   @BindView(R.id.progressbar) ProgressBar progressBar;
   private Handler handler = new Handler();
   private Runnable runnable = () -> {
-    progressBar.setVisibility(View.INVISIBLE);
     if (Utility.isOnline(getApplicationContext())) {
       navigateToMain();
     } else {

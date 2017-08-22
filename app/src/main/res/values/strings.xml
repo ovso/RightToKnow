@@ -36,7 +36,7 @@
   <string name="title_vioation_facility_inquiry">위반시설 조회</string>
   <string name="title_violator_inquiry">위반행위자 조회</string>
   <string name="title_certified">평가 인증</string>
-  <string name="title_child_certified">평가 인증 어린이집</string>
+  <string name="title_child_certified">평가 인증 어린이집 상세</string>
   <string name="msg_latest_info">최신정보입니다.</string>
   <string name="day_care_center">어린이집</string>
   <string name="detail">(상세)</string>
@@ -52,4 +52,7 @@
   <string name="photo_credit_by">Photo credit by Edukame.com</string>
   <string name="version">ver</string>
   <string name="abused">학대</string>
+  <string name="year">년</string>
+  <string name="month">월</string>
+  <string name="title_child_certified_detail">어린이집평가인증 신규 및 재인증 결과발표</string>
 </resources>

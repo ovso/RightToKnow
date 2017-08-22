@@ -1,7 +1,9 @@
 package io.github.ovso.righttoknow.pdfviewer;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.TextUtils;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
@@ -40,11 +42,30 @@ public class PDFViewerPresenterImpl implements PDFViewerPresenter {
   }
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
+    view.setProgressbarColor(R.color.colorPrimary);
     if (intent.hasExtra("name")) {
-      interactor.setFileName(intent.getStringExtra("name"));
+      String fileName = intent.getStringExtra("name");
+      view.setTitle(getTitle(fileName));
+      interactor.setFileName(fileName);
       interactor.req();
     }
+  }
 
-    view.setTitle(MyApplication.getInstance().getString(R.string.title_child_certified));
+  private String getTitle(String fileName) {
+    Resources res = MyApplication.getInstance().getResources();
+    if (!TextUtils.isEmpty(fileName)) {
+      String year = fileName.substring(0, 4);
+      String month = fileName.substring(4, 6);
+      String title = year
+          + res.getString(R.string.year)
+          + " "
+          + month
+          + res.getString(R.string.month)
+          + " "
+          + res.getString(R.string.title_child_certified_detail);
+      return title;
+    } else {
+      return res.getString(R.string.title_child_certified);
+    }
   }
 }

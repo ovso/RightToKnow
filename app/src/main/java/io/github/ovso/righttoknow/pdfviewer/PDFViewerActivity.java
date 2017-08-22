@@ -1,7 +1,10 @@
 package io.github.ovso.righttoknow.pdfviewer;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,9 +54,15 @@ public class PDFViewerActivity extends BaseActivity implements PDFViewerPresente
     }
   }
 
+  @Override public void setProgressbarColor(@ColorRes int color) {
+    progressBar.getIndeterminateDrawable()
+        .setColorFilter(ContextCompat.getColor(getApplicationContext(), color),
+            PorterDuff.Mode.MULTIPLY);
+
+  }
+
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     finish();
     return true;
   }
-
 }

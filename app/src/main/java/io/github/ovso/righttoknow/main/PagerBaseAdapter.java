@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.main;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
@@ -15,6 +16,10 @@ import java.util.List;
 public class PagerBaseAdapter extends FragmentPagerAdapter
     implements BaseAdapterView, BaseAdapterDataModel<BaseFragment> {
   private ArrayList<BaseFragment> items = new ArrayList<>();
+
+  @Override public void destroyItem(ViewGroup container, int position, Object object) {
+    //super.destroyItem(container, position, object);
+  }
 
   public PagerBaseAdapter(FragmentManager fm) {
     super(fm);

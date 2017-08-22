@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.pdfviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import java.io.File;
 
 /**
@@ -21,5 +22,7 @@ public interface PDFViewerPresenter {
     void showPDF(File file);
 
     void setTitle(String title);
+
+    void setProgressbarColor(@ColorRes int color);
   }
 }
