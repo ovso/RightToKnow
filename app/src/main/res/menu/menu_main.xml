@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item
       android:id="@+id/option_menu_my_location"
-      android:title="@string/my_location">
+      android:title="@string/my_location"
+      android:icon="@drawable/ic_location_on_black_24dp">
   </item>
 </menu>

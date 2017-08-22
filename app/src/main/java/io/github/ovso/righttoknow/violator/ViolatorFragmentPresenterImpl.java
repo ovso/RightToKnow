@@ -35,7 +35,6 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
         @Override public void onAddressChanged(Address address) {
           adapterDataModel.searchMyLocation(address.getLocality(), address.getSubLocality());
-          //adapterDataModel.searchMyLocation("구구구", address.getSubLocality());
           view.refresh();
           int itemSize = adapterDataModel.getSize();
           if (itemSize < 2) {
