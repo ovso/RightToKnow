@@ -3,6 +3,9 @@ package io.github.ovso.righttoknow.pdfviewer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import butterknife.BindView;
 import com.github.barteksc.pdfviewer.PDFView;
 import io.github.ovso.righttoknow.R;
@@ -15,6 +18,7 @@ import java.io.File;
 
 public class PDFViewerActivity extends BaseActivity implements PDFViewerPresenter.View {
   @BindView(R.id.pdf_view) PDFView pdfView;
+  @BindView(R.id.progress_bar) ProgressBar progressBar;
   private PDFViewerPresenter presenter;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,11 +32,11 @@ public class PDFViewerActivity extends BaseActivity implements PDFViewerPresente
   }
 
   @Override public void showLoading() {
-
+    progressBar.setVisibility(View.VISIBLE);
   }
 
   @Override public void hideLoading() {
-
+    progressBar.setVisibility(View.GONE);
   }
 
   @Override public void showPDF(File file) {
@@ -43,7 +47,13 @@ public class PDFViewerActivity extends BaseActivity implements PDFViewerPresente
     ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) {
       actionBar.setTitle(title);
+      actionBar.setDisplayHomeAsUpEnabled(true);
     }
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    finish();
+    return true;
   }
 
 }

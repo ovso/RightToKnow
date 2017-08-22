@@ -1,10 +1,6 @@
 package io.github.ovso.righttoknow.pdfviewer;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
@@ -28,20 +24,13 @@ class PDFViewerInteractor {
       try {
         localFile = File.createTempFile(fileName, "pdf");
         StorageReference childReference = storageRef.child("child_certified/" + fileName);
-        childReference.getFile(localFile)
-            .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-              @Override public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                //Log.d("OJH", localFile.toString());
-                //pdfView.fromFile(new File(localFile.toString())).load();
-                onChildResultListener.onResult(localFile);
-              }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-              @Override public void onFailure(@NonNull Exception e) {
-                e.printStackTrace();
-                onChildResultListener.onError();
-              }
-            });
+        childReference.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+          onChildResultListener.onResult(localFile);
+          onChildResultListener.onPost();
+        }).addOnFailureListener(e -> {
+          e.printStackTrace();
+          onChildResultListener.onError();
+        });
       } catch (IOException e) {
         e.printStackTrace();
       }

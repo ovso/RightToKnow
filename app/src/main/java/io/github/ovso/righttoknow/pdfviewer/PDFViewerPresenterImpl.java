@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.pdfviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
@@ -20,19 +21,19 @@ public class PDFViewerPresenterImpl implements PDFViewerPresenter {
     this.view = view;
     interactor = new PDFViewerInteractor();
     interactor.setOnChildResultListener(new OnChildResultListener<File>() {
-      @Override public void onPre() {
+      @DebugLog @Override public void onPre() {
         view.showLoading();
       }
 
-      @Override public void onResult(File result) {
+      @DebugLog @Override public void onResult(File result) {
         view.showPDF(result);
       }
 
-      @Override public void onPost() {
+      @DebugLog @Override public void onPost() {
         view.hideLoading();
       }
 
-      @Override public void onError() {
+      @DebugLog @Override public void onError() {
         view.hideLoading();
       }
     });
