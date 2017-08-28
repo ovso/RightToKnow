@@ -50,7 +50,7 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
       holder.sidoTextView.setText(fac.getSido());
       holder.sigunguTextView.setText(fac.getSigungu());
 
-      holder.nameTextView.setText(fac.getNow_fac_name() + Utility.getActionEmoji(fac.getAction()));
+      holder.nameTextView.setText(fac.getOld_fac_name() + Utility.getActionEmoji(fac.getAction()));
       holder.typeTextView.setText(fac.getType());
 
       holder.violationFacility = fac;
