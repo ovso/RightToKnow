@@ -23,6 +23,7 @@ public class MainPresenterImpl implements MainPresenter {
   MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
     model = new MainModel();
+    view.changeTheme();
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {

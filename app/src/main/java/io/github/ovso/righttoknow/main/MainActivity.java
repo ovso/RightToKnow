@@ -39,10 +39,9 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.viewpager) ViewPager viewPager;
 
   @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
     presenter = new MainPresenterImpl(this);
+    super.onCreate(savedInstanceState);
     presenter.onCreate(null);
-    //startActivity(new Intent(this, PDFViewerActivity.class));
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,6 +173,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void showOpensourceLicenses(Notices notices) {
     new LicensesDialog.Builder(this).setNotices(notices).setIncludeOwnLicense(true).build().show();
+  }
+
+  @Override public void changeTheme() {
+    setTheme(R.style.AppTheme_NoActionBar);
   }
 
   @Override public void onBackPressed() {
