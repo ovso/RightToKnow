@@ -68,11 +68,14 @@ public class MainPresenterImpl implements MainPresenter {
     view.setViewPagerCurrentItem(position);
     view.setTitle(getTitle(position));
     view.invalidateOptionsMenu();
+    view.closeSearchView();
   }
 
   @Override public void onOptionsItemSelected(int itemId) {
     if (itemId == R.id.option_menu_my_location) {
       requestPermission();
+    } else if(itemId == R.id.option_menu_search) {
+
     }
   }
 

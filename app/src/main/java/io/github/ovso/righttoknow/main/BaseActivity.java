@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import io.github.ovso.righttoknow.R;
 
 /**
@@ -18,8 +19,8 @@ import io.github.ovso.righttoknow.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
   private Unbinder unbinder;
-  @BindView(R.id.toolbar)
-  Toolbar toolbar;
+  @BindView(R.id.toolbar) Toolbar toolbar;
+  @BindView(R.id.search_view) MaterialSearchView searchView;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -45,5 +46,4 @@ public abstract class BaseActivity extends AppCompatActivity {
   protected Toolbar getToolbar() {
     return toolbar;
   }
-
 }

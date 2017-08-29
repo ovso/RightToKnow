@@ -47,6 +47,8 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     if (viewPager.getCurrentItem() < 2) {
       getMenuInflater().inflate(R.menu.main, menu);
+      MenuItem item = menu.findItem(R.id.option_menu_search);
+      searchView.setMenuItem(item);
     }
     return true;
   }
@@ -177,6 +179,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void changeTheme() {
     setTheme(R.style.AppTheme_NoActionBar);
+  }
+
+  @Override public void closeSearchView() {
+    searchView.closeSearch();
   }
 
   @Override public void onBackPressed() {
