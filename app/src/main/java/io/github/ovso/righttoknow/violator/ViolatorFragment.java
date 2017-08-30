@@ -107,4 +107,8 @@ public class ViolatorFragment extends BaseFragment
   @Override public void onNearbyClick() {
     presenter.onNearbyClick();
   }
+
+  @Override public void onSearchQuery(String query) {
+    presenter.onSearchQuery(query);
+  }
 }

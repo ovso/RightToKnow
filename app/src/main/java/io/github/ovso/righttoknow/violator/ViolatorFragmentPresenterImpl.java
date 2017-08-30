@@ -103,4 +103,9 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     view.showLoading();
     locationAware.start();
   }
+
+  @Override public void onSearchQuery(String query) {
+    adapterDataModel.searchAllWords(query);
+    view.refresh();
+  }
 }

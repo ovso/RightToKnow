@@ -9,6 +9,7 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.common.ObjectUtils;
 import io.github.ovso.righttoknow.common.Utility;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.ArrayList;
@@ -164,6 +165,52 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
 
     @OnClick(R.id.container_view) void onItemClick() {
       onRecyclerItemClickListener.onItemClick(violationFacility);
+    }
+  }
+
+  @Override public void searchAllWords(String query) {
+    List<ViolationFacility> items = new ArrayList<>();
+    if (violationFacilities.size() > 0) {
+      violationFacilities.remove(0);
+    }
+    for (int i = 0; i < violationFacilities.size(); i++) {
+      ViolationFacility item = violationFacilities.get(i);
+      String trimQuery = query.trim();
+      if (item.getSido().contains(trimQuery)
+          || item.getSigungu().contains(trimQuery)
+          || item.getType().contains(trimQuery)
+          || item.getOld_fac_name().contains(trimQuery)
+          || item.getNow_fac_name().contains(trimQuery)
+          || item.getOld_boss().contains(trimQuery)
+          || item.getNow_boss().contains(trimQuery)
+          || item.getOld_director().contains(trimQuery)
+          || item.getNow_director().contains(trimQuery)
+          || item.getAddress().contains(trimQuery)) {
+        items.add(item);
+      }
+
+      if (isSearchQuery(item.getAction(), query)) {
+        items.add(item);
+        continue;
+      }
+      if (isSearchQuery(item.getDisposal(), query)) {
+        items.add(item);
+        continue;
+      }
+    }
+    violationFacilities.clear();
+    violationFacilities.add(new ViolationFacility());
+    violationFacilities.addAll(items);
+  }
+
+  boolean isSearchQuery(List<String> strings, String query) {
+    if (!ObjectUtils.isEmpty(strings)) {
+      for (String a : strings) {
+        if (a.contains(query)) return true;
+      }
+      return false;
+    } else {
+      return false;
     }
   }
 

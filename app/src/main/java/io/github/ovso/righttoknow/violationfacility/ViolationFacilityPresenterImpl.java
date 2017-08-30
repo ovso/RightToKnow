@@ -104,4 +104,9 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     view.showLoading();
     locationAware.start();
   }
+
+  @Override public void onSearchQuery(String query) {
+    adapterDataModel.searchAllWords(query);
+    view.refresh();
+  }
 }

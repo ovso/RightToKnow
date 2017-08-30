@@ -6,4 +6,5 @@ package io.github.ovso.righttoknow.listener;
 
 public interface OnFragmentEventListener<T> {
   void onNearbyClick();
+  void onSearchQuery(String query);
 }

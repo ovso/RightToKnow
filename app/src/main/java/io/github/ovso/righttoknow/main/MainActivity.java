@@ -190,6 +190,8 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     searchView.setVoiceSearch(true);
     searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
       @Override public boolean onQueryTextSubmit(String query) {
+        onViolationFacilityFragListener.onSearchQuery(query);
+        onViolatorFragListener.onSearchQuery(query);
         return false;
       }
 
