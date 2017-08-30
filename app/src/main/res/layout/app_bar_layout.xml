@@ -24,6 +24,7 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="예)지역,행위,이름,유형,주소 등"
         style="@style/MaterialSearchViewStyle"
         />
   </FrameLayout>

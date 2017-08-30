@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.violationfacility;
 
 import android.location.Address;
 import android.os.Bundle;
+import android.os.Handler;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import io.github.ovso.righttoknow.main.LocationAware;
@@ -106,7 +107,9 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   }
 
   @Override public void onSearchQuery(String query) {
+    view.showLoading();
     adapterDataModel.searchAllWords(query);
     view.refresh();
+    new Handler().postDelayed(() -> view.hideLoading(), 500);
   }
 }
