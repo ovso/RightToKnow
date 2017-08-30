@@ -12,6 +12,7 @@
     android:background="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/colorPrimaryDark"
     app:cardCornerRadius="5dp"
+    app:cardElevation="0dp"
     >
 
   <LinearLayout
