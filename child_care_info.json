@@ -2,8 +2,8 @@
   "child_vio_fac": [
     {
       "reg_number": 97,
-      "sido": "성남시",
-      "sigungu": "분당구",
+      "sido": "경기도",
+      "sigungu": "성남시 분당구",
       "type": "가정",
       "now_fac_name": "",
       "old_fac_name": "현대아이랑어린이집",
@@ -21,8 +21,8 @@
     },
     {
       "reg_number": 96,
-      "sido": "성남시",
-      "sigungu": "분당구",
+      "sido": "경기도",
+      "sigungu": "성남시 분당구",
       "type": "가정",
       "now_fac_name": "",
       "old_fac_name": "예일어린이집",

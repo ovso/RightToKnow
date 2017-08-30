@@ -34,6 +34,7 @@ public class MainPresenterImpl implements MainPresenter {
     view.setListener();
     view.setViewPager();
     view.setBottomNavigationViewBehavior();
+    view.setSearchView();
   }
 
   @Override public void onNavigationItemSelected(int id) {

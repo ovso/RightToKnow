@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import de.psdev.licensesdialog.LicensesDialog;
 import de.psdev.licensesdialog.model.Notices;
 import io.github.ovso.righttoknow.R;
@@ -183,6 +184,29 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void closeSearchView() {
     searchView.closeSearch();
+  }
+
+  @Override public void setSearchView() {
+    searchView.setVoiceSearch(true);
+    searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+      @Override public boolean onQueryTextSubmit(String query) {
+        return false;
+      }
+
+      @Override public boolean onQueryTextChange(String newText) {
+        return false;
+      }
+    });
+
+    searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+      @Override public void onSearchViewShown() {
+        //Do some magic
+      }
+
+      @Override public void onSearchViewClosed() {
+        //Do some magic
+      }
+    });
   }
 
   @Override public void onBackPressed() {

@@ -54,5 +54,7 @@ public interface MainPresenter {
     void changeTheme();
 
     void closeSearchView();
+
+    void setSearchView();
   }
 }
