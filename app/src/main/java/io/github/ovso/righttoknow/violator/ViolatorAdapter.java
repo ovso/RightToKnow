@@ -9,6 +9,7 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.common.ObjectUtils;
 import io.github.ovso.righttoknow.common.Utility;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ import lombok.Setter;
 public class ViolatorAdapter extends BaseRecyclerAdapter
     implements BaseAdapterView, ViolatorAdapterDataModel<Violator> {
 
-  private List<Violator> violators = new ArrayList<>();
+  private List<Violator> toBeUsedItems = new ArrayList<>();
+  private List<Violator> originItems = new ArrayList<>();
 
   @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
     if (viewType == ITEM_VIEW_TYPE_HEADER) {
@@ -45,7 +47,7 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   @Override public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
     if (baseHolder instanceof ViolatorViewHolder) {
       ViolatorViewHolder holder = (ViolatorViewHolder) baseHolder;
-      Violator violator = violators.get(position);
+      Violator violator = toBeUsedItems.get(position);
       holder.turnTextview.setText(String.valueOf(violator.getReg_number()));
       holder.sidoTextView.setText(violator.getSido());
       holder.sigunguTextView.setText(violator.getSigungu());
@@ -74,33 +76,37 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   }
 
   @Override public void add(Violator item) {
-    violators.add(item);
+    toBeUsedItems.add(item);
   }
 
   @Override public void addAll(List<Violator> items) {
-    violators.addAll(items);
+
+    originItems.add(new Violator());
+    originItems.addAll(items);
+
+    toBeUsedItems.addAll(items);
   }
 
   @Override public Violator remove(int position) {
-    return violators.remove(position);
+    return toBeUsedItems.remove(position);
   }
 
   @Override public Violator getItem(int position) {
-    return violators.get(position);
+    return toBeUsedItems.get(position);
   }
 
   @Override public void add(int index, Violator item) {
-    violators.add(index, item);
+    toBeUsedItems.add(index, item);
   }
 
   @Override public int getSize() {
-    return violators.size();
+    return toBeUsedItems.size();
   }
 
   @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
 
   @Override public int getItemViewType(int position) {
-    int regNumber = violators.get(position).getReg_number();
+    int regNumber = toBeUsedItems.get(position).getReg_number();
     if (regNumber > 0) {
       return ITEM_VIEW_TYPE_DEFAULT;
     } else {
@@ -111,18 +117,18 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   private void sortTurn() {
     Comparator<Violator> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
         .compareTo(Integer.valueOf(t1.getReg_number()));
-    Collections.sort(violators, comparator);
+    Collections.sort(toBeUsedItems, comparator);
   }
 
   private void sortSido() {
     Comparator<Violator> comparator = (t1, t2) -> t1.getSido().compareTo(t2.getSido());
-    Collections.sort(violators, comparator);
+    Collections.sort(toBeUsedItems, comparator);
   }
 
   private void sortHistory() {
     Comparator<Violator> comparator =
         (t1, t2) -> Integer.valueOf(t2.getHistory()).compareTo(t1.getHistory());
-    Collections.sort(violators, comparator);
+    Collections.sort(toBeUsedItems, comparator);
   }
 
   final static class ViolatorViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
@@ -142,6 +148,80 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
 
     @OnClick(R.id.container_view) void onItemClick() {
       onRecyclerItemClickListener.onItemClick(violator);
+    }
+  }
+
+  @Override public void clear() {
+    originItems.clear();
+    toBeUsedItems.clear();
+  }
+
+  @Override public void searchMyLocation(String locality, String subLocality) {
+    String nowLocality;
+    if (!TextUtils.isEmpty(locality) && !TextUtils.isEmpty(subLocality)) {
+      nowLocality = subLocality;
+    } else if (!TextUtils.isEmpty(locality) && TextUtils.isEmpty(subLocality)) {
+      nowLocality = locality;
+    } else {
+      nowLocality = subLocality;
+    }
+
+    List<Violator> temps = new ArrayList<>();
+    for (Violator v : toBeUsedItems) {
+      String sigungu = v.getSigungu();
+      if (!TextUtils.isEmpty(sigungu)) {
+        if (sigungu.indexOf(nowLocality) != -1) {
+          temps.add(v);
+        }
+      }
+    }
+    toBeUsedItems.clear();
+    toBeUsedItems.add(0, new Violator());
+    toBeUsedItems.addAll(temps);
+  }
+
+  @Override public void searchAllWords(String query) {
+    List<Violator> returnItems = new ArrayList<>();
+
+    toBeUsedItems.clear();
+    toBeUsedItems.addAll(originItems);
+
+    if (toBeUsedItems.size() > 0) {
+      toBeUsedItems.remove(0);
+    }
+    for (int i = 0; i < toBeUsedItems.size(); i++) {
+      Violator item = toBeUsedItems.get(i);
+      String trimQuery = query.trim();
+      if (item.getSido().contains(trimQuery)
+          || item.getSigungu().contains(trimQuery)
+          || item.getName().contains(trimQuery)
+          || item.getOld_fac_name().contains(trimQuery)
+          || item.getAddress().contains(trimQuery)) {
+        returnItems.add(item);
+        continue;
+      }
+      if (isSearchQuery(item.getAction(), query)) {
+        returnItems.add(item);
+        continue;
+      }
+      if (isSearchQuery(item.getDisposal(), query)) {
+        returnItems.add(item);
+        continue;
+      }
+    }
+    toBeUsedItems.clear();
+    toBeUsedItems.add(new Violator());
+    toBeUsedItems.addAll(returnItems);
+  }
+
+  boolean isSearchQuery(List<String> strings, String query) {
+    if (!ObjectUtils.isEmpty(strings)) {
+      for (String a : strings) {
+        if (a.contains(query)) return true;
+      }
+      return false;
+    } else {
+      return false;
     }
   }
 
@@ -176,33 +256,5 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
       }
       selfAdapter.refresh();
     }
-  }
-
-  @Override public void clear() {
-    violators.clear();
-  }
-
-  @Override public void searchMyLocation(String locality, String subLocality) {
-    String nowLocality;
-    if (!TextUtils.isEmpty(locality) && !TextUtils.isEmpty(subLocality)) {
-      nowLocality = subLocality;
-    } else if (!TextUtils.isEmpty(locality) && TextUtils.isEmpty(subLocality)) {
-      nowLocality = locality;
-    } else {
-      nowLocality = subLocality;
-    }
-
-    List<Violator> temps = new ArrayList<>();
-    for (Violator v : violators) {
-      String sigungu = v.getSigungu();
-      if (!TextUtils.isEmpty(sigungu)) {
-        if (sigungu.indexOf(nowLocality) != -1) {
-          temps.add(v);
-        }
-      }
-    }
-    violators.clear();
-    violators.add(0, new Violator());
-    violators.addAll(temps);
   }
 }

@@ -23,6 +23,8 @@ public interface ViolatorFragmentPresenter {
 
   void onNearbyClick();
 
+  void onSearchQuery(String query);
+
   interface View {
 
     void hideLoading();

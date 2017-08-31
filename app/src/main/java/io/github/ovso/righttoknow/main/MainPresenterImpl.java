@@ -20,9 +20,11 @@ public class MainPresenterImpl implements MainPresenter {
 
   private MainPresenter.View view;
   private MainModel model;
+
   MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
     model = new MainModel();
+    view.changeTheme();
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainPresenterImpl implements MainPresenter {
     view.setListener();
     view.setViewPager();
     view.setBottomNavigationViewBehavior();
+    view.setSearchView();
   }
 
   @Override public void onNavigationItemSelected(int id) {
@@ -67,6 +70,7 @@ public class MainPresenterImpl implements MainPresenter {
     view.setViewPagerCurrentItem(position);
     view.setTitle(getTitle(position));
     view.invalidateOptionsMenu();
+    view.closeSearchView();
   }
 
   @Override public void onOptionsItemSelected(int itemId) {
@@ -98,16 +102,14 @@ public class MainPresenterImpl implements MainPresenter {
     String title = res.getString(R.string.title_vioation_facility_inquiry);
     switch (position) {
       case Constants.ITEM_VIOLATION_FACILITY:
-        title = res.getString(R.string.day_care_center) + " " + res.getString(
-            R.string.title_vioation_facility_inquiry);
+        title = res.getString(R.string.title_vioation_facility_inquiry);
         break;
       case Constants.ITEM_VIOLATOR:
-        title = res.getString(R.string.day_care_center) + " " + res.getString(
-            R.string.title_violator_inquiry);
+        title = res.getString(R.string.title_violator_inquiry);
         break;
       case Constants.ITEM_CERTIFIED:
-        title = res.getString(R.string.title_certified) + " " + res.getString(
-            R.string.day_care_center);
+        title =
+            res.getString(R.string.title_certified) + " " + res.getString(R.string.day_care_center);
         break;
       default:
 

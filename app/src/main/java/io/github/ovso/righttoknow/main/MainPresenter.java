@@ -50,5 +50,11 @@ public interface MainPresenter {
     void invalidateOptionsMenu();
 
     void showOpensourceLicenses(Notices notices);
+
+    void changeTheme();
+
+    void closeSearchView();
+
+    void setSearchView();
   }
 }

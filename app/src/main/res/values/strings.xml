@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">건강한 어린이집</string>//Right To Know
+  <string name="app_name">어린이집 정보공개</string>//Right To Know
 
   <string name="navigation_drawer_open">Open navigation drawer</string>
   <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -48,11 +48,12 @@
   <string name="no_result">내 근처 위반 검색 결과가 없습니다.</string>
   <string name="please_retry">죄송합니다. 문제가 생겼습니다. 잠시후 다시 시도해주세요.</string>
   <string name="empty"/>
-  <string name="photo_credit_by">Photo credit by Edukame.com</string>
+  <string name="photo_credit_by">Photo credit: Edukame.com</string>
   <string name="version">ver</string>
   <string name="abused">학대</string>
   <string name="year">년</string>
   <string name="month">월</string>
   <string name="title_child_certified_detail">어린이집평가인증 신규 및 재인증 결과발표</string>
   <string name="opensource_licenses">오픈소스 라이선스</string>
+  <string name="hit_all_search">전체 검색</string>
 </resources>

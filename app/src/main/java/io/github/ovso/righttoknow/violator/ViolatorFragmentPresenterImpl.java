@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.violator;
 
 import android.location.Address;
 import android.os.Bundle;
+import android.os.Handler;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import io.github.ovso.righttoknow.main.LocationAware;
@@ -17,7 +18,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   private ViolatorInteractor violatorInteractor;
   private ViolatorAdapterDataModel adapterDataModel;
   private LocationAware locationAware;
-
+  private Handler handler;
   ViolatorFragmentPresenterImpl(ViolatorFragmentPresenter.View view) {
     this.view = view;
     violatorInteractor = new ViolatorInteractor();
@@ -25,6 +26,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
     locationAware = new LocationAware(view.getActivity());
     locationAware.setLocationListener(onLocationListener);
+    handler = new Handler();
   }
 
   private LocationAware.OnLocationListener onLocationListener =
@@ -90,6 +92,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
   @Override public void onDestroyView() {
     violatorInteractor.cancel();
+    handler.removeCallbacks(hideLoadingRunnable);
   }
 
   @Override public void onRefresh() {
@@ -102,5 +105,16 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   @Override public void onNearbyClick() {
     view.showLoading();
     locationAware.start();
+  }
+  private Runnable hideLoadingRunnable = new Runnable() {
+    @Override public void run() {
+      view.hideLoading();
+    }
+  };
+  @Override public void onSearchQuery(String query) {
+    view.showLoading();
+    adapterDataModel.searchAllWords(query);
+    view.refresh();
+    handler.postDelayed(hideLoadingRunnable, 500);
   }
 }

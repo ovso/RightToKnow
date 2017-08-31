@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.violationfacility;
 
 import android.location.Address;
 import android.os.Bundle;
+import android.os.Handler;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import io.github.ovso.righttoknow.main.LocationAware;
@@ -18,6 +19,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   private FacilityAdapterDataModel<ViolationFacility> adapterDataModel;
   private ViolationFacilityInteractor violationFacilityInteractor;
   private LocationAware locationAware;
+  private Handler handler;
 
   ViolationFacilityPresenterImpl(ViolationFacilityPresenter.View view) {
     this.view = view;
@@ -26,6 +28,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
 
     locationAware = new LocationAware(view.getActivity());
     locationAware.setLocationListener(onLocationListener);
+    handler = new Handler();
   }
 
   private LocationAware.OnLocationListener onLocationListener =
@@ -39,7 +42,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
           //adapterDataModel.searchMyLocation("구구구", address.getSubLocality());
           view.refresh();
           int itemSize = adapterDataModel.getSize();
-          if(itemSize < 2) {
+          if (itemSize < 2) {
             view.setSearchResultText(R.string.no_result);
           } else {
             view.setSearchResultText(R.string.empty);
@@ -91,6 +94,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
 
   @Override public void onDestroyView() {
     violationFacilityInteractor.cancel();
+    handler.removeCallbacks(hideLoadingRunnable);
   }
 
   @Override public void onRefresh() {
@@ -103,5 +107,16 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   @Override public void onNearbyClick() {
     view.showLoading();
     locationAware.start();
+  }
+  private Runnable hideLoadingRunnable = new Runnable() {
+    @Override public void run() {
+      view.hideLoading();
+    }
+  };
+  @Override public void onSearchQuery(String query) {
+    view.showLoading();
+    adapterDataModel.searchAllWords(query);
+    view.refresh();
+    handler.postDelayed(hideLoadingRunnable, 500);
   }
 }

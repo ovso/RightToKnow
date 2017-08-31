@@ -3,17 +3,28 @@ package io.github.ovso.righttoknow.main;
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
 import de.psdev.licensesdialog.model.Notice;
 import de.psdev.licensesdialog.model.Notices;
+import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.app.MyApplication;
 
 /**
- * Created by jaeho on 2017. 8. 22..
+ * Created by jaeho on 2017. 8. 22
  */
 
 class MainModel {
 
   public Notices getNotices() {
     final Notices notices = new Notices();
+
+    notices.addNotice(new Notice("App Icon(Launcher Icon)", "https://edukame.com/",
+        MyApplication.getInstance().getString(R.string.photo_credit_by), null));
+
+    notices.addNotice(
+        new Notice("MaterialSearchView", "https://github.com/MiguelCatalan/MaterialSearchView",
+            "Copyright 2015 Miguel Catalan Bañuls", new ApacheSoftwareLicense20()));
+
     notices.addNotice(new Notice("ButterKnipe", "https://github.com/JakeWharton/butterknife",
         "Copyright 2013 Jake Wharton", new ApacheSoftwareLicense20()));
+
     notices.addNotice(new Notice("Lombok", "https://github.com/rzwitserloot/lombok",
         "Copyright (C) 2009-2015 The Project Lombok Authors.\n"
             + "\n"

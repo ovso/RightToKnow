@@ -23,6 +23,8 @@ public interface ViolationFacilityPresenter {
 
   void onNearbyClick();
 
+  void onSearchQuery(String query);
+
   interface View {
 
     void setRecyclerView();

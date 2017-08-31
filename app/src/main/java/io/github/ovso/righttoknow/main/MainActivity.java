@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import de.psdev.licensesdialog.LicensesDialog;
 import de.psdev.licensesdialog.model.Notices;
 import io.github.ovso.righttoknow.R;
@@ -39,15 +40,16 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.viewpager) ViewPager viewPager;
 
   @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
     presenter = new MainPresenterImpl(this);
+    super.onCreate(savedInstanceState);
     presenter.onCreate(null);
-    //startActivity(new Intent(this, PDFViewerActivity.class));
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     if (viewPager.getCurrentItem() < 2) {
       getMenuInflater().inflate(R.menu.main, menu);
+      MenuItem item = menu.findItem(R.id.option_menu_search);
+      searchView.setMenuItem(item);
     }
     return true;
   }
@@ -174,6 +176,39 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void showOpensourceLicenses(Notices notices) {
     new LicensesDialog.Builder(this).setNotices(notices).setIncludeOwnLicense(true).build().show();
+  }
+
+  @Override public void changeTheme() {
+    setTheme(R.style.AppTheme_NoActionBar);
+  }
+
+  @Override public void closeSearchView() {
+    searchView.closeSearch();
+  }
+
+  @Override public void setSearchView() {
+    searchView.setVoiceSearch(true);
+    searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+      @Override public boolean onQueryTextSubmit(String query) {
+        onViolationFacilityFragListener.onSearchQuery(query);
+        onViolatorFragListener.onSearchQuery(query);
+        return false;
+      }
+
+      @Override public boolean onQueryTextChange(String newText) {
+        return false;
+      }
+    });
+
+    searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+      @Override public void onSearchViewShown() {
+        //Do some magic
+      }
+
+      @Override public void onSearchViewClosed() {
+        //Do some magic
+      }
+    });
   }
 
   @Override public void onBackPressed() {
