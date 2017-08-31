@@ -77,8 +77,11 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
   }
 
   @Override public void addAll(List<ViolationFacility> items) {
+
+    originItems.add(new ViolationFacility());
     originItems.addAll(items);
-    toBeUsedItems.addAll(originItems);
+
+    toBeUsedItems.addAll(items);
   }
 
   @Override public ViolationFacility remove(int position) {

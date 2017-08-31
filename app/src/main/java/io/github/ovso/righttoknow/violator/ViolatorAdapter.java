@@ -80,8 +80,11 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   }
 
   @Override public void addAll(List<Violator> items) {
+
+    originItems.add(new Violator());
     originItems.addAll(items);
-    toBeUsedItems.addAll(originItems);
+
+    toBeUsedItems.addAll(items);
   }
 
   @Override public Violator remove(int position) {
