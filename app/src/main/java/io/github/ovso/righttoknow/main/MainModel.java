@@ -7,17 +7,24 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 
 /**
- * Created by jaeho on 2017. 8. 22..
+ * Created by jaeho on 2017. 8. 22
  */
 
 class MainModel {
 
   public Notices getNotices() {
     final Notices notices = new Notices();
+
     notices.addNotice(new Notice("App Icon(Launcher Icon)", "https://edukame.com/",
         MyApplication.getInstance().getString(R.string.photo_credit_by), null));
+
+    notices.addNotice(
+        new Notice("MaterialSearchView", "https://github.com/MiguelCatalan/MaterialSearchView",
+            "Copyright 2015 Miguel Catalan Bañuls", new ApacheSoftwareLicense20()));
+
     notices.addNotice(new Notice("ButterKnipe", "https://github.com/JakeWharton/butterknife",
         "Copyright 2013 Jake Wharton", new ApacheSoftwareLicense20()));
+
     notices.addNotice(new Notice("Lombok", "https://github.com/rzwitserloot/lombok",
         "Copyright (C) 2009-2015 The Project Lombok Authors.\n"
             + "\n"
@@ -44,6 +51,7 @@ class MainModel {
 
     notices.addNotice(new Notice("AndroidPdfViewer", "https://github.com/barteksc/AndroidPdfViewer",
         "Copyright 2016 Bartosz Schiller", new ApacheSoftwareLicense20()));
+
     return notices;
   }
 }

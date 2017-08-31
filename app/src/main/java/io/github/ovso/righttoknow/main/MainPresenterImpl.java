@@ -20,6 +20,7 @@ public class MainPresenterImpl implements MainPresenter {
 
   private MainPresenter.View view;
   private MainModel model;
+
   MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
     model = new MainModel();
@@ -75,8 +76,6 @@ public class MainPresenterImpl implements MainPresenter {
   @Override public void onOptionsItemSelected(int itemId) {
     if (itemId == R.id.option_menu_my_location) {
       requestPermission();
-    } else if(itemId == R.id.option_menu_search) {
-
     }
   }
 
@@ -103,16 +102,14 @@ public class MainPresenterImpl implements MainPresenter {
     String title = res.getString(R.string.title_vioation_facility_inquiry);
     switch (position) {
       case Constants.ITEM_VIOLATION_FACILITY:
-        title = res.getString(R.string.day_care_center) + " " + res.getString(
-            R.string.title_vioation_facility_inquiry);
+        title = res.getString(R.string.title_vioation_facility_inquiry);
         break;
       case Constants.ITEM_VIOLATOR:
-        title = res.getString(R.string.day_care_center) + " " + res.getString(
-            R.string.title_violator_inquiry);
+        title = res.getString(R.string.title_violator_inquiry);
         break;
       case Constants.ITEM_CERTIFIED:
-        title = res.getString(R.string.title_certified) + " " + res.getString(
-            R.string.day_care_center);
+        title =
+            res.getString(R.string.title_certified) + " " + res.getString(R.string.day_care_center);
         break;
       default:
 
