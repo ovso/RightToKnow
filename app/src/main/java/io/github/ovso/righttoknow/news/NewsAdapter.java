@@ -4,9 +4,9 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
+import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.news.vo.News;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 public class NewsAdapter extends BaseRecyclerAdapter
-    implements BaseAdapterDataModel<News>, BaseAdapterView {
+    implements NewsAdapterDataModel, BaseAdapterView {
   private List<News> toBeUsedItems = new ArrayList<>();
 
   @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
@@ -27,9 +27,15 @@ public class NewsAdapter extends BaseRecyclerAdapter
     return R.layout.fragment_news_item;
   }
 
-  @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
-    if(holder instanceof NewsViewHolder) {
-      ((NewsViewHolder) holder).titleTextview.setText(toBeUsedItems.get(position).getTitle());
+  @Override public void onBindViewHolder(BaseViewHolder viewHolder, int position) {
+    if (viewHolder instanceof NewsViewHolder) {
+      NewsViewHolder holder = (NewsViewHolder) viewHolder;
+      holder.titleTextview.setText(toBeUsedItems.get(position).getTitle());
+      holder.itemView.setOnClickListener(view -> {
+        if (onRecyclerItemClickListener != null) {
+          onRecyclerItemClickListener.onItemClick(toBeUsedItems.get(position));
+        }
+      });
     }
   }
 
@@ -69,9 +75,15 @@ public class NewsAdapter extends BaseRecyclerAdapter
     notifyDataSetChanged();
   }
 
+  private OnRecyclerItemClickListener<News> onRecyclerItemClickListener;
+
+  @Override public void setOnItemClickListener(OnRecyclerItemClickListener<News> listener) {
+    onRecyclerItemClickListener = listener;
+  }
+
   final static class NewsViewHolder extends BaseViewHolder {
     @BindView(R.id.title_textview) TextView titleTextview;
-
+    @BindView(R.id.date_textview) TextView dateTextView;
     public NewsViewHolder(View itemView) {
       super(itemView);
     }

@@ -2,7 +2,7 @@ package io.github.ovso.righttoknow.news;
 
 import android.os.Bundle;
 import hugo.weaving.DebugLog;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
+import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import io.github.ovso.righttoknow.news.vo.News;
 import java.util.List;
@@ -30,6 +30,7 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
     @DebugLog @Override public void onResult(List<News> result) {
       adapterDataModel.clear();
       adapterDataModel.addAll(result);
+
       view.refresh();
     }
 
@@ -45,10 +46,15 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
     view.setListener();
     view.setAdapter();
     view.setRecyclerView();
+    adapterDataModel.setOnItemClickListener(onRecyclerItemClickListener);
     interactor.req();
   }
-  private BaseAdapterDataModel<News> adapterDataModel;
-  @Override public void setAdapterModel(BaseAdapterDataModel<News> dataModel) {
+  private OnRecyclerItemClickListener onRecyclerItemClickListener =
+      (OnRecyclerItemClickListener<News>) item -> {
+
+      };
+  private NewsAdapterDataModel adapterDataModel;
+  @Override public void setAdapterModel(NewsAdapterDataModel dataModel) {
     adapterDataModel = dataModel;
   }
 
