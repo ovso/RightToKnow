@@ -30,6 +30,7 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
     @DebugLog @Override public void onResult(List<News> result) {
       adapterDataModel.clear();
       adapterDataModel.addAll(result);
+      adapterDataModel.sort();
 
       view.refresh();
     }

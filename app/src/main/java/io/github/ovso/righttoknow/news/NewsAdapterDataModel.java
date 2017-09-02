@@ -10,4 +10,5 @@ import io.github.ovso.righttoknow.news.vo.News;
 
 public interface NewsAdapterDataModel extends BaseAdapterDataModel<News> {
   void setOnItemClickListener(OnRecyclerItemClickListener<News> listener);
+  void sort();
 }

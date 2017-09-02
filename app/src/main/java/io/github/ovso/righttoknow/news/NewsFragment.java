@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.news;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,6 +11,7 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.news.vo.News;
+import io.github.ovso.righttoknow.newsdetail.DetailNewsActivity;
 
 /**
  * Created by jaeho on 2017. 9. 1
@@ -71,6 +73,8 @@ public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.
   }
 
   @Override public void navigateToDetailNews(News item) {
-
+    Intent intent = new Intent(getContext(), DetailNewsActivity.class);
+    intent.putExtra("news", item);
+    startActivity(intent);
   }
 }
