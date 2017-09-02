@@ -60,6 +60,8 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
   }
 
   @Override public void onRefresh() {
+    adapterDataModel.clear();
+    view.refresh();
     interactor.req();
   }
 }
