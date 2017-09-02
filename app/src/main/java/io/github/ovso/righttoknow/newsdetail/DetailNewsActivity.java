@@ -54,6 +54,7 @@ public class DetailNewsActivity extends BaseActivity {
   private void setWebView() {
     webView.setWebChromeClient(new WebChromeClient());
     webView.setWebViewClient(new MyWebViewClient());
+    webView.setOnTouchListener((view, motionEvent) -> true);
   }
 
   class MyWebViewClient extends WebViewClient {

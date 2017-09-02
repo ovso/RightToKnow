@@ -14,11 +14,16 @@
       android:layout_height="match_parent"
       app:layout_behavior="@string/appbar_scrolling_view_behavior"
       >
-    <WebView
-        android:id="@+id/webview"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        >
+      <WebView
+          android:id="@+id/webview"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          />
+    </ScrollView>
   </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.design.widget.CoordinatorLayout>
 
