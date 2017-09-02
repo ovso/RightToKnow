@@ -62,6 +62,10 @@ public class MainPresenterImpl implements MainPresenter {
         break;
       case R.id.bottom_nav_certified:
         view.setViewPagerCurrentItem(Constants.ITEM_CERTIFIED);
+        break;
+      case R.id.bottom_nav_news:
+        view.setViewPagerCurrentItem(Constants.ITEM_NEWS);
+        break;
     }
   }
 

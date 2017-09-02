@@ -11,6 +11,8 @@ public class Constants {
   public final static int ITEM_VIOLATION_FACILITY = 0;
   public final static int ITEM_VIOLATOR = 1;
   public static final int ITEM_CERTIFIED = 2;
+  public static final int ITEM_NEWS = 3;
 
   public final static int EMOJI_ABUSED = 0x1F62D;
+
 }

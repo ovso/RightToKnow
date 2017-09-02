@@ -15,4 +15,9 @@
       android:icon="@drawable/ic_school_black_24dp"
       android:title="@string/title_certified"/>
 
+  <item
+      android:id="@+id/bottom_nav_news"
+      android:icon="@drawable/ic_school_black_24dp"
+      android:title="@string/title_news"/>
+
 </menu>
