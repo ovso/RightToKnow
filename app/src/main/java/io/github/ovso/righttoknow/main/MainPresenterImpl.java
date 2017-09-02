@@ -115,6 +115,9 @@ public class MainPresenterImpl implements MainPresenter {
         title =
             res.getString(R.string.title_certified) + " " + res.getString(R.string.day_care_center);
         break;
+      case Constants.ITEM_NEWS:
+        title = res.getString(R.string.title_news);
+        break;
       default:
 
         break;

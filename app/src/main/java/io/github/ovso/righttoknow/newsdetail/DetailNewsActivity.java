@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.MenuItem;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -33,10 +34,23 @@ public class DetailNewsActivity extends BaseActivity {
       setInit();
       setWebView();
       setSwipeRefresh();
+      setTitle();
       loadUrl();
     }
   }
 
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    activityFinish();
+    return super.onOptionsItemSelected(item);
+  }
+  private void activityFinish() {
+    finish();
+    webView.stopLoading();
+  }
+  private void setTitle() {
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setTitle(news.getTitle());
+  }
   private void loadUrl() {
     swipeRefresh.setRefreshing(true);
     webView.loadUrl(news.getUrl());
@@ -52,6 +66,7 @@ public class DetailNewsActivity extends BaseActivity {
   }
 
   private void setWebView() {
+    webView.getSettings().setJavaScriptEnabled(true);
     webView.setWebChromeClient(new WebChromeClient());
     webView.setWebViewClient(new MyWebViewClient());
     webView.setOnTouchListener((view, motionEvent) -> true);
@@ -60,7 +75,9 @@ public class DetailNewsActivity extends BaseActivity {
   class MyWebViewClient extends WebViewClient {
     @Override public void onPageFinished(WebView view, String url) {
       super.onPageFinished(view, url);
-      swipeRefresh.setRefreshing(false);
+      if (swipeRefresh != null) {
+        swipeRefresh.setRefreshing(false);
+      }
     }
   }
 }

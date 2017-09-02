@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -40,8 +41,23 @@ public class Utility {
   }
 
   public static String getActionEmoji(List<String> actions) {
+    Resources res = MyApplication.getInstance().getResources();
     for (String action : actions) {
-      if (action.contains(MyApplication.getInstance().getString(R.string.abused))) {
+      if (action.contains(res.getString(R.string.abused)) || action.contains(
+          res.getString(R.string.attack))) {
+
+        return Utility.getEmojiByUnicode(Constants.EMOJI_ABUSED);
+      }
+    }
+
+    return "";
+  }
+
+  public static String getActionEmoji(String[] actions) {
+    Resources res = MyApplication.getInstance().getResources();
+    for (String action : actions) {
+      if (action.contains(res.getString(R.string.abused)) || action.contains(
+          res.getString(R.string.attack))) {
         return Utility.getEmojiByUnicode(Constants.EMOJI_ABUSED);
       }
     }

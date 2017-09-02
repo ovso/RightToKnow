@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.news;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -7,6 +8,7 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.common.Utility;
 import io.github.ovso.righttoknow.news.vo.News;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,8 +37,13 @@ public class NewsAdapter extends BaseRecyclerAdapter
     if (viewHolder instanceof NewsViewHolder) {
       NewsViewHolder holder = (NewsViewHolder) viewHolder;
       News news = toBeUsedItems.get(position);
-      holder.titleTextview.setText(news.getTitle());
-      holder.dateTextView.setText(news.getDate().split(" ")[0]);
+      String title = news.getTitle();
+      title = Utility.getActionEmoji(new String[]{title}) + title;
+      holder.titleTextview.setText(title);
+      String date = news.getDate();
+      if (!TextUtils.isEmpty(date)) {
+        holder.dateTextView.setText(news.getDate().split(" ")[0]);
+      }
       holder.itemView.setOnClickListener(view -> {
         if (onRecyclerItemClickListener != null) {
           onRecyclerItemClickListener.onItemClick(news);
