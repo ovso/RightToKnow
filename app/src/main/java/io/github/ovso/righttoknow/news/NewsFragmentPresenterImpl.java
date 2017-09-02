@@ -51,7 +51,7 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
   }
   private OnRecyclerItemClickListener onRecyclerItemClickListener =
       (OnRecyclerItemClickListener<News>) item -> {
-
+        view.navigateToDetailNews(item);
       };
   private NewsAdapterDataModel adapterDataModel;
   @Override public void setAdapterModel(NewsAdapterDataModel dataModel) {

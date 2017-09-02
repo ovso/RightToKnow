@@ -9,6 +9,7 @@ import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.news.vo.News;
 
 /**
  * Created by jaeho on 2017. 9. 1
@@ -67,5 +68,9 @@ public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.
 
   @Override public void hideLoading() {
     swipeRefresh.setRefreshing(false);
+  }
+
+  @Override public void navigateToDetailNews(News item) {
+
   }
 }
