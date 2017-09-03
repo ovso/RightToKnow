@@ -10,7 +10,7 @@
       android:id="@+id/toolbar_container"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      >
+      app:layout_scrollFlags="scroll|enterAlways|snap">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="예)지역,행위,이름,유형,주소 등"
+        android:hint="@string/hint_all_search"
         style="@style/MaterialSearchViewStyle"
         />
   </FrameLayout>

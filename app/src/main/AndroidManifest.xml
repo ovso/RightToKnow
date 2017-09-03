@@ -32,12 +32,17 @@
         android:name=".vfacilitydetail.VFacilityDetailActivity"
         android:launchMode="singleInstance"
         android:screenOrientation="portrait"
-        android:theme="@style/AppTheme.NoActionBar"></activity>
+        android:theme="@style/AppTheme.NoActionBar"/>
     <activity
         android:name=".pdfviewer.PDFViewerActivity"
         android:launchMode="singleInstance"
         android:screenOrientation="portrait"
-        android:theme="@style/AppTheme.NoActionBar"></activity>
+        android:theme="@style/AppTheme.NoActionBar"/>
+    <activity
+        android:name=".newsdetail.DetailNewsActivity"
+        android:launchMode="singleInstance"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoActionBar"/>
   </application>
 
 </manifest>

@@ -62,6 +62,10 @@ public class MainPresenterImpl implements MainPresenter {
         break;
       case R.id.bottom_nav_certified:
         view.setViewPagerCurrentItem(Constants.ITEM_CERTIFIED);
+        break;
+      case R.id.bottom_nav_news:
+        view.setViewPagerCurrentItem(Constants.ITEM_NEWS);
+        break;
     }
   }
 
@@ -110,6 +114,9 @@ public class MainPresenterImpl implements MainPresenter {
       case Constants.ITEM_CERTIFIED:
         title =
             res.getString(R.string.title_certified) + " " + res.getString(R.string.day_care_center);
+        break;
+      case Constants.ITEM_NEWS:
+        title = res.getString(R.string.title_news);
         break;
       default:
 
