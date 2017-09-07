@@ -2,7 +2,11 @@ package io.github.ovso.righttoknow.video;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 
 /**
@@ -27,5 +31,23 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
 
   @Override public int getLayoutResId() {
     return R.layout.fragment_video;
+  }
+
+  private BaseAdapterView adapterView;
+
+  @BindView(R.id.recyclerview) RecyclerView recyclerView;
+
+  @Override public void setRecyclerView() {
+    LinearLayoutManager layout = new LinearLayoutManager(getContext());
+    VideoAdapter adapter = new VideoAdapter();
+    presenter.setAdapterDataModel(adapter);
+    adapterView = adapter;
+    recyclerView.setLayoutManager(layout);
+    recyclerView.setAdapter(adapter);
+
+  }
+
+  @Override public void refresh() {
+    adapterView.refresh();
   }
 }

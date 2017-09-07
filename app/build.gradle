@@ -88,6 +88,7 @@ dependencies {
   compile 'com.github.barteksc:android-pdf-viewer:2.6.1'
   compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
   compile 'com.miguelcatalan:materialsearchview:1.4.0'
+  compile files('libs/YouTubeAndroidPlayerApi.jar')
 
 }
 
