@@ -66,6 +66,9 @@ public class MainPresenterImpl implements MainPresenter {
       case R.id.bottom_nav_news:
         view.setViewPagerCurrentItem(Constants.ITEM_NEWS);
         break;
+      case R.id.bottom_nav_video:
+        view.setViewPagerCurrentItem(Constants.ITEM_VIDEO);
+        break;
     }
   }
 
@@ -117,6 +120,9 @@ public class MainPresenterImpl implements MainPresenter {
         break;
       case Constants.ITEM_NEWS:
         title = res.getString(R.string.title_news);
+        break;
+      case Constants.ITEM_VIDEO:
+        title = res.getString(R.string.title_video);
         break;
       default:
 

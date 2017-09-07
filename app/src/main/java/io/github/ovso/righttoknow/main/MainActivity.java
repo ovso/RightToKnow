@@ -27,6 +27,7 @@ import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.listener.OnSimplePageChangeListener;
 import io.github.ovso.righttoknow.news.NewsFragment;
+import io.github.ovso.righttoknow.video.VideoFragment;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
 import java.util.ArrayList;
@@ -135,6 +136,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     fragments.add(violatorFragment);
     fragments.add(CertifiedFragment.newInstance(null));
     fragments.add(NewsFragment.newInstance(null));
+    fragments.add(VideoFragment.newInstance(null));
 
     PagerBaseAdapter adapter = new PagerBaseAdapter(getSupportFragmentManager());
     adapter.addAll(fragments);

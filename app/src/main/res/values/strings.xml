@@ -58,4 +58,5 @@
   <string name="opensource_licenses">오픈소스 라이선스</string>
   <string name="hint_all_search">예)학대,부정,서울,어린이집,국공립 등..</string>
   <string name="title_news">뉴스 보도</string>
+  <string name="title_video">CCTV</string>
 </resources>
