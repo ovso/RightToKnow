@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.video;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.videodetail.VideoDetailActivity;
 
 /**
  * Created by jaeho on 2017. 9. 7
@@ -49,5 +51,10 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
 
   @Override public void refresh() {
     adapterView.refresh();
+  }
+
+  @Override public void navigateToVideoDetail() {
+    Intent intent = new Intent(getContext(), VideoDetailActivity.class);
+    startActivity(intent);
   }
 }

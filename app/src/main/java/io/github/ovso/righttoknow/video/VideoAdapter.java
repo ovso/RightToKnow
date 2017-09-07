@@ -5,10 +5,12 @@ import butterknife.BindView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
+import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.video.vo.Video;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +19,8 @@ import java.util.List;
  */
 
 public class VideoAdapter extends BaseRecyclerAdapter
-    implements BaseAdapterDataModel<String>, BaseAdapterView {
-  List<String> toBeUsedItems = new ArrayList<>();
+    implements VideoAdapterDataModel, BaseAdapterView {
+  List<Video> toBeUsedItems = new ArrayList<>();
 
   @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
     return new VideoViewHolder(view);
@@ -30,27 +32,28 @@ public class VideoAdapter extends BaseRecyclerAdapter
 
   @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
     if (holder instanceof VideoViewHolder) {
-
+      VideoViewHolder viewHolder = (VideoViewHolder) holder;
       final YouTubeThumbnailLoader.OnThumbnailLoadedListener onThumbnailLoadedListener =
           new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
-            @Override public void onThumbnailError(YouTubeThumbnailView youTubeThumbnailView,
+            @DebugLog @Override public void onThumbnailError(YouTubeThumbnailView youTubeThumbnailView,
                 YouTubeThumbnailLoader.ErrorReason errorReason) {
 
             }
 
-            @Override
+            @DebugLog @Override
             public void onThumbnailLoaded(YouTubeThumbnailView youTubeThumbnailView, String s) {
               //youTubeThumbnailView.setVisibility(View.VISIBLE);
               //holder.relativeLayoutOverYouTubeThumbnailView.setVisibility(View.VISIBLE);
+
             }
           };
 
-      YouTubeThumbnailView thumbnailView = ((VideoViewHolder) holder).thumbnailView;
+      YouTubeThumbnailView thumbnailView = viewHolder.thumbnailView;
       thumbnailView.initialize("AIzaSyBdY9vP4_vQs5YEGJ3Ghu6s5gGY8yFlo0s",
           new YouTubeThumbnailView.OnInitializedListener() {
-            @Override public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView,
+            @DebugLog @Override public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView,
                 YouTubeThumbnailLoader youTubeThumbnailLoader) {
-              youTubeThumbnailLoader.setVideo("PuaYhnGmeEk");
+              youTubeThumbnailLoader.setVideo(toBeUsedItems.get(position).getVideoId());
               youTubeThumbnailLoader.setOnThumbnailLoadedListener(onThumbnailLoadedListener);
             }
 
@@ -58,6 +61,13 @@ public class VideoAdapter extends BaseRecyclerAdapter
                 YouTubeInitializationResult youTubeInitializationResult) {
             }
           });
+      Video video = toBeUsedItems.get(position);
+      viewHolder.itemView.setOnClickListener(view -> {
+        if (onRecyclerItemClickListener != null) {
+          onRecyclerItemClickListener.onItemClick(video);
+        }
+      });
+
     }
   }
 
@@ -69,23 +79,23 @@ public class VideoAdapter extends BaseRecyclerAdapter
     notifyDataSetChanged();
   }
 
-  @Override public void add(String item) {
+  @Override public void add(Video item) {
     toBeUsedItems.add(item);
   }
 
-  @Override public void addAll(List<String> items) {
+  @Override public void addAll(List<Video> items) {
     toBeUsedItems.addAll(items);
   }
 
-  @Override public String remove(int position) {
+  @Override public Video remove(int position) {
     return toBeUsedItems.remove(position);
   }
 
-  @Override public String getItem(int position) {
+  @Override public Video getItem(int position) {
     return toBeUsedItems.get(position);
   }
 
-  @Override public void add(int index, String item) {
+  @Override public void add(int index, Video item) {
     toBeUsedItems.add(index, item);
   }
 
@@ -95,6 +105,10 @@ public class VideoAdapter extends BaseRecyclerAdapter
 
   @Override public void clear() {
     toBeUsedItems.clear();
+  }
+  private OnRecyclerItemClickListener<Video> onRecyclerItemClickListener;
+  @Override public void setOnItemClickListener(OnRecyclerItemClickListener<Video> listener) {
+    onRecyclerItemClickListener = listener;
   }
 
   static class VideoViewHolder extends BaseViewHolder {
