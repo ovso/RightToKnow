@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity"
     >
 
@@ -13,7 +14,9 @@
       android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
       android:id="@+id/youtube_fragment"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
       />
   <!--<include layout="@layout/content_video_detail"/>-->
 
