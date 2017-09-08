@@ -61,4 +61,5 @@
   <string name="title_video">CCTV</string>
   <string name="play_in_portrait">세로모드로 재생</string>
   <string name="play_in_landscape">가로모드로 재생</string>
+  <string name="no_videos_found">영상을 찾을 수 없습니다.</string>
 </resources>

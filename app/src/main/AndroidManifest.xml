@@ -46,8 +46,8 @@
     <activity
         android:name=".videodetail.VideoDetailActivity"
         android:launchMode="singleInstance"
-        android:screenOrientation="portrait"
-        android:theme="@style/AppTheme.NoActionBar"/>
+        android:screenOrientation="landscape"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
   </application>
 
 </manifest>

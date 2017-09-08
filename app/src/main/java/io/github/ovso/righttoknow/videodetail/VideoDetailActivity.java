@@ -1,39 +1,44 @@
 package io.github.ovso.righttoknow.videodetail;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
+import butterknife.ButterKnife;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.android.youtube.player.YouTubePlayerFragment;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.main.BaseActivity;
+import io.github.ovso.righttoknow.common.Constants;
 
 /**
  * Created by jaeho on 2017. 9. 7
  */
 
-public class VideoDetailActivity extends BaseActivity {
+public class VideoDetailActivity extends Activity {
+
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_video_detail);
+    ButterKnife.bind(this);
+    if (getIntent().hasExtra("video_id")) {
+      YouTubePlayerFragment youTubePlayerFragment =
+          (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
+      youTubePlayerFragment.initialize(Constants.DEVELOPER_KEY,
+          new YouTubePlayer.OnInitializedListener() {
+            @Override public void onInitializationSuccess(YouTubePlayer.Provider provider,
+                YouTubePlayer youTubePlayer, boolean b) {
+              youTubePlayer.cueVideo(getIntent().getStringExtra("video_id"));
+            }
 
-    YouTubePlayerSupportFragment youTubePlayerSupportFragment =
-        (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(
-            R.id.youtube_fragment);
-    youTubePlayerSupportFragment.initialize("AIzaSyBdY9vP4_vQs5YEGJ3Ghu6s5gGY8yFlo0s",
-        new YouTubePlayer.OnInitializedListener() {
-          @Override public void onInitializationSuccess(YouTubePlayer.Provider provider,
-              YouTubePlayer youTubePlayer, boolean b) {
-            youTubePlayer.cueVideo("PuaYhnGmeEk");
-          }
-
-          @Override public void onInitializationFailure(YouTubePlayer.Provider provider,
-              YouTubeInitializationResult youTubeInitializationResult) {
-          }
-        });
-
+            @Override public void onInitializationFailure(YouTubePlayer.Provider provider,
+                YouTubeInitializationResult youTubeInitializationResult) {
+            }
+          });
+    } else {
+      Toast.makeText(this, R.string.no_videos_found, Toast.LENGTH_SHORT).show();
+      onBackPressed();
+    }
   }
 
-  @Override protected int getLayoutResId() {
-    return R.layout.activity_video_detail;
-  }
 }

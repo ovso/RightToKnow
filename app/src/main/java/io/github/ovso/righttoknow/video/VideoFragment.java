@@ -17,6 +17,7 @@ import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.video.vo.Video;
+import io.github.ovso.righttoknow.videodetail.VideoDetailActivity;
 
 /**
  * Created by jaeho on 2017. 9. 7
@@ -46,7 +47,7 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     return presenter.onOptionsItemSelected(item.getItemId());
   }
 
-  @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+  @DebugLog @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     presenter = new VideoFragmentPresenterImpl(this);
     presenter.onActivityCreated(savedInstanceState);
@@ -77,10 +78,22 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     int startTimeMillis = 0;
     boolean autoPlay = true;
     MenuItem menuItem = menu.findItem(R.id.option_menu_lock_portrait);
-    boolean lightboxMode = menuItem != null? true : false;
-    Intent intent =
-        YouTubeStandalonePlayer.createVideoIntent(getActivity(), Constants.DEVELOPER_KEY,
-            video.getUrl().split("v=")[1], startTimeMillis, autoPlay, lightboxMode);
+    boolean lightboxMode = menuItem != null ? true : false;
+    if (!lightboxMode) {
+      playLandscape(video);
+    } else {
+      Intent intent =
+          YouTubeStandalonePlayer.createVideoIntent(getActivity(), Constants.DEVELOPER_KEY,
+              getVideoId(video.getUrl()), startTimeMillis, autoPlay, lightboxMode);
+      startActivity(intent);
+    }
+  }
+  private String getVideoId(String videoUrl) {
+    return videoUrl.split("v=")[1];
+  }
+  private void playLandscape(Video video) {
+    Intent intent = new Intent(getContext(), VideoDetailActivity.class);
+    intent.putExtra("video_id", getVideoId(video.getUrl()));
     startActivity(intent);
   }
 
