@@ -16,7 +16,7 @@
       android:id="@+id/thumbnail"
       android:layout_width="match_parent"
       android:layout_height="200dp"
-      android:background="@android:color/black"
+      android:background="@color/colorLight"
       android:foreground="?android:attr/selectableItemBackground"
       app:youtube_minThumbnailWidth="320"
       app:youtube_timeBackgroundColor="#80000000"
@@ -39,13 +39,13 @@
       app:youtube_titleTextSize="14sp"
       app:youtube_titleVisible="true"
       />
-  <ProgressBar
+  <com.wang.avi.AVLoadingIndicatorView
       android:id="@+id/progress_bar"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
-      android:progressDrawable="@drawable/progress_bar"
-      android:visibility="gone"
+      android:visibility="visible"
+      app:indicatorName="BallTrianglePathIndicator"
+      app:indicatorColor="@color/colorPrimaryDark"
       />
-
 </android.support.v7.widget.CardView>

@@ -2,11 +2,11 @@ package io.github.ovso.righttoknow.video;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.ProgressBar;
 import butterknife.BindView;
 import com.codewaves.youtubethumbnailview.ThumbnailLoadingListener;
 import com.codewaves.youtubethumbnailview.ThumbnailView;
 import com.squareup.picasso.Picasso;
+import com.wang.avi.AVLoadingIndicatorView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
@@ -40,8 +40,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
       ThumbnailView thumbnailView = ((ThumbnailView) view);
       thumbnailView.loadThumbnail(youtubeUrl,
           url -> Picasso.with(view.getContext()).load(url).get());
-      //hideLoading(view);
-      showLoading(view);
+      hideLoading(view);
     }
 
     @Override public void onLoadingCanceled(@NonNull String url, @NonNull View view) {
@@ -60,16 +59,16 @@ public class VideoAdapter extends BaseRecyclerAdapter
   private void showLoading(View view) {
     View rootView = (View) view.getParent();
     if (rootView != null) {
-      ProgressBar progressBar = rootView.findViewById(R.id.progress_bar);
-      progressBar.setVisibility(View.VISIBLE);
+      AVLoadingIndicatorView progressBar = rootView.findViewById(R.id.progress_bar);
+      progressBar.show();
     }
   }
 
   private void hideLoading(View view) {
     View rootView = (View) view.getParent();
     if (rootView != null) {
-      ProgressBar progressBar = rootView.findViewById(R.id.progress_bar);
-      progressBar.setVisibility(View.GONE);
+      AVLoadingIndicatorView progressBar = rootView.findViewById(R.id.progress_bar);
+      progressBar.hide();
     }
   }
 
@@ -79,7 +78,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
       Video video = toBeUsedItems.get(position);
       viewHolder.thumbnailView.loadThumbnail(video.getUrl(), onThumbnailLoadingListener);
 
-      viewHolder.itemView.setOnClickListener(view -> {
+      viewHolder.thumbnailView.setOnClickListener(view -> {
         if (onRecyclerItemClickListener != null) {
           onRecyclerItemClickListener.onItemClick(video);
         }
@@ -131,7 +130,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
 
   static class VideoViewHolder extends BaseViewHolder {
     @BindView(R.id.thumbnail) ThumbnailView thumbnailView;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.progress_bar) AVLoadingIndicatorView progressBar;
 
     public VideoViewHolder(View itemView) {
       super(itemView);

@@ -63,7 +63,7 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     adapterView.refresh();
   }
 
-  @Override public void navigateToVideoDetail(Video video) {
+  @DebugLog @Override public void navigateToVideoDetail(Video video) {
     int startTimeMillis = 0;
     boolean autoPlay = true;
     boolean lightboxMode = false;

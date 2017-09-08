@@ -46,9 +46,7 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
     view.setRefreshLayout();
     view.setRecyclerView();
     interactor.req();
-    adapterDataModel.setOnItemClickListener(item -> {
-      view.navigateToVideoDetail(item);
-    });
+    adapterDataModel.setOnItemClickListener(item -> view.navigateToVideoDetail(item));
   }
 
   @Override public void setAdapterDataModel(VideoAdapterDataModel dataModel) {
