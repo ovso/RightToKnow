@@ -3495,5 +3495,42 @@
       "date": "2016-04-08 10:31",
       "url": "http://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=018&aid=0003518037"
     }
+  ],
+  "child_care_video": [
+    {
+      "title":"",
+      "date":"",
+      "video_id":"NqlRg1_bCC4"
+    },
+    {
+      "title":"",
+      "date":"",
+      "video_id":"5MHFYfXno9c"
+    },
+    {
+      "title":"",
+      "date":"",
+      "video_id":"2zWSr-3gkWY"
+    },
+    {
+      "title":"",
+      "date":"",
+      "video_id":"IhSLVr4QNGs"
+    },
+    {
+      "title":"",
+      "date":"",
+      "video_id":"r0zCs2b_ReY"
+    },
+    {
+      "title":"",
+      "date":"",
+      "video_id":"4PAfMGEI9Hk"
+    },
+    {
+      "title":"",
+      "date":"",
+      "video_id":"mhYJ1AX4dG4"
+    }
   ]
 }
