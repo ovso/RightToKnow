@@ -6,10 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import butterknife.BindView;
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
-import io.github.ovso.righttoknow.videodetail.VideoDetailActivity;
+import io.github.ovso.righttoknow.video.vo.Video;
 
 /**
  * Created by jaeho on 2017. 9. 7
@@ -46,15 +47,19 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     adapterView = adapter;
     recyclerView.setLayoutManager(layout);
     recyclerView.setAdapter(adapter);
-
   }
 
   @Override public void refresh() {
     adapterView.refresh();
   }
 
-  @Override public void navigateToVideoDetail() {
-    Intent intent = new Intent(getContext(), VideoDetailActivity.class);
+  @Override public void navigateToVideoDetail(Video video) {
+    int startTimeMillis = 0;
+    boolean autoPlay = true;
+    boolean lightboxMode = false;
+    Intent intent =
+        YouTubeStandalonePlayer.createVideoIntent(getActivity(), "AIzaSyBdY9vP4_vQs5YEGJ3Ghu6s5gGY8yFlo0s",
+            "PuaYhnGmeEk", startTimeMillis, autoPlay, lightboxMode);
     startActivity(intent);
   }
 }

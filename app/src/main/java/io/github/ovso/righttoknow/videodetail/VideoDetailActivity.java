@@ -30,6 +30,7 @@ public class VideoDetailActivity extends BaseActivity {
               YouTubeInitializationResult youTubeInitializationResult) {
           }
         });
+
   }
 
   @Override protected int getLayoutResId() {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+      android:id="@+id/option_menu_lock_portrait"
+      android:icon="@drawable/ic_screen_lock_portrait_24dp"
+      android:title="@string/play_in_portrait"
+      app:showAsAction="always"/>
+</menu>

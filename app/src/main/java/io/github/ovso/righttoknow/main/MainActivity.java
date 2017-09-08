@@ -48,10 +48,19 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
-    if (viewPager.getCurrentItem() < 2) {
-      getMenuInflater().inflate(R.menu.main, menu);
-      MenuItem item = menu.findItem(R.id.option_menu_search);
-      searchView.setMenuItem(item);
+    MenuItem item;
+    switch (viewPager.getCurrentItem()) {
+      case 0:
+      case 1:
+        getMenuInflater().inflate(R.menu.main, menu);
+        item = menu.findItem(R.id.option_menu_search);
+        searchView.setMenuItem(item);
+        break;
+      case 4:
+        getMenuInflater().inflate(R.menu.main_video_portrait, menu);
+        break;
+      default:
+        break;
     }
     return true;
   }

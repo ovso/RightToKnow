@@ -29,7 +29,7 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
     view.refresh();
 
     adapterDataModel.setOnItemClickListener(item -> {
-      view.navigateToVideoDetail();
+      view.navigateToVideoDetail(item);
     });
   }
 

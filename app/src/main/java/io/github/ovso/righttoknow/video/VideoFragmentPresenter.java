@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.video;
 
 import android.os.Bundle;
+import io.github.ovso.righttoknow.video.vo.Video;
 
 /**
  * Created by jaeho on 2017. 9. 7
@@ -18,6 +19,6 @@ public interface VideoFragmentPresenter {
 
     void refresh();
 
-    void navigateToVideoDetail();
+    void navigateToVideoDetail(Video video);
   }
 }
