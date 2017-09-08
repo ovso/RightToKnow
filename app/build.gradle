@@ -39,12 +39,15 @@ android {
   buildTypes {
     release {
       minifyEnabled true
+
       proguardFile getDefaultProguardFile('proguard-android.txt')
       proguardFile 'proguard-rules.pro'
       proguardFile 'proguard-tedpermission.pro'
       proguardFile 'proguard-firebase.pro'
       proguardFile 'proguard-butterknipe.pro'
       proguardFile 'proguard-pdfviewer.pro'
+      proguardFile 'proguard-avloading.pro'
+
       signingConfig signingConfigs.release
       applicationVariants.all { variant ->
         variant.outputs.each { output ->
