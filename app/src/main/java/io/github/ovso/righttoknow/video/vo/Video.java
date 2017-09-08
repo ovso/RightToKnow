@@ -11,6 +11,6 @@ import lombok.ToString;
 
 @Getter @IgnoreExtraProperties @ToString @EqualsAndHashCode(callSuper = false) public class Video {
   private String title;
-  private String video_id;
   private String date;
+  private String url;
 }

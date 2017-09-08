@@ -30,5 +30,7 @@ public interface VideoFragmentPresenter {
     void showLoading();
 
     void hideLoading();
+
+    void setHasOptionsMenu(boolean hasMenu);
   }
 }

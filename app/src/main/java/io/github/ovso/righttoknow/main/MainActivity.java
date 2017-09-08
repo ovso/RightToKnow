@@ -57,7 +57,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
         searchView.setMenuItem(item);
         break;
       case 4:
-        getMenuInflater().inflate(R.menu.main_video_portrait, menu);
+
         break;
       default:
         break;

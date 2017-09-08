@@ -42,6 +42,7 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
   };
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
+    view.setHasOptionsMenu(true);
     view.setRefreshLayout();
     view.setRecyclerView();
     interactor.req();
@@ -55,6 +56,8 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
   }
 
   @Override public void onRefresh() {
+    adapterDataModel.clear();
+    view.refresh();
     interactor.req();
   }
 

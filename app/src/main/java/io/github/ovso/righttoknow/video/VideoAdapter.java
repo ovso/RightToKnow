@@ -3,15 +3,12 @@ package io.github.ovso.righttoknow.video;
 import android.view.View;
 import android.widget.ProgressBar;
 import butterknife.BindView;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubeThumbnailLoader;
-import com.google.android.youtube.player.YouTubeThumbnailView;
-import hugo.weaving.DebugLog;
+import com.codewaves.youtubethumbnailview.ThumbnailView;
+import com.squareup.picasso.Picasso;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.video.vo.Video;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,38 +32,10 @@ public class VideoAdapter extends BaseRecyclerAdapter
   @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
     if (holder instanceof VideoViewHolder) {
       VideoViewHolder viewHolder = (VideoViewHolder) holder;
-      final YouTubeThumbnailLoader.OnThumbnailLoadedListener onThumbnailLoadedListener =
-          new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
-            @DebugLog @Override
-            public void onThumbnailError(YouTubeThumbnailView youTubeThumbnailView,
-                YouTubeThumbnailLoader.ErrorReason errorReason) {
-              youTubeThumbnailView.setVisibility(View.GONE);
-              viewHolder.progressBar.setVisibility(View.GONE);
-            }
+      ((VideoViewHolder) holder).thumbnailView.loadThumbnail(
+          toBeUsedItems.get(position).getUrl(),
+          url -> Picasso.with(viewHolder.thumbnailView.getContext()).load(url).get());
 
-            @DebugLog @Override
-            public void onThumbnailLoaded(YouTubeThumbnailView youTubeThumbnailView, String s) {
-              //youTubeThumbnailView.setVisibility(View.VISIBLE);
-              //holder.relativeLayoutOverYouTubeThumbnailView.setVisibility(View.VISIBLE);
-              youTubeThumbnailView.setVisibility(View.VISIBLE);
-              viewHolder.progressBar.setVisibility(View.GONE);
-            }
-          };
-
-      YouTubeThumbnailView thumbnailView = viewHolder.thumbnailView;
-      thumbnailView.initialize(Constants.DEVELOPER_KEY,
-          new YouTubeThumbnailView.OnInitializedListener() {
-            @DebugLog @Override
-            public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView,
-                YouTubeThumbnailLoader youTubeThumbnailLoader) {
-              youTubeThumbnailLoader.setVideo(toBeUsedItems.get(position).getVideo_id());
-              youTubeThumbnailLoader.setOnThumbnailLoadedListener(onThumbnailLoadedListener);
-            }
-
-            @Override public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView,
-                YouTubeInitializationResult youTubeInitializationResult) {
-            }
-          });
       Video video = toBeUsedItems.get(position);
       viewHolder.itemView.setOnClickListener(view -> {
         if (onRecyclerItemClickListener != null) {
@@ -119,7 +88,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
   }
 
   static class VideoViewHolder extends BaseViewHolder {
-    @BindView(R.id.youtube_thumbnail_view) YouTubeThumbnailView thumbnailView;
+    @BindView(R.id.thumbnail) ThumbnailView thumbnailView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     public VideoViewHolder(View itemView) {

@@ -2,7 +2,6 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="2.5dp"
@@ -10,22 +9,42 @@
     android:layout_marginRight="7dp"
     android:layout_marginTop="2.5dp"
     android:background="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/colorLight"
     app:cardCornerRadius="5dp"
     app:cardElevation="0dp"
     >
-  <com.google.android.youtube.player.YouTubeThumbnailView
-      android:id="@+id/youtube_thumbnail_view"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:visibility="gone"
+  <com.codewaves.youtubethumbnailview.ThumbnailView
+      android:id="@+id/thumbnail"
+      android:layout_width="match_parent"
+      android:layout_height="200dp"
+      android:background="@android:color/black"
+      android:foreground="?android:attr/selectableItemBackground"
+      app:youtube_minThumbnailWidth="320"
+      app:youtube_timeBackgroundColor="#80000000"
+      app:youtube_timeColor="@android:color/white"
+      app:youtube_timeMarginBottom="10dp"
+      app:youtube_timeMarginRight="10dp"
+      app:youtube_timePaddingBottom="0dp"
+      app:youtube_timePaddingLeft="5dp"
+      app:youtube_timePaddingRight="5dp"
+      app:youtube_timePaddingTop="0dp"
+      app:youtube_timeTextSize="14sp"
+      app:youtube_timeVisible="true"
+      app:youtube_titleBackgroundColor="#80000000"
+      app:youtube_titleColor="@android:color/white"
+      app:youtube_titleMaxLines="1"
+      app:youtube_titlePaddingBottom="5dp"
+      app:youtube_titlePaddingLeft="10dp"
+      app:youtube_titlePaddingRight="10dp"
+      app:youtube_titlePaddingTop="5dp"
+      app:youtube_titleTextSize="14sp"
+      app:youtube_titleVisible="true"
       />
   <ProgressBar
       android:id="@+id/progress_bar"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
+      android:visibility="gone"
       />
 
 </android.support.v7.widget.CardView>

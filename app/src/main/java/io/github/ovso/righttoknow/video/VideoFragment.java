@@ -6,8 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import butterknife.BindView;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.common.Constants;
@@ -26,6 +29,11 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     VideoFragment f = new VideoFragment();
     f.setArguments(args);
     return f;
+  }
+
+  @DebugLog @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    inflater.inflate(R.menu.main_video_portrait, menu);
+    super.onCreateOptionsMenu(menu, inflater);
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -61,7 +69,7 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     boolean lightboxMode = false;
     Intent intent =
         YouTubeStandalonePlayer.createVideoIntent(getActivity(), Constants.DEVELOPER_KEY,
-            video.getVideo_id(), startTimeMillis, autoPlay, lightboxMode);
+            video.getUrl().split("v=")[1], startTimeMillis, autoPlay, lightboxMode);
     startActivity(intent);
   }
 
