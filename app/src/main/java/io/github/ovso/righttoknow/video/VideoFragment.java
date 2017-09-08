@@ -3,12 +3,14 @@ package io.github.ovso.righttoknow.video;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import butterknife.BindView;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.video.vo.Video;
 
@@ -17,7 +19,7 @@ import io.github.ovso.righttoknow.video.vo.Video;
  */
 
 public class VideoFragment extends BaseFragment implements VideoFragmentPresenter.View {
-
+  @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
   private VideoFragmentPresenter presenter;
 
   public static VideoFragment newInstance(Bundle args) {
@@ -58,8 +60,28 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     boolean autoPlay = true;
     boolean lightboxMode = false;
     Intent intent =
-        YouTubeStandalonePlayer.createVideoIntent(getActivity(), "AIzaSyBdY9vP4_vQs5YEGJ3Ghu6s5gGY8yFlo0s",
-            "PuaYhnGmeEk", startTimeMillis, autoPlay, lightboxMode);
+        YouTubeStandalonePlayer.createVideoIntent(getActivity(), Constants.DEVELOPER_KEY,
+            video.getVideo_id(), startTimeMillis, autoPlay, lightboxMode);
     startActivity(intent);
+  }
+
+  @Override public void setRefreshLayout() {
+    swipeRefresh.setOnRefreshListener(() -> {
+      presenter.onRefresh();
+    });
+    swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+  }
+
+  @Override public void showLoading() {
+    swipeRefresh.setRefreshing(true);
+  }
+
+  @Override public void hideLoading() {
+    swipeRefresh.setRefreshing(false);
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    presenter.onDestroyView();
   }
 }

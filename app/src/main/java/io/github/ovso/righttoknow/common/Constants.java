@@ -16,4 +16,6 @@ public class Constants {
 
   public final static int EMOJI_ABUSED = 0x1F62D;
 
+  public final static String DEVELOPER_KEY = "AIzaSyBdY9vP4_vQs5YEGJ3Ghu6s5gGY8yFlo0s"; // youtube
+
 }

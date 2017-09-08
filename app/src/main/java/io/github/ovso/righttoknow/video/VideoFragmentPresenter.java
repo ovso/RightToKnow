@@ -13,6 +13,10 @@ public interface VideoFragmentPresenter {
 
   void setAdapterDataModel(VideoAdapterDataModel dataModel);
 
+  void onRefresh();
+
+  void onDestroyView();
+
   interface View {
 
     void setRecyclerView();
@@ -20,5 +24,11 @@ public interface VideoFragmentPresenter {
     void refresh();
 
     void navigateToVideoDetail(Video video);
+
+    void setRefreshLayout();
+
+    void showLoading();
+
+    void hideLoading();
   }
 }
