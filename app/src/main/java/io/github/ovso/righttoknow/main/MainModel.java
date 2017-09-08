@@ -51,7 +51,15 @@ class MainModel {
 
     notices.addNotice(new Notice("AndroidPdfViewer", "https://github.com/barteksc/AndroidPdfViewer",
         "Copyright 2016 Bartosz Schiller", new ApacheSoftwareLicense20()));
-
+    notices.addNotice(
+        new Notice("AVLoadingIndicatorView", "https://github.com/81813780/AVLoadingIndicatorView",
+            "Copyright 2015 jack wang", new ApacheSoftwareLicense20()));
+    notices.addNotice(
+        new Notice("picasso", "https://github.com/square/picasso",
+            "Copyright 2013 Square, Inc.", new ApacheSoftwareLicense20()));
+    notices.addNotice(
+        new Notice("YouTube-Thumbnail-View", "https://github.com/Codewaves/YouTube-Thumbnail-View",
+            "Copyright (c) 2017 Sergej Kravcenko", new ApacheSoftwareLicense20()));
     return notices;
   }
 }

@@ -47,6 +47,7 @@ android {
       proguardFile 'proguard-butterknipe.pro'
       proguardFile 'proguard-pdfviewer.pro'
       proguardFile 'proguard-avloading.pro'
+      proguardFile 'proguard-picasso.pro'
 
       signingConfig signingConfigs.release
       applicationVariants.all { variant ->
