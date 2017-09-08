@@ -1,8 +1,10 @@
 package io.github.ovso.righttoknow.video;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ProgressBar;
 import butterknife.BindView;
+import com.codewaves.youtubethumbnailview.ThumbnailLoadingListener;
 import com.codewaves.youtubethumbnailview.ThumbnailView;
 import com.squareup.picasso.Picasso;
 import io.github.ovso.righttoknow.R;
@@ -29,14 +31,54 @@ public class VideoAdapter extends BaseRecyclerAdapter
     return R.layout.fragment_video_item;
   }
 
+  private ThumbnailLoadingListener onThumbnailLoadingListener = new ThumbnailLoadingListener() {
+    @Override public void onLoadingStarted(@NonNull String url, @NonNull View view) {
+      showLoading(view);
+    }
+
+    @Override public void onLoadingComplete(@NonNull String youtubeUrl, @NonNull View view) {
+      ThumbnailView thumbnailView = ((ThumbnailView) view);
+      thumbnailView.loadThumbnail(youtubeUrl,
+          url -> Picasso.with(view.getContext()).load(url).get());
+      //hideLoading(view);
+      showLoading(view);
+    }
+
+    @Override public void onLoadingCanceled(@NonNull String url, @NonNull View view) {
+      hideLoading(view);
+    }
+
+    @Override
+    public void onLoadingFailed(@NonNull String url, @NonNull View view, Throwable error) {
+      View rootView = (View) view.getParent();
+      if (rootView != null) {
+        hideLoading(rootView);
+      }
+    }
+  };
+
+  private void showLoading(View view) {
+    View rootView = (View) view.getParent();
+    if (rootView != null) {
+      ProgressBar progressBar = rootView.findViewById(R.id.progress_bar);
+      progressBar.setVisibility(View.VISIBLE);
+    }
+  }
+
+  private void hideLoading(View view) {
+    View rootView = (View) view.getParent();
+    if (rootView != null) {
+      ProgressBar progressBar = rootView.findViewById(R.id.progress_bar);
+      progressBar.setVisibility(View.GONE);
+    }
+  }
+
   @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
     if (holder instanceof VideoViewHolder) {
       VideoViewHolder viewHolder = (VideoViewHolder) holder;
-      ((VideoViewHolder) holder).thumbnailView.loadThumbnail(
-          toBeUsedItems.get(position).getUrl(),
-          url -> Picasso.with(viewHolder.thumbnailView.getContext()).load(url).get());
-
       Video video = toBeUsedItems.get(position);
+      viewHolder.thumbnailView.loadThumbnail(video.getUrl(), onThumbnailLoadingListener);
+
       viewHolder.itemView.setOnClickListener(view -> {
         if (onRecyclerItemClickListener != null) {
           onRecyclerItemClickListener.onItemClick(video);
