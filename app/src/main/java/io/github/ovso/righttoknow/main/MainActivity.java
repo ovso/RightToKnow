@@ -20,6 +20,7 @@ import butterknife.BindView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import de.psdev.licensesdialog.LicensesDialog;
 import de.psdev.licensesdialog.model.Notices;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
@@ -65,7 +66,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     return true;
   }
 
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
+  @DebugLog @Override public boolean onOptionsItemSelected(MenuItem item) {
     presenter.onOptionsItemSelected(item.getItemId());
     return true;
   }

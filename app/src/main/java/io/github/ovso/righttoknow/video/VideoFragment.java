@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import butterknife.BindView;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import hugo.weaving.DebugLog;
@@ -34,6 +35,10 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
   @DebugLog @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.main_video_portrait, menu);
     super.onCreateOptionsMenu(menu, inflater);
+  }
+
+  @DebugLog @Override public boolean onOptionsItemSelected(MenuItem item) {
+    return super.onOptionsItemSelected(item);
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {

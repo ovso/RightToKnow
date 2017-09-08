@@ -60,7 +60,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
     View rootView = (View) view.getParent();
     if (rootView != null) {
       AVLoadingIndicatorView progressBar = rootView.findViewById(R.id.progress_bar);
-      progressBar.show();
+      progressBar.smoothToShow();
     }
   }
 
@@ -68,7 +68,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
     View rootView = (View) view.getParent();
     if (rootView != null) {
       AVLoadingIndicatorView progressBar = rootView.findViewById(R.id.progress_bar);
-      progressBar.hide();
+      progressBar.smoothToHide();
     }
   }
 
