@@ -17,6 +17,10 @@ public interface VideoFragmentPresenter {
 
   void onDestroyView();
 
+  boolean onOptionsItemSelected(int itemId);
+
+  void onCreateOptionsMenu();
+
   interface View {
 
     void setRecyclerView();
@@ -32,5 +36,11 @@ public interface VideoFragmentPresenter {
     void hideLoading();
 
     void setHasOptionsMenu(boolean hasMenu);
+
+    void setLandscapeMode();
+
+    void setPortraitMode();
+
+    void clearMenuMode();
   }
 }

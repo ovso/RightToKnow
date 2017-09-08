@@ -1,6 +1,8 @@
 package io.github.ovso.righttoknow.video;
 
 import android.os.Bundle;
+import hugo.weaving.DebugLog;
+import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import io.github.ovso.righttoknow.video.vo.Video;
 import java.util.List;
@@ -61,5 +63,22 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
 
   @Override public void onDestroyView() {
     interactor.cancel();
+  }
+
+  @DebugLog @Override public boolean onOptionsItemSelected(int itemId) {
+    view.clearMenuMode();
+    switch (itemId) {
+      case R.id.option_menu_lock_portrait:
+        view.setLandscapeMode();
+        break;
+      case R.id.option_menu_lock_landscape:
+        view.setPortraitMode();
+        break;
+    }
+    return true;
+  }
+
+  @Override public void onCreateOptionsMenu() {
+    view.setPortraitMode();
   }
 }

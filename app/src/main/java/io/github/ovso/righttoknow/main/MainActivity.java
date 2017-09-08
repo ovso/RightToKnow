@@ -57,9 +57,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
         item = menu.findItem(R.id.option_menu_search);
         searchView.setMenuItem(item);
         break;
-      case 4:
-
-        break;
       default:
         break;
     }
@@ -68,7 +65,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @DebugLog @Override public boolean onOptionsItemSelected(MenuItem item) {
     presenter.onOptionsItemSelected(item.getItemId());
-    return true;
+    return false;
   }
 
   @Override public int getLayoutResId() {

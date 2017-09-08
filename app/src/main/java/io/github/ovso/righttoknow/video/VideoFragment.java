@@ -32,13 +32,18 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     return f;
   }
 
-  @DebugLog @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    inflater.inflate(R.menu.main_video_portrait, menu);
+  private Menu menu;
+  private MenuInflater menuInflater;
+
+  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    this.menu = menu;
+    this.menuInflater = inflater;
+    presenter.onCreateOptionsMenu();
     super.onCreateOptionsMenu(menu, inflater);
   }
 
   @DebugLog @Override public boolean onOptionsItemSelected(MenuItem item) {
-    return super.onOptionsItemSelected(item);
+    return presenter.onOptionsItemSelected(item.getItemId());
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -71,7 +76,8 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
   @DebugLog @Override public void navigateToVideoDetail(Video video) {
     int startTimeMillis = 0;
     boolean autoPlay = true;
-    boolean lightboxMode = false;
+    MenuItem menuItem = menu.findItem(R.id.option_menu_lock_portrait);
+    boolean lightboxMode = menuItem != null? true : false;
     Intent intent =
         YouTubeStandalonePlayer.createVideoIntent(getActivity(), Constants.DEVELOPER_KEY,
             video.getUrl().split("v=")[1], startTimeMillis, autoPlay, lightboxMode);
@@ -91,6 +97,18 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
 
   @Override public void hideLoading() {
     swipeRefresh.setRefreshing(false);
+  }
+
+  @Override public void setLandscapeMode() {
+    menuInflater.inflate(R.menu.main_video_landscape, menu);
+  }
+
+  @Override public void setPortraitMode() {
+    menuInflater.inflate(R.menu.main_video_portrait, menu);
+  }
+
+  @Override public void clearMenuMode() {
+    menu.clear();
   }
 
   @Override public void onDestroyView() {
