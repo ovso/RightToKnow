@@ -67,7 +67,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
 
             @Override public void onInitializationFailure(YouTubeThumbnailView thumbnail,
                 YouTubeInitializationResult result) {
-                viewHolder.hideLoading();
+              viewHolder.hideLoading();
             }
           };
 
@@ -79,7 +79,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
         }
       });
 
-      viewHolder.titleTextView.setText(video.getTitle());
+      viewHolder.titleTextView.setText("[" + video.getDate() + "]" + video.getTitle());
     }
   }
 
@@ -160,6 +160,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
       thumbnailView.setLayoutParams(params);
       thumbnailContainer.addView(thumbnailView, 0);
     }
+
     private void removeThumbnailView() {
       if (thumbnailView != null) {
         thumbnailContainer.removeView(thumbnailView);
