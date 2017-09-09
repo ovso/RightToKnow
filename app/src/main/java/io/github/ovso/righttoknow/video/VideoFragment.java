@@ -80,20 +80,18 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     MenuItem menuItem = menu.findItem(R.id.option_menu_lock_portrait);
     boolean lightboxMode = menuItem != null ? true : false;
     if (!lightboxMode) {
-      playLandscape(video);
+      playLandscape(video.getVideo_id());
     } else {
       Intent intent =
           YouTubeStandalonePlayer.createVideoIntent(getActivity(), Constants.DEVELOPER_KEY,
-              getVideoId(video.getUrl()), startTimeMillis, autoPlay, lightboxMode);
+              video.getVideo_id(), startTimeMillis, autoPlay, lightboxMode);
       startActivity(intent);
     }
   }
-  private String getVideoId(String videoUrl) {
-    return videoUrl.split("v=")[1];
-  }
-  private void playLandscape(Video video) {
+
+  private void playLandscape(String videoId) {
     Intent intent = new Intent(getContext(), VideoDetailActivity.class);
-    intent.putExtra("video_id", getVideoId(video.getUrl()));
+    intent.putExtra("video_id", videoId);
     startActivity(intent);
   }
 
