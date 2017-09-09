@@ -47,7 +47,6 @@ android {
       proguardFile 'proguard-butterknipe.pro'
       proguardFile 'proguard-pdfviewer.pro'
       proguardFile 'proguard-avloading.pro'
-      proguardFile 'proguard-picasso.pro'
 
       signingConfig signingConfigs.release
       applicationVariants.all { variant ->
@@ -93,8 +92,6 @@ dependencies {
   compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
   compile 'com.miguelcatalan:materialsearchview:1.4.0'
   compile files('libs/YouTubeAndroidPlayerApi.jar')
-  compile 'com.codewaves.youtubethumbnailview:library:0.9.2'
-  compile 'com.squareup.picasso:picasso:2.5.2'
   compile 'com.wang.avi:library:2.1.3'
 }
 

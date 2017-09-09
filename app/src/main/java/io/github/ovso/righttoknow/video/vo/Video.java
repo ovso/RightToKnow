@@ -13,4 +13,5 @@ import lombok.ToString;
   private String title;
   private String date;
   private String url;
+  private String video_id;
 }

@@ -1,16 +1,19 @@
 package io.github.ovso.righttoknow.video;
 
-import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import butterknife.BindView;
-import com.codewaves.youtubethumbnailview.ThumbnailLoadingListener;
-import com.codewaves.youtubethumbnailview.ThumbnailView;
-import com.squareup.picasso.Picasso;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubeThumbnailLoader;
+import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.wang.avi.AVLoadingIndicatorView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.video.vo.Video;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,59 +38,48 @@ public class VideoAdapter extends BaseRecyclerAdapter
     return R.layout.fragment_video_item;
   }
 
-  private ThumbnailLoadingListener onThumbnailLoadingListener = new ThumbnailLoadingListener() {
-    @Override public void onLoadingStarted(@NonNull String url, @NonNull View view) {
-      showLoading(view);
-    }
-
-    @Override public void onLoadingComplete(@NonNull String youtubeUrl, @NonNull View view) {
-      ThumbnailView thumbnailView = ((ThumbnailView) view);
-      thumbnailView.loadThumbnail(youtubeUrl,
-          url -> Picasso.with(view.getContext()).load(url).get());
-      hideLoading(view);
-    }
-
-    @Override public void onLoadingCanceled(@NonNull String url, @NonNull View view) {
-      hideLoading(view);
-    }
-
-    @Override
-    public void onLoadingFailed(@NonNull String url, @NonNull View view, Throwable error) {
-      View rootView = (View) view.getParent();
-      if (rootView != null) {
-        hideLoading(rootView);
-      }
-    }
-  };
-
-  private void showLoading(View view) {
-    View rootView = (View) view.getParent();
-    if (rootView != null) {
-      AVLoadingIndicatorView progressBar = rootView.findViewById(R.id.progress_bar);
-      progressBar.smoothToShow();
-    }
-  }
-
-  private void hideLoading(View view) {
-    View rootView = (View) view.getParent();
-    if (rootView != null) {
-      AVLoadingIndicatorView progressBar = rootView.findViewById(R.id.progress_bar);
-      progressBar.smoothToHide();
-    }
-  }
-
   @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
     if (holder instanceof VideoViewHolder) {
       VideoViewHolder viewHolder = (VideoViewHolder) holder;
       Video video = toBeUsedItems.get(position);
-      viewHolder.thumbnailView.clearThumbnail();
-      viewHolder.thumbnailView.loadThumbnail(video.getUrl(), onThumbnailLoadingListener);
+      viewHolder.removeThumbnailView();
+      viewHolder.addThumbnailView();
+      YouTubeThumbnailView thumbnailView = viewHolder.thumbnailView;
+      YouTubeThumbnailLoader.OnThumbnailLoadedListener onThumbnailLoadedListener =
+          new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
+            @Override
+            public void onThumbnailLoaded(YouTubeThumbnailView thumbnail, String video_id) {
+              viewHolder.hideLoading();
+            }
 
-      viewHolder.thumbnailView.setOnClickListener(view -> {
+            @Override public void onThumbnailError(YouTubeThumbnailView thumbnail,
+                YouTubeThumbnailLoader.ErrorReason errorReason) {
+              viewHolder.hideLoading();
+            }
+          };
+      YouTubeThumbnailView.OnInitializedListener onInitializedListener =
+          new YouTubeThumbnailView.OnInitializedListener() {
+            @Override public void onInitializationSuccess(YouTubeThumbnailView thumbnail,
+                YouTubeThumbnailLoader loader) {
+              loader.setVideo(video.getVideo_id());
+              loader.setOnThumbnailLoadedListener(onThumbnailLoadedListener);
+            }
+
+            @Override public void onInitializationFailure(YouTubeThumbnailView thumbnail,
+                YouTubeInitializationResult result) {
+                viewHolder.hideLoading();
+            }
+          };
+
+      thumbnailView.initialize(Constants.DEVELOPER_KEY, onInitializedListener);
+
+      thumbnailView.setOnClickListener(view -> {
         if (onRecyclerItemClickListener != null) {
           onRecyclerItemClickListener.onItemClick(video);
         }
       });
+
+      viewHolder.titleTextView.setText(video.getTitle());
     }
   }
 
@@ -147,15 +139,39 @@ public class VideoAdapter extends BaseRecyclerAdapter
         return 0;
       }
     });
-
   }
 
   static class VideoViewHolder extends BaseViewHolder {
-    @BindView(R.id.thumbnail) ThumbnailView thumbnailView;
+    YouTubeThumbnailView thumbnailView;
     @BindView(R.id.progress_bar) AVLoadingIndicatorView progressBar;
+    @BindView(R.id.thumbnail_container) FrameLayout thumbnailContainer;
+    @BindView(R.id.thumbnail_title_textview) TextView titleTextView;
 
     public VideoViewHolder(View itemView) {
       super(itemView);
+      showLoading();
+    }
+
+    private void addThumbnailView() {
+      thumbnailView = new YouTubeThumbnailView(itemView.getContext().getApplicationContext());
+      ViewGroup.LayoutParams params =
+          new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+              ViewGroup.LayoutParams.MATCH_PARENT);
+      thumbnailView.setLayoutParams(params);
+      thumbnailContainer.addView(thumbnailView, 0);
+    }
+    private void removeThumbnailView() {
+      if (thumbnailView != null) {
+        thumbnailContainer.removeView(thumbnailView);
+      }
+    }
+
+    public void hideLoading() {
+      progressBar.smoothToHide();
+    }
+
+    public void showLoading() {
+      progressBar.smoothToShow();
     }
   }
 }
