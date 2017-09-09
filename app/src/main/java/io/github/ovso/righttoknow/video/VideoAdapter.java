@@ -12,7 +12,11 @@ import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.video.vo.Video;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -126,6 +130,23 @@ public class VideoAdapter extends BaseRecyclerAdapter
 
   @Override public void setOnItemClickListener(OnRecyclerItemClickListener<Video> listener) {
     onRecyclerItemClickListener = listener;
+  }
+
+  @Override public void sort() {
+    Collections.sort(toBeUsedItems, (o1, o2) -> {
+      try {
+        String o1String = o1.getDate();
+        String o2String = o2.getDate();
+
+        Date o1Date = new SimpleDateFormat("yyyy-MM-dd").parse(o1String);
+        Date o2Date = new SimpleDateFormat("yyyy-MM-dd").parse(o2String);
+        return o2Date.compareTo(o1Date);
+      } catch (ParseException e) {
+        e.printStackTrace();
+        return 0;
+      }
+    });
+
   }
 
   static class VideoViewHolder extends BaseViewHolder {

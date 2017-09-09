@@ -31,6 +31,7 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
     @Override public void onResult(List<Video> results) {
       adapterDataModel.clear();
       adapterDataModel.addAll(results);
+      adapterDataModel.sort();
       view.refresh();
     }
 
