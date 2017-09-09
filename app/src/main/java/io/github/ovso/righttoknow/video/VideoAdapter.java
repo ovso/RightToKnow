@@ -3,6 +3,7 @@ package io.github.ovso.righttoknow.video;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -158,6 +159,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
           new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
               ViewGroup.LayoutParams.MATCH_PARENT);
       thumbnailView.setLayoutParams(params);
+      thumbnailView.setScaleType(ImageView.ScaleType.FIT_XY);
       thumbnailContainer.addView(thumbnailView, 0);
     }
 
