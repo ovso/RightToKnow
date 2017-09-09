@@ -80,6 +80,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
     if (holder instanceof VideoViewHolder) {
       VideoViewHolder viewHolder = (VideoViewHolder) holder;
       Video video = toBeUsedItems.get(position);
+      viewHolder.thumbnailView.clearThumbnail();
       viewHolder.thumbnailView.loadThumbnail(video.getUrl(), onThumbnailLoadingListener);
 
       viewHolder.thumbnailView.setOnClickListener(view -> {
