@@ -28,7 +28,7 @@ public class VideoDetailActivity extends Activity {
           new YouTubePlayer.OnInitializedListener() {
             @Override public void onInitializationSuccess(YouTubePlayer.Provider provider,
                 YouTubePlayer youTubePlayer, boolean b) {
-              youTubePlayer.cueVideo(getIntent().getStringExtra("video_id"));
+              youTubePlayer.loadVideo(getIntent().getStringExtra("video_id"));
             }
 
             @Override public void onInitializationFailure(YouTubePlayer.Provider provider,
