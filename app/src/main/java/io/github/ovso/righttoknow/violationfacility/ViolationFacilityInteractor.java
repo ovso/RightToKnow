@@ -5,6 +5,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class ViolationFacilityInteractor {
   private DatabaseReference databaseReference;
 
   public void req() {
-    onViolationFacilityResultListener.onPre();
+    if(onViolationFacilityResultListener != null) onViolationFacilityResultListener.onPre();
     databaseReference = FirebaseDatabase.getInstance().getReference().child("child_vio_fac");
     databaseReference.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
@@ -30,18 +31,23 @@ public class ViolationFacilityInteractor {
           ViolationFacility violationFacility = snapshot.getValue(ViolationFacility.class);
           violationFacilities.add(violationFacility);
         }
-        onViolationFacilityResultListener.onResult(violationFacilities);
-        onViolationFacilityResultListener.onPost();
+        if (onViolationFacilityResultListener != null) {
+          onViolationFacilityResultListener.onResult(violationFacilities);
+          onViolationFacilityResultListener.onPost();
+        }
       }
 
       @Override public void onCancelled(DatabaseError databaseError) {
-        onViolationFacilityResultListener.onError();
+        if (onViolationFacilityResultListener != null) {
+          onViolationFacilityResultListener.onError();
+        }
       }
     });
   }
 
-  public void cancel() {
+  @DebugLog public void cancel() {
     databaseReference.onDisconnect();
+    onViolationFacilityResultListener = null;
   }
 
   @Getter @Setter private OnChildResultListener onViolationFacilityResultListener;

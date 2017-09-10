@@ -21,7 +21,7 @@ public class ViolatorInteractor {
   private DatabaseReference databaseReference;
 
   public void req() {
-    onViolationFacilityResultListener.onPre();
+    if (onViolationFacilityResultListener != null) onViolationFacilityResultListener.onPre();
     databaseReference = FirebaseDatabase.getInstance().getReference().child("child_violator");
     databaseReference.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
@@ -30,18 +30,21 @@ public class ViolatorInteractor {
           Violator violator = snapshot.getValue(Violator.class);
           violators.add(violator);
         }
-        onViolationFacilityResultListener.onResult(violators);
-        onViolationFacilityResultListener.onPost();
+        if (onViolationFacilityResultListener != null) {
+          onViolationFacilityResultListener.onResult(violators);
+          onViolationFacilityResultListener.onPost();
+        }
       }
 
       @Override public void onCancelled(DatabaseError databaseError) {
-        onViolationFacilityResultListener.onError();
+        if (onViolationFacilityResultListener != null) onViolationFacilityResultListener.onError();
       }
     });
   }
 
   public void cancel() {
     databaseReference.onDisconnect();
+    onViolationFacilityResultListener = null;
   }
 
   @Getter @Setter private OnChildResultListener onViolationFacilityResultListener;

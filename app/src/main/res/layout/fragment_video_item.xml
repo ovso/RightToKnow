@@ -10,7 +10,7 @@
     android:layout_marginRight="7dp"
     android:layout_marginTop="2.5dp"
     android:background="?android:attr/selectableItemBackground"
-    android:paddingTop="0dp"
+    app:cardPreventCornerOverlap="false"
     app:cardCornerRadius="5dp"
     app:cardElevation="0dp"
     >

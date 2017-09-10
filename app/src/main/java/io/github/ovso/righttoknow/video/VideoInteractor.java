@@ -19,7 +19,7 @@ public class VideoInteractor {
   private DatabaseReference databaseReference;
 
   public void req() {
-    onChildResultListener.onPre();
+    if (onChildResultListener != null) onChildResultListener.onPre();
     databaseReference = FirebaseDatabase.getInstance().getReference().child("child_care_video");
     databaseReference.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
@@ -28,12 +28,14 @@ public class VideoInteractor {
           Video video = snapshot.getValue(Video.class);
           items.add(video);
         }
-        onChildResultListener.onResult(items);
-        onChildResultListener.onPost();
+        if (onChildResultListener != null) {
+          onChildResultListener.onResult(items);
+          onChildResultListener.onPost();
+        }
       }
 
       @Override public void onCancelled(DatabaseError databaseError) {
-        onChildResultListener.onError();
+        if (onChildResultListener != null) onChildResultListener.onError();
       }
     });
   }
@@ -43,5 +45,4 @@ public class VideoInteractor {
   }
 
   @Setter private OnChildResultListener onChildResultListener;
-
 }
