@@ -3,6 +3,7 @@ package io.github.ovso.righttoknow.violationfacility;
 import android.location.Address;
 import android.os.Bundle;
 import android.os.Handler;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import io.github.ovso.righttoknow.main.LocationAware;
@@ -92,7 +93,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     view.navigateToViolationFacilityDetail(violationFacility);
   }
 
-  @Override public void onDestroyView() {
+  @DebugLog @Override public void onDestroyView() {
     violationFacilityInteractor.cancel();
     handler.removeCallbacks(hideLoadingRunnable);
   }

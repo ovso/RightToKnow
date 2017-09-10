@@ -20,7 +20,7 @@ class NewsInteractor {
   private DatabaseReference databaseReference;
 
   public void req() {
-    onChildResultListener.onPre();
+    if(onChildResultListener != null) onChildResultListener.onPre();
     databaseReference = FirebaseDatabase.getInstance().getReference().child("child_care_news");
     databaseReference.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
@@ -29,12 +29,13 @@ class NewsInteractor {
           News news = snapshot.getValue(News.class);
           items.add(news);
         }
-        onChildResultListener.onResult(items);
-        onChildResultListener.onPost();
+        if (onChildResultListener != null) {
+          onChildResultListener.onResult(items);
+          onChildResultListener.onPost();
+        }
       }
-
       @Override public void onCancelled(DatabaseError databaseError) {
-        onChildResultListener.onError();
+        if(onChildResultListener != null)  onChildResultListener.onError();
       }
     });
   }

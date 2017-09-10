@@ -14,8 +14,8 @@ android {
   compileSdkVersion 26
   buildToolsVersion "26.0.1"
   def versionMajor = 0
-  def versionMinor = 3
-  def versionCodeNumber = 3
+  def versionMinor = 4
+  def versionCodeNumber = 4
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 16
@@ -39,12 +39,15 @@ android {
   buildTypes {
     release {
       minifyEnabled true
+
       proguardFile getDefaultProguardFile('proguard-android.txt')
       proguardFile 'proguard-rules.pro'
       proguardFile 'proguard-tedpermission.pro'
       proguardFile 'proguard-firebase.pro'
       proguardFile 'proguard-butterknipe.pro'
       proguardFile 'proguard-pdfviewer.pro'
+      proguardFile 'proguard-avloading.pro'
+
       signingConfig signingConfigs.release
       applicationVariants.all { variant ->
         variant.outputs.each { output ->
@@ -88,7 +91,8 @@ dependencies {
   compile 'com.github.barteksc:android-pdf-viewer:2.6.1'
   compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
   compile 'com.miguelcatalan:materialsearchview:1.4.0'
-
+  compile files('libs/YouTubeAndroidPlayerApi.jar')
+  compile 'com.wang.avi:library:2.1.3'
 }
 
 // Add to the bottom of the file

@@ -1,36 +1,35 @@
-package io.github.ovso.righttoknow.certified;
+package io.github.ovso.righttoknow.video;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import io.github.ovso.righttoknow.certified.vo.ChildCertified;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
+import io.github.ovso.righttoknow.video.vo.Video;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Created by jaeho on 2017. 8. 21
+ * Created by jaeho on 2017. 9. 8
  */
 
-class CertifiedInteractor {
+public class VideoInteractor {
   private DatabaseReference databaseReference;
 
   public void req() {
     if (onChildResultListener != null) onChildResultListener.onPre();
-    databaseReference = FirebaseDatabase.getInstance().getReference().child("child_certified");
+    databaseReference = FirebaseDatabase.getInstance().getReference().child("child_care_video");
     databaseReference.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
-        List<ChildCertified> childCertifieds = new ArrayList<>();
+        List<Video> items = new ArrayList<>();
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-          ChildCertified certified = snapshot.getValue(ChildCertified.class);
-          childCertifieds.add(certified);
+          Video video = snapshot.getValue(Video.class);
+          items.add(video);
         }
         if (onChildResultListener != null) {
-          onChildResultListener.onResult(childCertifieds);
+          onChildResultListener.onResult(items);
           onChildResultListener.onPost();
         }
       }
@@ -45,5 +44,5 @@ class CertifiedInteractor {
     databaseReference.onDisconnect();
   }
 
-  @Getter @Setter private OnChildResultListener onChildResultListener;
+  @Setter private OnChildResultListener onChildResultListener;
 }

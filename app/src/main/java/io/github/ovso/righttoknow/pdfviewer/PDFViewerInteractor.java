@@ -21,12 +21,14 @@ class PDFViewerInteractor {
   private FileDownloadTask fileDownloadTask;
 
   public void req() {
-    onChildResultListener.onPre();
+    if (onChildResultListener != null) onChildResultListener.onPre();
     if (!TextUtils.isEmpty(fileName)) {
       File file = new File(MyApplication.getInstance().getFilesDir() + "/" + fileName);
       if (file.exists()) {
-        onChildResultListener.onResult(file);
-        onChildResultListener.onPost();
+        if (onChildResultListener != null) {
+          onChildResultListener.onResult(file);
+          onChildResultListener.onPost();
+        }
         return;
       }
       StorageReference storageRef = FirebaseStorage.getInstance().getReference();
@@ -35,11 +37,13 @@ class PDFViewerInteractor {
         StorageReference childReference = storageRef.child("child_certified/" + fileName);
         fileDownloadTask = childReference.getFile(localFile);
         fileDownloadTask.addOnSuccessListener(taskSnapshot -> {
-          onChildResultListener.onResult(localFile);
-          onChildResultListener.onPost();
+          if (onChildResultListener != null) {
+            onChildResultListener.onResult(localFile);
+            onChildResultListener.onPost();
+          }
         }).addOnFailureListener(e -> {
           e.printStackTrace();
-          onChildResultListener.onError();
+          if (onChildResultListener != null) onChildResultListener.onError();
         });
       } catch (Exception e) {
         e.printStackTrace();

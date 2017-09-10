@@ -20,6 +20,7 @@ import butterknife.BindView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import de.psdev.licensesdialog.LicensesDialog;
 import de.psdev.licensesdialog.model.Notices;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
@@ -27,6 +28,7 @@ import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.listener.OnSimplePageChangeListener;
 import io.github.ovso.righttoknow.news.NewsFragment;
+import io.github.ovso.righttoknow.video.VideoFragment;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
 import java.util.ArrayList;
@@ -47,17 +49,23 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
-    if (viewPager.getCurrentItem() < 2) {
-      getMenuInflater().inflate(R.menu.main, menu);
-      MenuItem item = menu.findItem(R.id.option_menu_search);
-      searchView.setMenuItem(item);
+    MenuItem item;
+    switch (viewPager.getCurrentItem()) {
+      case 0:
+      case 1:
+        getMenuInflater().inflate(R.menu.main, menu);
+        item = menu.findItem(R.id.option_menu_search);
+        searchView.setMenuItem(item);
+        break;
+      default:
+        break;
     }
     return true;
   }
 
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
+  @DebugLog @Override public boolean onOptionsItemSelected(MenuItem item) {
     presenter.onOptionsItemSelected(item.getItemId());
-    return true;
+    return false;
   }
 
   @Override public int getLayoutResId() {
@@ -135,6 +143,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     fragments.add(violatorFragment);
     fragments.add(CertifiedFragment.newInstance(null));
     fragments.add(NewsFragment.newInstance(null));
+    fragments.add(VideoFragment.newInstance(null));
 
     PagerBaseAdapter adapter = new PagerBaseAdapter(getSupportFragmentManager());
     adapter.addAll(fragments);
