@@ -74,7 +74,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
 
       thumbnailView.initialize(Constants.DEVELOPER_KEY, onInitializedListener);
 
-      thumbnailView.setOnClickListener(view -> {
+      viewHolder.itemView.setOnClickListener(view -> {
         if (onRecyclerItemClickListener != null) {
           onRecyclerItemClickListener.onItemClick(video);
         }
