@@ -12,7 +12,7 @@ import de.psdev.licensesdialog.model.Notices;
 
 public interface MainPresenter {
 
-  void onCreate(Bundle savedInstanceState);
+  void onCreate(Bundle savedInstanceState, Intent intent);
 
   void onNavigationItemSelected(int id);
 
@@ -21,8 +21,6 @@ public interface MainPresenter {
   void onAdapterPageChanged(int position);
 
   void onOptionsItemSelected(int itemId);
-
-  void onResume(Intent intent);
 
   void onNewIntent(Intent intent);
 

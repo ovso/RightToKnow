@@ -45,17 +45,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @DebugLog @Override public void onCreate(Bundle savedInstanceState) {
     presenter = new MainPresenterImpl(this);
     super.onCreate(savedInstanceState);
-    presenter.onCreate(savedInstanceState);
+    presenter.onCreate(savedInstanceState,getIntent());
   }
 
   @DebugLog @Override protected void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
     presenter.onNewIntent(intent);
-  }
-
-  @DebugLog @Override protected void onResume() {
-    super.onResume();
-    presenter.onResume(getIntent());
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -164,7 +159,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     bottomNavigationView.getMenu().getItem(position).setChecked(true);
   }
 
-  @Override public void setViewPagerCurrentItem(int position) {
+  @DebugLog @Override public void setViewPagerCurrentItem(int position) {
     viewPager.setCurrentItem(position, true);
   }
 

@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
@@ -29,19 +28,13 @@ class MainPresenterImpl implements MainPresenter {
     view.changeTheme();
   }
 
-  @DebugLog @Override public void onResume(Intent intent) {
-    if (intent.getExtras() != null) {
-      view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
-    }
-  }
-
   @Override public void onNewIntent(Intent intent) {
     if (intent.getExtras() != null) {
       view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
     }
   }
 
-  @Override public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
     view.setTitle(getTitle(Constants.ITEM_VIOLATION_FACILITY));
     view.setVersionName(
         MyApplication.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
@@ -50,6 +43,11 @@ class MainPresenterImpl implements MainPresenter {
     view.setViewPager();
     view.setBottomNavigationViewBehavior();
     view.setSearchView();
+
+    if (intent.getExtras() != null) {
+      view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
+    }
+    
   }
 
   @Override public void onNavigationItemSelected(int id) {
