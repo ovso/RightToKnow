@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.main;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import de.psdev.licensesdialog.model.Notices;
@@ -10,6 +11,7 @@ import de.psdev.licensesdialog.model.Notices;
  */
 
 public interface MainPresenter {
+
   void onCreate(Bundle savedInstanceState);
 
   void onNavigationItemSelected(int id);
@@ -19,6 +21,8 @@ public interface MainPresenter {
   void onAdapterPageChanged(int position);
 
   void onOptionsItemSelected(int itemId);
+
+  void onResume(Intent intent);
 
   interface View {
     void setListener();

@@ -1,14 +1,17 @@
 package io.github.ovso.righttoknow.main;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.common.MessagingHandler;
 import io.github.ovso.righttoknow.common.Utility;
 import java.util.ArrayList;
 
@@ -17,7 +20,7 @@ import java.util.ArrayList;
  */
 
 public class MainPresenterImpl implements MainPresenter {
-
+  private final static String TAG = "MainPresenterImpl";
   private MainPresenter.View view;
   private MainModel model;
 
@@ -25,6 +28,12 @@ public class MainPresenterImpl implements MainPresenter {
     this.view = view;
     model = new MainModel();
     view.changeTheme();
+  }
+
+  @DebugLog @Override public void onResume(Intent intent) {
+    if (intent.getExtras() != null) {
+      view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
+    }
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {

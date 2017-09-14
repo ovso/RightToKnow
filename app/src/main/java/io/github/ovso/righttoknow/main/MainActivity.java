@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,10 +43,15 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
   @BindView(R.id.viewpager) ViewPager viewPager;
 
-  @Override public void onCreate(Bundle savedInstanceState) {
+  @DebugLog @Override public void onCreate(Bundle savedInstanceState) {
     presenter = new MainPresenterImpl(this);
     super.onCreate(savedInstanceState);
-    presenter.onCreate(null);
+    presenter.onCreate(savedInstanceState);
+  }
+  public final static String TAG = "MainActivity";
+  @DebugLog @Override protected void onResume() {
+    super.onResume();
+    presenter.onResume(getIntent());
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {

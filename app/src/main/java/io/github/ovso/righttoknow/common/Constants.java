@@ -13,6 +13,7 @@ public class Constants {
   public static final int ITEM_CERTIFIED = 2;
   public static final int ITEM_NEWS = 3;
   public static final int ITEM_VIDEO = 4;
+  public static final String FCM_KEY_CONTENT_POSITION = "content_position";
 
   public final static int EMOJI_ABUSED = 0x1F62D;
 
