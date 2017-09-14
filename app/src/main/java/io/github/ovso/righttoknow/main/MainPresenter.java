@@ -24,6 +24,8 @@ public interface MainPresenter {
 
   void onResume(Intent intent);
 
+  void onNewIntent(Intent intent);
+
   interface View {
     void setListener();
 

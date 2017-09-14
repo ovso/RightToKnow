@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class MessagingHandler {
     }
   }
 
-  public static int getContentPosition(Bundle extras) {
+  @DebugLog public static int getContentPosition(Bundle extras) {
     HashMap<String, Object> map = new HashMap<>();
     for (String key : extras.keySet()) {
       map.put(key, extras.get(key));

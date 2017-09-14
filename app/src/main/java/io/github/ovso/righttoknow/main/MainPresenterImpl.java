@@ -36,6 +36,12 @@ public class MainPresenterImpl implements MainPresenter {
     }
   }
 
+  @Override public void onNewIntent(Intent intent) {
+    if (intent.getExtras() != null) {
+      view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
+    }
+  }
+
   @Override public void onCreate(Bundle savedInstanceState) {
     view.setTitle(getTitle(Constants.ITEM_VIOLATION_FACILITY));
     view.setVersionName(
