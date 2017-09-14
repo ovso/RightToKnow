@@ -19,8 +19,7 @@ import java.util.ArrayList;
  * Created by jaeho on 2017. 7. 31
  */
 
-public class MainPresenterImpl implements MainPresenter {
-  private final static String TAG = "MainPresenterImpl";
+class MainPresenterImpl implements MainPresenter {
   private MainPresenter.View view;
   private MainModel model;
 
