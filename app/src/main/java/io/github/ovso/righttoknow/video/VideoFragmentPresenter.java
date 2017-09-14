@@ -42,5 +42,7 @@ public interface VideoFragmentPresenter {
     void setPortraitMode();
 
     void clearMenuMode();
+
+    void showWarningDialog();
   }
 }

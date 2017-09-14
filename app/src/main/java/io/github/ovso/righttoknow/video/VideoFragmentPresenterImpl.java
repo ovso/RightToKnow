@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.video;
 
+import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
@@ -49,7 +50,14 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
     view.setRefreshLayout();
     view.setRecyclerView();
     interactor.req();
-    adapterDataModel.setOnItemClickListener(item -> view.navigateToVideoDetail(item));
+    adapterDataModel.setOnItemClickListener(item -> {
+      try {
+        view.navigateToVideoDetail(item);
+      } catch (ActivityNotFoundException e) {
+        e.printStackTrace();
+        view.showWarningDialog();
+      }
+    });
   }
 
   @Override public void setAdapterDataModel(VideoAdapterDataModel dataModel) {
