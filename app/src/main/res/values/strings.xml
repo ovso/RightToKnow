@@ -70,4 +70,12 @@
   <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
   <string name="not_fount_youtube">미리보기 이미지와 영상은 "유투브 앱"이 설치 또는 활성화 되어 있어야 볼 수 있습니다.\n앱을 설치 또는 활성화 해주시길 바랍니다.</string>
 
+  <!--preferences key-->
+  <string name="key_notifications">notifications_key</string>
+  <string name="key_app_version">app_version_key</string>
+  <string name="set_notificatinos">알림 설정</string>
+  <string name="set_notifications_summary_on">알림을 받습니다.</string>
+  <string name="set_notifications_summary_off">알림을 받지 않습니다</string>
+  <string name="check_version">최신 버전 확인</string>
+
 </resources>

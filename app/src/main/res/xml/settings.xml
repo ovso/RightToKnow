@@ -1,10 +1,11 @@
 <PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android">
   <SwitchPreference
-      android:key="notifications_key"
-      android:title="알림 설정"
-      android:summaryOn="알림을 받습니다."
-      android:summaryOff="알림을 받지 않습니다"/>
+      android:key="@string/key_notifications"
+      android:title="@string/set_notificatinos"
+      android:summaryOn="@string/set_notifications_summary_on"
+      android:summaryOff="@string/set_notifications_summary_off"/>
   <Preference
-      android:key="version_check_key"
-      android:title="최신버전 현재버전"/>
+      android:key="@string/key_app_version"
+      android:title="@string/check_version"
+      android:summary="0.4.4"/>
  </PreferenceScreen>

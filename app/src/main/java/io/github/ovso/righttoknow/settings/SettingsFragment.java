@@ -1,13 +1,15 @@
 package io.github.ovso.righttoknow.settings;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
-import android.support.v4.app.NotificationManagerCompat;
+import hugo.weaving.DebugLog;
 
 /**
  * Created by jaeho on 2017. 9. 15
@@ -20,22 +22,60 @@ public class SettingsFragment extends PreferenceFragment implements SettingsFrag
     super.onCreate(savedInstanceState);
     presenter = new SettingsFragmentPresenterImpl(this);
     presenter.onCreate(savedInstanceState);
-    boolean enable = NotificationManagerCompat.from(getActivity().getApplicationContext()).areNotificationsEnabled();
   }
 
   @Override public void setContentView(@XmlRes int resId) {
     addPreferencesFromResource(resId);
-
-    Preference preference = findPreference("notifications_key");
-    preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-      @Override public boolean onPreferenceClick(Preference preference) {
-        //Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        //Intent intent = new Intent(Settings.ACTION_APPLICATION_SETTINGS);
-
-        Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_APPLICATIONS_SETTINGS);
-        startActivity(intent);
-        return false;
-      }
-    });
+    notificationsSwitchPreference = (SwitchPreference) findPreference("notifications_key");
+    versionCheckPreference = findPreference("version_check_key");
   }
+
+  private SwitchPreference notificationsSwitchPreference;
+  private Preference versionCheckPreference;
+
+  @Override public void setListener() {
+    notificationsSwitchPreference.setOnPreferenceClickListener(
+        preference1 -> presenter.onPreferenceClick());
+  }
+
+  @Override public void navigateToSettingsNotifications26() {
+    Intent intent = new Intent();
+    intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+    intent.putExtra("android.provider.extra.APP_PACKAGE", getActivity().getPackageName());
+    startActivity(intent);
+  }
+
+  @Override public void navigateToSettingsNotifications21() {
+    Intent intent = new Intent();
+    intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+    intent.putExtra("app_package", getActivity().getPackageName());
+    intent.putExtra("app_uid", getActivity().getApplicationInfo().uid);
+    startActivity(intent);
+  }
+
+  @Override public void navigateToSettingsNotifications() {
+    Intent intent = new Intent();
+    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+    intent.addCategory(Intent.CATEGORY_DEFAULT);
+    intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
+    startActivity(intent);
+  }
+
+  @DebugLog @Override public void setNotifications(boolean enable) {
+    notificationsSwitchPreference.setChecked(enable);
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    presenter.onResume();
+  }
+
+  /*
+  void navigateToNotifications() {
+    Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+    String action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
+    Intent intent = new Intent(action, uri);
+    startActivity(intent);
+  }
+  */
 }
