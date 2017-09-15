@@ -59,6 +59,9 @@ class MainPresenterImpl implements MainPresenter {
       case R.id.nav_share:
         view.navigateToShare(Constants.URL_SHARE);
         break;
+      case R.id.nav_settings:
+        view.navigateToSettings();
+        break;
       case R.id.nav_open_source:
         view.showOpensourceLicenses(model.getNotices());
         break;

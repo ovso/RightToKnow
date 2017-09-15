@@ -28,6 +28,7 @@ import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.listener.OnSimplePageChangeListener;
 import io.github.ovso.righttoknow.news.NewsFragment;
+import io.github.ovso.righttoknow.settings.SettingsActivity;
 import io.github.ovso.righttoknow.video.VideoFragment;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
@@ -45,7 +46,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @DebugLog @Override public void onCreate(Bundle savedInstanceState) {
     presenter = new MainPresenterImpl(this);
     super.onCreate(savedInstanceState);
-    presenter.onCreate(savedInstanceState,getIntent());
+    presenter.onCreate(savedInstanceState, getIntent());
   }
 
   @DebugLog @Override protected void onNewIntent(Intent intent) {
@@ -225,6 +226,11 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
         //Do some magic
       }
     });
+  }
+
+  @Override public void navigateToSettings() {
+    Intent intent = new Intent(this, SettingsActivity.class);
+    startActivity(intent);
   }
 
   @Override public void onBackPressed() {

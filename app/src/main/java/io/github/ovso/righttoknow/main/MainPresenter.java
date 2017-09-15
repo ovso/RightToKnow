@@ -60,5 +60,7 @@ public interface MainPresenter {
     void closeSearchView();
 
     void setSearchView();
+
+    void navigateToSettings();
   }
 }

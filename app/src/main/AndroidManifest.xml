@@ -61,6 +61,11 @@
         android:launchMode="singleInstance"
         android:screenOrientation="landscape"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+    <activity
+        android:name=".settings.SettingsActivity"
+        android:launchMode="singleInstance"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoActionBar"/>
 
     <service
         android:name=".service.MyFirebaseMessagingService">
