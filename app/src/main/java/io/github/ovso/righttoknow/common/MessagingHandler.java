@@ -42,4 +42,14 @@ public class MessagingHandler {
     }
     return 0;
   }
+  @DebugLog public static String getAppUpdateMessage(Bundle extras) {
+    HashMap<String, Object> map = new HashMap<>();
+    for (String key : extras.keySet()) {
+      map.put(key, extras.get(key));
+      if (key.contains(Constants.FCM_KEY_APP_UPDATE)) {
+          return extras.get(key).toString();
+      }
+    }
+    return MyApplication.getInstance().getString(R.string.app_update);
+  }
 }

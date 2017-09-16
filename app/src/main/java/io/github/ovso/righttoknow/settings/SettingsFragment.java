@@ -3,7 +3,6 @@ package io.github.ovso.righttoknow.settings;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.provider.Settings;
@@ -27,11 +26,9 @@ public class SettingsFragment extends PreferenceFragment implements SettingsFrag
   @Override public void setContentView(@XmlRes int resId) {
     addPreferencesFromResource(resId);
     notificationsSwitchPreference = (SwitchPreference) findPreference("notifications_key");
-    versionCheckPreference = findPreference("version_check_key");
   }
 
   private SwitchPreference notificationsSwitchPreference;
-  private Preference versionCheckPreference;
 
   @Override public void setListener() {
     notificationsSwitchPreference.setOnPreferenceClickListener(
@@ -69,13 +66,4 @@ public class SettingsFragment extends PreferenceFragment implements SettingsFrag
     super.onResume();
     presenter.onResume();
   }
-
-  /*
-  void navigateToNotifications() {
-    Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-    String action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
-    Intent intent = new Intent(action, uri);
-    startActivity(intent);
-  }
-  */
 }

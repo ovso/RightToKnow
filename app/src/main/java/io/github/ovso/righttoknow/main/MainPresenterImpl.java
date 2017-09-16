@@ -29,7 +29,15 @@ class MainPresenterImpl implements MainPresenter {
   }
 
   @Override public void onNewIntent(Intent intent) {
-    setViewPagerCurrentItem(intent);
+    handlingForIntent(intent);
+  }
+
+  private void handlingForIntent(Intent intent) {
+    if (intent.hasExtra(Constants.FCM_KEY_CONTENT_POSITION)) {
+      view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
+    } else if(intent.hasExtra(Constants.FCM_KEY_APP_UPDATE)) {
+      view.showAppUpdateDialog(MessagingHandler.getAppUpdateMessage(intent.getExtras()));
+    }
   }
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
@@ -42,13 +50,7 @@ class MainPresenterImpl implements MainPresenter {
     view.setBottomNavigationViewBehavior();
     view.setSearchView();
 
-    setViewPagerCurrentItem(intent);
-  }
-
-  private void setViewPagerCurrentItem(Intent intent) {
-    if (intent.getExtras() != null) {
-      view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
-    }
+    handlingForIntent(intent);
   }
 
   @Override public void onNavigationItemSelected(int id) {

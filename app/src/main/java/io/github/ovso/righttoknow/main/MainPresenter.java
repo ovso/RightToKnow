@@ -62,5 +62,7 @@ public interface MainPresenter {
     void setSearchView();
 
     void navigateToSettings();
+
+    void showAppUpdateDialog(String message);
   }
 }
