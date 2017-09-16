@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by jaeho on 2017. 7. 31..
+ * Created by jaeho on 2017. 7. 31
  */
 
 public class ObjectUtils {

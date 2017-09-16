@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.main;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import com.gun0912.tedpermission.TedPermission;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.common.MessagingHandler;
 import io.github.ovso.righttoknow.common.Utility;
 import java.util.ArrayList;
 
@@ -16,8 +18,7 @@ import java.util.ArrayList;
  * Created by jaeho on 2017. 7. 31
  */
 
-public class MainPresenterImpl implements MainPresenter {
-
+class MainPresenterImpl implements MainPresenter {
   private MainPresenter.View view;
   private MainModel model;
 
@@ -27,7 +28,19 @@ public class MainPresenterImpl implements MainPresenter {
     view.changeTheme();
   }
 
-  @Override public void onCreate(Bundle savedInstanceState) {
+  @Override public void onNewIntent(Intent intent) {
+    handlingForIntent(intent);
+  }
+
+  private void handlingForIntent(Intent intent) {
+    if (intent.hasExtra(Constants.FCM_KEY_CONTENT_POSITION)) {
+      view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
+    } else if(intent.hasExtra(Constants.FCM_KEY_APP_UPDATE)) {
+      view.showAppUpdateDialog(MessagingHandler.getAppUpdateMessage(intent.getExtras()));
+    }
+  }
+
+  @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
     view.setTitle(getTitle(Constants.ITEM_VIOLATION_FACILITY));
     view.setVersionName(
         MyApplication.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
@@ -36,6 +49,8 @@ public class MainPresenterImpl implements MainPresenter {
     view.setViewPager();
     view.setBottomNavigationViewBehavior();
     view.setSearchView();
+
+    handlingForIntent(intent);
   }
 
   @Override public void onNavigationItemSelected(int id) {
@@ -45,6 +60,9 @@ public class MainPresenterImpl implements MainPresenter {
         break;
       case R.id.nav_share:
         view.navigateToShare(Constants.URL_SHARE);
+        break;
+      case R.id.nav_settings:
+        view.navigateToSettings();
         break;
       case R.id.nav_open_source:
         view.showOpensourceLicenses(model.getNotices());

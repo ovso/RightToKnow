@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -120,6 +121,12 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
 
   @Override public void clearMenuMode() {
     menu.clear();
+  }
+
+  @Override public void showWarningDialog() {
+    new AlertDialog.Builder(getActivity()).setIcon(R.drawable.ic_new_releases_24dp)
+        .setMessage(R.string.not_fount_youtube)
+        .setPositiveButton(android.R.string.ok, null).show();
   }
 
   @Override public void onDestroyView() {

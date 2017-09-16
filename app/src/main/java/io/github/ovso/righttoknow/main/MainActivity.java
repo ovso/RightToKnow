@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.main;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,10 +13,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import de.psdev.licensesdialog.LicensesDialog;
@@ -23,11 +26,13 @@ import de.psdev.licensesdialog.model.Notices;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
+import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.listener.OnSimplePageChangeListener;
 import io.github.ovso.righttoknow.news.NewsFragment;
+import io.github.ovso.righttoknow.settings.SettingsActivity;
 import io.github.ovso.righttoknow.video.VideoFragment;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
@@ -42,10 +47,15 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
   @BindView(R.id.viewpager) ViewPager viewPager;
 
-  @Override public void onCreate(Bundle savedInstanceState) {
+  @DebugLog @Override public void onCreate(Bundle savedInstanceState) {
     presenter = new MainPresenterImpl(this);
     super.onCreate(savedInstanceState);
-    presenter.onCreate(null);
+    presenter.onCreate(savedInstanceState, getIntent());
+  }
+
+  @DebugLog @Override protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    presenter.onNewIntent(intent);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,7 +115,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @Override public void navigateToReview(Uri uri) {
     Intent intent = new Intent(Intent.ACTION_VIEW);
     intent.setData(uri);
-    startActivity(intent);
+    try {
+      startActivity(intent);
+      finish();
+    } catch (ActivityNotFoundException e) {
+      Toast.makeText(this, R.string.not_found_playstore, Toast.LENGTH_SHORT).show();
+    }
   }
 
   @Override public void navigateToShare(String url) {
@@ -154,7 +169,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     bottomNavigationView.getMenu().getItem(position).setChecked(true);
   }
 
-  @Override public void setViewPagerCurrentItem(int position) {
+  @DebugLog @Override public void setViewPagerCurrentItem(int position) {
     viewPager.setCurrentItem(position, true);
   }
 
@@ -220,6 +235,19 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
         //Do some magic
       }
     });
+  }
+
+  @Override public void navigateToSettings() {
+    Intent intent = new Intent(this, SettingsActivity.class);
+    startActivity(intent);
+  }
+
+  @Override public void showAppUpdateDialog(String message) {
+    new AlertDialog.Builder(this).setIcon(R.drawable.ic_new_releases_24dp)
+        .setMessage(message)
+        .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+          navigateToReview(Uri.parse(Constants.URL_REVIEW));
+        }).setNegativeButton(android.R.string.cancel, null).show();
   }
 
   @Override public void onBackPressed() {

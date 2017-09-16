@@ -3301,6 +3301,56 @@
   ],
   "child_care_news": [
     {
+      "title": "세살배기 강제로 재우다 질식사 어린이집교사 항소심 징역4년",
+      "date": "2017-07-20 15:22",
+      "url": "http://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=001&aid=0009421756"
+    },
+    {
+      "title": "옷이 찢어져서 온 아이… 어린이집 가기 싫어요!(학대)",
+      "date": "2017-09-12 19:05",
+      "url": "http://m.cmbdj.co.kr/ab-991-10407"
+    },
+    {
+      "title": "“자세가 바르지 않아”…5세 원아 때린 어린이집 교사(학대)",
+      "date": "2017-09-12 15:54",
+      "url": "http://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=421&aid=0002940258"
+    },
+    {
+      "title": "구청 어린이집서도 아동학대?…16개월 男兒 팔 빠져",
+      "date": "2017-09-12 20:48",
+      "url": "http://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=421&aid=0002940740"
+    },
+    {
+      "title": "'어린이집 교사가 장애아동 가슴 깨물어' 학대 주장 제기",
+      "date": "2017-09-13 12:04",
+      "url": "http://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=001&aid=0009542562"
+    },
+    {
+      "title": "어린이집 CCTV의무설치했지만…30%는 ‘설치 운영 위반’",
+      "date": "2017-07-04 14:25",
+      "url": "http://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=056&aid=0010476535"
+    },
+    {
+      "title": "우리아이 맡겨놓은 경기도 어린이집들, CCTV 카메라 돌려놔 '영상녹화 불가'",
+      "date": "2017-07-04 15:30",
+      "url": "http://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=025&aid=0002732730"
+    },
+    {
+      "title": "아동학대사범 3년간 7000명 검거···구속은 고작 255명",
+      "date": "2017-09-06 11:47",
+      "url": "http://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=003&aid=0008162238"
+    },
+    {
+      "title": "가두고 굶기고…2살 아이 학대 어린이집 교사 집행유예",
+      "date": "2017-09-08 16:45",
+      "url": "http://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=001&aid=0009532912"
+    },
+    {
+      "title": "멀쩡한 아이 보냈는데 어린이집서 뇌출혈…사라진 CCTV(학대)",
+      "date": "2017-09-10 20:37",
+      "url": "http://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=055&aid=0000567040"
+    },
+    {
       "title": "'빨리 X먹어' 피 토할 정도로 학대…치떨리는 어린이집",
       "date": "2013-02-21 21:50",
       "url": "http://news.jtbc.joins.com/article/article.aspx?news_id=NB10244285"
@@ -3498,6 +3548,21 @@
   ],
   "child_care_video": [
     {
+      "title":"(제천)어린이집 사망, CCTV 영상 속에서는(학대)",
+      "date":"2016-09-09",
+      "video_id":"Ak_xkHdJoss"
+    },
+    {
+      "title":"'어린이집 교사가 장애아동 가슴 깨물어' 학대 주장 제기",
+      "date":"2017-09-13",
+      "video_id":"Llbm5XAxeJs"
+    },
+    {
+      "title":"멀쩡한 아이 보냈는데 어린이집서 뇌출혈…사라진 CCTV(학대)",
+      "date":"2017-09-10",
+      "video_id":"dkHW0Nzm2Mo"
+    },
+    {
       "title":"1억원대 '국고보조금' 부정 수급한 어린이집 원장",
       "date":"2017-08-08",
       "video_id":"pONG-dyq034"
@@ -3510,7 +3575,7 @@
     {
       "title":"어린이집 학대로 사망...'국가 책임 없다'",
       "date":"2015-01-31",
-      "video_id":"VKr-5x_UgP3zFrA"
+      "video_id":"5x_UgP3zFrA"
     },
     {
       "title":"밟고 차고 내던지고..학대 일삼은 어린이집",

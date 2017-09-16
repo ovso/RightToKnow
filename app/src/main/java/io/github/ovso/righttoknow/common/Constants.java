@@ -14,6 +14,9 @@ public class Constants {
   public static final int ITEM_NEWS = 3;
   public static final int ITEM_VIDEO = 4;
 
+  public static final String FCM_KEY_CONTENT_POSITION = "content_position";
+  public static final String FCM_KEY_APP_UPDATE = "app_update";
+
   public final static int EMOJI_ABUSED = 0x1F62D;
 
   public final static String DEVELOPER_KEY = "AIzaSyBdY9vP4_vQs5YEGJ3Ghu6s5gGY8yFlo0s"; // youtube

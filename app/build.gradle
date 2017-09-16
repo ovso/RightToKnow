@@ -14,8 +14,8 @@ android {
   compileSdkVersion 26
   buildToolsVersion "26.0.1"
   def versionMajor = 0
-  def versionMinor = 4
-  def versionCodeNumber = 4
+  def versionMinor = 5
+  def versionCodeNumber = 5
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 16
@@ -68,6 +68,10 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+
+  lintOptions {
+    disable 'LongLogTag'
+  }
 }
 
 dependencies {
@@ -86,8 +90,12 @@ dependencies {
   provided 'org.projectlombok:lombok:1.16.18'
   compile 'gun0912.ted:tedpermission:1.0.3'
   compile 'com.google.android.gms:play-services-location:11.0.4'
+
   compile 'com.google.firebase:firebase-database:11.0.4'
   compile 'com.google.firebase:firebase-storage:11.0.4'
+  compile 'com.google.firebase:firebase-messaging:11.0.4'
+  compile 'com.firebase:firebase-jobdispatcher:0.8.1'
+
   compile 'com.github.barteksc:android-pdf-viewer:2.6.1'
   compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
   compile 'com.miguelcatalan:materialsearchview:1.4.0'
