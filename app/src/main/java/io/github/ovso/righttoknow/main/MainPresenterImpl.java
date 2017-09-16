@@ -35,8 +35,18 @@ class MainPresenterImpl implements MainPresenter {
   private void handlingForIntent(Intent intent) {
     if (intent.hasExtra(Constants.FCM_KEY_CONTENT_POSITION)) {
       view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
-    } else if(intent.hasExtra(Constants.FCM_KEY_APP_UPDATE)) {
-      view.showAppUpdateDialog(MessagingHandler.getAppUpdateMessage(intent.getExtras()));
+    } else if (intent.hasExtra(Constants.FCM_KEY_APP_UPDATE_MSG)) {
+      if (intent.hasExtra(Constants.FCM_KEY_APP_UPDATE_VERSION) && intent.hasExtra(
+          Constants.FCM_KEY_APP_UPDATE_VERSION)) {
+        String storeVersionName = MessagingHandler.getAppUpdateVersion(intent.getExtras());
+
+        if (MessagingHandler.isUpdate(storeVersionName)) {
+          view.showAppUpdateDialog(MessagingHandler.getAppUpdateMessage(intent.getExtras()));
+        } else {
+          view.showNoticeDialog(
+              MyApplication.getInstance().getString(R.string.already_latest_version));
+        }
+      }
     }
   }
 
@@ -56,7 +66,7 @@ class MainPresenterImpl implements MainPresenter {
   @Override public void onNavigationItemSelected(int id) {
     switch (id) {
       case R.id.nav_review:
-        view.navigateToReview(Uri.parse(Constants.URL_REVIEW));
+        view.navigateToStore(Uri.parse(Constants.URL_REVIEW));
         break;
       case R.id.nav_share:
         view.navigateToShare(Constants.URL_SHARE);

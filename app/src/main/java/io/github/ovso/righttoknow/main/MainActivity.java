@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     }
   }
 
-  @Override public void navigateToReview(Uri uri) {
+  @Override public void navigateToStore(Uri uri) {
     Intent intent = new Intent(Intent.ACTION_VIEW);
     intent.setData(uri);
     try {
@@ -246,8 +246,17 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     new AlertDialog.Builder(this).setIcon(R.drawable.ic_new_releases_24dp)
         .setMessage(message)
         .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-          navigateToReview(Uri.parse(Constants.URL_REVIEW));
-        }).setNegativeButton(android.R.string.cancel, null).show();
+          navigateToStore(Uri.parse(Constants.URL_REVIEW));
+        })
+        .setNegativeButton(android.R.string.cancel, null)
+        .show();
+  }
+
+  @Override public void showNoticeDialog(String message) {
+    new AlertDialog.Builder(this).setIcon(R.drawable.ic_new_releases_24dp)
+        .setMessage(message)
+        .setPositiveButton(android.R.string.ok, null)
+        .show();
   }
 
   @Override public void onBackPressed() {

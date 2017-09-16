@@ -42,14 +42,35 @@ public class MessagingHandler {
     }
     return 0;
   }
+
   @DebugLog public static String getAppUpdateMessage(Bundle extras) {
     HashMap<String, Object> map = new HashMap<>();
     for (String key : extras.keySet()) {
       map.put(key, extras.get(key));
-      if (key.contains(Constants.FCM_KEY_APP_UPDATE)) {
-          return extras.get(key).toString();
+      if (key.contains(Constants.FCM_KEY_APP_UPDATE_MSG)) {
+        return extras.get(key).toString();
       }
     }
     return MyApplication.getInstance().getString(R.string.app_update);
+  }
+
+  public static String getAppUpdateVersion(Bundle extras) {
+    return String.valueOf(extras.get(Constants.FCM_KEY_APP_UPDATE_VERSION));
+  }
+
+  public static boolean isUpdate(String storeVersionName) {
+    String versionName = storeVersionName.replaceAll(".", "");
+    int storeVersionNumber = 0;
+    try {
+      storeVersionNumber = Integer.valueOf(versionName);
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+      storeVersionNumber = 0;
+    }
+    String appVersionName =
+        Utility.getVersionName(MyApplication.getInstance().getApplicationContext());
+    int appVersionNumber = Integer.parseInt(appVersionName.replaceAll(".", ""));
+
+    return storeVersionNumber > appVersionNumber;
   }
 }
