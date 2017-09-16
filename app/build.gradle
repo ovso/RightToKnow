@@ -14,8 +14,8 @@ android {
   compileSdkVersion 26
   buildToolsVersion "26.0.1"
   def versionMajor = 0
-  def versionMinor = 4
-  def versionCodeNumber = 4
+  def versionMinor = 5
+  def versionCodeNumber = 5
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 16
