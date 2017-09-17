@@ -74,10 +74,15 @@ public class MessagingHandler {
       e.printStackTrace();
       storeVersionNumber = 0;
     }
-    String appVersionName =
-        Utility.getVersionName(MyApplication.getInstance());
-    String replaceVersion = appVersionName.replaceAll("\\.","");
-    int appVersionNumber = Integer.parseInt(replaceVersion);
+    String replaceVersion =
+        Utility.getVersionName(MyApplication.getInstance()).replaceAll("\\.", "");
+    int appVersionNumber;
+    try {
+      appVersionNumber = Integer.parseInt(replaceVersion);
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+      appVersionNumber = 0;
+    }
 
     return storeVersionNumber > appVersionNumber;
   }
