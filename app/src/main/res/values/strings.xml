@@ -79,5 +79,6 @@
   <string name="check_version">최신 버전 확인</string>
   <string name="app_update">앱을 업데이트 하시겠습니까?</string>
   <string name="not_found_playstore">구글플레이스토어를 찾을 수 없습니다.</string>
+  <string name="already_latest_version">이미 최신버전 입니다.</string>
 
 </resources>

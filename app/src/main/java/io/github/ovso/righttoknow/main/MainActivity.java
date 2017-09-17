@@ -112,12 +112,11 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     }
   }
 
-  @Override public void navigateToReview(Uri uri) {
+  @Override public void navigateToStore(Uri uri) {
     Intent intent = new Intent(Intent.ACTION_VIEW);
     intent.setData(uri);
     try {
       startActivity(intent);
-      finish();
     } catch (ActivityNotFoundException e) {
       Toast.makeText(this, R.string.not_found_playstore, Toast.LENGTH_SHORT).show();
     }
@@ -242,12 +241,19 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     startActivity(intent);
   }
 
-  @Override public void showAppUpdateDialog(String message) {
-    new AlertDialog.Builder(this).setIcon(R.drawable.ic_new_releases_24dp)
-        .setMessage(message)
-        .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-          navigateToReview(Uri.parse(Constants.URL_REVIEW));
-        }).setNegativeButton(android.R.string.cancel, null).show();
+  @Override public void showAppUpdateDialog(String message, boolean isForce) {
+
+    AlertDialog.Builder builder =
+        new AlertDialog.Builder(this).setIcon(R.drawable.ic_new_releases_24dp);
+    builder.setMessage(message);
+    builder.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+      navigateToStore(Uri.parse(Constants.URL_REVIEW));
+      finish();
+    });
+    builder.setCancelable(!isForce);
+    if (!isForce) builder.setNegativeButton(android.R.string.cancel, null);
+
+    if (!this.isFinishing()) builder.show();
   }
 
   @Override public void onBackPressed() {

@@ -12,6 +12,8 @@ import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.common.MessagingHandler;
 import io.github.ovso.righttoknow.common.Utility;
+import io.github.ovso.righttoknow.listener.OnChildResultListener;
+import io.github.ovso.righttoknow.main.vo.AppUpdate;
 import java.util.ArrayList;
 
 /**
@@ -21,12 +23,37 @@ import java.util.ArrayList;
 class MainPresenterImpl implements MainPresenter {
   private MainPresenter.View view;
   private MainModel model;
+  private AppUpdateInteractor updateInteractor;
 
   MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
     model = new MainModel();
     view.changeTheme();
+    updateInteractor = new AppUpdateInteractor();
+    updateInteractor.setOnChildResultListener(onChildResultListener);
   }
+
+  private OnChildResultListener onChildResultListener = new OnChildResultListener<AppUpdate>() {
+    @Override public void onPre() {
+
+    }
+
+    @Override public void onResult(AppUpdate result) {
+      if (result != null) {
+        if (MessagingHandler.isUpdate(result.getStore_version())) {
+          view.showAppUpdateDialog(result.getMessage(), result.isForce_update());
+        }
+      }
+    }
+
+    @Override public void onPost() {
+
+    }
+
+    @Override public void onError() {
+
+    }
+  };
 
   @Override public void onNewIntent(Intent intent) {
     handlingForIntent(intent);
@@ -35,9 +62,8 @@ class MainPresenterImpl implements MainPresenter {
   private void handlingForIntent(Intent intent) {
     if (intent.hasExtra(Constants.FCM_KEY_CONTENT_POSITION)) {
       view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
-    } else if(intent.hasExtra(Constants.FCM_KEY_APP_UPDATE)) {
-      view.showAppUpdateDialog(MessagingHandler.getAppUpdateMessage(intent.getExtras()));
     }
+    updateInteractor.req();
   }
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
@@ -56,7 +82,7 @@ class MainPresenterImpl implements MainPresenter {
   @Override public void onNavigationItemSelected(int id) {
     switch (id) {
       case R.id.nav_review:
-        view.navigateToReview(Uri.parse(Constants.URL_REVIEW));
+        view.navigateToStore(Uri.parse(Constants.URL_REVIEW));
         break;
       case R.id.nav_share:
         view.navigateToShare(Constants.URL_SHARE);

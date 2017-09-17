@@ -15,7 +15,6 @@ public class Constants {
   public static final int ITEM_VIDEO = 4;
 
   public static final String FCM_KEY_CONTENT_POSITION = "content_position";
-  public static final String FCM_KEY_APP_UPDATE = "app_update";
 
   public final static int EMOJI_ABUSED = 0x1F62D;
 

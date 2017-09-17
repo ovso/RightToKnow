@@ -29,7 +29,7 @@ public interface MainPresenter {
 
     void setTitle(String title);
 
-    void navigateToReview(Uri uri);
+    void navigateToStore(Uri uri);
 
     void navigateToShare(String url);
 
@@ -63,6 +63,6 @@ public interface MainPresenter {
 
     void navigateToSettings();
 
-    void showAppUpdateDialog(String message);
+    void showAppUpdateDialog(String message, boolean isForce);
   }
 }

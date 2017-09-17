@@ -66,7 +66,7 @@ public class Utility {
   }
 
   public static String getVersionName(Context context) {
-    String versionName = "";
+    String versionName = "0.0.1";
     try {
       PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
       versionName = info.versionName;
