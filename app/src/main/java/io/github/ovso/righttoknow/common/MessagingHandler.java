@@ -43,7 +43,7 @@ public class MessagingHandler {
     return 0;
   }
 
-  @DebugLog public static String getAppUpdateMessage(Bundle extras) {
+  public static String getAppUpdateMessage(Bundle extras) {
     HashMap<String, Object> map = new HashMap<>();
     for (String key : extras.keySet()) {
       map.put(key, extras.get(key));
@@ -54,13 +54,20 @@ public class MessagingHandler {
     return MyApplication.getInstance().getString(R.string.app_update);
   }
 
-  public static String getAppUpdateVersion(Bundle extras) {
-    return String.valueOf(extras.get(Constants.FCM_KEY_APP_UPDATE_VERSION));
+  public static String getStoreVersionName(Bundle extras) {
+    HashMap<String, Object> map = new HashMap<>();
+    for (String key : extras.keySet()) {
+      map.put(key, extras.get(key));
+      if (key.contains(Constants.FCM_KEY_APP_UPDATE_VERSION)) {
+        return extras.get(key).toString();
+      }
+    }
+    return Utility.getVersionName(MyApplication.getInstance().getApplicationContext());
   }
 
-  public static boolean isUpdate(String storeVersionName) {
-    String versionName = storeVersionName.replaceAll(".", "");
-    int storeVersionNumber = 0;
+  @DebugLog public static boolean isUpdate(String storeVersionName) {
+    String versionName = storeVersionName.replaceAll("\\.", "");
+    int storeVersionNumber;
     try {
       storeVersionNumber = Integer.valueOf(versionName);
     } catch (NumberFormatException e) {
@@ -68,8 +75,9 @@ public class MessagingHandler {
       storeVersionNumber = 0;
     }
     String appVersionName =
-        Utility.getVersionName(MyApplication.getInstance().getApplicationContext());
-    int appVersionNumber = Integer.parseInt(appVersionName.replaceAll(".", ""));
+        Utility.getVersionName(MyApplication.getInstance());
+    String replaceVersion = appVersionName.replaceAll("\\.","");
+    int appVersionNumber = Integer.parseInt(replaceVersion);
 
     return storeVersionNumber > appVersionNumber;
   }

@@ -38,7 +38,7 @@ class MainPresenterImpl implements MainPresenter {
     } else if (intent.hasExtra(Constants.FCM_KEY_APP_UPDATE_MSG)) {
       if (intent.hasExtra(Constants.FCM_KEY_APP_UPDATE_VERSION) && intent.hasExtra(
           Constants.FCM_KEY_APP_UPDATE_VERSION)) {
-        String storeVersionName = MessagingHandler.getAppUpdateVersion(intent.getExtras());
+        String storeVersionName = MessagingHandler.getStoreVersionName(intent.getExtras());
 
         if (MessagingHandler.isUpdate(storeVersionName)) {
           view.showAppUpdateDialog(MessagingHandler.getAppUpdateMessage(intent.getExtras()));
