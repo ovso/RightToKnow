@@ -63,8 +63,6 @@ public interface MainPresenter {
 
     void navigateToSettings();
 
-    void showAppUpdateDialog(String message);
-
-    void showNoticeDialog(String message);
+    void showAppUpdateDialog(String message, boolean isForce);
   }
 }

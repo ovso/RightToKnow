@@ -12,6 +12,8 @@ import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.common.MessagingHandler;
 import io.github.ovso.righttoknow.common.Utility;
+import io.github.ovso.righttoknow.listener.OnChildResultListener;
+import io.github.ovso.righttoknow.main.vo.AppUpdate;
 import java.util.ArrayList;
 
 /**
@@ -21,12 +23,39 @@ import java.util.ArrayList;
 class MainPresenterImpl implements MainPresenter {
   private MainPresenter.View view;
   private MainModel model;
+  private AppUpdateInteractor updateInteractor;
 
   MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
     model = new MainModel();
     view.changeTheme();
+    updateInteractor = new AppUpdateInteractor();
+    updateInteractor.setOnChildResultListener(onChildResultListener);
   }
+
+  private OnChildResultListener onChildResultListener = new OnChildResultListener<AppUpdate>() {
+    @Override public void onPre() {
+
+    }
+
+    @Override public void onResult(AppUpdate result) {
+      if (result != null) {
+        if (MessagingHandler.isUpdate(result.getStore_version())) {
+          if (!result.isForce_update()) {
+            view.showAppUpdateDialog(result.getMessage(), result.isForce_update());
+          }
+        }
+      }
+    }
+
+    @Override public void onPost() {
+
+    }
+
+    @Override public void onError() {
+
+    }
+  };
 
   @Override public void onNewIntent(Intent intent) {
     handlingForIntent(intent);
@@ -35,19 +64,8 @@ class MainPresenterImpl implements MainPresenter {
   private void handlingForIntent(Intent intent) {
     if (intent.hasExtra(Constants.FCM_KEY_CONTENT_POSITION)) {
       view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
-    } else if (intent.hasExtra(Constants.FCM_KEY_APP_UPDATE_MSG)) {
-      if (intent.hasExtra(Constants.FCM_KEY_APP_UPDATE_VERSION) && intent.hasExtra(
-          Constants.FCM_KEY_APP_UPDATE_VERSION)) {
-        String storeVersionName = MessagingHandler.getStoreVersionName(intent.getExtras());
-
-        if (MessagingHandler.isUpdate(storeVersionName)) {
-          view.showAppUpdateDialog(MessagingHandler.getAppUpdateMessage(intent.getExtras()));
-        } else {
-          view.showNoticeDialog(
-              MyApplication.getInstance().getString(R.string.already_latest_version));
-        }
-      }
     }
+    updateInteractor.req();
   }
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
