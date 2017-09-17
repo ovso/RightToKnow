@@ -41,9 +41,7 @@ class MainPresenterImpl implements MainPresenter {
     @Override public void onResult(AppUpdate result) {
       if (result != null) {
         if (MessagingHandler.isUpdate(result.getStore_version())) {
-          if (!result.isForce_update()) {
-            view.showAppUpdateDialog(result.getMessage(), result.isForce_update());
-          }
+          view.showAppUpdateDialog(result.getMessage(), result.isForce_update());
         }
       }
     }

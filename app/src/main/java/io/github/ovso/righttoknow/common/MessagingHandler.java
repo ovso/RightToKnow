@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import java.util.HashMap;
@@ -27,7 +26,7 @@ public class MessagingHandler {
     }
   }
 
-  @DebugLog public static int getContentPosition(Bundle extras) {
+  public static int getContentPosition(Bundle extras) {
     HashMap<String, Object> map = new HashMap<>();
     for (String key : extras.keySet()) {
       map.put(key, extras.get(key));
@@ -43,29 +42,7 @@ public class MessagingHandler {
     return 0;
   }
 
-  public static String getAppUpdateMessage(Bundle extras) {
-    HashMap<String, Object> map = new HashMap<>();
-    for (String key : extras.keySet()) {
-      map.put(key, extras.get(key));
-      if (key.contains(Constants.FCM_KEY_APP_UPDATE_MSG)) {
-        return extras.get(key).toString();
-      }
-    }
-    return MyApplication.getInstance().getString(R.string.app_update);
-  }
-
-  public static String getStoreVersionName(Bundle extras) {
-    HashMap<String, Object> map = new HashMap<>();
-    for (String key : extras.keySet()) {
-      map.put(key, extras.get(key));
-      if (key.contains(Constants.FCM_KEY_APP_UPDATE_VERSION)) {
-        return extras.get(key).toString();
-      }
-    }
-    return Utility.getVersionName(MyApplication.getInstance().getApplicationContext());
-  }
-
-  @DebugLog public static boolean isUpdate(String storeVersionName) {
+  public static boolean isUpdate(String storeVersionName) {
     String versionName = storeVersionName.replaceAll("\\.", "");
     int storeVersionNumber;
     try {

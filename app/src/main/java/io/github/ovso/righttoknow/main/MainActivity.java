@@ -242,6 +242,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public void showAppUpdateDialog(String message, boolean isForce) {
+
     AlertDialog.Builder builder =
         new AlertDialog.Builder(this).setIcon(R.drawable.ic_new_releases_24dp);
     builder.setMessage(message);
@@ -249,9 +250,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
       navigateToStore(Uri.parse(Constants.URL_REVIEW));
       finish();
     });
-    builder.setCancelable(isForce);
+    builder.setCancelable(!isForce);
     if (!isForce) builder.setNegativeButton(android.R.string.cancel, null);
-    builder.show();
+
+    if (!this.isFinishing()) builder.show();
   }
 
   @Override public void onBackPressed() {
