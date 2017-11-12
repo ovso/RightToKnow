@@ -8,7 +8,10 @@ import android.preference.SwitchPreference;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
+import de.psdev.licensesdialog.LicensesDialog;
+import de.psdev.licensesdialog.model.Notices;
 import hugo.weaving.DebugLog;
+import io.github.ovso.righttoknow.R;
 
 /**
  * Created by jaeho on 2017. 9. 15
@@ -32,7 +35,16 @@ public class SettingsFragment extends PreferenceFragment implements SettingsFrag
 
   @Override public void setListener() {
     notificationsSwitchPreference.setOnPreferenceClickListener(
-        preference1 -> presenter.onPreferenceClick());
+        preference1 -> presenter.onNotificationsClick());
+    findPreference(getString(R.string.key_opensource_license)).setOnPreferenceClickListener(
+        preference -> presenter.onOpensourceClick());
+  }
+
+  @Override public void showOpenSourceLicenseDialog(Notices notices) {
+    new LicensesDialog.Builder(getActivity()).setNotices(notices)
+        .setIncludeOwnLicense(true)
+        .build()
+        .show();
   }
 
   @Override public void navigateToSettingsNotifications26() {

@@ -21,8 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-import de.psdev.licensesdialog.LicensesDialog;
-import de.psdev.licensesdialog.model.Notices;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
@@ -199,10 +197,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     versionNameView.setText(versionName);
   }
 
-  @Override public void showOpensourceLicenses(Notices notices) {
-    new LicensesDialog.Builder(this).setNotices(notices).setIncludeOwnLicense(true).build().show();
-  }
-
   @Override public void changeTheme() {
     setTheme(R.style.AppTheme_NoActionBar);
   }
@@ -257,10 +251,25 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public void onBackPressed() {
-    if (drawer.isDrawerOpen(GravityCompat.START)) {
-      drawer.closeDrawer(GravityCompat.START);
-    } else {
-      super.onBackPressed();
-    }
+    presenter.onBackPressed(drawer.isDrawerOpen(GravityCompat.START));
+  }
+
+  @Override public void closeDrawer() {
+    drawer.closeDrawer(GravityCompat.START);
+  }
+
+  @Override public void showReviewDialog() {
+    new AlertDialog.Builder(this).setIcon(R.drawable.ic_suggestion)
+        .setMessage(R.string.go_out_message)
+        .setPositiveButton(R.string.go_out, (dialogInterface, which) -> {
+          finish();
+        })
+        .setNegativeButton(R.string.go_back, (dialogInterface, witch) -> {
+          dialogInterface.dismiss();
+        })
+        .setNeutralButton(R.string.review_write, (dialogInterface, which) -> {
+          presenter.onReviewClick();
+        })
+        .show();
   }
 }

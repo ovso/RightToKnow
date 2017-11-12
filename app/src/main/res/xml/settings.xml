@@ -4,10 +4,7 @@
       android:title="@string/set_notificatinos"
       android:summaryOn="@string/set_notifications_summary_on"
       android:summaryOff="@string/set_notifications_summary_off"/>
-<!--
   <Preference
-      android:key="@string/key_app_version"
-      android:title="@string/check_version"
-      android:summary="0.4.4"/>
--->
+      android:key="@string/key_opensource_license"
+      android:title="@string/opensource_licenses"/>
  </PreferenceScreen>

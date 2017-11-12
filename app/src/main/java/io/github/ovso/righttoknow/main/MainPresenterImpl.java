@@ -22,12 +22,10 @@ import java.util.ArrayList;
 
 class MainPresenterImpl implements MainPresenter {
   private MainPresenter.View view;
-  private MainModel model;
   private AppUpdateInteractor updateInteractor;
 
   MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
-    model = new MainModel();
     view.changeTheme();
     updateInteractor = new AppUpdateInteractor();
     updateInteractor.setOnChildResultListener(onChildResultListener);
@@ -59,6 +57,19 @@ class MainPresenterImpl implements MainPresenter {
     handlingForIntent(intent);
   }
 
+  @Override public void onBackPressed(boolean isDrawerOpen) {
+    if (isDrawerOpen) {
+      view.closeDrawer();
+    } else {
+      view.showReviewDialog();
+    }
+  }
+
+  @Override public void onReviewClick() {
+    view.finish();
+    view.navigateToStore(Uri.parse(Constants.URL_REVIEW));
+  }
+
   private void handlingForIntent(Intent intent) {
     if (intent.hasExtra(Constants.FCM_KEY_CONTENT_POSITION)) {
       view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
@@ -81,17 +92,11 @@ class MainPresenterImpl implements MainPresenter {
 
   @Override public void onNavigationItemSelected(int id) {
     switch (id) {
-      case R.id.nav_review:
-        view.navigateToStore(Uri.parse(Constants.URL_REVIEW));
-        break;
       case R.id.nav_share:
         view.navigateToShare(Constants.URL_SHARE);
         break;
       case R.id.nav_settings:
         view.navigateToSettings();
-        break;
-      case R.id.nav_open_source:
-        view.showOpensourceLicenses(model.getNotices());
         break;
     }
   }
