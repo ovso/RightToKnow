@@ -41,7 +41,7 @@
   <string name="day_care_center">어린이집</string>
   <string name="detail">(상세)</string>
   <string name="app_share">앱 공유하기</string>
-  <string name="review_write">의견 남기기</string>
+  <string name="review_write">있어요</string>
   <string name="my_location">내 지역 위반시설 및 행위자 조회</string>
   <string name="location_permission_denied_message">위치 사용 권한을 반드시 설정해 주셔야 합니다.\n감사합니다.</string>
   <string name="not_connected_internet">인터넷에 연결되지 않았습니다.</string>
@@ -81,7 +81,7 @@
   <string name="not_found_playstore">구글플레이스토어를 찾을 수 없습니다.</string>
   <string name="already_latest_version">이미 최신버전 입니다.</string>
   <string name="key_opensource_license">opensource_license_key</string>
-  <string name="go_out">나가기</string>
+  <string name="go_out">없어요</string>
   <string name="go_back">돌아가기</string>
   <string name="go_out_message">감사합니다.\n남겨주실 말씀이 있을까요?</string>
 

@@ -87,7 +87,7 @@ dependencies {
 
   compile 'com.jakewharton:butterknife:8.7.0'
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
-  provided 'org.projectlombok:lombok:1.16.18'
+  compile "org.projectlombok:lombok:1.16.18"
   compile 'gun0912.ted:tedpermission:1.0.3'
   compile 'com.google.android.gms:play-services-location:11.0.4'
 
