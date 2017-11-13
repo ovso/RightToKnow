@@ -48,15 +48,15 @@ android {
       proguardFile 'proguard-avloading.pro'
 
       signingConfig signingConfigs.release
-/*
-      applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-          def formattedDate = new Date().format('yyyyMMdd_HHmmss')
-          def apkName = "RightToKnow_" + variant.versionName + "_" + formattedDate + "_release.apk"
-          output.outputFile = new File(output.outputFile.parent, apkName)
-        }
-      }
-*/
+      /*
+            applicationVariants.all { variant ->
+              variant.outputs.each { output ->
+                def formattedDate = new Date().format('yyyyMMdd_HHmmss')
+                def apkName = "RightToKnow_" + variant.versionName + "_" + formattedDate + "_release.apk"
+                output.outputFile = new File(output.outputFile.parent, apkName)
+              }
+            }
+      */
     }
     debug {
       //versionNameSuffix '-debug'
@@ -101,7 +101,7 @@ dependencies {
   compile 'com.github.barteksc:android-pdf-viewer:2.6.1'
   compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
   compile 'com.miguelcatalan:materialsearchview:1.4.0'
-  compile files('libs/YouTubeAndroidPlayerApi.jar')
+  compile files('libs/YouTubeAndroidPlayerApi.jar', 'libs/CaulySDK_3.4.18.jar')
   compile 'com.wang.avi:library:2.1.3'
 }
 

@@ -17,9 +17,14 @@ import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
+import com.fsn.cauly.CaulyAdInfo;
+import com.fsn.cauly.CaulyAdInfoBuilder;
+import com.fsn.cauly.CaulyAdView;
+import com.fsn.cauly.CaulyAdViewListener;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
@@ -44,11 +49,38 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.nav_view) NavigationView navigationView;
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
   @BindView(R.id.viewpager) ViewPager viewPager;
+  @BindView(R.id.ad_container) ViewGroup adContainer;
 
   @DebugLog @Override public void onCreate(Bundle savedInstanceState) {
     presenter = new MainPresenterImpl(this);
     super.onCreate(savedInstanceState);
     presenter.onCreate(savedInstanceState, getIntent());
+
+    CaulyAdView view;
+    CaulyAdInfo info =
+        new CaulyAdInfoBuilder("65SsTZhf").effect(CaulyAdInfo.Effect.Circle.toString()).build();
+    view = new CaulyAdView(this);
+    view.setAdInfo(info);
+    view.setAdViewListener(new CaulyAdViewListener() {
+      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
+
+      }
+
+      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
+
+      }
+
+      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
+
+      }
+
+      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
+
+      }
+    });
+
+    ViewGroup adContainer = findViewById(R.id.ad_container);
+    adContainer.addView(view);
   }
 
   @DebugLog @Override protected void onNewIntent(Intent intent) {
