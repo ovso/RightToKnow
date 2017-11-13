@@ -136,7 +136,8 @@ class MainPresenterImpl implements MainPresenter {
   }
 
   private void requestPermission() {
-    new TedPermission(MyApplication.getInstance()).setPermissionListener(permissionlistener)
+    TedPermission.with(MyApplication.getInstance())
+        .setPermissionListener(permissionlistener)
         .setDeniedMessage(R.string.location_permission_denied_message)
         .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION)
