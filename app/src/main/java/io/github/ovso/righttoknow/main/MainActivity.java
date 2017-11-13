@@ -55,32 +55,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     presenter = new MainPresenterImpl(this);
     super.onCreate(savedInstanceState);
     presenter.onCreate(savedInstanceState, getIntent());
-
-    CaulyAdView view;
-    CaulyAdInfo info =
-        new CaulyAdInfoBuilder("65SsTZhf").effect(CaulyAdInfo.Effect.Circle.toString()).build();
-    view = new CaulyAdView(this);
-    view.setAdInfo(info);
-    view.setAdViewListener(new CaulyAdViewListener() {
-      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
-
-      }
-
-      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
-
-      }
-
-      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
-
-      }
-
-      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
-
-      }
-    });
-
-    ViewGroup adContainer = findViewById(R.id.ad_container);
-    adContainer.addView(view);
   }
 
   @DebugLog @Override protected void onNewIntent(Intent intent) {
@@ -303,5 +277,34 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
           presenter.onReviewClick();
         })
         .show();
+  }
+
+  @Override public void showAd() {
+    CaulyAdView view;
+    CaulyAdInfo info =
+        new CaulyAdInfoBuilder("65SsTZhf").effect(CaulyAdInfo.Effect.Circle.toString()).build();
+    view = new CaulyAdView(this);
+    view.setAdInfo(info);
+    view.setAdViewListener(new CaulyAdViewListener() {
+      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
+
+      }
+
+      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
+
+      }
+
+      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
+
+      }
+
+      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
+
+      }
+    });
+
+    ViewGroup adContainer = findViewById(R.id.ad_container);
+    adContainer.addView(view);
+
   }
 }

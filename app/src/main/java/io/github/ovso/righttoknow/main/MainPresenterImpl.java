@@ -86,6 +86,7 @@ class MainPresenterImpl implements MainPresenter {
     view.setViewPager();
     view.setBottomNavigationViewBehavior();
     view.setSearchView();
+    view.showAd();
 
     handlingForIntent(intent);
   }

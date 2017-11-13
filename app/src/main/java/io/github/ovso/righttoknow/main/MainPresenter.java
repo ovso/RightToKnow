@@ -71,5 +71,7 @@ public interface MainPresenter {
     void showReviewDialog();
 
     void finish();
+
+    void showAd();
   }
 }
