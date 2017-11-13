@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'hugo'
 
 // keystorePropertiesFile 변수를 만들고 프로젝트 폴더의 keystore.properties 파일로 초기화 한다.
@@ -11,15 +10,15 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 
 android {
-  compileSdkVersion 26
-  buildToolsVersion "26.0.1"
+  compileSdkVersion 27
+  buildToolsVersion '27.0.0'
   def versionMajor = 0
-  def versionMinor = 5
+  def versionMinor = 6
   def versionCodeNumber = 5
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 16
-    targetSdkVersion 26
+    targetSdkVersion 27
     versionCode versionCodeNumber
     versionName "${versionMajor}.${versionMinor}.${versionCodeNumber}"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -49,6 +48,7 @@ android {
       proguardFile 'proguard-avloading.pro'
 
       signingConfig signingConfigs.release
+/*
       applicationVariants.all { variant ->
         variant.outputs.each { output ->
           def formattedDate = new Date().format('yyyyMMdd_HHmmss')
@@ -56,6 +56,7 @@ android {
           output.outputFile = new File(output.outputFile.parent, apkName)
         }
       }
+*/
     }
     debug {
       //versionNameSuffix '-debug'
@@ -79,16 +80,17 @@ dependencies {
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
-  compile 'com.android.support:appcompat-v7:26.0.1'
-  compile 'com.android.support:design:26.0.1'
-  compile 'com.android.support:cardview-v7:26.0.1'
+  compile 'com.android.support:appcompat-v7:27.0.0'
+  compile 'com.android.support:design:27.0.0'
+  compile 'com.android.support:cardview-v7:27.0.0'
   compile 'com.android.support.constraint:constraint-layout:1.0.2'
   testCompile 'junit:junit:4.12'
 
-  compile 'com.jakewharton:butterknife:8.7.0'
-  annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+  compile 'com.jakewharton:butterknife:8.8.1'
+  annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
   compile "org.projectlombok:lombok:1.16.18"
-  compile 'gun0912.ted:tedpermission:1.0.3'
+  annotationProcessor 'org.projectlombok:lombok:1.16.18'
+  compile 'gun0912.ted:tedpermission:2.1.0'
   compile 'com.google.android.gms:play-services-location:11.0.4'
 
   compile 'com.google.firebase:firebase-database:11.0.4'
