@@ -8,22 +8,34 @@
     >
 
   <include layout="@layout/app_bar_layout"/>
-  <android.support.v4.widget.SwipeRefreshLayout
-      android:id="@+id/swipe_refresh"
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:orientation="vertical"
       app:layout_behavior="@string/appbar_scrolling_view_behavior"
       >
-    <ScrollView
+    <RelativeLayout
+        android:id="@id/ad_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         >
-      <WebView
-          android:id="@+id/webview"
+      <ScrollView
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          />
-    </ScrollView>
-  </android.support.v4.widget.SwipeRefreshLayout>
+          android:layout_height="match_parent"
+          >
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+      </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+  </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
 
