@@ -26,7 +26,7 @@ public class Constants {
 
   public final static String DEVELOPER_KEY = "AIzaSyBdY9vP4_vQs5YEGJ3Ghu6s5gGY8yFlo0s"; // youtube
 
-  public final static String CAULY_APP_CODE = "65SsTZhf";
+  public final static String CAULY_APP_CODE = "tnhCNe7c";
   public static Notices getNotices() {
     final Notices notices = new Notices();
 

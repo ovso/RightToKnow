@@ -14,7 +14,7 @@ android {
   buildToolsVersion '27.0.0'
   def versionMajor = 0
   def versionMinor = 6
-  def versionCodeNumber = 5
+  def versionCodeNumber = 6
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 16
@@ -88,7 +88,8 @@ dependencies {
 
   compile 'com.jakewharton:butterknife:8.8.1'
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-  compile "org.projectlombok:lombok:1.16.18"
+  //compile "org.projectlombok:lombok:1.16.18"
+  provided "org.projectlombok:lombok:1.16.18"
   annotationProcessor 'org.projectlombok:lombok:1.16.18'
   compile 'gun0912.ted:tedpermission:2.1.0'
   compile 'com.google.android.gms:play-services-location:11.6.0'

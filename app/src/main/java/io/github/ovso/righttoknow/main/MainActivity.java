@@ -286,19 +286,19 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     view = new CaulyAdView(this);
     view.setAdInfo(info);
     view.setAdViewListener(new CaulyAdViewListener() {
-      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
+      @DebugLog @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
 
       }
 
-      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
+      @DebugLog @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
 
       }
 
-      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
+      @DebugLog @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
 
       }
 
-      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
+      @DebugLog @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
 
       }
     });
