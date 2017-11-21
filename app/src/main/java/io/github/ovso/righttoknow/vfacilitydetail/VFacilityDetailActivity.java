@@ -5,10 +5,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import com.fsn.cauly.CaulyAdInfo;
+import com.fsn.cauly.CaulyAdInfoBuilder;
+import com.fsn.cauly.CaulyAdView;
+import com.fsn.cauly.CaulyAdViewListener;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.main.BaseActivity;
 
 /**
@@ -45,6 +51,35 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
   @Override public void setTitle(String title) {
     getSupportActionBar().setTitle(title);
+  }
+
+  @Override public void showAd() {
+    CaulyAdView view;
+    CaulyAdInfo info = new CaulyAdInfoBuilder(Constants.CAULY_APP_CODE).effect(
+        CaulyAdInfo.Effect.Circle.toString()).build();
+    view = new CaulyAdView(this);
+    view.setAdInfo(info);
+    view.setAdViewListener(new CaulyAdViewListener() {
+      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
+
+      }
+
+      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
+
+      }
+
+      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
+
+      }
+
+      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
+
+      }
+    });
+
+    ViewGroup adContainer = findViewById(R.id.ad_container);
+    adContainer.addView(view);
+
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

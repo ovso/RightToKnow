@@ -5,11 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import butterknife.BindView;
+import com.fsn.cauly.CaulyAdInfo;
+import com.fsn.cauly.CaulyAdInfoBuilder;
+import com.fsn.cauly.CaulyAdView;
+import com.fsn.cauly.CaulyAdViewListener;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.main.BaseActivity;
 import io.github.ovso.righttoknow.news.vo.News;
 
@@ -37,6 +43,35 @@ public class DetailNewsActivity extends BaseActivity {
       setTitle();
       loadUrl();
     }
+    adView();
+  }
+
+  private void adView() {
+    CaulyAdView view;
+    CaulyAdInfo info = new CaulyAdInfoBuilder(Constants.CAULY_APP_CODE).effect(
+        CaulyAdInfo.Effect.Circle.toString()).build();
+    view = new CaulyAdView(this);
+    view.setAdInfo(info);
+    view.setAdViewListener(new CaulyAdViewListener() {
+      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
+
+      }
+
+      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
+
+      }
+
+      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
+
+      }
+
+      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
+
+      }
+    });
+
+    ViewGroup adContainer = findViewById(R.id.ad_container);
+    adContainer.addView(view);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

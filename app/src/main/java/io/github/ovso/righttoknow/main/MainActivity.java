@@ -17,12 +17,15 @@ import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
+import com.fsn.cauly.CaulyAdInfo;
+import com.fsn.cauly.CaulyAdInfoBuilder;
+import com.fsn.cauly.CaulyAdView;
+import com.fsn.cauly.CaulyAdViewListener;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-import de.psdev.licensesdialog.LicensesDialog;
-import de.psdev.licensesdialog.model.Notices;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
@@ -46,6 +49,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.nav_view) NavigationView navigationView;
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
   @BindView(R.id.viewpager) ViewPager viewPager;
+  @BindView(R.id.ad_container) ViewGroup adContainer;
 
   @DebugLog @Override public void onCreate(Bundle savedInstanceState) {
     presenter = new MainPresenterImpl(this);
@@ -199,10 +203,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     versionNameView.setText(versionName);
   }
 
-  @Override public void showOpensourceLicenses(Notices notices) {
-    new LicensesDialog.Builder(this).setNotices(notices).setIncludeOwnLicense(true).build().show();
-  }
-
   @Override public void changeTheme() {
     setTheme(R.style.AppTheme_NoActionBar);
   }
@@ -257,10 +257,53 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public void onBackPressed() {
-    if (drawer.isDrawerOpen(GravityCompat.START)) {
-      drawer.closeDrawer(GravityCompat.START);
-    } else {
-      super.onBackPressed();
-    }
+    presenter.onBackPressed(drawer.isDrawerOpen(GravityCompat.START));
+  }
+
+  @Override public void closeDrawer() {
+    drawer.closeDrawer(GravityCompat.START);
+  }
+
+  @Override public void showReviewDialog() {
+    new AlertDialog.Builder(this).setIcon(R.drawable.ic_suggestion)
+        .setMessage(R.string.go_out_message)
+        .setPositiveButton(R.string.go_out, (dialogInterface, which) -> {
+          finish();
+        })
+        .setNegativeButton(R.string.go_back, (dialogInterface, witch) -> {
+          dialogInterface.dismiss();
+        })
+        .setNeutralButton(R.string.review_write, (dialogInterface, which) -> {
+          presenter.onReviewClick();
+        })
+        .show();
+  }
+
+  @Override public void showAd() {
+    CaulyAdView view;
+    CaulyAdInfo info = new CaulyAdInfoBuilder(Constants.CAULY_APP_CODE).effect(
+        CaulyAdInfo.Effect.Circle.toString()).build();
+    view = new CaulyAdView(this);
+    view.setAdInfo(info);
+    view.setAdViewListener(new CaulyAdViewListener() {
+      @DebugLog @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
+
+      }
+
+      @DebugLog @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
+
+      }
+
+      @DebugLog @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
+
+      }
+
+      @DebugLog @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
+
+      }
+    });
+
+    ViewGroup adContainer = findViewById(R.id.ad_container);
+    adContainer.addView(view);
   }
 }

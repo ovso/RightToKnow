@@ -26,6 +26,8 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
       view.setTitle(model.getTitle(contents));
       view.showContents(model.getContents(contents));
     }
+
+    view.showAd();
   }
 
   @Override public void onDestroy() {

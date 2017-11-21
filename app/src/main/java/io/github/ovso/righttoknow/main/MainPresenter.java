@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import de.psdev.licensesdialog.model.Notices;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -23,6 +22,10 @@ public interface MainPresenter {
   void onOptionsItemSelected(int itemId);
 
   void onNewIntent(Intent intent);
+
+  void onBackPressed(boolean isDrawerOpen);
+
+  void onReviewClick();
 
   interface View {
     void setListener();
@@ -53,8 +56,6 @@ public interface MainPresenter {
 
     void invalidateOptionsMenu();
 
-    void showOpensourceLicenses(Notices notices);
-
     void changeTheme();
 
     void closeSearchView();
@@ -64,5 +65,13 @@ public interface MainPresenter {
     void navigateToSettings();
 
     void showAppUpdateDialog(String message, boolean isForce);
+
+    void closeDrawer();
+
+    void showReviewDialog();
+
+    void finish();
+
+    void showAd();
   }
 }
