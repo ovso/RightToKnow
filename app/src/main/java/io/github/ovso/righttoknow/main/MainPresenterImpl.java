@@ -61,7 +61,8 @@ class MainPresenterImpl implements MainPresenter {
     if (isDrawerOpen) {
       view.closeDrawer();
     } else {
-      view.showReviewDialog();
+      //view.showReviewDialog();
+      view.finish();
     }
   }
 
