@@ -84,5 +84,6 @@
   <string name="go_out">없어요</string>
   <string name="go_back">돌아가기</string>
   <string name="go_out_message">감사합니다.\n남겨주실 말씀이 있을까요?</string>
+  <string name="donation">후원</string>
 
 </resources>

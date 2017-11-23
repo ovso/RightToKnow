@@ -73,5 +73,7 @@ public interface MainPresenter {
     void finish();
 
     void showAd();
+
+    void showDonationAlert();
   }
 }

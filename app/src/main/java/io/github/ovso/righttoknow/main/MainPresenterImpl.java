@@ -100,6 +100,9 @@ class MainPresenterImpl implements MainPresenter {
       case R.id.nav_settings:
         view.navigateToSettings();
         break;
+      case R.id.nav_donation:
+        view.showDonationAlert();
+        break;
     }
   }
 

@@ -306,4 +306,8 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     ViewGroup adContainer = findViewById(R.id.ad_container);
     adContainer.addView(view);
   }
+
+  @DebugLog @Override public void showDonationAlert() {
+    new DonationDialog().show(getSupportFragmentManager(), DonationDialog.class.getSimpleName());
+  }
 }
