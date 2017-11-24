@@ -7,10 +7,6 @@
         android:icon="@drawable/ic_settings_24dp"
         android:title="@string/action_settings"/>
     <item
-        android:id="@+id/nav_share"
-        android:icon="@drawable/ic_share_black_24dp"
-        android:title="@string/app_share"/>
-    <item
         android:id="@+id/nav_donation"
         android:icon="@drawable/ic_child_care"
         android:title="@string/donation"/>

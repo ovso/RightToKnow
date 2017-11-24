@@ -1,9 +1,6 @@
 package io.github.ovso.righttoknow.main;
 
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
@@ -13,13 +10,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.BindView;
 import com.fsn.cauly.CaulyAdInfo;
 import com.fsn.cauly.CaulyAdInfoBuilder;
@@ -116,27 +111,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     }
   }
 
-  @Override public void navigateToStore(Uri uri) {
-    Intent intent = new Intent(Intent.ACTION_VIEW);
-    intent.setData(uri);
-    try {
-      startActivity(intent);
-    } catch (ActivityNotFoundException e) {
-      Toast.makeText(this, R.string.not_found_playstore, Toast.LENGTH_SHORT).show();
-    }
-  }
-
-  @Override public void navigateToShare(String url) {
-    Intent intent = new Intent(Intent.ACTION_SEND);
-    intent.addCategory(Intent.CATEGORY_DEFAULT);
-    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
-    intent.putExtra(Intent.EXTRA_TEXT, url);
-    intent.setType("text/plain");
-
-    intent = Intent.createChooser(intent, getString(R.string.app_share));
-    startActivity(intent);
-  }
-
   @Override public void setBottomNavigationViewBehavior() {
     try {
       CoordinatorLayout.LayoutParams layoutParams =
@@ -174,10 +148,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @DebugLog @Override public void setViewPagerCurrentItem(int position) {
     viewPager.setCurrentItem(position, true);
-  }
-
-  @Override public Activity getActivity() {
-    return this;
   }
 
   @Override public void hideLoading() {
@@ -241,42 +211,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     startActivity(intent);
   }
 
-  @Override public void showAppUpdateDialog(String message, boolean isForce) {
-
-    AlertDialog.Builder builder =
-        new AlertDialog.Builder(this).setIcon(R.drawable.ic_new_releases_24dp);
-    builder.setMessage(message);
-    builder.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-      navigateToStore(Uri.parse(Constants.URL_REVIEW));
-      finish();
-    });
-    builder.setCancelable(!isForce);
-    if (!isForce) builder.setNegativeButton(android.R.string.cancel, null);
-
-    if (!this.isFinishing()) builder.show();
-  }
-
   @Override public void onBackPressed() {
     presenter.onBackPressed(drawer.isDrawerOpen(GravityCompat.START));
   }
 
   @Override public void closeDrawer() {
     drawer.closeDrawer(GravityCompat.START);
-  }
-
-  @Override public void showReviewDialog() {
-    new AlertDialog.Builder(this).setIcon(R.drawable.ic_suggestion)
-        .setMessage(R.string.go_out_message)
-        .setPositiveButton(R.string.go_out, (dialogInterface, which) -> {
-          finish();
-        })
-        .setNegativeButton(R.string.go_back, (dialogInterface, witch) -> {
-          dialogInterface.dismiss();
-        })
-        .setNeutralButton(R.string.review_write, (dialogInterface, which) -> {
-          presenter.onReviewClick();
-        })
-        .show();
   }
 
   @Override public void showAd() {
@@ -290,7 +230,8 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
       }
 
-      @DebugLog @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
+      @DebugLog @Override
+      public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
 
       }
 

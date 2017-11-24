@@ -1,8 +1,6 @@
 package io.github.ovso.righttoknow.main;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 /**
@@ -25,16 +23,10 @@ public interface MainPresenter {
 
   void onBackPressed(boolean isDrawerOpen);
 
-  void onReviewClick();
-
   interface View {
     void setListener();
 
     void setTitle(String title);
-
-    void navigateToStore(Uri uri);
-
-    void navigateToShare(String url);
 
     void setBottomNavigationViewBehavior();
 
@@ -43,8 +35,6 @@ public interface MainPresenter {
     void setCheckedBottomNavigationView(int position);
 
     void setViewPagerCurrentItem(int position);
-
-    Activity getActivity();
 
     void hideLoading();
 
@@ -64,11 +54,7 @@ public interface MainPresenter {
 
     void navigateToSettings();
 
-    void showAppUpdateDialog(String message, boolean isForce);
-
     void closeDrawer();
-
-    void showReviewDialog();
 
     void finish();
 
