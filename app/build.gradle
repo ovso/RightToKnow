@@ -14,7 +14,7 @@ android {
   buildToolsVersion '27.0.0'
   def versionMajor = 0
   def versionMinor = 6
-  def versionCodeNumber = 8
+  def versionCodeNumber = 9
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 16
@@ -49,6 +49,7 @@ android {
       proguardFile 'proguard-cauly.pro'
       proguardFile 'proguard-glide.pro'
       proguardFile 'proguard-retrofit.pro'
+      proguardFile 'proguard-okhttp.pro'
 
       signingConfig signingConfigs.release
       /*
