@@ -69,6 +69,15 @@ public class Constants {
     notices.addNotice(
         new Notice("AVLoadingIndicatorView", "https://github.com/81813780/AVLoadingIndicatorView",
             "Copyright 2015 jack wang", new ApacheSoftwareLicense20()));
+    notices.addNotice(
+        new Notice("RxJava", "https://github.com/ReactiveX/RxJava",
+            "Copyright (c) 2016-present, RxJava Contributors.", new ApacheSoftwareLicense20()));
+    notices.addNotice(
+        new Notice("Retrofit", "https://github.com/square/retrofit",
+            "Copyright 2013 Square, Inc.", new ApacheSoftwareLicense20()));
+    notices.addNotice(
+        new Notice("Okhttp", "https://github.com/square/okhttp",
+            "Licensed under the Apache License, Version 2.0 (the \"License\")", new ApacheSoftwareLicense20()));
     return notices;
   }
 
