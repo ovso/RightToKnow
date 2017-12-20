@@ -1,8 +1,6 @@
 package io.github.ovso.righttoknow.news;
 
 import android.os.Bundle;
-import android.util.Log;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.news.model.News;
@@ -11,9 +9,7 @@ import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import java.util.List;
 
 /**
  * Created by jaeho on 2017. 9. 1
@@ -45,21 +41,25 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
   private void req() {
     view.showLoading();
 
-    Single<NewsResult> newsResult1 =
+    Single<NewsResult> newsResultAbuse =
         network.getNews(R.string.api_query_abuse).subscribeOn(Schedulers.io());
 
-    Single<NewsResult> newsResult2 =
+    Single<NewsResult> newsResultMoney =
         network.getNews(R.string.api_query_money).subscribeOn(Schedulers.io());
 
-    disposable = Single.merge(newsResult1, newsResult2)
+    disposable = Single.merge(newsResultAbuse, newsResultMoney)
         .toList()
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Consumer<List<NewsResult>>() {
-          @DebugLog @Override public void accept(List<NewsResult> newsResults) throws Exception {
-            Log.d("OJH", "sie = " + newsResults.get(0).getItems().size() + newsResults.get(1)
-                .getItems()
-                .size());
+        .subscribe(newsResults -> {
+          adapterDataModel.clear();
+          for (int i = 0; i < newsResults.size(); i++) {
+            adapterDataModel.addAll(newsResults.get(i).getItems());
           }
+          adapterDataModel.sort();
+          view.refresh();
+          view.hideLoading();
+        }, throwable -> {
+          view.hideLoading();
         });
   }
 

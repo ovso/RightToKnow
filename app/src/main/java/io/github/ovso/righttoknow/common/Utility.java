@@ -89,7 +89,7 @@ public class Utility {
     ////Wed, 13 Dec 2017 13:49:00 +0900
     SimpleDateFormat originFormat =
         new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-    SimpleDateFormat replaceFormat = new SimpleDateFormat("yy-MM-dd");
+    SimpleDateFormat replaceFormat = new SimpleDateFormat(pattern);
 
     Date originDate = new Date();
     try {

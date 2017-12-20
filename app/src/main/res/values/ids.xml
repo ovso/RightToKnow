@@ -5,4 +5,5 @@
   <item name="imageview" type="id"/>
   <item name="textview" type="id"/>
   <item name="simple_news_imageview" type="id"/>
+  <item name="count_textview" type="id"/>
 </resources>

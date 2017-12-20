@@ -23,6 +23,17 @@
       android:paddingLeft="5dp"
       >
     <TextView
+        android:id="@id/count_textview"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="left|center_vertical"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:lines="1"
+        tools:text="1"
+        />
+    <TextView
         android:id="@+id/title_textview"
         android:layout_width="0dp"
         android:layout_height="match_parent"
