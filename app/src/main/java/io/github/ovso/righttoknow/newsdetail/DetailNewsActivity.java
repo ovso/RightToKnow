@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import butterknife.BindView;
@@ -17,7 +18,7 @@ import com.fsn.cauly.CaulyAdViewListener;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.main.BaseActivity;
-import io.github.ovso.righttoknow.news.vo.News;
+import io.github.ovso.righttoknow.news.model.News;
 
 /**
  * Created by jaeho on 2017. 9. 2
@@ -78,17 +79,20 @@ public class DetailNewsActivity extends BaseActivity {
     activityFinish();
     return super.onOptionsItemSelected(item);
   }
+
   private void activityFinish() {
     finish();
     webView.stopLoading();
   }
+
   private void setTitle() {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setTitle(news.getTitle());
   }
+
   private void loadUrl() {
     swipeRefresh.setRefreshing(true);
-    webView.loadUrl(news.getUrl());
+    webView.loadUrl(news.getLink());
   }
 
   private void setInit() {
@@ -96,12 +100,13 @@ public class DetailNewsActivity extends BaseActivity {
   }
 
   private void setSwipeRefresh() {
-    swipeRefresh.setOnRefreshListener(() -> webView.loadUrl(news.getUrl()));
+    swipeRefresh.setOnRefreshListener(() -> webView.loadUrl(news.getLink()));
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }
 
   private void setWebView() {
-    webView.getSettings().setJavaScriptEnabled(true);
+    WebSettings settings = webView.getSettings();
+    settings.setJavaScriptEnabled(true);
     webView.setWebChromeClient(new WebChromeClient());
     webView.setWebViewClient(new MyWebViewClient());
     webView.setOnTouchListener((view, motionEvent) -> true);

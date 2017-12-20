@@ -12,7 +12,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jaeho on 2017. 8. 14
@@ -79,5 +83,21 @@ public class Utility {
 
   public static int getBuildVersion() {
     return Build.VERSION.SDK_INT;
+  }
+
+  public static String convertDate(String strDate, String pattern) {
+    ////Wed, 13 Dec 2017 13:49:00 +0900
+    SimpleDateFormat originFormat =
+        new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+    SimpleDateFormat replaceFormat = new SimpleDateFormat("yy-MM-dd");
+
+    Date originDate = new Date();
+    try {
+      originDate = originFormat.parse(strDate);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
+    return replaceFormat.format(originDate);
   }
 }

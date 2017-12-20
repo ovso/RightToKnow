@@ -1,7 +1,7 @@
 package io.github.ovso.righttoknow.news;
 
 import android.os.Bundle;
-import io.github.ovso.righttoknow.news.vo.News;
+import io.github.ovso.righttoknow.news.model.News;
 
 /**
  * Created by jaeho on 2017. 9. 1
@@ -30,5 +30,7 @@ public interface NewsFragmentPresenter {
     void hideLoading();
 
     void navigateToDetailNews(News item);
+
+    void showSimpleNewsDialog(News item);
   }
 }

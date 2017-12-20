@@ -4,4 +4,5 @@
   <item name="root_view" type="id"/>
   <item name="imageview" type="id"/>
   <item name="textview" type="id"/>
+  <item name="simple_news_imageview" type="id"/>
 </resources>

@@ -34,6 +34,14 @@
         android:ellipsize="end"
         tools:text="시간제 보육교사를 정교사로 허위보고 6000여만원 타낸 어린이집 원장"
         />
+    <ImageView
+        android:id="@id/simple_news_imageview"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="center"
+        android:src="@drawable/ic_format_align_justify"
+        />
     <TextView
         android:id="@+id/date_textview"
         android:layout_width="wrap_content"

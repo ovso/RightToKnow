@@ -6,7 +6,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
-import io.github.ovso.righttoknow.news.vo.News;
+import io.github.ovso.righttoknow.news.model.News;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;

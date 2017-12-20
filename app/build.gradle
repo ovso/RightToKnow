@@ -48,6 +48,7 @@ android {
       proguardFile 'proguard-avloading.pro'
       proguardFile 'proguard-cauly.pro'
       proguardFile 'proguard-glide.pro'
+      proguardFile 'proguard-retrofit.pro'
 
       signingConfig signingConfigs.release
       /*
@@ -90,17 +91,14 @@ dependencies {
 
   compile 'com.jakewharton:butterknife:8.8.1'
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-  //compile "org.projectlombok:lombok:1.16.18"
   provided "org.projectlombok:lombok:1.16.18"
   annotationProcessor 'org.projectlombok:lombok:1.16.18'
   compile 'gun0912.ted:tedpermission:2.1.0'
   compile 'com.google.android.gms:play-services-location:11.6.0'
-
   compile 'com.google.firebase:firebase-database:11.6.0'
   compile 'com.google.firebase:firebase-storage:11.6.0'
   compile 'com.google.firebase:firebase-messaging:11.6.0'
   compile 'com.firebase:firebase-jobdispatcher:0.8.4'
-
   compile 'com.github.barteksc:android-pdf-viewer:2.6.1'
   compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
   compile 'com.miguelcatalan:materialsearchview:1.4.0'
@@ -108,6 +106,13 @@ dependencies {
   compile 'com.wang.avi:library:2.1.3'
   compile 'com.github.bumptech.glide:glide:4.3.1'
   annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
+  compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+  compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+  compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+  compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+  compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
+  compile "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
+  compile "com.squareup.okhttp3:okhttp:$okhttp3_version"
 }
 
 // Add to the bottom of the file
