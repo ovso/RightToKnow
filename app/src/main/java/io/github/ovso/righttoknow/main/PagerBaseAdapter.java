@@ -18,7 +18,7 @@ public class PagerBaseAdapter extends FragmentPagerAdapter
   private ArrayList<BaseFragment> items = new ArrayList<>();
 
   @Override public void destroyItem(ViewGroup container, int position, Object object) {
-    //super.destroyItem(container, position, object);
+    super.destroyItem(container, position, object);
   }
 
   public PagerBaseAdapter(FragmentManager fm) {

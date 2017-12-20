@@ -92,4 +92,9 @@ public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.
         .setPositiveButton(android.R.string.ok, null)
         .show();
   }
+
+  @Override public void onDetach() {
+    super.onDetach();
+    presenter.onDetach();
+  }
 }

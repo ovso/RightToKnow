@@ -15,6 +15,8 @@ public interface NewsFragmentPresenter {
 
   void onRefresh();
 
+  void onDetach();
+
   interface View {
 
     void setRecyclerView();

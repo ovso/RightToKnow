@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Html;
+import android.text.SpannableString;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
@@ -87,7 +89,7 @@ public class DetailNewsActivity extends BaseActivity {
 
   private void setTitle() {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setTitle(news.getTitle());
+    getSupportActionBar().setTitle(new SpannableString(Html.fromHtml(news.getTitle())));
   }
 
   private void loadUrl() {

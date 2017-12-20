@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.news;
 
 import android.content.Context;
+import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.network.NetworkHelper;
 import io.github.ovso.righttoknow.news.model.NewsResult;
@@ -15,8 +16,8 @@ public class NewsNetwork extends NetworkHelper {
     super(context, baseUrl);
   }
 
-  public Single<NewsResult> getNews() {
-    String query = context.getString(R.string.api_query);
+  public Single<NewsResult> getNews(@StringRes int resId) {
+    String query = context.getString(resId);
     int display = 100;
     int start = 1;
     String sort = context.getString(R.string.api_sort);

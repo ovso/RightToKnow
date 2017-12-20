@@ -62,8 +62,9 @@
   <string name="play_in_portrait">세로모드로 재생</string>
   <string name="play_in_landscape">가로모드로 재생</string>
   <string name="no_videos_found">영상을 찾을 수 없습니다.</string>
-  <string name="api_query">어린이집 아동학대</string>
-  <string name="api_sort">sim</string>
+  <string name="api_query_money">어린이집 부정수급</string>
+  <string name="api_query_abuse">어린이집 아동학대</string>
+  <string name="api_sort">date</string><!--sim-->
 
   <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
   <string name="default_notification_channel_name" translatable="true">News</string>
