@@ -3,6 +3,10 @@
 
   <group android:checkableBehavior="none">
     <item
+        android:id="@+id/nav_child_abuse"
+        android:icon="@drawable/ic_face"
+        android:title="@string/child_abuse"/>
+    <item
         android:id="@+id/nav_settings"
         android:icon="@drawable/ic_settings_24dp"
         android:title="@string/action_settings"/>

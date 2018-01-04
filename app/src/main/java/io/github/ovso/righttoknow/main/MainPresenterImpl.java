@@ -59,6 +59,9 @@ class MainPresenterImpl implements MainPresenter {
 
   @Override public void onNavigationItemSelected(int id) {
     switch (id) {
+      case R.id.nav_child_abuse:
+        view.navigateToChildAbuse();
+        break;
       case R.id.nav_settings:
         view.navigateToSettings();
         break;

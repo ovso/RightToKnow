@@ -61,5 +61,7 @@ public interface MainPresenter {
     void showAd();
 
     void showHelpAlert(String msg);
+
+    void navigateToChildAbuse();
   }
 }

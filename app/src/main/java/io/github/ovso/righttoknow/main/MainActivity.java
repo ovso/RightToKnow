@@ -25,6 +25,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
+import io.github.ovso.righttoknow.childabuse.ChildAbuseActivity;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
@@ -209,6 +210,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void navigateToSettings() {
     Intent intent = new Intent(this, SettingsActivity.class);
+    startActivity(intent);
+  }
+  @Override public void navigateToChildAbuse() {
+    Intent intent = new Intent(this, ChildAbuseActivity.class);
     startActivity(intent);
   }
 
