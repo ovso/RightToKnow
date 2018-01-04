@@ -7,9 +7,9 @@
         android:icon="@drawable/ic_settings_24dp"
         android:title="@string/action_settings"/>
     <item
-        android:id="@+id/nav_donation"
-        android:icon="@drawable/ic_child_care"
-        android:title="@string/donation"/>
+        android:id="@+id/nav_help"
+        android:icon="@drawable/ic_help_outline"
+        android:title="@string/help"/>
   </group>
 
 </menu>

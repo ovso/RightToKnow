@@ -62,8 +62,9 @@ class MainPresenterImpl implements MainPresenter {
       case R.id.nav_settings:
         view.navigateToSettings();
         break;
-      case R.id.nav_donation:
-        view.showDonationAlert();
+      case R.id.nav_help:
+        String msg = MyApplication.getInstance().getString(R.string.source);
+        view.showHelpAlert(msg);
         break;
     }
   }

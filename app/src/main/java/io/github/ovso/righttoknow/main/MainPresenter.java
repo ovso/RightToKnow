@@ -60,6 +60,6 @@ public interface MainPresenter {
 
     void showAd();
 
-    void showDonationAlert();
+    void showHelpAlert(String msg);
   }
 }

@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -248,7 +249,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     adContainer.addView(view);
   }
 
-  @DebugLog @Override public void showDonationAlert() {
-    new DonationDialog().show(getSupportFragmentManager(), DonationDialog.class.getSimpleName());
+  @Override public void showHelpAlert(String msg) {
+    new AlertDialog.Builder(this).setTitle(R.string.help).setMessage(msg).show();
   }
 }

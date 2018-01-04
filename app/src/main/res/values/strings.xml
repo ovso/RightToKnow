@@ -88,5 +88,10 @@
   <string name="go_back">돌아가기</string>
   <string name="go_out_message">감사합니다.\n남겨주실 말씀이 있을까요?</string>
   <string name="donation">후원</string>
+  <string name="help">도움말</string>
+  <string name="source">* 자료의 출처 : 어린이집 정보공개 포털, 보건복지부 > 사전정보공표, 정부24 > 지방자치단체소식, 각 지방자치 사이트
+    \n\n
+    * 광고수입으로, 초록우산어린이재단에 정기후원하고 있습니다.
+  </string>
 
 </resources>
