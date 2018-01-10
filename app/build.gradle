@@ -12,15 +12,31 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
   compileSdkVersion 26
   buildToolsVersion '27.0.0'
-  def versionMajor = 0
-  def versionMinor = 6
-  def versionCodeNumber = 9
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 16
     targetSdkVersion 26
-    versionCode versionCodeNumber
-    versionName "${versionMajor}.${versionMinor}.${versionCodeNumber}"
+    versionCode 70
+
+    int versionMajor = 0
+    int versionMinor = 0
+    int versionPatch = versionCode
+
+    if (1000 > versionPatch && versionPatch > 99) {
+      versionMajor = versionPatch / 100
+      versionMinor = (versionPatch % 100) / 10
+      versionPatch = (versionPatch % 100) % 10
+    } else if (100 > versionCode && versionPatch > 9) {
+      versionMajor = 0
+      versionMinor = versionPatch / 10
+      versionPatch = versionPatch % 10
+    } else if (versionPatch < 10) {
+      versionMajor = 0
+      versionMinor = 0
+      versionPatch = versionPatch / 1
+    }
+
+    versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   lintOptions {
