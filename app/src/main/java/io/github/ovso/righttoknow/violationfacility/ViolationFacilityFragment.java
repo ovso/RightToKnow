@@ -29,9 +29,8 @@ public class ViolationFacilityFragment extends BaseFragment
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
   private ViolationFacilityPresenter presenter;
 
-  public static ViolationFacilityFragment newInstance(Bundle args) {
+  public static ViolationFacilityFragment newInstance() {
     ViolationFacilityFragment f = new ViolationFacilityFragment();
-    f.setArguments(args);
     return f;
   }
 

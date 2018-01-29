@@ -14,9 +14,7 @@ public interface MainPresenter {
   void onNavigationItemSelected(int id);
 
   void onBottomNavigationItemSelected(int id);
-
-  void onAdapterPageChanged(int position);
-
+  
   void onOptionsItemSelected(int itemId);
 
   void onNewIntent(Intent intent);
@@ -29,8 +27,6 @@ public interface MainPresenter {
     void setTitle(String title);
 
     void setBottomNavigationViewBehavior();
-
-    void setViewPager();
 
     void setCheckedBottomNavigationView(int position);
 
@@ -63,5 +59,15 @@ public interface MainPresenter {
     void showHelpAlert(String msg);
 
     void navigateToChildAbuse();
+
+    void showViolationFragment();
+
+    void showViolatorFragment();
+
+    void showCertifiedFragment();
+
+    void showNewsFragment();
+
+    void showVideoFragment();
   }
 }

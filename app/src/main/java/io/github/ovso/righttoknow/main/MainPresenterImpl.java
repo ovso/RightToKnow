@@ -49,7 +49,6 @@ class MainPresenterImpl implements MainPresenter {
         MyApplication.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
             MyApplication.getInstance()));
     view.setListener();
-    view.setViewPager();
     view.setBottomNavigationViewBehavior();
     view.setSearchView();
     view.showAd();
@@ -75,29 +74,21 @@ class MainPresenterImpl implements MainPresenter {
   @Override public void onBottomNavigationItemSelected(int id) {
     switch (id) {
       case R.id.bottom_nav_violation_facility:
-        view.setViewPagerCurrentItem(Constants.ITEM_VIOLATION_FACILITY);
+        view.showViolationFragment();
         break;
       case R.id.bottom_nav_violator:
-        view.setViewPagerCurrentItem(Constants.ITEM_VIOLATOR);
+        view.showViolatorFragment();
         break;
       case R.id.bottom_nav_certified:
-        view.setViewPagerCurrentItem(Constants.ITEM_CERTIFIED);
+        view.showCertifiedFragment();
         break;
       case R.id.bottom_nav_news:
-        view.setViewPagerCurrentItem(Constants.ITEM_NEWS);
+        view.showNewsFragment();
         break;
       case R.id.bottom_nav_video:
-        view.setViewPagerCurrentItem(Constants.ITEM_VIDEO);
+        view.showVideoFragment();
         break;
     }
-  }
-
-  @Override public void onAdapterPageChanged(int position) {
-    view.setCheckedBottomNavigationView(position);
-    view.setViewPagerCurrentItem(position);
-    view.setTitle(getTitle(position));
-    view.invalidateOptionsMenu();
-    view.closeSearchView();
   }
 
   @Override public void onOptionsItemSelected(int itemId) {

@@ -25,9 +25,8 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
     return R.layout.fragment_certified;
   }
 
-  public static CertifiedFragment newInstance(Bundle args) {
+  public static CertifiedFragment newInstance() {
     CertifiedFragment f = new CertifiedFragment();
-    f.setArguments(args);
     return f;
   }
 

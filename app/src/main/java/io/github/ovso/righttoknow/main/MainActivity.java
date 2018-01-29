@@ -6,7 +6,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,16 +27,11 @@ import io.github.ovso.righttoknow.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.childabuse.ChildAbuseActivity;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
-import io.github.ovso.righttoknow.fragment.BaseFragment;
-import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
-import io.github.ovso.righttoknow.listener.OnSimplePageChangeListener;
 import io.github.ovso.righttoknow.news.NewsFragment;
 import io.github.ovso.righttoknow.settings.SettingsActivity;
 import io.github.ovso.righttoknow.video.VideoFragment;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends BaseActivity implements MainPresenter.View {
 
@@ -45,7 +39,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.drawer_layout) DrawerLayout drawer;
   @BindView(R.id.nav_view) NavigationView navigationView;
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
-  @BindView(R.id.viewpager) ViewPager viewPager;
   @BindView(R.id.ad_container) ViewGroup adContainer;
 
   @DebugLog @Override public void onCreate(Bundle savedInstanceState) {
@@ -60,17 +53,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
-    MenuItem item;
-    switch (viewPager.getCurrentItem()) {
-      case 0:
-      case 1:
-        getMenuInflater().inflate(R.menu.main, menu);
-        item = menu.findItem(R.id.option_menu_search);
-        searchView.setMenuItem(item);
-        break;
-      default:
-        break;
-    }
+    getMenuInflater().inflate(R.menu.main, menu);
     return true;
   }
 
@@ -99,11 +82,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
       presenter.onBottomNavigationItemSelected(item.getItemId());
       return true;
     });
-    viewPager.addOnPageChangeListener(new OnSimplePageChangeListener() {
-      @Override public void onPageChanged(int position) {
-        presenter.onAdapterPageChanged(position);
-      }
-    });
   }
 
   @Override public void setTitle(String title) {
@@ -123,33 +101,11 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     }
   }
 
-  private OnFragmentEventListener onViolationFacilityFragListener;
-  private OnFragmentEventListener onViolatorFragListener;
-
-  @Override public void setViewPager() {
-    ViolationFacilityFragment facilityFragment = ViolationFacilityFragment.newInstance(null);
-    ViolatorFragment violatorFragment = ViolatorFragment.newInstance(null);
-    onViolationFacilityFragListener = facilityFragment;
-    onViolatorFragListener = violatorFragment;
-
-    List<BaseFragment> fragments = new ArrayList<>();
-    fragments.add(facilityFragment);
-    fragments.add(violatorFragment);
-    fragments.add(CertifiedFragment.newInstance(null));
-    fragments.add(NewsFragment.newInstance(null));
-    fragments.add(VideoFragment.newInstance(null));
-
-    PagerBaseAdapter adapter = new PagerBaseAdapter(getSupportFragmentManager());
-    adapter.addAll(fragments);
-    viewPager.setAdapter(adapter);
-  }
-
   @Override public void setCheckedBottomNavigationView(int position) {
     bottomNavigationView.getMenu().getItem(position).setChecked(true);
   }
 
   @DebugLog @Override public void setViewPagerCurrentItem(int position) {
-    viewPager.setCurrentItem(position, true);
   }
 
   @Override public void hideLoading() {
@@ -161,12 +117,14 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public void onNearbyClick() {
+    /*
     if (onViolationFacilityFragListener != null) {
       onViolationFacilityFragListener.onNearbyClick();
     }
     if (onViolatorFragListener != null) {
       onViolatorFragListener.onNearbyClick();
     }
+    */
   }
 
   @Override public void setVersionName(String versionName) {
@@ -187,8 +145,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     searchView.setVoiceSearch(true);
     searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
       @Override public boolean onQueryTextSubmit(String query) {
+        /*
         onViolationFacilityFragListener.onSearchQuery(query);
         onViolatorFragListener.onSearchQuery(query);
+        */
         return false;
       }
 
@@ -212,9 +172,50 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     Intent intent = new Intent(this, SettingsActivity.class);
     startActivity(intent);
   }
+
   @Override public void navigateToChildAbuse() {
     Intent intent = new Intent(this, ChildAbuseActivity.class);
     startActivity(intent);
+  }
+
+  @Override public void showViolationFragment() {
+    getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
+            R.animator.enter_animation, R.animator.exit_animation)
+        .replace(R.id.fragment_container, ViolationFacilityFragment.newInstance())
+        .commit();
+  }
+
+  @Override public void showViolatorFragment() {
+    getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
+            R.animator.enter_animation, R.animator.exit_animation)
+        .replace(R.id.fragment_container, ViolatorFragment.newInstance())
+        .commit();
+  }
+
+  @Override public void showCertifiedFragment() {
+    getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
+            R.animator.enter_animation, R.animator.exit_animation)
+        .replace(R.id.fragment_container, CertifiedFragment.newInstance())
+        .commit();
+  }
+
+  @Override public void showNewsFragment() {
+    getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
+            R.animator.enter_animation, R.animator.exit_animation)
+        .replace(R.id.fragment_container, NewsFragment.newInstance())
+        .commit();
+  }
+
+  @Override public void showVideoFragment() {
+    getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
+            R.animator.enter_animation, R.animator.exit_animation)
+        .replace(R.id.fragment_container, VideoFragment.newInstance())
+        .commit();
   }
 
   @Override public void onBackPressed() {
@@ -250,7 +251,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
       }
     });
 
-    ViewGroup adContainer = findViewById(R.id.ad_container);
     adContainer.addView(view);
   }
 

@@ -28,9 +28,8 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
   private VideoFragmentPresenter presenter;
 
-  public static VideoFragment newInstance(Bundle args) {
+  public static VideoFragment newInstance() {
     VideoFragment f = new VideoFragment();
-    f.setArguments(args);
     return f;
   }
 

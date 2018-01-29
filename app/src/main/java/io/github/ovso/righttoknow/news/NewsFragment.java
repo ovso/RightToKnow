@@ -21,9 +21,8 @@ import io.github.ovso.righttoknow.newsdetail.DetailNewsActivity;
  */
 
 public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.View {
-  public static NewsFragment newInstance(Bundle args) {
+  public static NewsFragment newInstance() {
     NewsFragment f = new NewsFragment();
-    f.setArguments(args);
     return f;
   }
 
