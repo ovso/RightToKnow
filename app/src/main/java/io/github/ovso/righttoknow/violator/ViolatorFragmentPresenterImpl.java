@@ -61,7 +61,6 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
         @Override public void onResult(List<Violator> violators) {
           adapterDataModel.clear();
-          adapterDataModel.add(new Violator());
           adapterDataModel.addAll(violators);
           view.refresh();
         }

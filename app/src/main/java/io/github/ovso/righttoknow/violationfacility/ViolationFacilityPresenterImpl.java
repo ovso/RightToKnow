@@ -64,7 +64,6 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
 
         @Override public void onResult(List<ViolationFacility> violationFacilities) {
           adapterDataModel.clear();
-          adapterDataModel.add(new ViolationFacility());
           adapterDataModel.addAll(violationFacilities);
           view.refresh();
         }
@@ -109,11 +108,13 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     view.showLoading();
     locationAware.start();
   }
+
   private Runnable hideLoadingRunnable = new Runnable() {
     @Override public void run() {
       view.hideLoading();
     }
   };
+
   @Override public void onSearchQuery(String query) {
     view.showLoading();
     adapterDataModel.searchAllWords(query);

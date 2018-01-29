@@ -25,29 +25,20 @@ import lombok.Setter;
 public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     implements BaseAdapterView, FacilityAdapterDataModel<ViolationFacility> {
 
-  private List<ViolationFacility> toBeUsedItems = new ArrayList<>();
-  private List<ViolationFacility> originItems = new ArrayList<>();
+  private List<ViolationFacility> items = new ArrayList<>();
 
   @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
-    if (viewType == ITEM_VIEW_TYPE_HEADER) {
-      return new ViolationFacilityHeaderViewHolder(view);
-    } else {
-      return new ViolationFacilityViewHolder(view);
-    }
+    return new ViolationFacilityViewHolder(view);
   }
 
   @Override public int getLayoutRes(int viewType) {
-    if (viewType == ITEM_VIEW_TYPE_HEADER) {
-      return R.layout.fragment_violation_item_header;
-    } else {
-      return R.layout.fragment_violation_item;
-    }
+    return R.layout.fragment_violation_item;
   }
 
   @Override public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
     if (baseHolder instanceof ViolationFacilityViewHolder) {
       ViolationFacilityViewHolder holder = (ViolationFacilityViewHolder) baseHolder;
-      ViolationFacility fac = toBeUsedItems.get(position);
+      ViolationFacility fac = items.get(position);
       holder.turnTextview.setText(String.valueOf(fac.getReg_number()));
       holder.sidoTextView.setText(fac.getSido());
       holder.sigunguTextView.setText(fac.getSigungu());
@@ -58,9 +49,6 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
       holder.violationFacility = fac;
 
       holder.onRecyclerItemClickListener = onRecyclerItemClickListener;
-    } else if (baseHolder instanceof ViolationFacilityHeaderViewHolder) {
-      ViolationFacilityHeaderViewHolder holder = (ViolationFacilityHeaderViewHolder) baseHolder;
-      holder.selfAdapter = this;
     }
   }
 
@@ -73,42 +61,38 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
   }
 
   @Override public void add(ViolationFacility item) {
-    toBeUsedItems.add(item);
+    items.add(item);
   }
 
   @Override public void addAll(List<ViolationFacility> items) {
 
-    originItems.add(new ViolationFacility());
-    originItems.addAll(items);
-
-    toBeUsedItems.addAll(items);
+    this.items.addAll(items);
   }
 
   @Override public ViolationFacility remove(int position) {
-    return toBeUsedItems.remove(position);
+    return items.remove(position);
   }
 
   @Override public ViolationFacility getItem(int position) {
-    return toBeUsedItems.get(position);
+    return items.get(position);
   }
 
   @Override public void add(int index, ViolationFacility item) {
-    toBeUsedItems.add(index, item);
+    items.add(index, item);
   }
 
   @Override public int getSize() {
-    return toBeUsedItems.size();
+    return items.size();
   }
 
   @Override public void clear() {
-    originItems.clear();
-    toBeUsedItems.clear();
+    items.clear();
   }
 
   @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
 
   @Override public int getItemViewType(int position) {
-    int regNumber = toBeUsedItems.get(position).getReg_number();
+    int regNumber = items.get(position).getReg_number();
     if (regNumber > 0) {
       return ITEM_VIEW_TYPE_DEFAULT;
     } else {
@@ -119,17 +103,17 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
   private void sortRegNumber() {
     Comparator<ViolationFacility> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
         .compareTo(Integer.valueOf(t1.getReg_number()));
-    Collections.sort(toBeUsedItems, comparator);
+    Collections.sort(items, comparator);
   }
 
   private void sortSido() {
     Comparator<ViolationFacility> comparator = (t1, t2) -> t1.getSido().compareTo(t2.getSido());
-    Collections.sort(toBeUsedItems, comparator);
+    Collections.sort(items, comparator);
   }
 
   private void sortType() {
     Comparator<ViolationFacility> comparator = (t1, t2) -> t1.getType().compareTo(t2.getType());
-    Collections.sort(toBeUsedItems, comparator);
+    Collections.sort(items, comparator);
   }
 
   @Override public void searchMyLocation(String locality, String subLocality) {
@@ -143,7 +127,7 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     }
 
     List<ViolationFacility> temps = new ArrayList<>();
-    for (ViolationFacility v : toBeUsedItems) {
+    for (ViolationFacility v : items) {
       String sigungu = v.getSigungu();
       if (!TextUtils.isEmpty(sigungu)) {
         if (sigungu.indexOf(nowLocality) != -1) {
@@ -151,9 +135,8 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
         }
       }
     }
-    toBeUsedItems.clear();
-    toBeUsedItems.add(0, new ViolationFacility());
-    toBeUsedItems.addAll(temps);
+    items.clear();
+    items.addAll(temps);
   }
 
   final static class ViolationFacilityViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
@@ -177,14 +160,12 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
   @Override public void searchAllWords(String query) {
     List<ViolationFacility> returnItems = new ArrayList<>();
 
-    toBeUsedItems.clear();
-    toBeUsedItems.addAll(originItems);
-
-    if (toBeUsedItems.size() > 0) {
-      toBeUsedItems.remove(0);
+    items.clear();
+    if (items.size() > 0) {
+      items.remove(0);
     }
-    for (int i = 0; i < toBeUsedItems.size(); i++) {
-      ViolationFacility item = toBeUsedItems.get(i);
+    for (int i = 0; i < items.size(); i++) {
+      ViolationFacility item = items.get(i);
       String trimQuery = query.trim();
       if (item.getSido().contains(trimQuery)
           || item.getSigungu().contains(trimQuery)
@@ -208,9 +189,8 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
         continue;
       }
     }
-    toBeUsedItems.clear();
-    toBeUsedItems.add(new ViolationFacility());
-    toBeUsedItems.addAll(returnItems);
+    items.clear();
+    items.addAll(returnItems);
   }
 
   boolean isSearchQuery(List<String> strings, String query) {
@@ -221,39 +201,6 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
       return false;
     } else {
       return false;
-    }
-  }
-
-  final static class ViolationFacilityHeaderViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
-    @BindView(R.id.turn_textview) TextView turnTextview;
-    @BindView(R.id.sido_textview) TextView sidoTextView;
-    @BindView(R.id.type_textview) TextView typeTextView;
-    private ViolationFacilityAdapter selfAdapter;
-
-    public ViolationFacilityHeaderViewHolder(View itemView) {
-      super(itemView);
-    }
-
-    @OnClick({ R.id.turn_textview, R.id.sido_textview, R.id.type_textview }) void onSortClick(
-        View view) {
-      switch (view.getId()) {
-        case R.id.turn_textview:
-          selfAdapter.remove(0);
-          selfAdapter.sortRegNumber();
-          selfAdapter.add(0, new ViolationFacility());
-          break;
-        case R.id.sido_textview:
-          selfAdapter.remove(0);
-          selfAdapter.sortSido();
-          selfAdapter.add(0, new ViolationFacility());
-          break;
-        case R.id.type_textview:
-          selfAdapter.remove(0);
-          selfAdapter.sortType();
-          selfAdapter.add(0, new ViolationFacility());
-          break;
-      }
-      selfAdapter.refresh();
     }
   }
 }

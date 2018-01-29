@@ -25,29 +25,20 @@ import lombok.Setter;
 public class ViolatorAdapter extends BaseRecyclerAdapter
     implements BaseAdapterView, ViolatorAdapterDataModel<Violator> {
 
-  private List<Violator> toBeUsedItems = new ArrayList<>();
-  private List<Violator> originItems = new ArrayList<>();
+  private List<Violator> items = new ArrayList<>();
 
   @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
-    if (viewType == ITEM_VIEW_TYPE_HEADER) {
-      return new ViolatorHeaderViewHolder(view);
-    } else {
-      return new ViolatorViewHolder(view);
-    }
+    return new ViolatorViewHolder(view);
   }
 
   @Override public int getLayoutRes(int viewType) {
-    if (viewType == ITEM_VIEW_TYPE_HEADER) {
-      return R.layout.fragment_violator_item_header;
-    } else {
-      return R.layout.fragment_violator_item;
-    }
+    return R.layout.fragment_violator_item;
   }
 
   @Override public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
     if (baseHolder instanceof ViolatorViewHolder) {
       ViolatorViewHolder holder = (ViolatorViewHolder) baseHolder;
-      Violator violator = toBeUsedItems.get(position);
+      Violator violator = items.get(position);
       holder.turnTextview.setText(String.valueOf(violator.getReg_number()));
       holder.sidoTextView.setText(violator.getSido());
       holder.sigunguTextView.setText(violator.getSigungu());
@@ -61,9 +52,6 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
       holder.violator = violator;
 
       holder.onRecyclerItemClickListener = onRecyclerItemClickListener;
-    } else if (baseHolder instanceof ViolatorHeaderViewHolder) {
-      ViolatorHeaderViewHolder holder = (ViolatorHeaderViewHolder) baseHolder;
-      holder.selfAdapter = this;
     }
   }
 
@@ -76,59 +64,46 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   }
 
   @Override public void add(Violator item) {
-    toBeUsedItems.add(item);
+    items.add(item);
   }
 
   @Override public void addAll(List<Violator> items) {
-
-    originItems.add(new Violator());
-    originItems.addAll(items);
-
-    toBeUsedItems.addAll(items);
+    this.items.addAll(items);
   }
 
   @Override public Violator remove(int position) {
-    return toBeUsedItems.remove(position);
+    return items.remove(position);
   }
 
   @Override public Violator getItem(int position) {
-    return toBeUsedItems.get(position);
+    return items.get(position);
   }
 
   @Override public void add(int index, Violator item) {
-    toBeUsedItems.add(index, item);
+    items.add(index, item);
   }
 
   @Override public int getSize() {
-    return toBeUsedItems.size();
+    return items.size();
   }
 
   @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
 
-  @Override public int getItemViewType(int position) {
-    int regNumber = toBeUsedItems.get(position).getReg_number();
-    if (regNumber > 0) {
-      return ITEM_VIEW_TYPE_DEFAULT;
-    } else {
-      return ITEM_VIEW_TYPE_HEADER;
-    }
-  }
-
   private void sortTurn() {
     Comparator<Violator> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
         .compareTo(Integer.valueOf(t1.getReg_number()));
-    Collections.sort(toBeUsedItems, comparator);
+    Collections.sort(items, comparator);
   }
 
   private void sortSido() {
     Comparator<Violator> comparator = (t1, t2) -> t1.getSido().compareTo(t2.getSido());
-    Collections.sort(toBeUsedItems, comparator);
+    Collections.sort(items, comparator);
   }
 
   private void sortHistory() {
     Comparator<Violator> comparator =
         (t1, t2) -> Integer.valueOf(t2.getHistory()).compareTo(t1.getHistory());
-    Collections.sort(toBeUsedItems, comparator);
+    Collections.sort(items, comparator);
   }
 
   final static class ViolatorViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
@@ -152,8 +127,7 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   }
 
   @Override public void clear() {
-    originItems.clear();
-    toBeUsedItems.clear();
+    items.clear();
   }
 
   @Override public void searchMyLocation(String locality, String subLocality) {
@@ -167,7 +141,7 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
     }
 
     List<Violator> temps = new ArrayList<>();
-    for (Violator v : toBeUsedItems) {
+    for (Violator v : items) {
       String sigungu = v.getSigungu();
       if (!TextUtils.isEmpty(sigungu)) {
         if (sigungu.indexOf(nowLocality) != -1) {
@@ -175,22 +149,20 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
         }
       }
     }
-    toBeUsedItems.clear();
-    toBeUsedItems.add(0, new Violator());
-    toBeUsedItems.addAll(temps);
+    items.clear();
+    items.addAll(temps);
   }
 
   @Override public void searchAllWords(String query) {
     List<Violator> returnItems = new ArrayList<>();
 
-    toBeUsedItems.clear();
-    toBeUsedItems.addAll(originItems);
+    items.clear();
 
-    if (toBeUsedItems.size() > 0) {
-      toBeUsedItems.remove(0);
+    if (items.size() > 0) {
+      items.remove(0);
     }
-    for (int i = 0; i < toBeUsedItems.size(); i++) {
-      Violator item = toBeUsedItems.get(i);
+    for (int i = 0; i < items.size(); i++) {
+      Violator item = items.get(i);
       String trimQuery = query.trim();
       if (item.getSido().contains(trimQuery)
           || item.getSigungu().contains(trimQuery)
@@ -209,9 +181,8 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
         continue;
       }
     }
-    toBeUsedItems.clear();
-    toBeUsedItems.add(new Violator());
-    toBeUsedItems.addAll(returnItems);
+    items.clear();
+    items.addAll(returnItems);
   }
 
   boolean isSearchQuery(List<String> strings, String query) {
@@ -222,39 +193,6 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
       return false;
     } else {
       return false;
-    }
-  }
-
-  final static class ViolatorHeaderViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
-    @BindView(R.id.turn_textview) TextView turnTextview;
-    @BindView(R.id.sido_textview) TextView sidoTextView;
-    @BindView(R.id.history_textview) TextView historyTextView;
-    private ViolatorAdapter selfAdapter;
-
-    public ViolatorHeaderViewHolder(View itemView) {
-      super(itemView);
-    }
-
-    @OnClick({ R.id.turn_textview, R.id.sido_textview, R.id.history_textview }) void onSortClick(
-        View view) {
-      switch (view.getId()) {
-        case R.id.turn_textview:
-          selfAdapter.remove(0);
-          selfAdapter.sortTurn();
-          selfAdapter.add(0, new Violator());
-          break;
-        case R.id.sido_textview:
-          selfAdapter.remove(0);
-          selfAdapter.sortSido();
-          selfAdapter.add(0, new Violator());
-          break;
-        case R.id.history_textview:
-          selfAdapter.remove(0);
-          selfAdapter.sortHistory();
-          selfAdapter.add(0, new Violator());
-          break;
-      }
-      selfAdapter.refresh();
     }
   }
 }
