@@ -48,8 +48,8 @@ class MainPresenterImpl implements MainPresenter {
     view.setVersionName(
         MyApplication.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
             MyApplication.getInstance()));
+    view.setCheckedBottomNavigationView(0);
     view.setListener();
-    //view.setBottomNavigationViewBehavior();
     view.setSearchView();
     view.showAd();
 

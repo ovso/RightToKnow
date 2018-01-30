@@ -41,13 +41,11 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
   private void req() {
     view.showLoading();
 
-    Single<NewsResult> newsResultAbuse =
-        network.getNews(R.string.api_query_abuse).subscribeOn(Schedulers.io());
+    Single<NewsResult> news1 = network.getNews(R.string.api_query2).subscribeOn(Schedulers.io());
 
-    Single<NewsResult> newsResultMoney =
-        network.getNews(R.string.api_query_money).subscribeOn(Schedulers.io());
+    Single<NewsResult> news2 = network.getNews(R.string.api_query1).subscribeOn(Schedulers.io());
 
-    disposable = Single.merge(newsResultAbuse, newsResultMoney)
+    disposable = Single.merge(news1, news2)
         .toList()
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(newsResults -> {
