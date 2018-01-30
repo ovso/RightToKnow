@@ -6,4 +6,6 @@
   <item name="textview" type="id"/>
   <item name="simple_news_imageview" type="id"/>
   <item name="count_textview" type="id"/>
+  <item name="fragment_container" type="id"/>
+  <item name="bottom_navigation_view" type="id"/>
 </resources>
