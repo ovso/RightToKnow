@@ -3,13 +3,11 @@ package io.github.ovso.righttoknow.main;
 import android.Manifest;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Bundle;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
-import io.github.ovso.righttoknow.common.MessagingHandler;
 import io.github.ovso.righttoknow.common.Utility;
 import java.util.ArrayList;
 
@@ -38,18 +36,33 @@ class MainPresenterImpl implements MainPresenter {
   }
 
   private void handlingForIntent(Intent intent) {
-    if (intent.hasExtra(Constants.FCM_KEY_CONTENT_POSITION)) {
-      view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
+    int position = intent.getIntExtra(Constants.FCM_KEY_CONTENT_POSITION, 0);
+    switch (position) {
+      case Constants.ITEM_VIOLATION_FACILITY:
+        view.showViolationFragment();
+        break;
+      case Constants.ITEM_VIOLATOR:
+        view.showViolatorFragment();
+        break;
+      case Constants.ITEM_CERTIFIED:
+        view.showCertifiedFragment();
+        break;
+      case Constants.ITEM_NEWS:
+        view.showNewsFragment();
+        break;
+      case Constants.ITEM_VIDEO:
+        view.showVideoFragment();
+        break;
     }
   }
 
-  @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
+  @Override public void onCreate(Intent intent) {
     view.setTitle(getTitle(Constants.ITEM_VIOLATION_FACILITY));
     view.setVersionName(
         MyApplication.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
             MyApplication.getInstance()));
-    view.setCheckedBottomNavigationView(0);
     view.setListener();
+    //view.setBottomNavigationViewBehavior();
     view.setSearchView();
     view.showAd();
 

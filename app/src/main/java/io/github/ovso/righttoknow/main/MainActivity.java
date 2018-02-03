@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @DebugLog @Override public void onCreate(Bundle savedInstanceState) {
     presenter = new MainPresenterImpl(this);
     super.onCreate(savedInstanceState);
-    presenter.onCreate(savedInstanceState, getIntent());
+    presenter.onCreate(getIntent());
   }
 
   @DebugLog @Override protected void onNewIntent(Intent intent) {
@@ -103,17 +103,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void setCheckedBottomNavigationView(int position) {
     bottomNavigationView.getMenu().getItem(position).setChecked(true);
-  }
-
-  @DebugLog @Override public void setViewPagerCurrentItem(int position) {
-  }
-
-  @Override public void hideLoading() {
-
-  }
-
-  @Override public void showLoading() {
-
   }
 
   @Override public void onNearbyClick() {

@@ -1,7 +1,6 @@
 package io.github.ovso.righttoknow.main;
 
 import android.content.Intent;
-import android.os.Bundle;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -9,12 +8,12 @@ import android.os.Bundle;
 
 public interface MainPresenter {
 
-  void onCreate(Bundle savedInstanceState, Intent intent);
+  void onCreate(Intent intent);
 
   void onNavigationItemSelected(int id);
 
   void onBottomNavigationItemSelected(int id);
-  
+
   void onOptionsItemSelected(int itemId);
 
   void onNewIntent(Intent intent);
@@ -29,12 +28,6 @@ public interface MainPresenter {
     void setBottomNavigationViewBehavior();
 
     void setCheckedBottomNavigationView(int position);
-
-    void setViewPagerCurrentItem(int position);
-
-    void hideLoading();
-
-    void showLoading();
 
     void onNearbyClick();
 
