@@ -63,7 +63,8 @@
   <string name="play_in_landscape">가로모드로 재생</string>
   <string name="no_videos_found">영상을 찾을 수 없습니다.</string>
   <string name="api_query1">어린이집 아동학대</string>
-  <string name="api_query2">아동학대</string>
+  <string name="api_query2">어린이집 부정수급</string>
+
   <string name="api_sort">date</string><!--sim-->
 
   <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>

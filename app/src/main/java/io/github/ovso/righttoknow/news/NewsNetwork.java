@@ -18,7 +18,7 @@ public class NewsNetwork extends NetworkHelper {
 
   public Single<NewsResult> getNews(@StringRes int resId) {
     String query = context.getString(resId);
-    int display = 100;
+    int display = 50;
     int start = 1;
     String sort = context.getString(R.string.api_sort);
     return getMyApi().getNews(query, display, start, sort);

@@ -41,9 +41,8 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
   private void req() {
     view.showLoading();
 
-    Single<NewsResult> news1 = network.getNews(R.string.api_query2).subscribeOn(Schedulers.io());
-
-    Single<NewsResult> news2 = network.getNews(R.string.api_query1).subscribeOn(Schedulers.io());
+    Single<NewsResult> news1 = network.getNews(R.string.api_query1).subscribeOn(Schedulers.io());
+    Single<NewsResult> news2 = network.getNews(R.string.api_query2).subscribeOn(Schedulers.io());
 
     disposable = Single.merge(news1, news2)
         .toList()
