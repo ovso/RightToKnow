@@ -1,6 +1,8 @@
 package io.github.ovso.righttoknow.main;
 
 import android.content.Intent;
+import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
+import javax.annotation.Nonnull;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -19,6 +21,8 @@ public interface MainPresenter {
   void onNewIntent(Intent intent);
 
   void onBackPressed(boolean isDrawerOpen);
+
+  void onSubmit(@Nonnull OnFragmentEventListener listener, String query);
 
   interface View {
     void setListener();

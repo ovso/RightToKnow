@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -20,13 +21,15 @@ import com.fsn.cauly.CaulyAdInfo;
 import com.fsn.cauly.CaulyAdInfoBuilder;
 import com.fsn.cauly.CaulyAdView;
 import com.fsn.cauly.CaulyAdViewListener;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.childabuse.ChildAbuseActivity;
 import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.common.ObjectUtils;
 import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
+import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
+import io.github.ovso.righttoknow.listener.OnSimpleQueryTextListener;
 import io.github.ovso.righttoknow.news.NewsFragment;
 import io.github.ovso.righttoknow.settings.SettingsActivity;
 import io.github.ovso.righttoknow.video.VideoFragment;
@@ -54,6 +57,9 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.main, menu);
+    MenuItem item = menu.findItem(R.id.option_menu_search);
+    searchView.setMenuItem(item);
+
     return true;
   }
 
@@ -132,27 +138,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void setSearchView() {
     searchView.setVoiceSearch(true);
-    searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-      @Override public boolean onQueryTextSubmit(String query) {
-        /*
-        onViolationFacilityFragListener.onSearchQuery(query);
-        onViolatorFragListener.onSearchQuery(query);
-        */
-        return false;
-      }
-
-      @Override public boolean onQueryTextChange(String newText) {
-        return false;
-      }
-    });
-
-    searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-      @Override public void onSearchViewShown() {
-        //Do some magic
-      }
-
-      @Override public void onSearchViewClosed() {
-        //Do some magic
+    searchView.setOnQueryTextListener(new OnSimpleQueryTextListener() {
+      @Override public void onSubmit(String query) {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if(!ObjectUtils.isEmpty(f)) {
+          presenter.onSubmit((OnFragmentEventListener)f, query);
+        }
       }
     });
   }
@@ -222,20 +213,19 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     view = new CaulyAdView(this);
     view.setAdInfo(info);
     view.setAdViewListener(new CaulyAdViewListener() {
-      @DebugLog @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
+      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
 
       }
 
-      @DebugLog @Override
-      public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
+      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
 
       }
 
-      @DebugLog @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
+      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
 
       }
 
-      @DebugLog @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
+      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
 
       }
     });

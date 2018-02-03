@@ -3,12 +3,15 @@ package io.github.ovso.righttoknow.main;
 import android.Manifest;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.common.Utility;
+import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import java.util.ArrayList;
 
 /**
@@ -33,6 +36,10 @@ class MainPresenterImpl implements MainPresenter {
     } else {
       view.finish();
     }
+  }
+
+  @Override public void onSubmit(@NonNull OnFragmentEventListener listener, String query) {
+    listener.onSearchQuery(query);
   }
 
   private void handlingForIntent(Intent intent) {
@@ -107,6 +114,8 @@ class MainPresenterImpl implements MainPresenter {
   @Override public void onOptionsItemSelected(int itemId) {
     if (itemId == R.id.option_menu_my_location) {
       requestPermission();
+    } else if (itemId == R.id.option_menu_search) {
+
     }
   }
 
