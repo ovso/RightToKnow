@@ -7,15 +7,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.common.Utility;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter;
-import io.github.ovso.righttoknow.common.Utility;
 import io.github.ovso.righttoknow.news.model.News;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,7 +37,7 @@ public class NewsAdapter extends BaseRecyclerAdapter
       String title = news.getTitle();
       SpannableString spannableString = new SpannableString(Html.fromHtml(title));
       holder.titleTextview.setText(spannableString);
-      holder.countTextview.setText(String.valueOf(position));
+      holder.countTextview.setText(String.valueOf(position+1));
       String date = Utility.convertDate(news.getPubDate(), "yy-MM-dd");
       holder.dateTextView.setText(date);
       holder.itemView.setOnClickListener(view -> {
@@ -94,23 +90,6 @@ public class NewsAdapter extends BaseRecyclerAdapter
 
   @Override public void setOnItemClickListener(OnNewsRecyclerItemClickListener<News> listener) {
     onRecyclerItemClickListener = listener;
-  }
-
-  @Override public void sort() {
-    Collections.sort(items, (o1, o2) -> {
-      String pattern = "yy-MM-dd";
-      try {
-        String o1String = Utility.convertDate(o1.getPubDate(), pattern);
-        String o2String = Utility.convertDate(o2.getPubDate(), pattern);
-
-        Date o1Date = new SimpleDateFormat(pattern).parse(o1String);
-        Date o2Date = new SimpleDateFormat(pattern).parse(o2String);
-        return o2Date.compareTo(o1Date);
-      } catch (ParseException e) {
-        e.printStackTrace();
-        return 0;
-      }
-    });
   }
 
   final static class NewsViewHolder extends BaseViewHolder {

@@ -16,7 +16,7 @@ android {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 16
     targetSdkVersion 26
-    versionCode 70
+    versionCode 71
 
     int versionMajor = 0
     int versionMinor = 0
@@ -66,6 +66,7 @@ android {
       proguardFile 'proguard-glide.pro'
       proguardFile 'proguard-retrofit.pro'
       proguardFile 'proguard-okhttp.pro'
+      proguardFile 'proguard-dagger.pro'
 
       signingConfig signingConfigs.release
       /*
