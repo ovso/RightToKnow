@@ -111,7 +111,6 @@ public class DetailNewsActivity extends BaseActivity {
     settings.setJavaScriptEnabled(true);
     webView.setWebChromeClient(new WebChromeClient());
     webView.setWebViewClient(new MyWebViewClient());
-    webView.setOnTouchListener((view, motionEvent) -> true);
   }
 
   class MyWebViewClient extends WebViewClient {
