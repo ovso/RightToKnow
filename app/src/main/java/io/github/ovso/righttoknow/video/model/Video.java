@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.video.vo;
+package io.github.ovso.righttoknow.video.model;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.IgnoreExtraProperties;

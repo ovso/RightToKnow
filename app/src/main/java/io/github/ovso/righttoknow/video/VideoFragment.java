@@ -15,10 +15,10 @@ import butterknife.BindView;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
-import io.github.ovso.righttoknow.video.vo.Video;
+import io.github.ovso.righttoknow.video.model.Video;
 import io.github.ovso.righttoknow.videodetail.VideoDetailActivity;
 
 /**

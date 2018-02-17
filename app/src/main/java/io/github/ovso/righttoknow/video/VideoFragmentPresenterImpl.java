@@ -7,7 +7,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.video.vo.Video;
+import io.github.ovso.righttoknow.video.model.Video;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;

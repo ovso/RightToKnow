@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.vfacilitydetail.vo;
+package io.github.ovso.righttoknow.vfacilitydetail.model;
 
 import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
 import lombok.Data;

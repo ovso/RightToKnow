@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.customview;
+package io.github.ovso.righttoknow.framework.customview;
 
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;

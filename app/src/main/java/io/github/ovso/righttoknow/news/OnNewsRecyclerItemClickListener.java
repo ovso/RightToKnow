@@ -1,6 +1,6 @@
 package io.github.ovso.righttoknow.news;
 
-import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 
 /**
  * Created by jaeho on 2017. 12. 20

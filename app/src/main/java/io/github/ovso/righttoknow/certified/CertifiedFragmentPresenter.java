@@ -2,8 +2,8 @@ package io.github.ovso.righttoknow.certified;
 
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
-import io.github.ovso.righttoknow.certified.vo.ChildCertified;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
+import io.github.ovso.righttoknow.certified.model.ChildCertified;
 
 /**
  * Created by jaeho on 2017. 8. 21

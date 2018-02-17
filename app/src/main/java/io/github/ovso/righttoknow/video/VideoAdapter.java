@@ -11,11 +11,11 @@ import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.wang.avi.AVLoadingIndicatorView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
-import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter;
+import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.common.Constants;
-import io.github.ovso.righttoknow.video.vo.Video;
+import io.github.ovso.righttoknow.video.model.Video;
 import java.util.ArrayList;
 import java.util.List;
 

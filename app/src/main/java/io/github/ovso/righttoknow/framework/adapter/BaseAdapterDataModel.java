@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.adapter;
+package io.github.ovso.righttoknow.framework.adapter;
 
 import java.util.List;
 

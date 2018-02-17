@@ -2,7 +2,7 @@ package io.github.ovso.righttoknow.video;
 
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import io.github.ovso.righttoknow.video.vo.Video;
+import io.github.ovso.righttoknow.video.model.Video;
 
 /**
  * Created by jaeho on 2017. 9. 7

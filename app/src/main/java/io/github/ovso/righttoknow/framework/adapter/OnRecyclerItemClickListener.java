@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.adapter;
+package io.github.ovso.righttoknow.framework.adapter;
 
 /**
  * Created by jaeho on 2017. 8. 2

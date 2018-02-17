@@ -11,9 +11,9 @@ import android.view.MenuInflater;
 import android.widget.Toast;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.certified.vo.ChildCertified;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.certified.model.ChildCertified;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.pdfviewer.PDFViewerActivity;
 

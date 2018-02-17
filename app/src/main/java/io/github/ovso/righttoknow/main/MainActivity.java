@@ -28,7 +28,7 @@ import io.github.ovso.righttoknow.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.childabuse.ChildAbuseActivity;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.common.ObjectUtils;
-import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
+import io.github.ovso.righttoknow.framework.customview.BottomNavigationViewBehavior;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.listener.OnSimpleQueryTextListener;
 import io.github.ovso.righttoknow.news.NewsFragment;

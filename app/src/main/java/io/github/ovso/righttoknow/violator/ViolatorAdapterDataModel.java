@@ -1,6 +1,6 @@
 package io.github.ovso.righttoknow.violator;
 
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.violator.model.Violator;
 
 /**

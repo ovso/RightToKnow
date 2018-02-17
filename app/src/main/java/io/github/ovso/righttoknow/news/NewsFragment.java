@@ -14,7 +14,7 @@ import android.view.MenuInflater;
 import android.widget.Toast;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.news.model.News;
 import io.github.ovso.righttoknow.newsdetail.DetailNewsActivity;

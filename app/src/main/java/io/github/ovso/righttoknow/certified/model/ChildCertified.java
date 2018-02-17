@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.certified.vo;
+package io.github.ovso.righttoknow.certified.model;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.IgnoreExtraProperties;
