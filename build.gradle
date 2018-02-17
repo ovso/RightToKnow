@@ -2,10 +2,26 @@
 
 buildscript {
   ext {
+    support_library_version = '26.0.1'
     retrofit_version = '2.3.0'
-    rxjava_version = '2.1.6'
+    rxjava_version = '2.1.8'
     rxandroid_version = '2.0.1'
     okhttp3_version = '3.9.0'
+    rxfirebase_version = '11.8.0.0'
+    play_services_version = '11.8.0'
+    firebase_version = '11.8.0'
+    firebase_jobdispatcher = '0.8.5'
+    pdf_viewer_version = '2.6.1'
+    licensesdialog_version = '1.8.3'
+    materialsearchview_version = '1.4.0'
+    avi_library_version = '2.1.3'
+    glide_version = '4.3.1'
+    tedpermission_version = '2.1.0'
+    lombok_version = '1.16.18'
+    butterknife_version = '8.8.1'
+    timber_version = '4.6.1'
+    junit_version = '4.12'
+    constraint_layout_version = '1.0.2'
   }
   repositories {
     jcenter()

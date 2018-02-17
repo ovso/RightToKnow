@@ -7,7 +7,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
-import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
+import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;

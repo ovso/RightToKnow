@@ -1,6 +1,6 @@
 package io.github.ovso.righttoknow.violator.vo;
 
-import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
+import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

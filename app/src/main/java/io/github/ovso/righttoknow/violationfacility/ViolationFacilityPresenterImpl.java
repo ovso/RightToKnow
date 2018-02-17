@@ -3,11 +3,17 @@ package io.github.ovso.righttoknow.violationfacility;
 import android.location.Address;
 import android.os.Bundle;
 import android.os.Handler;
+import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.listener.OnChildResultListener;
 import io.github.ovso.righttoknow.main.LocationAware;
-import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
+import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 
 /**
@@ -21,11 +27,14 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   private ViolationFacilityInteractor violationFacilityInteractor;
   private LocationAware locationAware;
   private Handler handler;
+  private DatabaseReference databaseReference;
+  private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
   ViolationFacilityPresenterImpl(ViolationFacilityPresenter.View view) {
     this.view = view;
     violationFacilityInteractor = new ViolationFacilityInteractor();
     violationFacilityInteractor.setOnViolationFacilityResultListener(onViolationResultListener);
+    databaseReference = FirebaseDatabase.getInstance().getReference().child("child_vio_fac");
 
     locationAware = new LocationAware(view.getActivity());
     locationAware.setLocationListener(onLocationListener);
@@ -115,10 +124,27 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     }
   };
 
-  @Override public void onSearchQuery(String query) {
+  @Override public void onSearchQuery(final String query) {
     view.showLoading();
-    adapterDataModel.searchAllWords(query);
+    adapterDataModel.clear();
     view.refresh();
-    handler.postDelayed(hideLoadingRunnable, 500);
+    compositeDisposable.add(RxFirebaseDatabase.data(databaseReference)
+        .subscribeOn(Schedulers.io())
+        .map(dataSnapshot -> ViolationFacility.getSearchResultItems(
+            ViolationFacility.convertToItems(dataSnapshot), query))
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(items -> {
+          adapterDataModel.addAll(items);
+          view.refresh();
+          view.hideLoading();
+        }, throwable -> {
+          view.showMessage(R.string.error_server);
+          view.hideLoading();
+        }));
+  }
+
+  @Override public void onDetach() {
+    compositeDisposable.clear();
+    compositeDisposable.dispose();
   }
 }

@@ -4,9 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
@@ -38,7 +38,7 @@ class MainPresenterImpl implements MainPresenter {
     }
   }
 
-  @Override public void onSubmit(@NonNull OnFragmentEventListener listener, String query) {
+  @DebugLog @Override public void onSubmit(@NonNull OnFragmentEventListener listener, String query) {
     listener.onSearchQuery(query);
   }
 

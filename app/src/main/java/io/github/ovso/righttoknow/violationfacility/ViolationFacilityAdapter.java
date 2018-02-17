@@ -11,7 +11,7 @@ import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.common.ObjectUtils;
 import io.github.ovso.righttoknow.common.Utility;
-import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
+import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

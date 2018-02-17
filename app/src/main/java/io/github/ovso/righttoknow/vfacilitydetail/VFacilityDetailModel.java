@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 import android.content.Context;
 import android.content.res.Resources;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
+import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 import java.io.Serializable;
 

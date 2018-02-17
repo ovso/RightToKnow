@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +17,7 @@ import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
-import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
+import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -94,6 +95,10 @@ public class ViolationFacilityFragment extends BaseFragment
     searchResultTextView.setText(resId);
   }
 
+  @Override public void showMessage(int resId) {
+    Snackbar.make(containerView, resId, Snackbar.LENGTH_SHORT).show();
+  }
+
   @BindView(R.id.container_view) View containerView;
 
   @Override public void onDestroyView() {
@@ -107,5 +112,10 @@ public class ViolationFacilityFragment extends BaseFragment
 
   @Override public void onSearchQuery(String query) {
     presenter.onSearchQuery(query);
+  }
+
+  @Override public void onDetach() {
+    presenter.onDetach();
+    super.onDetach();
   }
 }

@@ -95,5 +95,6 @@
     * 광고수입으로, 초록우산어린이재단에 정기후원하고 있습니다.
   </string>
   <string name="child_abuse">아동학대란?</string>
+  <string name="error_server">서버에 문제가 생겼습니다. 잠시후 다시 시도해주세요.</string>
 
 </resources>
