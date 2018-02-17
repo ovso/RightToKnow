@@ -14,7 +14,7 @@ import com.fsn.cauly.CaulyAdInfoBuilder;
 import com.fsn.cauly.CaulyAdView;
 import com.fsn.cauly.CaulyAdViewListener;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.main.BaseActivity;
 
 /**
@@ -49,7 +49,7 @@ public class ChildAbuseActivity extends BaseActivity {
 
   private void showAd() {
     CaulyAdView view;
-    CaulyAdInfo info = new CaulyAdInfoBuilder(Constants.CAULY_APP_CODE).effect(
+    CaulyAdInfo info = new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(
         CaulyAdInfo.Effect.Circle.toString()).build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);

@@ -15,9 +15,9 @@ import butterknife.BindView;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.video.model.Video;
 import io.github.ovso.righttoknow.videodetail.VideoDetailActivity;
 
@@ -85,7 +85,7 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
       playLandscape(video.getVideo_id());
     } else {
       Intent intent =
-          YouTubeStandalonePlayer.createVideoIntent(getActivity(), Constants.DEVELOPER_KEY,
+          YouTubeStandalonePlayer.createVideoIntent(getActivity(), Security.DEVELOPER_KEY,
               video.getVideo_id(), startTimeMillis, autoPlay, lightboxMode);
       startActivity(intent);
     }

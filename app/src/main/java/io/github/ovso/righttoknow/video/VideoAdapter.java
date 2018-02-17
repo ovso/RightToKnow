@@ -11,10 +11,10 @@ import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.wang.avi.AVLoadingIndicatorView;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.video.model.Video;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
             }
           };
 
-      thumbnailView.initialize(Constants.DEVELOPER_KEY, onInitializedListener);
+      thumbnailView.initialize(Security.DEVELOPER_KEY, onInitializedListener);
 
       viewHolder.itemView.setOnClickListener(view -> {
         if (onRecyclerItemClickListener != null) {
