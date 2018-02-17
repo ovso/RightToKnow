@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.main;
 
 import android.content.Intent;
+import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import javax.annotation.Nonnull;
 
@@ -64,5 +65,7 @@ public interface MainPresenter {
     void showNewsFragment();
 
     void showVideoFragment();
+
+    void showMessage(@StringRes int resId);
   }
 }

@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import com.fsn.cauly.CaulyAdInfo;
 import com.fsn.cauly.CaulyAdInfoBuilder;
@@ -191,6 +192,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
             R.animator.enter_animation, R.animator.exit_animation)
         .replace(R.id.fragment_container, VideoFragment.newInstance())
         .commit();
+  }
+
+  @Override public void showMessage(int resId) {
+    Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
   }
 
   @Override public void onBackPressed() {

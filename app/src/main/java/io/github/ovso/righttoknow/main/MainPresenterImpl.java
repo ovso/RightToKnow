@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.main;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
-import hugo.weaving.DebugLog;
+import android.text.TextUtils;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
@@ -34,9 +34,12 @@ class MainPresenterImpl implements MainPresenter {
     }
   }
 
-  @DebugLog @Override
-  public void onSubmit(@NonNull OnFragmentEventListener listener, String query) {
-    listener.onSearchQuery(query);
+  @Override public void onSubmit(@NonNull OnFragmentEventListener listener, String query) {
+    if (!TextUtils.isEmpty(query)) {
+      listener.onSearchQuery(query);
+    } else {
+      view.showMessage(R.string.empty_search_query);
+    }
   }
 
   private void handlingForIntent(Intent intent) {
