@@ -1,10 +1,10 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.content.Intent;
-import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +25,7 @@ import io.github.ovso.righttoknow.violator.vo.Violator;
  */
 
 public class ViolatorFragment extends BaseFragment
-    implements ViolatorFragmentPresenter.View, OnFragmentEventListener<Address> {
+    implements ViolatorFragmentPresenter.View, OnFragmentEventListener {
   private ViolatorFragmentPresenter presenter;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
 
@@ -96,15 +96,15 @@ public class ViolatorFragment extends BaseFragment
     searchResultTextView.setText(resId);
   }
 
+  @Override public void showMessage(int resId) {
+    Snackbar.make(containerView, resId, Snackbar.LENGTH_SHORT).show();
+  }
+
   @BindView(R.id.container_view) View containerView;
 
   @Override public void onDestroyView() {
-    super.onDestroyView();
     presenter.onDestroyView();
-  }
-
-  @Override public void onNearbyClick() {
-    presenter.onNearbyClick();
+    super.onDestroyView();
   }
 
   @Override public void onSearchQuery(String query) {

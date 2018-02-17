@@ -6,15 +6,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 /**
  * Created by jaeho on 2017. 8. 1
  */
 
-@Data @ToString @EqualsAndHashCode(callSuper = false) public class ViolationFacility
+@Getter @ToString @EqualsAndHashCode(callSuper = false) public class ViolationFacility
     implements Serializable {
   private int reg_number;
   private String sido;

@@ -21,8 +21,6 @@ public interface ViolatorFragmentPresenter {
 
   void onRefresh();
 
-  void onNearbyClick();
-
   void onSearchQuery(String query);
 
   interface View {
@@ -44,5 +42,7 @@ public interface ViolatorFragmentPresenter {
     Context getActivity();
 
     void setSearchResultText(@StringRes int resId);
+
+    void showMessage(@StringRes int resId);
   }
 }

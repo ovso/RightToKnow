@@ -19,8 +19,6 @@ public interface ViolationFacilityPresenter {
 
   void onRefresh();
 
-  void onNearbyClick();
-
   void onSearchQuery(String query);
 
   void onDetach();

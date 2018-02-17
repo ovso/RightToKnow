@@ -64,10 +64,6 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     req();
   }
 
-  @Override public void onNearbyClick() {
-    view.showLoading();
-  }
-
   @Override public void onSearchQuery(final String query) {
     view.showLoading();
     adapterDataModel.clear();

@@ -1,7 +1,6 @@
 package io.github.ovso.righttoknow.violationfacility;
 
 import android.content.Intent;
-import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -24,7 +23,7 @@ import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
  */
 
 public class ViolationFacilityFragment extends BaseFragment
-    implements ViolationFacilityPresenter.View, OnFragmentEventListener<Address> {
+    implements ViolationFacilityPresenter.View, OnFragmentEventListener {
 
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
@@ -103,10 +102,6 @@ public class ViolationFacilityFragment extends BaseFragment
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-  }
-
-  @Override public void onNearbyClick() {
-    presenter.onNearbyClick();
   }
 
   @Override public void onSearchQuery(String query) {
