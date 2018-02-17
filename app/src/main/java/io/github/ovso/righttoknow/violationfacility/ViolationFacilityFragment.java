@@ -103,7 +103,6 @@ public class ViolationFacilityFragment extends BaseFragment
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    presenter.onDestroyView();
   }
 
   @Override public void onNearbyClick() {

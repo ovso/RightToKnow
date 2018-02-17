@@ -1,18 +1,14 @@
 package io.github.ovso.righttoknow.main;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.common.Utility;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
-import java.util.ArrayList;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -38,7 +34,8 @@ class MainPresenterImpl implements MainPresenter {
     }
   }
 
-  @DebugLog @Override public void onSubmit(@NonNull OnFragmentEventListener listener, String query) {
+  @DebugLog @Override
+  public void onSubmit(@NonNull OnFragmentEventListener listener, String query) {
     listener.onSearchQuery(query);
   }
 
@@ -110,33 +107,6 @@ class MainPresenterImpl implements MainPresenter {
         break;
     }
   }
-
-  @Override public void onOptionsItemSelected(int itemId) {
-    if (itemId == R.id.option_menu_my_location) {
-      requestPermission();
-    } else if (itemId == R.id.option_menu_search) {
-
-    }
-  }
-
-  private void requestPermission() {
-    TedPermission.with(MyApplication.getInstance())
-        .setPermissionListener(permissionlistener)
-        .setDeniedMessage(R.string.location_permission_denied_message)
-        .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION)
-        .check();
-  }
-
-  private PermissionListener permissionlistener = new PermissionListener() {
-    @Override public void onPermissionGranted() {
-      view.onNearbyClick();
-    }
-
-    @Override public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-      //locationAware.stop();
-    }
-  };
 
   private String getTitle(int position) {
     Resources res = MyApplication.getInstance().getResources();

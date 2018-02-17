@@ -17,8 +17,6 @@ public interface ViolationFacilityPresenter {
 
   void onRecyclerItemClick(ViolationFacility violationFacility);
 
-  void onDestroyView();
-
   void onRefresh();
 
   void onNearbyClick();

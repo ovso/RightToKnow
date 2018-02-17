@@ -16,8 +16,6 @@ public interface MainPresenter {
 
   void onBottomNavigationItemSelected(int id);
 
-  void onOptionsItemSelected(int itemId);
-
   void onNewIntent(Intent intent);
 
   void onBackPressed(boolean isDrawerOpen);

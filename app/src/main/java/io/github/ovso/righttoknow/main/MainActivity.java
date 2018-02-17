@@ -63,11 +63,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     return true;
   }
 
-  @DebugLog @Override public boolean onOptionsItemSelected(MenuItem item) {
-    presenter.onOptionsItemSelected(item.getItemId());
-    return false;
-  }
-
   @Override public int getLayoutResId() {
     return R.layout.activity_main;
   }
@@ -141,8 +136,8 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     searchView.setOnQueryTextListener(new OnSimpleQueryTextListener() {
       @Override public void onSubmit(String query) {
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if(!ObjectUtils.isEmpty(f)) {
-          presenter.onSubmit((OnFragmentEventListener)f, query);
+        if (!ObjectUtils.isEmpty(f)) {
+          presenter.onSubmit((OnFragmentEventListener) f, query);
         }
       }
     });
