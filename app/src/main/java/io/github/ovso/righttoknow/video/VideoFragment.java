@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 import butterknife.BindView;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import hugo.weaving.DebugLog;
@@ -40,6 +41,7 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     this.menu = menu;
     this.menuInflater = inflater;
     presenter.onCreateOptionsMenu();
+    menu.findItem(R.id.option_menu_search).setVisible(false);
     super.onCreateOptionsMenu(menu, inflater);
   }
 
@@ -126,6 +128,10 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     new AlertDialog.Builder(getActivity()).setIcon(R.drawable.ic_new_releases_24dp)
         .setMessage(R.string.not_fount_youtube)
         .setPositiveButton(android.R.string.ok, null).show();
+  }
+
+  @Override public void showMessage(int resId) {
+    Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
   }
 
   @Override public void onDestroyView() {

@@ -8,7 +8,7 @@ import io.github.ovso.righttoknow.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.common.Utility;
-import io.github.ovso.righttoknow.violator.vo.Violator;
+import io.github.ovso.righttoknow.violator.model.Violator;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;

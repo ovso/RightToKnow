@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.violator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import io.github.ovso.righttoknow.violator.vo.Violator;
+import io.github.ovso.righttoknow.violator.model.Violator;
 
 /**
  * Created by jaeho on 2017. 8. 3

@@ -10,5 +10,4 @@ import io.github.ovso.righttoknow.video.vo.Video;
 
 public interface VideoAdapterDataModel extends BaseAdapterDataModel<Video> {
   void setOnItemClickListener(OnRecyclerItemClickListener<Video> listener);
-  void sort();
 }

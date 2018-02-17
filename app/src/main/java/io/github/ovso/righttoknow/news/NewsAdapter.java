@@ -39,7 +39,6 @@ public class NewsAdapter extends BaseRecyclerAdapter
       NewsViewHolder holder = (NewsViewHolder) viewHolder;
       News news = items.get(position);
       String title = news.getTitle();
-      //title = Utility.getActionEmoji(new String[] { title }) + title;
       SpannableString spannableString = new SpannableString(Html.fromHtml(title));
       holder.titleTextview.setText(spannableString);
       holder.countTextview.setText(String.valueOf(position));

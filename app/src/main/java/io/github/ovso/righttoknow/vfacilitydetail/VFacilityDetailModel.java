@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
-import io.github.ovso.righttoknow.violator.vo.Violator;
+import io.github.ovso.righttoknow.violator.model.Violator;
 import java.io.Serializable;
 
 /**

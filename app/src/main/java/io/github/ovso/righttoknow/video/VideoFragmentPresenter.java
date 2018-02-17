@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.video;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.video.vo.Video;
 
 /**
@@ -44,5 +45,7 @@ public interface VideoFragmentPresenter {
     void clearMenuMode();
 
     void showWarningDialog();
+
+    void showMessage(@StringRes int resId);
   }
 }

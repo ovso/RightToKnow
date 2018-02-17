@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.main;
 
 import android.content.Intent;
 import android.support.annotation.StringRes;
+import android.view.MenuItem;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import javax.annotation.Nonnull;
 
@@ -23,6 +24,8 @@ public interface MainPresenter {
 
   void onSubmit(@Nonnull OnFragmentEventListener listener, String query);
 
+  void onPrepareOptionsMenu(String simpleName, MenuItem item);
+
   interface View {
     void setListener();
 
@@ -31,8 +34,6 @@ public interface MainPresenter {
     void setBottomNavigationViewBehavior();
 
     void setCheckedBottomNavigationView(int position);
-
-    void onNearbyClick();
 
     void setVersionName(String versionName);
 

@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
@@ -32,6 +34,7 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    setHasOptionsMenu(true);
     presenter = new CertifiedFragmentPresenterImpl(this);
     presenter.onActivityCreate(savedInstanceState);
   }
@@ -88,5 +91,10 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
   @Override public void onDestroyView() {
     super.onDestroyView();
     presenter.onDestroyView();
+  }
+
+  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    menu.findItem(R.id.option_menu_search).setVisible(false);
+    super.onCreateOptionsMenu(menu, inflater);
   }
 }

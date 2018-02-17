@@ -9,6 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.SpannableString;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.widget.Toast;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
@@ -34,6 +37,7 @@ public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    setHasOptionsMenu(true);
     presenter = new NewsFragmentPresenterImpl(this);
     presenter.onActivityCreated(savedInstanceState);
   }
@@ -92,8 +96,17 @@ public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.
         .show();
   }
 
+  @Override public void showMessage(int resId) {
+    Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
+  }
+
   @Override public void onDetach() {
     super.onDetach();
     presenter.onDetach();
+  }
+
+  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    menu.findItem(R.id.option_menu_search).setVisible(false);
+    super.onCreateOptionsMenu(menu, inflater);
   }
 }

@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.violator.vo;
+package io.github.ovso.righttoknow.violator.model;
 
 import com.google.firebase.database.DataSnapshot;
 import io.github.ovso.righttoknow.common.SearchUtils;

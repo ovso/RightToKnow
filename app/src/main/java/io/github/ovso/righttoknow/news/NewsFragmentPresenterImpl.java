@@ -7,7 +7,6 @@ import io.github.ovso.righttoknow.news.model.News;
 import io.github.ovso.righttoknow.news.model.NewsResult;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -18,13 +17,11 @@ import io.reactivex.schedulers.Schedulers;
 public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
 
   private NewsFragmentPresenter.View view;
-  private NewsNetwork network;
-  private CompositeDisposable compositeDisposable = new CompositeDisposable();
+  private NewsNetwork network = new NewsNetwork(MyApplication.getInstance().getApplicationContext(),
+      "https://openapi.naver.com");
 
   NewsFragmentPresenterImpl(NewsFragmentPresenter.View view) {
     this.view = view;
-    network = new NewsNetwork(MyApplication.getInstance().getApplicationContext(),
-        "https://openapi.naver.com");
   }
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
@@ -32,7 +29,6 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
     view.setAdapter();
     view.setRecyclerView();
     adapterDataModel.setOnItemClickListener(onRecyclerItemClickListener);
-
     req();
   }
 
@@ -40,22 +36,21 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
 
   private void req() {
     view.showLoading();
-
+    adapterDataModel.clear();
+    view.refresh();
     Single<NewsResult> news1 = network.getNews(R.string.api_query1).subscribeOn(Schedulers.io());
     Single<NewsResult> news2 = network.getNews(R.string.api_query2).subscribeOn(Schedulers.io());
-
     disposable = Single.merge(news1, news2)
+        .subscribeOn(Schedulers.io())
         .toList()
+        .map(results -> NewsResult.sortItems(NewsResult.mergeItems(results)))
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(newsResults -> {
-          adapterDataModel.clear();
-          for (int i = 0; i < newsResults.size(); i++) {
-            adapterDataModel.addAll(newsResults.get(i).getItems());
-          }
-          adapterDataModel.sort();
+        .subscribe(items -> {
+          adapterDataModel.addAll(items);
           view.refresh();
           view.hideLoading();
         }, throwable -> {
+          view.showMessage(R.string.error_server);
           view.hideLoading();
         });
   }

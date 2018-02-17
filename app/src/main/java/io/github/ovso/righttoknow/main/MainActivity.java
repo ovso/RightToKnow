@@ -56,13 +56,22 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     presenter.onNewIntent(intent);
   }
 
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
+  @DebugLog @Override public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.main, menu);
     MenuItem item = menu.findItem(R.id.option_menu_search);
     searchView.setMenuItem(item);
 
     return true;
   }
+
+  /*
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
+    MenuItem item = menu.findItem(R.id.option_menu_search);
+    Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    presenter.onPrepareOptionsMenu(f.getClass().getSimpleName(), item);
+    return super.onPrepareOptionsMenu(menu);
+  }
+  */
 
   @Override public int getLayoutResId() {
     return R.layout.activity_main;
@@ -105,17 +114,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void setCheckedBottomNavigationView(int position) {
     bottomNavigationView.getMenu().getItem(position).setChecked(true);
-  }
-
-  @Override public void onNearbyClick() {
-    /*
-    if (onViolationFacilityFragListener != null) {
-      onViolationFacilityFragListener.onNearbyClick();
-    }
-    if (onViolatorFragListener != null) {
-      onViolatorFragListener.onNearbyClick();
-    }
-    */
   }
 
   @Override public void setVersionName(String versionName) {

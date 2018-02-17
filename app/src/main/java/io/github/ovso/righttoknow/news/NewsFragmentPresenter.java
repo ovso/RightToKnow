@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.news;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.news.model.News;
 
 /**
@@ -34,5 +35,7 @@ public interface NewsFragmentPresenter {
     void navigateToDetailNews(News item);
 
     void showSimpleNewsDialog(News item);
+
+    void showMessage(@StringRes int resId);
   }
 }

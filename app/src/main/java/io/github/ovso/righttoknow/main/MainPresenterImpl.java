@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.MenuItem;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
@@ -23,7 +25,7 @@ class MainPresenterImpl implements MainPresenter {
   }
 
   @Override public void onNewIntent(Intent intent) {
-    handlingForIntent(intent);
+    fcmNav(intent);
   }
 
   @Override public void onBackPressed(boolean isDrawerOpen) {
@@ -42,27 +44,26 @@ class MainPresenterImpl implements MainPresenter {
     }
   }
 
-  private void handlingForIntent(Intent intent) {
+  @DebugLog @Override public void onPrepareOptionsMenu(String simpleName, MenuItem item) {
+
+  }
+
+  private void fcmNav(Intent intent) {
     int position = intent.getIntExtra(Constants.FCM_KEY_CONTENT_POSITION, 0);
     switch (position) {
       case Constants.ITEM_VIOLATION_FACILITY:
-        view.showSearchView();
         view.showViolationFragment();
         break;
       case Constants.ITEM_VIOLATOR:
-        view.showSearchView();
         view.showViolatorFragment();
         break;
       case Constants.ITEM_CERTIFIED:
-        view.hideSearchView();
         view.showCertifiedFragment();
         break;
       case Constants.ITEM_NEWS:
-        view.hideSearchView();
         view.showNewsFragment();
         break;
       case Constants.ITEM_VIDEO:
-        view.hideSearchView();
         view.showVideoFragment();
         break;
     }
@@ -74,11 +75,10 @@ class MainPresenterImpl implements MainPresenter {
         MyApplication.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
             MyApplication.getInstance()));
     view.setListener();
-    //view.setBottomNavigationViewBehavior();
     view.setSearchView();
     view.showAd();
 
-    handlingForIntent(intent);
+    fcmNav(intent);
   }
 
   @Override public void onNavigationItemSelected(int id) {

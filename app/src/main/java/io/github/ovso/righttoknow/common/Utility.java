@@ -10,7 +10,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.view.Window;
 import android.view.WindowManager;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import java.text.ParseException;
@@ -45,7 +44,7 @@ public class Utility {
     return new String(Character.toChars(unicode));
   }
 
-  @DebugLog public static String getActionEmoji(List<String> actions) {
+  public static String getActionEmoji(List<String> actions) {
     Resources res = MyApplication.getInstance().getResources();
     for (String action : actions) {
       if (action.contains(res.getString(R.string.abused)) || action.contains(
