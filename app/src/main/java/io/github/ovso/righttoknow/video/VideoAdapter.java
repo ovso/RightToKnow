@@ -11,16 +11,12 @@ import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.wang.avi.AVLoadingIndicatorView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
-import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.common.Constants;
-import io.github.ovso.righttoknow.video.vo.Video;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import io.github.ovso.righttoknow.Security;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter;
+import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.video.model.Video;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,7 +25,7 @@ import java.util.List;
 
 public class VideoAdapter extends BaseRecyclerAdapter
     implements VideoAdapterDataModel, BaseAdapterView {
-  List<Video> toBeUsedItems = new ArrayList<>();
+  private List<Video> items = new ArrayList<>();
 
   @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
     return new VideoViewHolder(view);
@@ -42,7 +38,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
   @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
     if (holder instanceof VideoViewHolder) {
       VideoViewHolder viewHolder = (VideoViewHolder) holder;
-      Video video = toBeUsedItems.get(position);
+      Video video = items.get(position);
       viewHolder.removeThumbnailView();
       viewHolder.addThumbnailView();
       YouTubeThumbnailView thumbnailView = viewHolder.thumbnailView;
@@ -72,7 +68,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
             }
           };
 
-      thumbnailView.initialize(Constants.DEVELOPER_KEY, onInitializedListener);
+      thumbnailView.initialize(Security.DEVELOPER_KEY, onInitializedListener);
 
       viewHolder.itemView.setOnClickListener(view -> {
         if (onRecyclerItemClickListener != null) {
@@ -80,7 +76,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
         }
       });
 
-      viewHolder.titleTextView.setText("[" + video.getDate() + "]" + video.getTitle());
+      viewHolder.titleTextView.setText(video.getTitle());
     }
   }
 
@@ -93,31 +89,31 @@ public class VideoAdapter extends BaseRecyclerAdapter
   }
 
   @Override public void add(Video item) {
-    toBeUsedItems.add(item);
+    items.add(item);
   }
 
   @Override public void addAll(List<Video> items) {
-    toBeUsedItems.addAll(items);
+    this.items.addAll(items);
   }
 
   @Override public Video remove(int position) {
-    return toBeUsedItems.remove(position);
+    return items.remove(position);
   }
 
   @Override public Video getItem(int position) {
-    return toBeUsedItems.get(position);
+    return items.get(position);
   }
 
   @Override public void add(int index, Video item) {
-    toBeUsedItems.add(index, item);
+    items.add(index, item);
   }
 
   @Override public int getSize() {
-    return toBeUsedItems.size();
+    return items.size();
   }
 
   @Override public void clear() {
-    toBeUsedItems.clear();
+    items.clear();
   }
 
   private OnRecyclerItemClickListener<Video> onRecyclerItemClickListener;
@@ -126,29 +122,13 @@ public class VideoAdapter extends BaseRecyclerAdapter
     onRecyclerItemClickListener = listener;
   }
 
-  @Override public void sort() {
-    Collections.sort(toBeUsedItems, (o1, o2) -> {
-      try {
-        String o1String = o1.getDate();
-        String o2String = o2.getDate();
-
-        Date o1Date = new SimpleDateFormat("yyyy-MM-dd").parse(o1String);
-        Date o2Date = new SimpleDateFormat("yyyy-MM-dd").parse(o2String);
-        return o2Date.compareTo(o1Date);
-      } catch (ParseException e) {
-        e.printStackTrace();
-        return 0;
-      }
-    });
-  }
-
   static class VideoViewHolder extends BaseViewHolder {
     YouTubeThumbnailView thumbnailView;
     @BindView(R.id.progress_bar) AVLoadingIndicatorView progressBar;
     @BindView(R.id.thumbnail_container) FrameLayout thumbnailContainer;
     @BindView(R.id.thumbnail_title_textview) TextView titleTextView;
 
-    public VideoViewHolder(View itemView) {
+    VideoViewHolder(View itemView) {
       super(itemView);
       showLoading();
     }

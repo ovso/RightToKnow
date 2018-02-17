@@ -1,13 +1,17 @@
 package io.github.ovso.righttoknow.violator;
 
-import android.location.Address;
 import android.os.Bundle;
-import android.os.Handler;
+import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.listener.OnChildResultListener;
-import io.github.ovso.righttoknow.main.LocationAware;
-import io.github.ovso.righttoknow.violator.vo.Violator;
-import java.util.List;
+import io.github.ovso.righttoknow.violator.model.Violator;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by jaeho on 2017. 8. 3
@@ -15,71 +19,42 @@ import java.util.List;
 
 public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter {
   private ViolatorFragmentPresenter.View view;
-  private ViolatorInteractor violatorInteractor;
   private ViolatorAdapterDataModel adapterDataModel;
-  private LocationAware locationAware;
-  private Handler handler;
+  private CompositeDisposable compositeDisposable = new CompositeDisposable();
+  private DatabaseReference databaseReference =
+      FirebaseDatabase.getInstance().getReference().child("child_violator");
+
   ViolatorFragmentPresenterImpl(ViolatorFragmentPresenter.View view) {
     this.view = view;
-    violatorInteractor = new ViolatorInteractor();
-    violatorInteractor.setOnViolationFacilityResultListener(onViolationResultListener);
-
-    locationAware = new LocationAware(view.getActivity());
-    locationAware.setLocationListener(onLocationListener);
-    handler = new Handler();
   }
 
-  private LocationAware.OnLocationListener onLocationListener =
-      new LocationAware.OnLocationListener() {
-        @Override public void onLocationChanged(double latitude, double longitude, String date) {
-
-        }
-
-        @Override public void onAddressChanged(Address address) {
-          adapterDataModel.searchMyLocation(address.getLocality(), address.getSubLocality());
-          view.refresh();
-          int itemSize = adapterDataModel.getSize();
-          if (itemSize < 2) {
-            view.setSearchResultText(R.string.no_result);
-          } else {
-            view.setSearchResultText(R.string.empty);
-          }
-
-          view.hideLoading();
-        }
-
-        @Override public void onError(String error) {
-          view.hideLoading();
-        }
-      };
-
-  OnChildResultListener<List<Violator>> onViolationResultListener =
-      new OnChildResultListener<List<Violator>>() {
-        @Override public void onPre() {
-          view.showLoading();
-        }
-
-        @Override public void onResult(List<Violator> violators) {
-          adapterDataModel.clear();
-          adapterDataModel.add(new Violator());
-          adapterDataModel.addAll(violators);
-          view.refresh();
-        }
-
-        @Override public void onPost() {
-          view.hideLoading();
-        }
-
-        @Override public void onError() {
-          view.setSearchResultText(R.string.please_retry);
-        }
-      };
-
   @Override public void onActivityCreate(Bundle savedInstanceState) {
+    view.showLoading();
     view.setListener();
     view.setAdapter();
     view.setRecyclerView();
-    violatorInteractor.req();
+    req();
+  }
+
+  private void req() {
+    RxFirebaseDatabase.data(databaseReference)
+        .map(dataSnapshot -> {
+          ArrayList<Violator> items = Violator.convertToItems(dataSnapshot);
+          Comparator<Violator> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
+              .compareTo(Integer.valueOf(t1.getReg_number()));
+          Collections.sort(items, comparator);
+          return items;
+        })
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(items -> {
+          adapterDataModel.addAll(items);
+          view.refresh();
+          view.hideLoading();
+        }, throwable -> {
+          view.showMessage(R.string.error_server);
+          view.hideLoading();
+        });
   }
 
   @Override public void setAdapterModel(ViolatorAdapterDataModel adapterDataModel) {
@@ -91,30 +66,39 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   @Override public void onDestroyView() {
-    violatorInteractor.cancel();
-    handler.removeCallbacks(hideLoadingRunnable);
+    compositeDisposable.dispose();
+    compositeDisposable.clear();
   }
 
   @Override public void onRefresh() {
     adapterDataModel.clear();
     view.refresh();
     view.setSearchResultText(R.string.empty);
-    violatorInteractor.req();
+    req();
   }
 
-  @Override public void onNearbyClick() {
-    view.showLoading();
-    locationAware.start();
-  }
-  private Runnable hideLoadingRunnable = new Runnable() {
-    @Override public void run() {
-      view.hideLoading();
-    }
-  };
   @Override public void onSearchQuery(String query) {
     view.showLoading();
-    adapterDataModel.searchAllWords(query);
+    adapterDataModel.clear();
     view.refresh();
-    handler.postDelayed(hideLoadingRunnable, 500);
+    compositeDisposable.add(RxFirebaseDatabase.data(databaseReference)
+        .subscribeOn(Schedulers.io())
+        .map(dataSnapshot -> {
+          ArrayList<Violator> items =
+              Violator.getSearchResultItems(Violator.convertToItems(dataSnapshot), query);
+          Comparator<Violator> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
+              .compareTo(Integer.valueOf(t1.getReg_number()));
+          Collections.sort(items, comparator);
+          return items;
+        })
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(items -> {
+          adapterDataModel.addAll(items);
+          view.refresh();
+          view.hideLoading();
+        }, throwable -> {
+          view.showMessage(R.string.error_server);
+          view.showLoading();
+        }));
   }
 }

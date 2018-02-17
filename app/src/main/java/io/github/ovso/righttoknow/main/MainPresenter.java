@@ -1,9 +1,10 @@
 package io.github.ovso.righttoknow.main;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
+import android.support.annotation.StringRes;
+import android.view.MenuItem;
+import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
+import javax.annotation.Nonnull;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -11,46 +12,28 @@ import android.os.Bundle;
 
 public interface MainPresenter {
 
-  void onCreate(Bundle savedInstanceState, Intent intent);
+  void onCreate(Intent intent);
 
   void onNavigationItemSelected(int id);
 
   void onBottomNavigationItemSelected(int id);
 
-  void onAdapterPageChanged(int position);
-
-  void onOptionsItemSelected(int itemId);
-
   void onNewIntent(Intent intent);
 
   void onBackPressed(boolean isDrawerOpen);
 
-  void onReviewClick();
+  void onSubmit(@Nonnull OnFragmentEventListener listener, String query);
+
+  void onPrepareOptionsMenu(String simpleName, MenuItem item);
 
   interface View {
     void setListener();
 
     void setTitle(String title);
 
-    void navigateToStore(Uri uri);
-
-    void navigateToShare(String url);
-
     void setBottomNavigationViewBehavior();
 
-    void setViewPager();
-
     void setCheckedBottomNavigationView(int position);
-
-    void setViewPagerCurrentItem(int position);
-
-    Activity getActivity();
-
-    void hideLoading();
-
-    void showLoading();
-
-    void onNearbyClick();
 
     void setVersionName(String versionName);
 
@@ -64,16 +47,30 @@ public interface MainPresenter {
 
     void navigateToSettings();
 
-    void showAppUpdateDialog(String message, boolean isForce);
-
     void closeDrawer();
-
-    void showReviewDialog();
 
     void finish();
 
     void showAd();
 
-    void showDonationAlert();
+    void showHelpAlert(String msg);
+
+    void navigateToChildAbuse();
+
+    void showViolationFragment();
+
+    void showViolatorFragment();
+
+    void showCertifiedFragment();
+
+    void showNewsFragment();
+
+    void showVideoFragment();
+
+    void showMessage(@StringRes int resId);
+
+    void hideSearchView();
+
+    void showSearchView();
   }
 }

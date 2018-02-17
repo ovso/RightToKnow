@@ -23,6 +23,17 @@
       android:paddingLeft="5dp"
       >
     <TextView
+        android:id="@id/count_textview"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="left|center_vertical"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:lines="1"
+        tools:text="1"
+        />
+    <TextView
         android:id="@+id/title_textview"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -33,6 +44,14 @@
         android:lines="1"
         android:ellipsize="end"
         tools:text="시간제 보육교사를 정교사로 허위보고 6000여만원 타낸 어린이집 원장"
+        />
+    <ImageView
+        android:id="@id/simple_news_imageview"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="center"
+        android:src="@drawable/ic_format_align_justify"
         />
     <TextView
         android:id="@+id/date_textview"

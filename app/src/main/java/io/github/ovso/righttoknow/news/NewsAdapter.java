@@ -1,20 +1,17 @@
 package io.github.ovso.righttoknow.news;
 
-import android.text.TextUtils;
+import android.text.Html;
+import android.text.SpannableString;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.adapter.BaseRecyclerAdapter;
-import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.common.Utility;
-import io.github.ovso.righttoknow.news.vo.News;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter;
+import io.github.ovso.righttoknow.news.model.News;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,7 +20,7 @@ import java.util.List;
 
 public class NewsAdapter extends BaseRecyclerAdapter
     implements NewsAdapterDataModel, BaseAdapterView {
-  private List<News> toBeUsedItems = new ArrayList<>();
+  private List<News> items = new ArrayList<>();
 
   @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
     return new NewsViewHolder(view);
@@ -36,19 +33,20 @@ public class NewsAdapter extends BaseRecyclerAdapter
   @Override public void onBindViewHolder(BaseViewHolder viewHolder, int position) {
     if (viewHolder instanceof NewsViewHolder) {
       NewsViewHolder holder = (NewsViewHolder) viewHolder;
-      News news = toBeUsedItems.get(position);
+      News news = items.get(position);
       String title = news.getTitle();
-      title = Utility.getActionEmoji(new String[]{title}) + title;
-      holder.titleTextview.setText(title);
-      String date = news.getDate();
-      if (!TextUtils.isEmpty(date)) {
-        holder.dateTextView.setText(news.getDate().split(" ")[0]);
-      }
+      SpannableString spannableString = new SpannableString(Html.fromHtml(title));
+      holder.titleTextview.setText(spannableString);
+      holder.countTextview.setText(String.valueOf(position+1));
+      String date = Utility.convertDate(news.getPubDate(), "yy-MM-dd");
+      holder.dateTextView.setText(date);
       holder.itemView.setOnClickListener(view -> {
         if (onRecyclerItemClickListener != null) {
           onRecyclerItemClickListener.onItemClick(news);
         }
       });
+      holder.imageView.setOnClickListener(
+          view -> onRecyclerItemClickListener.onSimpleNewsItemClick(news));
     }
   }
 
@@ -57,62 +55,48 @@ public class NewsAdapter extends BaseRecyclerAdapter
   }
 
   @Override public void add(News item) {
-    toBeUsedItems.add(item);
+    items.add(item);
   }
 
   @Override public void addAll(List<News> items) {
-    toBeUsedItems.addAll(items);
+    this.items.addAll(items);
   }
 
   @Override public News remove(int position) {
-    return toBeUsedItems.remove(position);
+    return items.remove(position);
   }
 
   @Override public News getItem(int position) {
-    return toBeUsedItems.get(position);
+    return items.get(position);
   }
 
   @Override public void add(int index, News item) {
-    toBeUsedItems.add(index, item);
+    items.add(index, item);
   }
 
   @Override public int getSize() {
-    return toBeUsedItems.size();
+    return items.size();
   }
 
   @Override public void clear() {
-    toBeUsedItems.clear();
+    items.clear();
   }
 
   @Override public void refresh() {
     notifyDataSetChanged();
   }
 
-  private OnRecyclerItemClickListener<News> onRecyclerItemClickListener;
+  private OnNewsRecyclerItemClickListener<News> onRecyclerItemClickListener;
 
-  @Override public void setOnItemClickListener(OnRecyclerItemClickListener<News> listener) {
+  @Override public void setOnItemClickListener(OnNewsRecyclerItemClickListener<News> listener) {
     onRecyclerItemClickListener = listener;
-  }
-
-  @Override public void sort() {
-    Collections.sort(toBeUsedItems, (o1, o2) -> {
-      try {
-        String o1String = o1.getDate();
-        String o2String = o2.getDate();
-
-        Date o1Date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(o1String);
-        Date o2Date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(o2String);
-        return o2Date.compareTo(o1Date);
-      } catch (ParseException e) {
-        e.printStackTrace();
-        return 0;
-      }
-    });
   }
 
   final static class NewsViewHolder extends BaseViewHolder {
     @BindView(R.id.title_textview) TextView titleTextview;
+    @BindView(R.id.count_textview) TextView countTextview;
     @BindView(R.id.date_textview) TextView dateTextView;
+    @BindView(R.id.simple_news_imageview) ImageView imageView;
 
     public NewsViewHolder(View itemView) {
       super(itemView);

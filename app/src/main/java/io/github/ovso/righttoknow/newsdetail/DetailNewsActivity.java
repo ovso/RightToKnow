@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Html;
+import android.text.SpannableString;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import butterknife.BindView;
@@ -15,9 +18,9 @@ import com.fsn.cauly.CaulyAdInfoBuilder;
 import com.fsn.cauly.CaulyAdView;
 import com.fsn.cauly.CaulyAdViewListener;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.main.BaseActivity;
-import io.github.ovso.righttoknow.news.vo.News;
+import io.github.ovso.righttoknow.news.model.News;
 
 /**
  * Created by jaeho on 2017. 9. 2
@@ -48,7 +51,7 @@ public class DetailNewsActivity extends BaseActivity {
 
   private void adView() {
     CaulyAdView view;
-    CaulyAdInfo info = new CaulyAdInfoBuilder(Constants.CAULY_APP_CODE).effect(
+    CaulyAdInfo info = new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(
         CaulyAdInfo.Effect.Circle.toString()).build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);
@@ -78,17 +81,20 @@ public class DetailNewsActivity extends BaseActivity {
     activityFinish();
     return super.onOptionsItemSelected(item);
   }
+
   private void activityFinish() {
     finish();
     webView.stopLoading();
   }
+
   private void setTitle() {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setTitle(news.getTitle());
+    getSupportActionBar().setTitle(new SpannableString(Html.fromHtml(news.getTitle())));
   }
+
   private void loadUrl() {
     swipeRefresh.setRefreshing(true);
-    webView.loadUrl(news.getUrl());
+    webView.loadUrl(news.getLink());
   }
 
   private void setInit() {
@@ -96,15 +102,15 @@ public class DetailNewsActivity extends BaseActivity {
   }
 
   private void setSwipeRefresh() {
-    swipeRefresh.setOnRefreshListener(() -> webView.loadUrl(news.getUrl()));
+    swipeRefresh.setOnRefreshListener(() -> webView.loadUrl(news.getLink()));
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }
 
   private void setWebView() {
-    webView.getSettings().setJavaScriptEnabled(true);
+    WebSettings settings = webView.getSettings();
+    settings.setJavaScriptEnabled(true);
     webView.setWebChromeClient(new WebChromeClient());
     webView.setWebViewClient(new MyWebViewClient());
-    webView.setOnTouchListener((view, motionEvent) -> true);
   }
 
   class MyWebViewClient extends WebViewClient {

@@ -24,9 +24,6 @@ public class Constants {
 
   public final static int EMOJI_ABUSED = 0x1F62D;
 
-  public final static String DEVELOPER_KEY = "AIzaSyBdY9vP4_vQs5YEGJ3Ghu6s5gGY8yFlo0s"; // youtube
-
-  public final static String CAULY_APP_CODE = "tnhCNe7c";
   public static Notices getNotices() {
     final Notices notices = new Notices();
 
@@ -69,7 +66,18 @@ public class Constants {
     notices.addNotice(
         new Notice("AVLoadingIndicatorView", "https://github.com/81813780/AVLoadingIndicatorView",
             "Copyright 2015 jack wang", new ApacheSoftwareLicense20()));
+    notices.addNotice(new Notice("RxJava", "https://github.com/ReactiveX/RxJava",
+        "Copyright (c) 2016-present, RxJava Contributors.", new ApacheSoftwareLicense20()));
+    notices.addNotice(
+        new Notice("Retrofit", "https://github.com/square/retrofit", "Copyright 2013 Square, Inc.",
+            new ApacheSoftwareLicense20()));
+    notices.addNotice(new Notice("Okhttp", "https://github.com/square/okhttp",
+        "Licensed under the Apache License, Version 2.0 (the \"License\")",
+        new ApacheSoftwareLicense20()));
+
+    notices.addNotice(new Notice("RxFirebase", "https://github.com/kunny/RxFirebase",
+        "Copyright 2016-2017 Taeho Kim <jyte82@gmail.com>",
+        new ApacheSoftwareLicense20()));
     return notices;
   }
-
 }

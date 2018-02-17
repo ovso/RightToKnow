@@ -3,8 +3,8 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 import android.content.Context;
 import android.content.res.Resources;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
-import io.github.ovso.righttoknow.violator.vo.Violator;
+import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
+import io.github.ovso.righttoknow.violator.model.Violator;
 import java.io.Serializable;
 
 /**
@@ -59,8 +59,7 @@ class VFacilityDetailModel {
     builder.append(res.getString(R.string.detail_violation_history)).append(violator.getHistory());
     builder.append("\n\n");
     //address
-    builder.append(res.getString(R.string.detail_vio_old_center_name))
-        .append(violator.getAddress());
+    builder.append(res.getString(R.string.detail_address)).append(violator.getAddress());
     builder.append("\n\n");
     //action
     builder.append(res.getString(R.string.detail_violator_action));

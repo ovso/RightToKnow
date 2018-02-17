@@ -1,10 +1,10 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.content.Intent;
-import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,25 +13,27 @@ import android.widget.TextView;
 import butterknife.BindView;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
-import io.github.ovso.righttoknow.violator.vo.Violator;
+import io.github.ovso.righttoknow.violator.model.Violator;
 
 /**
  * Created by jaeho on 2017. 7. 31
  */
 
 public class ViolatorFragment extends BaseFragment
-    implements ViolatorFragmentPresenter.View, OnFragmentEventListener<Address> {
-  private ViolatorFragmentPresenter presenter;
+    implements ViolatorFragmentPresenter.View, OnFragmentEventListener {
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
+  @BindView(R.id.recyclerview) RecyclerView recyclerView;
+  private ViolatorAdapter adapter = new ViolatorAdapter();
+  private BaseAdapterView adapterView;
+  private ViolatorFragmentPresenter presenter;
 
-  public static ViolatorFragment newInstance(Bundle args) {
+  public static ViolatorFragment newInstance() {
     ViolatorFragment f = new ViolatorFragment();
-    f.setArguments(args);
     return f;
   }
 
@@ -57,15 +59,10 @@ public class ViolatorFragment extends BaseFragment
     adapterView.refresh();
   }
 
-  private ViolatorAdapter violatorAdapter;
-  private BaseAdapterView adapterView;
-  @BindView(R.id.recyclerview) RecyclerView recyclerView;
-
   @Override public void setAdapter() {
-    violatorAdapter = new ViolatorAdapter();
-    presenter.setAdapterModel(violatorAdapter);
-    adapterView = violatorAdapter;
-    violatorAdapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<Violator>() {
+    presenter.setAdapterModel(adapter);
+    adapterView = adapter;
+    adapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<Violator>() {
       @Override public void onItemClick(Violator violator) {
         presenter.onRecyclerItemClick(violator);
       }
@@ -75,7 +72,7 @@ public class ViolatorFragment extends BaseFragment
   @Override public void setRecyclerView() {
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     recyclerView.setLayoutManager(layoutManager);
-    recyclerView.setAdapter(violatorAdapter);
+    recyclerView.setAdapter(adapter);
   }
 
   @DebugLog @Override public void navigateToViolatorDetail(Violator violator) {
@@ -97,15 +94,15 @@ public class ViolatorFragment extends BaseFragment
     searchResultTextView.setText(resId);
   }
 
+  @Override public void showMessage(int resId) {
+    Snackbar.make(containerView, resId, Snackbar.LENGTH_SHORT).show();
+  }
+
   @BindView(R.id.container_view) View containerView;
 
   @Override public void onDestroyView() {
-    super.onDestroyView();
     presenter.onDestroyView();
-  }
-
-  @Override public void onNearbyClick() {
-    presenter.onNearbyClick();
+    super.onDestroyView();
   }
 
   @Override public void onSearchQuery(String query) {

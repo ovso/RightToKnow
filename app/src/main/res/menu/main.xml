@@ -6,9 +6,4 @@
       android:icon="@drawable/ic_action_action_search"
       android:title="@string/hint_all_search"
       app:showAsAction="always" />
-  <item
-      android:id="@+id/option_menu_my_location"
-      android:title="@string/my_location"
-      android:icon="@drawable/ic_location_on_24dp"
-      app:showAsAction="always"/>
 </menu>

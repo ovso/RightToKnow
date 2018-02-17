@@ -1,11 +1,14 @@
 package io.github.ovso.righttoknow.news;
 
 import android.os.Bundle;
-import hugo.weaving.DebugLog;
-import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.listener.OnChildResultListener;
-import io.github.ovso.righttoknow.news.vo.News;
-import java.util.List;
+import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.news.model.News;
+import io.github.ovso.righttoknow.news.model.NewsResult;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by jaeho on 2017. 9. 1
@@ -14,47 +17,56 @@ import java.util.List;
 public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
 
   private NewsFragmentPresenter.View view;
-  private NewsInteractor interactor;
+  private NewsNetwork network = new NewsNetwork(MyApplication.getInstance().getApplicationContext(),
+      "https://openapi.naver.com");
+
   NewsFragmentPresenterImpl(NewsFragmentPresenter.View view) {
     this.view = view;
-    interactor = new NewsInteractor();
-    interactor.setOnChildResultListener(onChildResultListener);
-
   }
 
-  private OnChildResultListener<List<News>> onChildResultListener = new OnChildResultListener<List<News>>() {
-    @DebugLog @Override public void onPre() {
-      view.showLoading();
-    }
-
-    @DebugLog @Override public void onResult(List<News> result) {
-      adapterDataModel.clear();
-      adapterDataModel.addAll(result);
-      adapterDataModel.sort();
-
-      view.refresh();
-    }
-
-    @DebugLog @Override public void onPost() {
-      view.hideLoading();
-    }
-
-    @DebugLog @Override public void onError() {
-      view.hideLoading();
-    }
-  };
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     view.setListener();
     view.setAdapter();
     view.setRecyclerView();
     adapterDataModel.setOnItemClickListener(onRecyclerItemClickListener);
-    interactor.req();
+    req();
   }
-  private OnRecyclerItemClickListener onRecyclerItemClickListener =
-      (OnRecyclerItemClickListener<News>) item -> {
-        view.navigateToDetailNews(item);
+
+  private Disposable disposable;
+
+  private void req() {
+    view.showLoading();
+    adapterDataModel.clear();
+    view.refresh();
+    Single<NewsResult> news1 = network.getNews(R.string.api_query1).subscribeOn(Schedulers.io());
+    Single<NewsResult> news2 = network.getNews(R.string.api_query2).subscribeOn(Schedulers.io());
+    disposable = Single.merge(news1, news2)
+        .subscribeOn(Schedulers.io())
+        .toList()
+        .map(results -> NewsResult.sortItems(NewsResult.mergeItems(results)))
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(items -> {
+          adapterDataModel.addAll(items);
+          view.refresh();
+          view.hideLoading();
+        }, throwable -> {
+          view.showMessage(R.string.error_server);
+          view.hideLoading();
+        });
+  }
+
+  private OnNewsRecyclerItemClickListener onRecyclerItemClickListener =
+      new OnNewsRecyclerItemClickListener<News>() {
+        @Override public void onSimpleNewsItemClick(News item) {
+          view.showSimpleNewsDialog(item);
+        }
+
+        @Override public void onItemClick(News item) {
+          view.navigateToDetailNews(item);
+        }
       };
   private NewsAdapterDataModel adapterDataModel;
+
   @Override public void setAdapterModel(NewsAdapterDataModel dataModel) {
     adapterDataModel = dataModel;
   }
@@ -62,6 +74,12 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
   @Override public void onRefresh() {
     adapterDataModel.clear();
     view.refresh();
-    interactor.req();
+    req();
+  }
+
+  @Override public void onDetach() {
+    if (disposable != null) {
+      disposable.dispose();
+    }
   }
 }

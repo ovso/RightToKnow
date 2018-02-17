@@ -1,9 +1,9 @@
 package io.github.ovso.righttoknow.violationfacility;
 
 import android.content.Intent;
-import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,27 +11,29 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
-import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
+import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
 
 /**
  * Created by jaeho on 2017. 7. 31
  */
 
 public class ViolationFacilityFragment extends BaseFragment
-    implements ViolationFacilityPresenter.View, OnFragmentEventListener<Address> {
+    implements ViolationFacilityPresenter.View, OnFragmentEventListener {
 
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
+
+  private ViolationFacilityAdapter adapter = new ViolationFacilityAdapter();
+  private BaseAdapterView adapterView;
   private ViolationFacilityPresenter presenter;
 
-  public static ViolationFacilityFragment newInstance(Bundle args) {
+  public static ViolationFacilityFragment newInstance() {
     ViolationFacilityFragment f = new ViolationFacilityFragment();
-    f.setArguments(args);
     return f;
   }
 
@@ -48,22 +50,17 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void setRecyclerView() {
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     recyclerView.setLayoutManager(layoutManager);
-    recyclerView.setAdapter(violationFacilityAdapter);
+    recyclerView.setAdapter(adapter);
   }
 
-  private ViolationFacilityAdapter violationFacilityAdapter;
-  private BaseAdapterView adapterView;
-
   @Override public void setAdapter() {
-    violationFacilityAdapter = new ViolationFacilityAdapter();
-    presenter.setAdapterModel(violationFacilityAdapter);
-    adapterView = violationFacilityAdapter;
-    violationFacilityAdapter.setOnRecyclerItemClickListener(
-        new OnRecyclerItemClickListener<ViolationFacility>() {
-          @Override public void onItemClick(ViolationFacility violationFacility) {
-            presenter.onRecyclerItemClick(violationFacility);
-          }
-        });
+    presenter.setAdapterModel(adapter);
+    adapterView = adapter;
+    adapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<ViolationFacility>() {
+      @Override public void onItemClick(ViolationFacility violationFacility) {
+        presenter.onRecyclerItemClick(violationFacility);
+      }
+    });
   }
 
   @Override public void refresh() {
@@ -95,18 +92,22 @@ public class ViolationFacilityFragment extends BaseFragment
     searchResultTextView.setText(resId);
   }
 
+  @Override public void showMessage(int resId) {
+    Snackbar.make(containerView, resId, Snackbar.LENGTH_SHORT).show();
+  }
+
   @BindView(R.id.container_view) View containerView;
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    presenter.onDestroyView();
-  }
-
-  @Override public void onNearbyClick() {
-    presenter.onNearbyClick();
   }
 
   @Override public void onSearchQuery(String query) {
     presenter.onSearchQuery(query);
+  }
+
+  @Override public void onDetach() {
+    presenter.onDetach();
+    super.onDetach();
   }
 }

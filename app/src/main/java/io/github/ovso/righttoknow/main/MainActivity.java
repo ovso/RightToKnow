@@ -1,15 +1,12 @@
 package io.github.ovso.righttoknow.main;
 
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,22 +22,20 @@ import com.fsn.cauly.CaulyAdInfo;
 import com.fsn.cauly.CaulyAdInfoBuilder;
 import com.fsn.cauly.CaulyAdView;
 import com.fsn.cauly.CaulyAdViewListener;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
-import io.github.ovso.righttoknow.common.Constants;
-import io.github.ovso.righttoknow.customview.BottomNavigationViewBehavior;
-import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.childabuse.ChildAbuseActivity;
+import io.github.ovso.righttoknow.common.ObjectUtils;
+import io.github.ovso.righttoknow.framework.customview.BottomNavigationViewBehavior;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
-import io.github.ovso.righttoknow.listener.OnSimplePageChangeListener;
+import io.github.ovso.righttoknow.listener.OnSimpleQueryTextListener;
 import io.github.ovso.righttoknow.news.NewsFragment;
 import io.github.ovso.righttoknow.settings.SettingsActivity;
 import io.github.ovso.righttoknow.video.VideoFragment;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends BaseActivity implements MainPresenter.View {
 
@@ -48,13 +43,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.drawer_layout) DrawerLayout drawer;
   @BindView(R.id.nav_view) NavigationView navigationView;
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
-  @BindView(R.id.viewpager) ViewPager viewPager;
   @BindView(R.id.ad_container) ViewGroup adContainer;
 
   @DebugLog @Override public void onCreate(Bundle savedInstanceState) {
     presenter = new MainPresenterImpl(this);
     super.onCreate(savedInstanceState);
-    presenter.onCreate(savedInstanceState, getIntent());
+    presenter.onCreate(getIntent());
   }
 
   @DebugLog @Override protected void onNewIntent(Intent intent) {
@@ -62,25 +56,22 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     presenter.onNewIntent(intent);
   }
 
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    MenuItem item;
-    switch (viewPager.getCurrentItem()) {
-      case 0:
-      case 1:
-        getMenuInflater().inflate(R.menu.main, menu);
-        item = menu.findItem(R.id.option_menu_search);
-        searchView.setMenuItem(item);
-        break;
-      default:
-        break;
-    }
+  @DebugLog @Override public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main, menu);
+    MenuItem item = menu.findItem(R.id.option_menu_search);
+    searchView.setMenuItem(item);
+
     return true;
   }
 
-  @DebugLog @Override public boolean onOptionsItemSelected(MenuItem item) {
-    presenter.onOptionsItemSelected(item.getItemId());
-    return false;
+  /*
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
+    MenuItem item = menu.findItem(R.id.option_menu_search);
+    Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    presenter.onPrepareOptionsMenu(f.getClass().getSimpleName(), item);
+    return super.onPrepareOptionsMenu(menu);
   }
+  */
 
   @Override public int getLayoutResId() {
     return R.layout.activity_main;
@@ -102,11 +93,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
       presenter.onBottomNavigationItemSelected(item.getItemId());
       return true;
     });
-    viewPager.addOnPageChangeListener(new OnSimplePageChangeListener() {
-      @Override public void onPageChanged(int position) {
-        presenter.onAdapterPageChanged(position);
-      }
-    });
   }
 
   @Override public void setTitle(String title) {
@@ -114,27 +100,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     if (actionBar != null) {
       actionBar.setTitle(title);
     }
-  }
-
-  @Override public void navigateToStore(Uri uri) {
-    Intent intent = new Intent(Intent.ACTION_VIEW);
-    intent.setData(uri);
-    try {
-      startActivity(intent);
-    } catch (ActivityNotFoundException e) {
-      Toast.makeText(this, R.string.not_found_playstore, Toast.LENGTH_SHORT).show();
-    }
-  }
-
-  @Override public void navigateToShare(String url) {
-    Intent intent = new Intent(Intent.ACTION_SEND);
-    intent.addCategory(Intent.CATEGORY_DEFAULT);
-    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
-    intent.putExtra(Intent.EXTRA_TEXT, url);
-    intent.setType("text/plain");
-
-    intent = Intent.createChooser(intent, getString(R.string.app_share));
-    startActivity(intent);
   }
 
   @Override public void setBottomNavigationViewBehavior() {
@@ -147,54 +112,8 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     }
   }
 
-  private OnFragmentEventListener onViolationFacilityFragListener;
-  private OnFragmentEventListener onViolatorFragListener;
-
-  @Override public void setViewPager() {
-    ViolationFacilityFragment facilityFragment = ViolationFacilityFragment.newInstance(null);
-    ViolatorFragment violatorFragment = ViolatorFragment.newInstance(null);
-    onViolationFacilityFragListener = facilityFragment;
-    onViolatorFragListener = violatorFragment;
-
-    List<BaseFragment> fragments = new ArrayList<>();
-    fragments.add(facilityFragment);
-    fragments.add(violatorFragment);
-    fragments.add(CertifiedFragment.newInstance(null));
-    fragments.add(NewsFragment.newInstance(null));
-    fragments.add(VideoFragment.newInstance(null));
-
-    PagerBaseAdapter adapter = new PagerBaseAdapter(getSupportFragmentManager());
-    adapter.addAll(fragments);
-    viewPager.setAdapter(adapter);
-  }
-
   @Override public void setCheckedBottomNavigationView(int position) {
     bottomNavigationView.getMenu().getItem(position).setChecked(true);
-  }
-
-  @DebugLog @Override public void setViewPagerCurrentItem(int position) {
-    viewPager.setCurrentItem(position, true);
-  }
-
-  @Override public Activity getActivity() {
-    return this;
-  }
-
-  @Override public void hideLoading() {
-
-  }
-
-  @Override public void showLoading() {
-
-  }
-
-  @Override public void onNearbyClick() {
-    if (onViolationFacilityFragListener != null) {
-      onViolationFacilityFragListener.onNearbyClick();
-    }
-    if (onViolatorFragListener != null) {
-      onViolatorFragListener.onNearbyClick();
-    }
   }
 
   @Override public void setVersionName(String versionName) {
@@ -213,25 +132,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void setSearchView() {
     searchView.setVoiceSearch(true);
-    searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-      @Override public boolean onQueryTextSubmit(String query) {
-        onViolationFacilityFragListener.onSearchQuery(query);
-        onViolatorFragListener.onSearchQuery(query);
-        return false;
-      }
-
-      @Override public boolean onQueryTextChange(String newText) {
-        return false;
-      }
-    });
-
-    searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-      @Override public void onSearchViewShown() {
-        //Do some magic
-      }
-
-      @Override public void onSearchViewClosed() {
-        //Do some magic
+    searchView.setOnQueryTextListener(new OnSimpleQueryTextListener() {
+      @Override public void onSubmit(String query) {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (!ObjectUtils.isEmpty(f)) {
+          presenter.onSubmit((OnFragmentEventListener) f, query);
+        }
       }
     });
   }
@@ -241,19 +147,61 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     startActivity(intent);
   }
 
-  @Override public void showAppUpdateDialog(String message, boolean isForce) {
+  @Override public void navigateToChildAbuse() {
+    Intent intent = new Intent(this, ChildAbuseActivity.class);
+    startActivity(intent);
+  }
 
-    AlertDialog.Builder builder =
-        new AlertDialog.Builder(this).setIcon(R.drawable.ic_new_releases_24dp);
-    builder.setMessage(message);
-    builder.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-      navigateToStore(Uri.parse(Constants.URL_REVIEW));
-      finish();
-    });
-    builder.setCancelable(!isForce);
-    if (!isForce) builder.setNegativeButton(android.R.string.cancel, null);
+  @Override public void showViolationFragment() {
+    getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
+            R.animator.enter_animation, R.animator.exit_animation)
+        .replace(R.id.fragment_container, ViolationFacilityFragment.newInstance())
+        .commit();
+  }
 
-    if (!this.isFinishing()) builder.show();
+  @Override public void showViolatorFragment() {
+    getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
+            R.animator.enter_animation, R.animator.exit_animation)
+        .replace(R.id.fragment_container, ViolatorFragment.newInstance())
+        .commit();
+  }
+
+  @Override public void showCertifiedFragment() {
+    getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
+            R.animator.enter_animation, R.animator.exit_animation)
+        .replace(R.id.fragment_container, CertifiedFragment.newInstance())
+        .commit();
+  }
+
+  @Override public void showNewsFragment() {
+    getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
+            R.animator.enter_animation, R.animator.exit_animation)
+        .replace(R.id.fragment_container, NewsFragment.newInstance())
+        .commit();
+  }
+
+  @Override public void showVideoFragment() {
+    getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
+            R.animator.enter_animation, R.animator.exit_animation)
+        .replace(R.id.fragment_container, VideoFragment.newInstance())
+        .commit();
+  }
+
+  @Override public void showMessage(int resId) {
+    Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
+  }
+
+  @Override public void hideSearchView() {
+    searchView.setVisibility(View.GONE);
+  }
+
+  @Override public void showSearchView() {
+    searchView.setVisibility(View.VISIBLE);
   }
 
   @Override public void onBackPressed() {
@@ -264,50 +212,34 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     drawer.closeDrawer(GravityCompat.START);
   }
 
-  @Override public void showReviewDialog() {
-    new AlertDialog.Builder(this).setIcon(R.drawable.ic_suggestion)
-        .setMessage(R.string.go_out_message)
-        .setPositiveButton(R.string.go_out, (dialogInterface, which) -> {
-          finish();
-        })
-        .setNegativeButton(R.string.go_back, (dialogInterface, witch) -> {
-          dialogInterface.dismiss();
-        })
-        .setNeutralButton(R.string.review_write, (dialogInterface, which) -> {
-          presenter.onReviewClick();
-        })
-        .show();
-  }
-
   @Override public void showAd() {
     CaulyAdView view;
-    CaulyAdInfo info = new CaulyAdInfoBuilder(Constants.CAULY_APP_CODE).effect(
+    CaulyAdInfo info = new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(
         CaulyAdInfo.Effect.Circle.toString()).build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);
     view.setAdViewListener(new CaulyAdViewListener() {
-      @DebugLog @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
+      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
 
       }
 
-      @DebugLog @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
+      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
 
       }
 
-      @DebugLog @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
+      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
 
       }
 
-      @DebugLog @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
+      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
 
       }
     });
 
-    ViewGroup adContainer = findViewById(R.id.ad_container);
     adContainer.addView(view);
   }
 
-  @DebugLog @Override public void showDonationAlert() {
-    new DonationDialog().show(getSupportFragmentManager(), DonationDialog.class.getSimpleName());
+  @Override public void showHelpAlert(String msg) {
+    new AlertDialog.Builder(this).setTitle(R.string.help).setMessage(msg).show();
   }
 }

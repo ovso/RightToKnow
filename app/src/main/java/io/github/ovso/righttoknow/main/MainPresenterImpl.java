@@ -1,20 +1,16 @@
 package io.github.ovso.righttoknow.main;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.net.Uri;
-import android.os.Bundle;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.view.MenuItem;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
-import io.github.ovso.righttoknow.common.MessagingHandler;
 import io.github.ovso.righttoknow.common.Utility;
-import io.github.ovso.righttoknow.listener.OnChildResultListener;
-import io.github.ovso.righttoknow.main.vo.AppUpdate;
-import java.util.ArrayList;
+import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -22,86 +18,80 @@ import java.util.ArrayList;
 
 class MainPresenterImpl implements MainPresenter {
   private MainPresenter.View view;
-  private AppUpdateInteractor updateInteractor;
 
   MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
     view.changeTheme();
-    updateInteractor = new AppUpdateInteractor();
-    updateInteractor.setOnChildResultListener(onChildResultListener);
   }
 
-  private OnChildResultListener onChildResultListener = new OnChildResultListener<AppUpdate>() {
-    @Override public void onPre() {
-
-    }
-
-    @Override public void onResult(AppUpdate result) {
-      if (result != null) {
-        if (MessagingHandler.isUpdate(result.getStore_version())) {
-          view.showAppUpdateDialog(result.getMessage(), result.isForce_update());
-        }
-      }
-    }
-
-    @Override public void onPost() {
-
-    }
-
-    @Override public void onError() {
-
-    }
-  };
-
   @Override public void onNewIntent(Intent intent) {
-    handlingForIntent(intent);
+    fcmNav(intent);
   }
 
   @Override public void onBackPressed(boolean isDrawerOpen) {
     if (isDrawerOpen) {
       view.closeDrawer();
     } else {
-      //view.showReviewDialog();
       view.finish();
     }
   }
 
-  @Override public void onReviewClick() {
-    view.finish();
-    view.navigateToStore(Uri.parse(Constants.URL_REVIEW));
-  }
-
-  private void handlingForIntent(Intent intent) {
-    if (intent.hasExtra(Constants.FCM_KEY_CONTENT_POSITION)) {
-      view.setViewPagerCurrentItem(MessagingHandler.getContentPosition(intent.getExtras()));
+  @Override public void onSubmit(@NonNull OnFragmentEventListener listener, String query) {
+    if (!TextUtils.isEmpty(query)) {
+      listener.onSearchQuery(query);
+    } else {
+      view.showMessage(R.string.empty_search_query);
     }
-    updateInteractor.req();
   }
 
-  @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
+  @DebugLog @Override public void onPrepareOptionsMenu(String simpleName, MenuItem item) {
+
+  }
+
+  private void fcmNav(Intent intent) {
+    int position = intent.getIntExtra(Constants.FCM_KEY_CONTENT_POSITION, 0);
+    switch (position) {
+      case Constants.ITEM_VIOLATION_FACILITY:
+        view.showViolationFragment();
+        break;
+      case Constants.ITEM_VIOLATOR:
+        view.showViolatorFragment();
+        break;
+      case Constants.ITEM_CERTIFIED:
+        view.showCertifiedFragment();
+        break;
+      case Constants.ITEM_NEWS:
+        view.showNewsFragment();
+        break;
+      case Constants.ITEM_VIDEO:
+        view.showVideoFragment();
+        break;
+    }
+  }
+
+  @Override public void onCreate(Intent intent) {
     view.setTitle(getTitle(Constants.ITEM_VIOLATION_FACILITY));
     view.setVersionName(
         MyApplication.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
             MyApplication.getInstance()));
     view.setListener();
-    view.setViewPager();
-    view.setBottomNavigationViewBehavior();
     view.setSearchView();
     view.showAd();
 
-    handlingForIntent(intent);
+    fcmNav(intent);
   }
 
   @Override public void onNavigationItemSelected(int id) {
     switch (id) {
-      case R.id.nav_share:
-        view.navigateToShare(Constants.URL_SHARE);
+      case R.id.nav_child_abuse:
+        view.navigateToChildAbuse();
         break;
       case R.id.nav_settings:
         view.navigateToSettings();
         break;
-      case R.id.nav_donation:
-        view.showDonationAlert();
+      case R.id.nav_help:
+        String msg = MyApplication.getInstance().getString(R.string.source);
+        view.showHelpAlert(msg);
         break;
     }
   }
@@ -109,55 +99,22 @@ class MainPresenterImpl implements MainPresenter {
   @Override public void onBottomNavigationItemSelected(int id) {
     switch (id) {
       case R.id.bottom_nav_violation_facility:
-        view.setViewPagerCurrentItem(Constants.ITEM_VIOLATION_FACILITY);
+        view.showViolationFragment();
         break;
       case R.id.bottom_nav_violator:
-        view.setViewPagerCurrentItem(Constants.ITEM_VIOLATOR);
+        view.showViolatorFragment();
         break;
       case R.id.bottom_nav_certified:
-        view.setViewPagerCurrentItem(Constants.ITEM_CERTIFIED);
+        view.showCertifiedFragment();
         break;
       case R.id.bottom_nav_news:
-        view.setViewPagerCurrentItem(Constants.ITEM_NEWS);
+        view.showNewsFragment();
         break;
       case R.id.bottom_nav_video:
-        view.setViewPagerCurrentItem(Constants.ITEM_VIDEO);
+        view.showVideoFragment();
         break;
     }
   }
-
-  @Override public void onAdapterPageChanged(int position) {
-    view.setCheckedBottomNavigationView(position);
-    view.setViewPagerCurrentItem(position);
-    view.setTitle(getTitle(position));
-    view.invalidateOptionsMenu();
-    view.closeSearchView();
-  }
-
-  @Override public void onOptionsItemSelected(int itemId) {
-    if (itemId == R.id.option_menu_my_location) {
-      requestPermission();
-    }
-  }
-
-  private void requestPermission() {
-    TedPermission.with(MyApplication.getInstance())
-        .setPermissionListener(permissionlistener)
-        .setDeniedMessage(R.string.location_permission_denied_message)
-        .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION)
-        .check();
-  }
-
-  private PermissionListener permissionlistener = new PermissionListener() {
-    @Override public void onPermissionGranted() {
-      view.onNearbyClick();
-    }
-
-    @Override public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-      //locationAware.stop();
-    }
-  };
 
   private String getTitle(int position) {
     Resources res = MyApplication.getInstance().getResources();

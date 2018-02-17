@@ -1,8 +1,9 @@
 package io.github.ovso.righttoknow.certified;
 
 import android.os.Bundle;
-import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
-import io.github.ovso.righttoknow.certified.vo.ChildCertified;
+import android.support.annotation.StringRes;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
+import io.github.ovso.righttoknow.certified.model.ChildCertified;
 
 /**
  * Created by jaeho on 2017. 8. 21
@@ -37,5 +38,6 @@ public interface CertifiedFragmentPresenter {
 
     void navigateToPDFViewer(String name);
 
+    void showMessage(@StringRes int resId);
   }
 }

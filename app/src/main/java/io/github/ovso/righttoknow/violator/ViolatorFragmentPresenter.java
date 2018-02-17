@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.violator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import io.github.ovso.righttoknow.violator.vo.Violator;
+import io.github.ovso.righttoknow.violator.model.Violator;
 
 /**
  * Created by jaeho on 2017. 8. 3
@@ -20,8 +20,6 @@ public interface ViolatorFragmentPresenter {
   void onDestroyView();
 
   void onRefresh();
-
-  void onNearbyClick();
 
   void onSearchQuery(String query);
 
@@ -44,5 +42,7 @@ public interface ViolatorFragmentPresenter {
     Context getActivity();
 
     void setSearchResultText(@StringRes int resId);
+
+    void showMessage(@StringRes int resId);
   }
 }

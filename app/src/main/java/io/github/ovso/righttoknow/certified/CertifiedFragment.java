@@ -6,11 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.widget.Toast;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.certified.vo.ChildCertified;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.certified.model.ChildCertified;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.pdfviewer.PDFViewerActivity;
 
@@ -25,14 +28,14 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
     return R.layout.fragment_certified;
   }
 
-  public static CertifiedFragment newInstance(Bundle args) {
+  public static CertifiedFragment newInstance() {
     CertifiedFragment f = new CertifiedFragment();
-    f.setArguments(args);
     return f;
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    setHasOptionsMenu(true);
     presenter = new CertifiedFragmentPresenterImpl(this);
     presenter.onActivityCreate(savedInstanceState);
   }
@@ -86,8 +89,17 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
     startActivity(intent);
   }
 
+  @Override public void showMessage(int resId) {
+    Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
+  }
+
   @Override public void onDestroyView() {
     super.onDestroyView();
     presenter.onDestroyView();
+  }
+
+  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    menu.findItem(R.id.option_menu_search).setVisible(false);
+    super.onCreateOptionsMenu(menu, inflater);
   }
 }

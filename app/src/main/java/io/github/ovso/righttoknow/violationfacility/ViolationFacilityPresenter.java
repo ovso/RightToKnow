@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.violationfacility;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import io.github.ovso.righttoknow.violationfacility.vo.ViolationFacility;
+import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
 
 /**
  * Created by jaeho on 2017. 8. 1
@@ -17,13 +17,11 @@ public interface ViolationFacilityPresenter {
 
   void onRecyclerItemClick(ViolationFacility violationFacility);
 
-  void onDestroyView();
-
   void onRefresh();
 
-  void onNearbyClick();
-
   void onSearchQuery(String query);
+
+  void onDetach();
 
   interface View {
 
@@ -44,5 +42,7 @@ public interface ViolationFacilityPresenter {
     Context getActivity();
 
     void setSearchResultText(@StringRes int resId);
+
+    void showMessage(@StringRes int error_server);
   }
 }
