@@ -67,5 +67,9 @@ public interface MainPresenter {
     void showVideoFragment();
 
     void showMessage(@StringRes int resId);
+
+    void hideSearchView();
+
+    void showSearchView();
   }
 }

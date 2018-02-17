@@ -198,6 +198,14 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
   }
 
+  @Override public void hideSearchView() {
+    searchView.setVisibility(View.GONE);
+  }
+
+  @Override public void showSearchView() {
+    searchView.setVisibility(View.VISIBLE);
+  }
+
   @Override public void onBackPressed() {
     presenter.onBackPressed(drawer.isDrawerOpen(GravityCompat.START));
   }

@@ -46,18 +46,23 @@ class MainPresenterImpl implements MainPresenter {
     int position = intent.getIntExtra(Constants.FCM_KEY_CONTENT_POSITION, 0);
     switch (position) {
       case Constants.ITEM_VIOLATION_FACILITY:
+        view.showSearchView();
         view.showViolationFragment();
         break;
       case Constants.ITEM_VIOLATOR:
+        view.showSearchView();
         view.showViolatorFragment();
         break;
       case Constants.ITEM_CERTIFIED:
+        view.hideSearchView();
         view.showCertifiedFragment();
         break;
       case Constants.ITEM_NEWS:
+        view.hideSearchView();
         view.showNewsFragment();
         break;
       case Constants.ITEM_VIDEO:
+        view.hideSearchView();
         view.showVideoFragment();
         break;
     }

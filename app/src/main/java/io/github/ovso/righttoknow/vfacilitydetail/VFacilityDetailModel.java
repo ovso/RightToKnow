@@ -59,8 +59,7 @@ class VFacilityDetailModel {
     builder.append(res.getString(R.string.detail_violation_history)).append(violator.getHistory());
     builder.append("\n\n");
     //address
-    builder.append(res.getString(R.string.detail_vio_old_center_name))
-        .append(violator.getAddress());
+    builder.append(res.getString(R.string.detail_address)).append(violator.getAddress());
     builder.append("\n\n");
     //action
     builder.append(res.getString(R.string.detail_violator_action));
