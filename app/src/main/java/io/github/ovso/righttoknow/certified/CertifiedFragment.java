@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.Toast;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterView;
@@ -86,6 +87,10 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
     Intent intent = new Intent(getContext(), PDFViewerActivity.class);
     intent.putExtra("name", name);
     startActivity(intent);
+  }
+
+  @Override public void showMessage(int resId) {
+    Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
   }
 
   @Override public void onDestroyView() {

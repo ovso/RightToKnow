@@ -1,9 +1,18 @@
 package io.github.ovso.righttoknow.certified;
 
 import android.os.Bundle;
+import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.certified.vo.ChildCertified;
-import io.github.ovso.righttoknow.listener.OnChildResultListener;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 
 /**
@@ -13,37 +22,44 @@ import java.util.List;
 public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresenter {
 
   private CertifiedFragmentPresenter.View view;
-  private CertifiedInteractor interactor;
-  private BaseAdapterDataModel adapterDataModel;
+  private BaseAdapterDataModel<ChildCertified> adapterDataModel;
+  private DatabaseReference databaseReference =
+      FirebaseDatabase.getInstance().getReference().child("child_certified");
+  private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
   CertifiedFragmentPresenterImpl(CertifiedFragmentPresenter.View view) {
     this.view = view;
-    interactor = new CertifiedInteractor();
-    interactor.setOnChildResultListener(new OnChildResultListener<List<ChildCertified>>() {
-      @Override public void onPre() {
-        view.showLoading();
-      }
-
-      @Override public void onResult(List<ChildCertified> results) {
-        adapterDataModel.clear();
-        adapterDataModel.addAll(results);
-        view.refresh();
-      }
-
-      @Override public void onPost() {
-        view.hideLoading();
-      }
-
-      @Override public void onError() {
-        view.hideLoading();
-      }
-    });
   }
 
   @Override public void onActivityCreate(Bundle savedInstanceState) {
     view.setListener();
     view.setAdapter();
     view.setRecyclerView();
-    interactor.req();
+    req();
+  }
+
+  private void req() {
+    view.showLoading();
+    adapterDataModel.clear();
+    view.refresh();
+    compositeDisposable.add(RxFirebaseDatabase.data(databaseReference)
+        .subscribeOn(Schedulers.io())
+        .map(new Function<DataSnapshot, List<ChildCertified>>() {
+          @Override public List<ChildCertified> apply(DataSnapshot dataSnapshot) throws Exception {
+            return ChildCertified.convertToItems(dataSnapshot);
+          }
+        })
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Consumer<List<ChildCertified>>() {
+          @Override public void accept(List<ChildCertified> items) throws Exception {
+            adapterDataModel.addAll(items);
+            view.refresh();
+            view.hideLoading();
+          }
+        }, throwable -> {
+          view.hideLoading();
+          view.showMessage(R.string.error_server);
+        }));
   }
 
   @Override public void onRecyclerItemClick(ChildCertified certified) {
@@ -55,12 +71,13 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
   }
 
   @Override public void onDestroyView() {
-    interactor.cancel();
+    compositeDisposable.dispose();
+    compositeDisposable.clear();
   }
 
   @Override public void onRefresh() {
     adapterDataModel.clear();
     view.refresh();
-    interactor.req();
+    req();
   }
 }
