@@ -9,6 +9,9 @@ import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by jaeho on 2017. 8. 1
@@ -37,7 +40,14 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     view.showLoading();
     compositeDisposable.add(RxFirebaseDatabase.data(databaseReference)
         .subscribeOn(Schedulers.io())
-        .map(dataSnapshot -> ViolationFacility.convertToItems(dataSnapshot))
+        .map(dataSnapshot -> {
+          ViolationFacility.convertToItems(dataSnapshot);
+          ArrayList<ViolationFacility> items = ViolationFacility.convertToItems(dataSnapshot);
+          Comparator<ViolationFacility> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
+              .compareTo(Integer.valueOf(t1.getReg_number()));
+          Collections.sort(items, comparator);
+          return items;
+        })
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(items -> {
           adapterDataModel.addAll(items);
@@ -70,8 +80,15 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     view.refresh();
     compositeDisposable.add(RxFirebaseDatabase.data(databaseReference)
         .subscribeOn(Schedulers.io())
-        .map(dataSnapshot -> ViolationFacility.getSearchResultItems(
-            ViolationFacility.convertToItems(dataSnapshot), query))
+        .map(dataSnapshot -> {
+          ArrayList<ViolationFacility> items =
+              ViolationFacility.getSearchResultItems(ViolationFacility.convertToItems(dataSnapshot),
+                  query);
+          Comparator<ViolationFacility> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
+              .compareTo(Integer.valueOf(t1.getReg_number()));
+          Collections.sort(items, comparator);
+          return items;
+        })
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(items -> {
           adapterDataModel.addAll(items);

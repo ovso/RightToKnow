@@ -8,9 +8,10 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.violator.vo.Violator;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by jaeho on 2017. 8. 3
@@ -37,15 +38,19 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
   private void req() {
     RxFirebaseDatabase.data(databaseReference)
-        .map(dataSnapshot -> Violator.convertToItems(dataSnapshot))
+        .map(dataSnapshot -> {
+          ArrayList<Violator> items = Violator.convertToItems(dataSnapshot);
+          Comparator<Violator> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
+              .compareTo(Integer.valueOf(t1.getReg_number()));
+          Collections.sort(items, comparator);
+          return items;
+        })
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Consumer<ArrayList<Violator>>() {
-          @Override public void accept(ArrayList<Violator> items) throws Exception {
-            adapterDataModel.addAll(items);
-            view.refresh();
-            view.hideLoading();
-          }
+        .subscribe(items -> {
+          adapterDataModel.addAll(items);
+          view.refresh();
+          view.hideLoading();
         }, throwable -> {
           view.showMessage(R.string.error_server);
           view.hideLoading();
@@ -78,8 +83,14 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     view.refresh();
     compositeDisposable.add(RxFirebaseDatabase.data(databaseReference)
         .subscribeOn(Schedulers.io())
-        .map(dataSnapshot -> Violator.getSearchResultItems(Violator.convertToItems(dataSnapshot),
-            query))
+        .map(dataSnapshot -> {
+          ArrayList<Violator> items =
+              Violator.getSearchResultItems(Violator.convertToItems(dataSnapshot), query);
+          Comparator<Violator> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
+              .compareTo(Integer.valueOf(t1.getReg_number()));
+          Collections.sort(items, comparator);
+          return items;
+        })
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(items -> {
           adapterDataModel.addAll(items);

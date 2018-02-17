@@ -27,6 +27,9 @@ public class ViolationFacilityFragment extends BaseFragment
 
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
+
+  private ViolationFacilityAdapter adapter = new ViolationFacilityAdapter();
+  private BaseAdapterView adapterView;
   private ViolationFacilityPresenter presenter;
 
   public static ViolationFacilityFragment newInstance() {
@@ -47,22 +50,17 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void setRecyclerView() {
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     recyclerView.setLayoutManager(layoutManager);
-    recyclerView.setAdapter(violationFacilityAdapter);
+    recyclerView.setAdapter(adapter);
   }
 
-  private ViolationFacilityAdapter violationFacilityAdapter;
-  private BaseAdapterView adapterView;
-
   @Override public void setAdapter() {
-    violationFacilityAdapter = new ViolationFacilityAdapter();
-    presenter.setAdapterModel(violationFacilityAdapter);
-    adapterView = violationFacilityAdapter;
-    violationFacilityAdapter.setOnRecyclerItemClickListener(
-        new OnRecyclerItemClickListener<ViolationFacility>() {
-          @Override public void onItemClick(ViolationFacility violationFacility) {
-            presenter.onRecyclerItemClick(violationFacility);
-          }
-        });
+    presenter.setAdapterModel(adapter);
+    adapterView = adapter;
+    adapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<ViolationFacility>() {
+      @Override public void onItemClick(ViolationFacility violationFacility) {
+        presenter.onRecyclerItemClick(violationFacility);
+      }
+    });
   }
 
   @Override public void refresh() {

@@ -67,15 +67,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="에이앤비스쿨어린이집"
         />
-    <TextView
-        android:id="@+id/history_textview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.5"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        tools:text="1회"
-        />
   </LinearLayout>
 
 </android.support.v7.widget.CardView>

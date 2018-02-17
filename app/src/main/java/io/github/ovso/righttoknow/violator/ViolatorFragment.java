@@ -26,8 +26,11 @@ import io.github.ovso.righttoknow.violator.vo.Violator;
 
 public class ViolatorFragment extends BaseFragment
     implements ViolatorFragmentPresenter.View, OnFragmentEventListener {
-  private ViolatorFragmentPresenter presenter;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
+  @BindView(R.id.recyclerview) RecyclerView recyclerView;
+  private ViolatorAdapter adapter = new ViolatorAdapter();
+  private BaseAdapterView adapterView;
+  private ViolatorFragmentPresenter presenter;
 
   public static ViolatorFragment newInstance() {
     ViolatorFragment f = new ViolatorFragment();
@@ -56,15 +59,10 @@ public class ViolatorFragment extends BaseFragment
     adapterView.refresh();
   }
 
-  private ViolatorAdapter violatorAdapter;
-  private BaseAdapterView adapterView;
-  @BindView(R.id.recyclerview) RecyclerView recyclerView;
-
   @Override public void setAdapter() {
-    violatorAdapter = new ViolatorAdapter();
-    presenter.setAdapterModel(violatorAdapter);
-    adapterView = violatorAdapter;
-    violatorAdapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<Violator>() {
+    presenter.setAdapterModel(adapter);
+    adapterView = adapter;
+    adapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<Violator>() {
       @Override public void onItemClick(Violator violator) {
         presenter.onRecyclerItemClick(violator);
       }
@@ -74,7 +72,7 @@ public class ViolatorFragment extends BaseFragment
   @Override public void setRecyclerView() {
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     recyclerView.setLayoutManager(layoutManager);
-    recyclerView.setAdapter(violatorAdapter);
+    recyclerView.setAdapter(adapter);
   }
 
   @DebugLog @Override public void navigateToViolatorDetail(Violator violator) {
