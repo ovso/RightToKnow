@@ -13,8 +13,6 @@ import retrofit2.http.QueryMap;
 
 public interface MyApi {
 
-  public final static String BASE_URL = "https://openapi.naver.com";
-
   @GET("/v1/search/news") Single<NewsResult> getNews(@QueryMap HashMap<String, String> queryMap);
 
   @GET("/v1/search/news") Single<NewsResult> getNews(@Query("query") String query,
