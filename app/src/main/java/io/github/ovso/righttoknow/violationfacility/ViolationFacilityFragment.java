@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.violationfacility;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -13,7 +14,7 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
-import io.github.ovso.righttoknow.violationfacility.model.VioFac;
+import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -69,12 +70,12 @@ public class ViolationFacilityFragment extends BaseFragment
     swipeRefresh.setRefreshing(false);
   }
 
-  @Override public void navigateToViolationFacilityDetail(VioFac fac) {
-    /*
+  @Override public void navigateToViolationFacilityDetail(String webLink) {
+
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
-    intent.putExtra("contents", fac);
+    intent.putExtra("link", webLink);
     startActivity(intent);
-    */
+
   }
 
   @Override public void setListener() {

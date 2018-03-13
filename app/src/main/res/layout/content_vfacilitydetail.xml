@@ -1,51 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_vfacilitydetail"
-    android:fitsSystemWindows="true"
     >
-  <ScrollView
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:scrollbars="vertical"
+      android:orientation="vertical"
       >
+    <TextView
+        android:id="@+id/contents_textview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        android:scrollbars="vertical"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+        tools:text="contents"
+        />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         >
-      <RelativeLayout
-          android:id="@id/ad_container"
-          android:layout_width="match_parent"
+      <Button
+          android:id="@+id/share_button"
+          android:layout_width="0dp"
           android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:tint="@color/colorAccent"
+          android:text="@string/contents_share"
+          style="@style/Widget.AppCompat.Button.Borderless.Colored"
           />
-
-      <TextView
-          android:id="@+id/contents_textview"
-          android:layout_width="match_parent"
+      <Button
+          android:id="@+id/location_button"
+          android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:padding="16dp"
-          android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
-          tools:text="contents"
+          android:layout_weight="1"
+          android:tint="@color/colorAccent"
+          android:text="@string/show_location"
+          style="@style/Widget.AppCompat.Button.Borderless.Colored"
           />
     </LinearLayout>
-  </ScrollView>
-  <ImageButton
-      android:id="@+id/share_button"
-      android:layout_width="?attr/actionBarSize"
-      android:layout_height="?attr/actionBarSize"
-      android:layout_gravity="right|bottom"
-      android:layout_marginRight="16dp"
-      android:layout_marginBottom="?attr/actionBarSize"
-      android:src="@drawable/ic_menu_share"
-      android:textStyle="bold"
-      android:tint="@color/colorAccent"
-      style="@style/Widget.AppCompat.Button.Borderless.Colored"
-      />
-</FrameLayout>
+    <FrameLayout
+        android:id="@id/ad_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+  </LinearLayout>
+</LinearLayout>

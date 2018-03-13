@@ -3,6 +3,7 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public void showContents(String contents) {
+    contentsTextView.setMovementMethod(new ScrollingMovementMethod());
     contentsTextView.setText(contents);
   }
 
@@ -55,8 +57,9 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
   @Override public void showAd() {
     CaulyAdView view;
-    CaulyAdInfo info = new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(
-        CaulyAdInfo.Effect.Circle.toString()).build();
+    CaulyAdInfo info =
+        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(CaulyAdInfo.Effect.Circle.toString())
+            .build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);
     view.setAdViewListener(new CaulyAdViewListener() {
@@ -79,7 +82,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
     ViewGroup adContainer = findViewById(R.id.ad_container);
     adContainer.addView(view);
-
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

@@ -58,7 +58,12 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   }
 
   @Override public void onRecyclerItemClick(VioFac vioFac) {
-    view.navigateToViolationFacilityDetail(vioFac);
+    String webLink = vioFac.getLink();
+    if (webLink != null) {
+      view.navigateToViolationFacilityDetail(webLink);
+    } else {
+      view.showMessage(R.string.error_server);
+    }
   }
 
   @Override public void onRefresh() {
