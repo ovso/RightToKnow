@@ -3,7 +3,8 @@ package io.github.ovso.righttoknow.violationfacility;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
+import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility2;
 
 /**
  * Created by jaeho on 2017. 8. 1
@@ -13,9 +14,9 @@ public interface ViolationFacilityPresenter {
 
   void onActivityCreated(Bundle savedInstanceState);
 
-  void setAdapterModel(FacilityAdapterDataModel adapterDataModel);
+  void setAdapterModel(BaseAdapterDataModel<ViolationFacility2> adapterDataModel);
 
-  void onRecyclerItemClick(ViolationFacility violationFacility);
+  void onRecyclerItemClick(ViolationFacility2 violationFacility);
 
   void onRefresh();
 
@@ -35,7 +36,7 @@ public interface ViolationFacilityPresenter {
 
     void hideLoading();
 
-    void navigateToViolationFacilityDetail(ViolationFacility violationFacility);
+    void navigateToViolationFacilityDetail(ViolationFacility2 violationFacility);
 
     void setListener();
 

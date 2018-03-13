@@ -1,6 +1,5 @@
 package io.github.ovso.righttoknow.violationfacility;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -11,12 +10,11 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
-import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
-import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
+import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility2;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -28,7 +26,7 @@ public class ViolationFacilityFragment extends BaseFragment
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
 
-  private ViolationFacilityAdapter adapter = new ViolationFacilityAdapter();
+  private ViolationFacilityAdapter2 adapter = new ViolationFacilityAdapter2();
   private BaseAdapterView adapterView;
   private ViolationFacilityPresenter presenter;
 
@@ -56,8 +54,8 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void setAdapter() {
     presenter.setAdapterModel(adapter);
     adapterView = adapter;
-    adapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<ViolationFacility>() {
-      @Override public void onItemClick(ViolationFacility violationFacility) {
+    adapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<ViolationFacility2>() {
+      @Override public void onItemClick(ViolationFacility2 violationFacility) {
         presenter.onRecyclerItemClick(violationFacility);
       }
     });
@@ -75,10 +73,12 @@ public class ViolationFacilityFragment extends BaseFragment
     swipeRefresh.setRefreshing(false);
   }
 
-  @Override public void navigateToViolationFacilityDetail(ViolationFacility fac) {
+  @Override public void navigateToViolationFacilityDetail(ViolationFacility2 fac) {
+    /*
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
     intent.putExtra("contents", fac);
     startActivity(intent);
+    */
   }
 
   @Override public void setListener() {

@@ -11,9 +11,8 @@ import io.github.ovso.righttoknow.app.MyApplication;
  */
 
 public class Constants {
-  public final static String URL_REVIEW = "market://details?id=io.github.ovso.righttoknow";
-  public final static String URL_SHARE =
-      "https://play.google.com/store/apps/details?id=io.github.ovso.righttoknow";
+  public final static String BASE_URL = "http://info.childcare.go.kr";
+  public final static String FAC_LIST_PATH_QUERY = "/info/cfvp/VioltfcltySlL.jsp?limit=500";
   public final static int ITEM_VIOLATION_FACILITY = 0;
   public final static int ITEM_VIOLATOR = 1;
   public static final int ITEM_CERTIFIED = 2;
