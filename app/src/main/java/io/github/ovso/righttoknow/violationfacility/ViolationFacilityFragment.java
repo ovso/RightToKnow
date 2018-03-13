@@ -73,7 +73,7 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void navigateToViolationFacilityDetail(String webLink) {
 
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
-    intent.putExtra("link", webLink);
+    intent.putExtra("vio_fac_link", webLink);
     startActivity(intent);
 
   }
