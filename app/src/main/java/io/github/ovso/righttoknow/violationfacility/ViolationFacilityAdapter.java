@@ -4,11 +4,11 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.common.Utility;
-import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
+import io.github.ovso.righttoknow.violationfacility.model.VioFac;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
@@ -18,9 +18,9 @@ import lombok.Setter;
  */
 
 public class ViolationFacilityAdapter extends BaseRecyclerAdapter
-    implements BaseAdapterView, FacilityAdapterDataModel<ViolationFacility> {
+    implements BaseAdapterView, BaseAdapterDataModel<VioFac> {
 
-  private List<ViolationFacility> items = new ArrayList<>();
+  private List<VioFac> items = new ArrayList<>();
 
   @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
     return new ViolationFacilityViewHolder(view);
@@ -33,11 +33,11 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
   @Override public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
     if (baseHolder instanceof ViolationFacilityViewHolder) {
       ViolationFacilityViewHolder holder = (ViolationFacilityViewHolder) baseHolder;
-      ViolationFacility fac = items.get(position);
-      holder.turnTextview.setText(String.valueOf(fac.getReg_number()+1));
+      VioFac fac = items.get(position);
+      holder.orderTextView.setText(String.valueOf(fac.getOrder()));
       holder.sidoTextView.setText(fac.getSido());
       holder.sigunguTextView.setText(fac.getSigungu());
-      holder.nameTextView.setText(fac.getOld_fac_name() + Utility.getActionEmoji(fac.getAction()));
+      holder.facNameTextView.setText(fac.getFac_name());
       holder.typeTextView.setText(fac.getType());
       holder.itemView.setOnClickListener(view -> onRecyclerItemClickListener.onItemClick(fac));
     }
@@ -51,23 +51,23 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     notifyDataSetChanged();
   }
 
-  @Override public void add(ViolationFacility item) {
+  @Override public void add(VioFac item) {
     items.add(item);
   }
 
-  @Override public void addAll(List<ViolationFacility> items) {
+  @Override public void addAll(List<VioFac> items) {
     this.items.addAll(items);
   }
 
-  @Override public ViolationFacility remove(int position) {
+  @Override public VioFac remove(int position) {
     return items.remove(position);
   }
 
-  @Override public ViolationFacility getItem(int position) {
+  @Override public VioFac getItem(int position) {
     return items.get(position);
   }
 
-  @Override public void add(int index, ViolationFacility item) {
+  @Override public void add(int index, VioFac item) {
     items.add(index, item);
   }
 
@@ -79,13 +79,13 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     items.clear();
   }
 
-  @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
+  @Setter private OnRecyclerItemClickListener<VioFac> onRecyclerItemClickListener;
 
-  final static class ViolationFacilityViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
-    @BindView(R.id.turn_textview) TextView turnTextview;
+  final static class ViolationFacilityViewHolder extends BaseViewHolder {
+    @BindView(R.id.order_textview) TextView orderTextView;
     @BindView(R.id.sido_textview) TextView sidoTextView;
     @BindView(R.id.sigungu_textview) TextView sigunguTextView;
-    @BindView(R.id.name_textview) TextView nameTextView;
+    @BindView(R.id.fac_name_textview) TextView facNameTextView;
     @BindView(R.id.type_textview) TextView typeTextView;
 
     public ViolationFacilityViewHolder(View itemView) {

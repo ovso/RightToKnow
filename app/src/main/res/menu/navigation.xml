@@ -8,7 +8,7 @@
 
   <item
       android:id="@+id/bottom_nav_violator"
-      android:icon="@drawable/ic_person_black_24dp"
+      android:icon="@drawable/ic_person"
       android:title="@string/title_violator_inquiry"/>
   <item
       android:id="@+id/bottom_nav_certified"

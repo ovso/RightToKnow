@@ -1,23 +1,16 @@
 package io.github.ovso.righttoknow.violationfacility;
 
 import android.os.Bundle;
-import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
-import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
-import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility2;
+import io.github.ovso.righttoknow.violationfacility.model.VioFac;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
 import timber.log.Timber;
 
@@ -28,7 +21,7 @@ import timber.log.Timber;
 public class ViolationFacilityPresenterImpl implements ViolationFacilityPresenter {
 
   private ViolationFacilityPresenter.View view;
-  private BaseAdapterDataModel<ViolationFacility2> adapterDataModel;
+  private BaseAdapterDataModel<VioFac> adapterDataModel;
   private DatabaseReference databaseReference;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -46,7 +39,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
 
   private void req() {
     view.showLoading();
-    compositeDisposable.add(Observable.fromCallable(() -> ViolationFacility2.convertToItems(
+    compositeDisposable.add(Observable.fromCallable(() -> VioFac.convertToItems(
         Jsoup.connect(Constants.BASE_URL + Constants.FAC_LIST_PATH_QUERY).get()))
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
@@ -60,12 +53,12 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
         }));
   }
 
-  @Override public void setAdapterModel(BaseAdapterDataModel<ViolationFacility2> adapterDataModel) {
+  @Override public void setAdapterModel(BaseAdapterDataModel<VioFac> adapterDataModel) {
     this.adapterDataModel = adapterDataModel;
   }
 
-  @Override public void onRecyclerItemClick(ViolationFacility2 violationFacility) {
-    view.navigateToViolationFacilityDetail(violationFacility);
+  @Override public void onRecyclerItemClick(VioFac vioFac) {
+    view.navigateToViolationFacilityDetail(vioFac);
   }
 
   @Override public void onRefresh() {
@@ -80,6 +73,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     adapterDataModel.clear();
     view.refresh();
 
+    /*
     compositeDisposable.add(Observable.fromCallable(new Callable<List<ViolationFacility2>>() {
       @Override public List<ViolationFacility2> call() throws Exception {
         return ViolationFacility2.convertToItems(
@@ -96,27 +90,8 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
           Timber.d(throwable);
           view.hideLoading();
         }));
+    */
 
-    compositeDisposable.add(RxFirebaseDatabase.data(databaseReference)
-        .subscribeOn(Schedulers.io())
-        .map(dataSnapshot -> {
-          ArrayList<ViolationFacility> items =
-              ViolationFacility.getSearchResultItems(ViolationFacility.convertToItems(dataSnapshot),
-                  query);
-          Comparator<ViolationFacility> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
-              .compareTo(Integer.valueOf(t1.getReg_number()));
-          Collections.sort(items, comparator);
-          return items;
-        })
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(items -> {
-          //adapterDataModel.addAll(items);
-          view.refresh();
-          view.hideLoading();
-        }, throwable -> {
-          view.showMessage(R.string.error_server);
-          view.hideLoading();
-        }));
   }
 
   @Override public void onDetach() {

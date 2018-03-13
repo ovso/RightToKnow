@@ -12,9 +12,8 @@ import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
-import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility2;
+import io.github.ovso.righttoknow.violationfacility.model.VioFac;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -26,7 +25,7 @@ public class ViolationFacilityFragment extends BaseFragment
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
 
-  private ViolationFacilityAdapter2 adapter = new ViolationFacilityAdapter2();
+  private ViolationFacilityAdapter adapter = new ViolationFacilityAdapter();
   private BaseAdapterView adapterView;
   private ViolationFacilityPresenter presenter;
 
@@ -54,11 +53,8 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void setAdapter() {
     presenter.setAdapterModel(adapter);
     adapterView = adapter;
-    adapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<ViolationFacility2>() {
-      @Override public void onItemClick(ViolationFacility2 violationFacility) {
-        presenter.onRecyclerItemClick(violationFacility);
-      }
-    });
+    adapter.setOnRecyclerItemClickListener(
+        violationFacility -> presenter.onRecyclerItemClick(violationFacility));
   }
 
   @Override public void refresh() {
@@ -73,7 +69,7 @@ public class ViolationFacilityFragment extends BaseFragment
     swipeRefresh.setRefreshing(false);
   }
 
-  @Override public void navigateToViolationFacilityDetail(ViolationFacility2 fac) {
+  @Override public void navigateToViolationFacilityDetail(VioFac fac) {
     /*
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
     intent.putExtra("contents", fac);

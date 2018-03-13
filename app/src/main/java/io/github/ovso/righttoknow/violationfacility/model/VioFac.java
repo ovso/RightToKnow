@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.violationfacility.model;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.EqualsAndHashCode;
@@ -18,7 +19,7 @@ import org.jsoup.select.Elements;
  * Created by jaeho on 2017. 8. 1
  */
 
-@Getter @ToString @EqualsAndHashCode(callSuper = false) public class ViolationFacility2 {
+@Getter @ToString @EqualsAndHashCode(callSuper = false) public class VioFac {
   private int order;
   private String sido;
   private String sigungu;
@@ -27,9 +28,13 @@ import org.jsoup.select.Elements;
   private String director;
   private String fac_name;
   private String address;
+  private String link;
 
-  public static List<ViolationFacility2> convertToItems(Document doc) throws JSONException {
+  public static List<VioFac> convertToItems(Document doc)
+      throws JSONException, IOException {
     JSONArray jsonArray = new JSONArray();
+    JSONArray linkJsonArray = new JSONArray();
+
     Elements tableElements = doc.select("tbody");
     Elements trElements = tableElements.select("tr");
 
@@ -51,9 +56,36 @@ import org.jsoup.select.Elements;
       object.put("fac_name", hrefElements.get(0).text());
 
       jsonArray.put(object);
+      JSONObject linkObject = new JSONObject();
+      linkObject.put("link", link);
+      linkJsonArray.put(linkObject);
     }
+
     return new Gson().fromJson(jsonArray.toString(),
-        new TypeToken<ArrayList<ViolationFacility2>>() {
+        new TypeToken<ArrayList<VioFac>>() {
         }.getType());
   }
+
+  /*
+  private static void testMethod(JSONArray linkJsonArray) throws JSONException, IOException {
+    long start = System.currentTimeMillis();
+
+    for (int i = 0; i < linkJsonArray.length(); i++) {
+      String detailUrl = linkJsonArray.getJSONObject(i).getString("link");
+      Document detailDoc = Jsoup.connect(detailUrl).get();
+      Elements tbodyElements = detailDoc.body().select("tbody");
+      Elements trElements = tbodyElements.select("tr");
+      Timber.d("trElementsSize = " + trElements.size());
+      Elements tdElements = trElements.get(0).select("td");
+      String sido = tdElements.get(0).ownText();
+      String sigungu = tdElements.get(1).ownText();
+      String type = tdElements.get(2).ownText();
+      //Timber.d(sido + ", " + sigungu + ", " + type);
+    }
+    long end = System.currentTimeMillis();
+    long distance = end - start;
+    long second = TimeUnit.MILLISECONDS.toSeconds(distance);
+    Timber.d("second = " + second);
+  }
+  */
 }
