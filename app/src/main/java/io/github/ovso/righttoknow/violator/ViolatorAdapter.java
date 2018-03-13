@@ -7,7 +7,6 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.common.Utility;
 import io.github.ovso.righttoknow.violator.model.Violator;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +33,12 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
     if (baseHolder instanceof ViolatorViewHolder) {
       ViolatorViewHolder holder = (ViolatorViewHolder) baseHolder;
       Violator violator = items.get(position);
-      holder.turnTextview.setText(String.valueOf(violator.getReg_number()));
+      holder.orderTextview.setText(String.valueOf(violator.getOrder()));
       holder.sidoTextView.setText(violator.getSido());
       holder.sigunguTextView.setText(violator.getSigungu());
-      holder.violatorTextView.setText(
-          violator.getName() + Utility.getActionEmoji(violator.getAction()));
-      holder.centerNameTextView.setText(violator.getOld_fac_name());
+      holder.nameTextView.setText(violator.getName());
+      holder.vioFacTextView.setText(violator.getFac_name());
+      holder.historyTextView.setText(violator.getHistory());
       holder.itemView.setOnClickListener(view -> onRecyclerItemClickListener.onItemClick(violator));
     }
   }
@@ -79,11 +78,12 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   @Setter private OnRecyclerItemClickListener<Violator> onRecyclerItemClickListener;
 
   final static class ViolatorViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
-    @BindView(R.id.turn_textview) TextView turnTextview;
+    @BindView(R.id.order_textview) TextView orderTextview;
     @BindView(R.id.sido_textview) TextView sidoTextView;
     @BindView(R.id.sigungu_textview) TextView sigunguTextView;
-    @BindView(R.id.violator_textview) TextView violatorTextView;
-    @BindView(R.id.name_textview) TextView centerNameTextView;
+    @BindView(R.id.name_textview) TextView nameTextView;
+    @BindView(R.id.vio_fac_textview) TextView vioFacTextView;
+    @BindView(R.id.history_textview) TextView historyTextView;
 
     public ViolatorViewHolder(View itemView) {
       super(itemView);

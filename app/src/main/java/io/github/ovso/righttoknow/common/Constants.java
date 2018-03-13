@@ -13,6 +13,8 @@ import io.github.ovso.righttoknow.app.MyApplication;
 public class Constants {
   public final static String BASE_URL = "http://info.childcare.go.kr";
   public final static String FAC_LIST_PATH_QUERY = "/info/cfvp/VioltfcltySlL.jsp?limit=500";
+  public final static String VIOLATOR_LIST_PATH_QUERY = "/info/cfvp/VioltactorSlL.jsp?limit=500";
+
   public final static int ITEM_VIOLATION_FACILITY = 0;
   public final static int ITEM_VIOLATOR = 1;
   public static final int ITEM_CERTIFIED = 2;
@@ -75,8 +77,7 @@ public class Constants {
         new ApacheSoftwareLicense20()));
 
     notices.addNotice(new Notice("RxFirebase", "https://github.com/kunny/RxFirebase",
-        "Copyright 2016-2017 Taeho Kim <jyte82@gmail.com>",
-        new ApacheSoftwareLicense20()));
+        "Copyright 2016-2017 Taeho Kim <jyte82@gmail.com>", new ApacheSoftwareLicense20()));
     return notices;
   }
 }

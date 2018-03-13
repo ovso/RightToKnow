@@ -1,17 +1,17 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
-import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.violator.model.Violator;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import org.jsoup.Jsoup;
+import timber.log.Timber;
 
 /**
  * Created by jaeho on 2017. 8. 3
@@ -37,6 +37,20 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   private void req() {
+    compositeDisposable.add(Observable.fromCallable(() -> Violator.convertToItems(
+        Jsoup.connect(Constants.BASE_URL + Constants.VIOLATOR_LIST_PATH_QUERY).get()))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(items -> {
+          adapterDataModel.addAll(items);
+          view.refresh();
+          view.hideLoading();
+        }, throwable -> {
+          Timber.d(throwable);
+          view.hideLoading();
+        }));
+
+    /*
     RxFirebaseDatabase.data(databaseReference)
         .map(dataSnapshot -> {
           ArrayList<Violator> items = Violator.convertToItems(dataSnapshot);
@@ -55,6 +69,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
           view.showMessage(R.string.error_server);
           view.hideLoading();
         });
+    */
   }
 
   @Override public void setAdapterModel(ViolatorAdapterDataModel adapterDataModel) {
@@ -81,6 +96,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     view.showLoading();
     adapterDataModel.clear();
     view.refresh();
+    /*
     compositeDisposable.add(RxFirebaseDatabase.data(databaseReference)
         .subscribeOn(Schedulers.io())
         .map(dataSnapshot -> {
@@ -100,5 +116,6 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
           view.showMessage(R.string.error_server);
           view.showLoading();
         }));
+    */
   }
 }

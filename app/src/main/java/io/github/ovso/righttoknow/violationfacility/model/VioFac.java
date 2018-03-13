@@ -30,10 +30,8 @@ import org.jsoup.select.Elements;
   private String address;
   private String link;
 
-  public static List<VioFac> convertToItems(Document doc)
-      throws JSONException, IOException {
+  public static List<VioFac> convertToItems(Document doc) throws JSONException, IOException {
     JSONArray jsonArray = new JSONArray();
-    JSONArray linkJsonArray = new JSONArray();
 
     Elements tableElements = doc.select("tbody");
     Elements trElements = tableElements.select("tr");
@@ -56,14 +54,10 @@ import org.jsoup.select.Elements;
       object.put("fac_name", hrefElements.get(0).text());
 
       jsonArray.put(object);
-      JSONObject linkObject = new JSONObject();
-      linkObject.put("link", link);
-      linkJsonArray.put(linkObject);
     }
 
-    return new Gson().fromJson(jsonArray.toString(),
-        new TypeToken<ArrayList<VioFac>>() {
-        }.getType());
+    return new Gson().fromJson(jsonArray.toString(), new TypeToken<ArrayList<VioFac>>() {
+    }.getType());
   }
 
   /*

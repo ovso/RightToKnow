@@ -53,7 +53,7 @@ class VFacilityDetailModel {
     builder.append("\n\n");
     //old center name
     builder.append(res.getString(R.string.detail_vio_old_center_name))
-        .append(violator.getOld_fac_name());
+        .append(violator.getFac_name());
     builder.append("\n\n");
     //history
     builder.append(res.getString(R.string.detail_violation_history)).append(violator.getHistory());
@@ -62,18 +62,13 @@ class VFacilityDetailModel {
     builder.append(res.getString(R.string.detail_address)).append(violator.getAddress());
     builder.append("\n\n");
     //action
-    builder.append(res.getString(R.string.detail_violator_action));
+    //builder.append(res.getString(R.string.detail_violator_action)).append(violator.getAction());
     builder.append("\n");
-    for (String action : violator.getAction()) {
-      builder.append(action).append("\n");
-    }
     builder.append("\n");
     //disposal
-    builder.append(res.getString(R.string.detail_violator_disposal));
+    //builder.append(res.getString(R.string.detail_violator_disposal)).append(violator.getDisposal());
     builder.append("\n");
-    for (String disposal : violator.getDisposal()) {
-      builder.append(disposal).append("\n");
-    }
+    builder.append("\n");
     return builder.toString();
   }
 
