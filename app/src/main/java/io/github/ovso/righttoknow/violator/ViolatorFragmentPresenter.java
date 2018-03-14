@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.violator;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.violator.model.Violator;
 
@@ -22,6 +23,8 @@ public interface ViolatorFragmentPresenter {
   void onRefresh();
 
   void onSearchQuery(String query);
+
+  void onOptionsItemSelected(@IdRes int itemId);
 
   interface View {
 

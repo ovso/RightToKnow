@@ -1,13 +1,17 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.violationfacility.Sido;
 import io.github.ovso.righttoknow.violator.model.Violator;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import java.util.List;
 import org.jsoup.Jsoup;
 import timber.log.Timber;
 
@@ -72,5 +76,24 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     view.showLoading();
     adapterDataModel.clear();
     view.refresh();
+    compositeDisposable.add(Observable.fromCallable(() -> {
+      List<Violator> items = Violator.convertToItems(
+          Jsoup.connect(Constants.BASE_URL + Constants.FAC_LIST_PATH_QUERY).get());
+      return Violator.searchResultItems(query, items);
+    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(items -> {
+      adapterDataModel.addAll(items);
+      view.refresh();
+      view.hideLoading();
+    }, throwable -> {
+      Timber.d(throwable);
+      view.hideLoading();
+    }));
+  }
+
+  @Override public void onOptionsItemSelected(int itemId) {
+    String sido = Sido.getSido(itemId, MyApplication.getInstance());
+    if (!TextUtils.isEmpty(sido)) {
+      onSearchQuery(sido);
+    }
   }
 }

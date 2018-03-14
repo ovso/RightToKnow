@@ -66,20 +66,19 @@ import org.jsoup.select.Elements;
     }.getType());
   }
 
-  /*
-  public static ArrayList<Violator> getSearchResultItems(ArrayList<Violator> originItems,
-      String query) {
-    ArrayList<Violator> items = new ArrayList<>();
-    for (Violator originItem : originItems) {
-      if (SearchUtils.isListContains(originItem.getAction(), query)
-          || SearchUtils.isListContains(originItem.getDisposal(), query)
-          || SearchUtils.isTextContains(originItem.getAddress(), query)
-          || SearchUtils.isTextContains(originItem.getName(), query)
-          || SearchUtils.isTextContains(originItem.getOld_fac_name(), query)) {
-        items.add(originItem);
+  public static List<Violator> searchResultItems(String query, List<Violator> all) {
+    final ArrayList<Violator> items = new ArrayList<>();
+    for (Violator violator : all) {
+      if (violator.getSido().contains(query)
+          || violator.getSigungu().contains(query)
+          || violator.getAddress().contains(query)
+          || violator.getFac_name().contains(query)
+          || violator.getHistory().contains(query)
+          || violator.getName().contains(query)
+          || violator.getOrder().contains(query)) {
+        items.add(violator);
       }
     }
     return items;
   }
-  */
 }
