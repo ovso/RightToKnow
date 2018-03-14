@@ -5,10 +5,64 @@
       android:id="@+id/option_menu_search"
       android:icon="@drawable/ic_action_action_search"
       android:title="@string/hint_all_search"
-      app:showAsAction="always" />
+      app:showAsAction="always"/>
   <item
-      android:id="@+id/option_menu_sido_sort"
+      android:id="@+id/option_menu_sort"
       android:icon="@drawable/ic_sort"
       android:title="@string/hint_sort"
-      app:showAsAction="always" />
+      app:showAsAction="always">
+    <menu>
+      <item
+          android:id="@+id/sido1"
+          android:title="@string/sido1"/>
+      <item
+          android:id="@+id/sido2"
+          android:title="@string/sido2"/>
+      <item
+          android:id="@+id/sido3"
+          android:title="@string/sido3"/>
+      <item
+          android:id="@+id/sido4"
+          android:title="@string/sido4"/>
+      <item
+          android:id="@+id/sido5"
+          android:title="@string/sido5"/>
+      <item
+          android:id="@+id/sido6"
+          android:title="@string/sido6"/>
+      <item
+          android:id="@+id/sido7"
+          android:title="@string/sido7"/>
+      <item
+          android:id="@+id/sido8"
+          android:title="@string/sido8"/>
+      <item
+          android:id="@+id/sido9"
+          android:title="@string/sido9"/>
+      <item
+          android:id="@+id/sido10"
+          android:title="@string/sido10"/>
+      <item
+          android:id="@+id/sido11"
+          android:title="@string/sido11"/>
+      <item
+          android:id="@+id/sido12"
+          android:title="@string/sido12"/>
+      <item
+          android:id="@+id/sido13"
+          android:title="@string/sido13"/>
+      <item
+          android:id="@+id/sido14"
+          android:title="@string/sido14"/>
+      <item
+          android:id="@+id/sido15"
+          android:title="@string/sido15"/>
+      <item
+          android:id="@+id/sido16"
+          android:title="@string/sido16"/>
+      <item
+          android:id="@+id/sido17"
+          android:title="@string/sido17"/>
+    </menu>
+  </item>
 </menu>

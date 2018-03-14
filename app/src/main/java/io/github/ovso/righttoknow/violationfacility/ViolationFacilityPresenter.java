@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.violationfacility;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.violationfacility.model.VioFac;
@@ -23,6 +24,8 @@ public interface ViolationFacilityPresenter {
   void onSearchQuery(String query);
 
   void onDetach();
+
+  void onOptionsItemSelected(@IdRes int itemId);
 
   interface View {
 

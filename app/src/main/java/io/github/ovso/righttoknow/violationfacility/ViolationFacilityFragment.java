@@ -7,6 +7,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -81,6 +84,7 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void setListener() {
     swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+    setHasOptionsMenu(true);
   }
 
   @BindView(R.id.search_result_textview) TextView searchResultTextView;
@@ -106,5 +110,14 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void onDetach() {
     presenter.onDetach();
     super.onDetach();
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    presenter.onOptionsItemSelected(item.getItemId());
+    return super.onOptionsItemSelected(item);
+  }
+
+  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    super.onCreateOptionsMenu(menu, inflater);
   }
 }

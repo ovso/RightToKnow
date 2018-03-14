@@ -64,15 +64,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     return true;
   }
 
-  /*
-  @Override public boolean onPrepareOptionsMenu(Menu menu) {
-    MenuItem item = menu.findItem(R.id.option_menu_search);
-    Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-    presenter.onPrepareOptionsMenu(f.getClass().getSimpleName(), item);
-    return super.onPrepareOptionsMenu(menu);
-  }
-  */
-
   @Override public int getLayoutResId() {
     return R.layout.activity_main;
   }

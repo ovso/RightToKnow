@@ -84,10 +84,9 @@ public class ViolatorFragment extends BaseFragment
   }
 
   @Override public void setListener() {
-    swipeRefresh.setOnRefreshListener(() -> {
-      presenter.onRefresh();
-    });
+    swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+    setHasOptionsMenu(true);
   }
 
   @BindView(R.id.search_result_textview) TextView searchResultTextView;

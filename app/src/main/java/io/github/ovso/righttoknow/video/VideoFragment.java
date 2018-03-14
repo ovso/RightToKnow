@@ -42,6 +42,7 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     this.menuInflater = inflater;
     presenter.onCreateOptionsMenu();
     menu.findItem(R.id.option_menu_search).setVisible(false);
+    menu.findItem(R.id.option_menu_sort).setVisible(false);
     super.onCreateOptionsMenu(menu, inflater);
   }
 
