@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +17,7 @@ import com.fsn.cauly.CaulyAdViewListener;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.main.BaseActivity;
+import io.github.ovso.righttoknow.map.MapActivity;
 
 /**
  * Created by jaeho on 2017. 8. 2
@@ -57,8 +57,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
       presenter.onRefresh(getIntent());
     });
   }
-
-  @BindView(R.id.content_view) View contentView;
 
   @Override public void showAd() {
     CaulyAdView view;
@@ -101,6 +99,11 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
   }
 
+  @Override public void navigateToMap() {
+    Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+    startActivity(intent);
+  }
+
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     finish();
     return true;
@@ -134,7 +137,7 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     super.onResume();
     if (getIntent().hasExtra("vio_fac_link")) {
       setTitle(R.string.title_vioation_facility_inquiry_detail);
-    } else if(getIntent().hasExtra("violator_link")) {
+    } else if (getIntent().hasExtra("violator_link")) {
       setTitle(R.string.title_violator_inquiry_detail);
     }
   }

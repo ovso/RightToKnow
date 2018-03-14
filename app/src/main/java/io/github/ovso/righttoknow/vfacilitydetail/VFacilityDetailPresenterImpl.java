@@ -66,7 +66,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
   }
 
   @Override public void onLocationClick() {
-
+    view.navigateToMap();
   }
 
   @Override public void onRefresh(Intent intent) {

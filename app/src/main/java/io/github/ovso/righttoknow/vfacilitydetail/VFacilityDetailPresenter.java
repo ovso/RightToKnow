@@ -37,5 +37,7 @@ public interface VFacilityDetailPresenter {
     void hideLoading();
 
     void showMessage(@StringRes int resId);
+
+    void navigateToMap();
   }
 }
