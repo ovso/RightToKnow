@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 
 /**
  * Created by jaeho on 2017. 8. 2
@@ -17,6 +18,8 @@ public interface VFacilityDetailPresenter {
 
   void onLocationClick();
 
+  void onRefresh(Intent intent);
+
   interface View {
 
     void setSupportActionBar();
@@ -28,5 +31,11 @@ public interface VFacilityDetailPresenter {
     void setTitle(String title);
 
     void showAd();
+
+    void showLoading();
+
+    void hideLoading();
+
+    void showMessage(@StringRes int resId);
   }
 }

@@ -8,7 +8,6 @@ import io.github.ovso.righttoknow.vfacilitydetail.model.VioFacDe;
 import io.github.ovso.righttoknow.vfacilitydetail.model.ViolatorDe;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import org.jsoup.Jsoup;
 import timber.log.Timber;
@@ -30,35 +29,52 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
     view.setListener();
     view.setSupportActionBar();
     view.setTitle(MyApplication.getInstance().getString(R.string.title_vioation_facility_inquiry));
+    view.showLoading();
+    view.showAd();
+    req(intent);
+  }
 
+  private void req(Intent intent) {
     if (intent.hasExtra("vio_fac_link")) {
       final String link = intent.getStringExtra("vio_fac_link");
       Observable.fromCallable(
           () -> VioFacDe.getContents(VioFacDe.convertToItem(Jsoup.connect(link).get())))
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(o -> view.showContents(o), new Consumer<Throwable>() {
-            @Override public void accept(Throwable throwable) throws Exception {
-              Timber.d(throwable);
-            }
+          .subscribe(o -> {
+            view.showContents(o);
+            view.hideLoading();
+          }, throwable -> {
+            Timber.d(throwable);
+            view.showMessage(R.string.error_server);
+            view.hideLoading();
           });
-    } else if(intent.hasExtra("violator_link")) {
+    } else if (intent.hasExtra("violator_link")) {
       final String link = intent.getStringExtra("violator_link");
       Observable.fromCallable(
           () -> ViolatorDe.getContents(ViolatorDe.convertToItem(Jsoup.connect(link).get())))
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(o -> view.showContents(o), throwable -> Timber.d(throwable));
+          .subscribe(o -> {
+            view.showContents(o);
+            view.hideLoading();
+          }, throwable -> {
+            Timber.d(throwable);
+            view.showMessage(R.string.error_server);
+            view.hideLoading();
+          });
     }
 
-    view.showAd();
   }
-
   @Override public void onDestroy() {
   }
 
   @Override public void onLocationClick() {
 
+  }
+
+  @Override public void onRefresh(Intent intent) {
+    req(intent);
   }
 
   @Override public void onBackPressed() {

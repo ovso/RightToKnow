@@ -3,10 +3,12 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.fsn.cauly.CaulyAdInfo;
@@ -25,6 +27,7 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
   VFacilityDetailPresenter presenter;
   @BindView(R.id.contents_textview) TextView contentsTextView;
+  @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipe;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -45,6 +48,10 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public void setListener() {
+    swipe.setColorSchemeResources(R.color.colorPrimary);
+    swipe.setOnRefreshListener(() -> {
+      presenter.onRefresh(getIntent());
+    });
   }
 
   @BindView(R.id.content_view) View contentView;
@@ -82,6 +89,18 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     adContainer.addView(view);
   }
 
+  @Override public void showLoading() {
+    swipe.setRefreshing(true);
+  }
+
+  @Override public void hideLoading() {
+    swipe.setRefreshing(false);
+  }
+
+  @Override public void showMessage(int resId) {
+    Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
+  }
+
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     finish();
     return true;
@@ -100,7 +119,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   @OnClick(R.id.location_button) void onLocationClick() {
     presenter.onLocationClick();
   }
-
 
   @Override protected void onDestroy() {
     super.onDestroy();

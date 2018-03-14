@@ -11,53 +11,59 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_vfacilitydetail"
     >
-  <LinearLayout
+  <android.support.v4.widget.SwipeRefreshLayout
+      android:id="@+id/swipe_refresh"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:orientation="vertical"
       >
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        >
-    <TextView
-        android:id="@+id/contents_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
-        tools:text="contents"
-        />
-    </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         >
-      <Button
-          android:id="@+id/share_button"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
+      <ScrollView
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
           android:layout_weight="1"
-          android:tint="@color/colorAccent"
-          android:text="@string/contents_share"
-          style="@style/Widget.AppCompat.Button.Borderless.Colored"
-          />
-      <Button
-          android:id="@+id/location_button"
-          android:layout_width="0dp"
+          >
+        <TextView
+            android:id="@+id/contents_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+            tools:text="contents"
+            />
+      </ScrollView>
+      <LinearLayout
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:tint="@color/colorAccent"
-          android:text="@string/show_location"
-          style="@style/Widget.AppCompat.Button.Borderless.Colored"
+          android:orientation="horizontal"
+          >
+        <Button
+            android:id="@+id/share_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/contents_share"
+            android:tint="@color/colorAccent"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            />
+        <Button
+            android:id="@+id/location_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/show_location"
+            android:tint="@color/colorAccent"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            />
+      </LinearLayout>
+      <FrameLayout
+          android:id="@id/ad_container"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
           />
     </LinearLayout>
-    <FrameLayout
-        android:id="@id/ad_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-  </LinearLayout>
+  </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
