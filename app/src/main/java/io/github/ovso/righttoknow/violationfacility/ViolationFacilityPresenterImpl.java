@@ -24,9 +24,11 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   private ViolationFacilityPresenter.View view;
   private BaseAdapterDataModel<VioFac> adapterDataModel;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
+  private String connectUrl;
 
   ViolationFacilityPresenterImpl(ViolationFacilityPresenter.View view) {
     this.view = view;
+    connectUrl = Constants.BASE_URL + Constants.FAC_LIST_PATH_QUERY;
   }
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
@@ -38,18 +40,18 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
 
   private void req() {
     view.showLoading();
-    compositeDisposable.add(Observable.fromCallable(() -> VioFac.convertToItems(
-        Jsoup.connect(Constants.BASE_URL + Constants.FAC_LIST_PATH_QUERY).get()))
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(items -> {
-          adapterDataModel.addAll(items);
-          view.refresh();
-          view.hideLoading();
-        }, throwable -> {
-          Timber.d(throwable);
-          view.hideLoading();
-        }));
+    compositeDisposable.add(
+        Observable.fromCallable(() -> VioFac.convertToItems(Jsoup.connect(connectUrl).get()))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(items -> {
+              adapterDataModel.addAll(items);
+              view.refresh();
+              view.hideLoading();
+            }, throwable -> {
+              Timber.d(throwable);
+              view.hideLoading();
+            }));
   }
 
   @Override public void setAdapterModel(BaseAdapterDataModel<VioFac> adapterDataModel) {
@@ -78,8 +80,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     view.refresh();
 
     compositeDisposable.add(Observable.fromCallable(() -> {
-      List<VioFac> items = VioFac.convertToItems(
-          Jsoup.connect(Constants.BASE_URL + Constants.FAC_LIST_PATH_QUERY).get());
+      List<VioFac> items = VioFac.convertToItems(Jsoup.connect(connectUrl).get());
       return VioFac.searchResultItems(query, items);
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(items -> {
       adapterDataModel.addAll(items);

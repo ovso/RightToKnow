@@ -23,9 +23,10 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   private ViolatorFragmentPresenter.View view;
   private ViolatorAdapterDataModel adapterDataModel;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
-
+  private String connectUrl;
   ViolatorFragmentPresenterImpl(ViolatorFragmentPresenter.View view) {
     this.view = view;
+    connectUrl = Constants.BASE_URL + Constants.VIOLATOR_LIST_PATH_QUERY;
   }
 
   @Override public void onActivityCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
   private void req() {
     compositeDisposable.add(Observable.fromCallable(() -> Violator.convertToItems(
-        Jsoup.connect(Constants.BASE_URL + Constants.VIOLATOR_LIST_PATH_QUERY).get()))
+        Jsoup.connect(connectUrl).get()))
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(items -> {
@@ -78,7 +79,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     view.refresh();
     compositeDisposable.add(Observable.fromCallable(() -> {
       List<Violator> items = Violator.convertToItems(
-          Jsoup.connect(Constants.BASE_URL + Constants.FAC_LIST_PATH_QUERY).get());
+          Jsoup.connect(connectUrl).get());
       return Violator.searchResultItems(query, items);
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(items -> {
       adapterDataModel.addAll(items);
