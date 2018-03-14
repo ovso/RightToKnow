@@ -77,7 +77,9 @@ public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.
   }
 
   @Override public void hideLoading() {
-    swipeRefresh.setRefreshing(false);
+    if (swipeRefresh != null) {
+      swipeRefresh.setRefreshing(false);
+    }
   }
 
   @Override public void navigateToDetailNews(News item) {

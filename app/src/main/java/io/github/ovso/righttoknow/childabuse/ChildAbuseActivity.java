@@ -32,7 +32,7 @@ public class ChildAbuseActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
 
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setTitle(R.string.child_abuse);
+    setTitle(R.string.child_abuse);
     WebSettings settings = webView.getSettings();
     settings.setJavaScriptEnabled(true);
     settings.setBuiltInZoomControls(true);
@@ -42,15 +42,17 @@ public class ChildAbuseActivity extends BaseActivity {
     settings.setSupportZoom(true);
     webView.setWebViewClient(new WebViewClient());
     webView.setWebChromeClient(new WebChromeClient());
-    webView.loadUrl("http://child.seoul.go.kr/archives/142");
+    webView.loadUrl(
+        "http://m.post.naver.com/viewer/postView.nhn?volumeNo=9367173&memberNo=22718804&vType=VERTICAL");
 
     showAd();
   }
 
   private void showAd() {
     CaulyAdView view;
-    CaulyAdInfo info = new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(
-        CaulyAdInfo.Effect.Circle.toString()).build();
+    CaulyAdInfo info =
+        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(CaulyAdInfo.Effect.Circle.toString())
+            .build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);
     view.setAdViewListener(new CaulyAdViewListener() {
@@ -73,7 +75,6 @@ public class ChildAbuseActivity extends BaseActivity {
 
     ViewGroup adContainer = findViewById(R.id.ad_container);
     adContainer.addView(view);
-
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

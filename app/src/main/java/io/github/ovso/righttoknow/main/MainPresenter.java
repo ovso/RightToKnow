@@ -29,8 +29,6 @@ public interface MainPresenter {
   interface View {
     void setListener();
 
-    //void setTitle(String title);
-
     void setBottomNavigationViewBehavior();
 
     void setCheckedBottomNavigationView(int position);

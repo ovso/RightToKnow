@@ -197,9 +197,8 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void showAd() {
     CaulyAdView view;
-    CaulyAdInfo info =
-        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(CaulyAdInfo.Effect.Circle.toString())
-            .build();
+    CaulyAdInfo info = new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(
+        CaulyAdInfo.Effect.Circle.toString()).build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);
     view.setAdViewListener(new CaulyAdViewListener() {
