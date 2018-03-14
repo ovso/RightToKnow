@@ -28,7 +28,7 @@ public interface VFacilityDetailPresenter {
 
     void setListener();
 
-    void setTitle(String title);
+    void setTitle(@StringRes int resId);
 
     void showAd();
 

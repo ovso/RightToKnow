@@ -120,4 +120,9 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
   }
+
+  @Override public void onResume() {
+    super.onResume();
+    getActivity().setTitle(R.string.title_vioation_facility_inquiry);
+  }
 }

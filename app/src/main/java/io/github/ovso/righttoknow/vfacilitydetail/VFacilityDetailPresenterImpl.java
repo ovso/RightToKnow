@@ -3,7 +3,6 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 import android.content.Intent;
 import android.os.Bundle;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.vfacilitydetail.model.VioFacDe;
 import io.github.ovso.righttoknow.vfacilitydetail.model.ViolatorDe;
 import io.reactivex.Observable;
@@ -33,8 +32,6 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
 
   private void req(Intent intent) {
     if (intent.hasExtra("vio_fac_link")) {
-      view.setTitle(
-          MyApplication.getInstance().getString(R.string.title_vioation_facility_inquiry));
       final String link = intent.getStringExtra("vio_fac_link");
       Observable.fromCallable(
           () -> VioFacDe.getContents(VioFacDe.convertToItem(Jsoup.connect(link).get())))
@@ -49,7 +46,6 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
             view.hideLoading();
           });
     } else if (intent.hasExtra("violator_link")) {
-      view.setTitle(MyApplication.getInstance().getString(R.string.title_violator_inquiry));
       final String link = intent.getStringExtra("violator_link");
       Observable.fromCallable(
           () -> ViolatorDe.getContents(ViolatorDe.convertToItem(Jsoup.connect(link).get())))

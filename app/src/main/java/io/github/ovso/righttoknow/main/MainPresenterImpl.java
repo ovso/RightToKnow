@@ -70,7 +70,6 @@ class MainPresenterImpl implements MainPresenter {
   }
 
   @Override public void onCreate(Intent intent) {
-    view.setTitle(getTitle(Constants.ITEM_VIOLATION_FACILITY));
     view.setVersionName(
         MyApplication.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
             MyApplication.getInstance()));

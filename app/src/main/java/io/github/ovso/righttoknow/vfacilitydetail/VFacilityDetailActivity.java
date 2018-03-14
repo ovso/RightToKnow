@@ -35,6 +35,10 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     presenter.onCreate(savedInstanceState, getIntent());
   }
 
+  @Override public void setTitle(int titleId) {
+    super.setTitle(titleId);
+  }
+
   @Override protected int getLayoutResId() {
     return R.layout.activity_vfacilitydetail;
   }
@@ -55,10 +59,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @BindView(R.id.content_view) View contentView;
-
-  @Override public void setTitle(String title) {
-    getSupportActionBar().setTitle(title);
-  }
 
   @Override public void showAd() {
     CaulyAdView view;
@@ -128,5 +128,14 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   @Override public void onBackPressed() {
     super.onBackPressed();
     presenter.onBackPressed();
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+    if (getIntent().hasExtra("vio_fac_link")) {
+      setTitle(R.string.title_vioation_facility_inquiry_detail);
+    } else if(getIntent().hasExtra("violator_link")) {
+      setTitle(R.string.title_violator_inquiry_detail);
+    }
   }
 }

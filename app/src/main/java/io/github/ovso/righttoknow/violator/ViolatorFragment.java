@@ -107,4 +107,9 @@ public class ViolatorFragment extends BaseFragment
     presenter.onOptionsItemSelected(item.getItemId());
     return false;
   }
+
+  @Override public void onResume() {
+    super.onResume();
+    getActivity().setTitle(R.string.title_violator_inquiry);
+  }
 }

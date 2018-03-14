@@ -139,4 +139,9 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     super.onDestroyView();
     presenter.onDestroyView();
   }
+
+  @Override public void onResume() {
+    super.onResume();
+    getActivity().setTitle(R.string.title_video);
+  }
 }

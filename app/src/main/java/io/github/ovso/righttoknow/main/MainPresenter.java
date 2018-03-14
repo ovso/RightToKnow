@@ -29,7 +29,7 @@ public interface MainPresenter {
   interface View {
     void setListener();
 
-    void setTitle(String title);
+    //void setTitle(String title);
 
     void setBottomNavigationViewBehavior();
 

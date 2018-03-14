@@ -110,4 +110,9 @@ public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.
     menu.findItem(R.id.option_menu_sort).setVisible(false);
     super.onCreateOptionsMenu(menu, inflater);
   }
+
+  @Override public void onResume() {
+    super.onResume();
+    getActivity().setTitle(R.string.title_news);
+  }
 }

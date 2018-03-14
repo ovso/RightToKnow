@@ -8,7 +8,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -84,13 +83,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
       presenter.onBottomNavigationItemSelected(item.getItemId());
       return true;
     });
-  }
-
-  @Override public void setTitle(String title) {
-    ActionBar actionBar = getSupportActionBar();
-    if (actionBar != null) {
-      actionBar.setTitle(title);
-    }
   }
 
   @Override public void setBottomNavigationViewBehavior() {
@@ -205,8 +197,9 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void showAd() {
     CaulyAdView view;
-    CaulyAdInfo info = new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(
-        CaulyAdInfo.Effect.Circle.toString()).build();
+    CaulyAdInfo info =
+        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(CaulyAdInfo.Effect.Circle.toString())
+            .build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);
     view.setAdViewListener(new CaulyAdViewListener() {

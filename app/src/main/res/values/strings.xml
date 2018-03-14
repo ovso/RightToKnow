@@ -34,7 +34,9 @@
   <string name="violation_history">이력</string>
   <string name="violation_history_count">회</string>
   <string name="title_vioation_facility_inquiry">위반시설 조회</string>
+  <string name="title_vioation_facility_inquiry_detail">위반시설 조회 상세</string>
   <string name="title_violator_inquiry">위반행위자 조회</string>
+  <string name="title_violator_inquiry_detail">위반행위자 조회</string>
   <string name="title_certified">평가 인증</string>
   <string name="title_child_certified">평가 인증 어린이집 상세</string>
   <string name="msg_latest_info">최신정보입니다.</string>
