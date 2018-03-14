@@ -18,17 +18,14 @@ import timber.log.Timber;
 
 public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
   private VFacilityDetailPresenter.View view;
-  private VFacilityDetailModel model;
 
   VFacilityDetailPresenterImpl(VFacilityDetailPresenter.View view) {
     this.view = view;
-    model = new VFacilityDetailModel(MyApplication.getInstance());
   }
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
     view.setListener();
     view.setSupportActionBar();
-    view.setTitle(MyApplication.getInstance().getString(R.string.title_vioation_facility_inquiry));
     view.showLoading();
     view.showAd();
     req(intent);
@@ -36,6 +33,8 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
 
   private void req(Intent intent) {
     if (intent.hasExtra("vio_fac_link")) {
+      view.setTitle(
+          MyApplication.getInstance().getString(R.string.title_vioation_facility_inquiry));
       final String link = intent.getStringExtra("vio_fac_link");
       Observable.fromCallable(
           () -> VioFacDe.getContents(VioFacDe.convertToItem(Jsoup.connect(link).get())))
@@ -50,6 +49,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
             view.hideLoading();
           });
     } else if (intent.hasExtra("violator_link")) {
+      view.setTitle(MyApplication.getInstance().getString(R.string.title_violator_inquiry));
       final String link = intent.getStringExtra("violator_link");
       Observable.fromCallable(
           () -> ViolatorDe.getContents(ViolatorDe.convertToItem(Jsoup.connect(link).get())))
@@ -64,8 +64,8 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
             view.hideLoading();
           });
     }
-
   }
+
   @Override public void onDestroy() {
   }
 
