@@ -98,5 +98,6 @@
   <string name="error_server">서버에 문제가 생겼습니다. 잠시후 다시 시도해주세요.</string>
   <string name="empty_search_query">검색어를 입력해주세요.</string>
   <string name="show_location">위치보기</string>
+  <string name="hint_sort">정렬</string>
 
 </resources>

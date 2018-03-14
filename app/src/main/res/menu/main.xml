@@ -6,4 +6,9 @@
       android:icon="@drawable/ic_action_action_search"
       android:title="@string/hint_all_search"
       app:showAsAction="always" />
+  <item
+      android:id="@+id/option_menu_sido_sort"
+      android:icon="@drawable/ic_sort"
+      android:title="@string/hint_sort"
+      app:showAsAction="always" />
 </menu>
