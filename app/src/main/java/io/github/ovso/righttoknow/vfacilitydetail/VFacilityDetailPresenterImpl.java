@@ -5,6 +5,7 @@ import android.os.Bundle;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.vfacilitydetail.model.VioFacDe;
+import io.github.ovso.righttoknow.vfacilitydetail.model.ViolatorDe;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -33,7 +34,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
     if (intent.hasExtra("vio_fac_link")) {
       final String link = intent.getStringExtra("vio_fac_link");
       Observable.fromCallable(
-          () -> VioFacDe.getFacContents(VioFacDe.convertToItem(Jsoup.connect(link).get())))
+          () -> VioFacDe.getContents(VioFacDe.convertToItem(Jsoup.connect(link).get())))
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(o -> view.showContents(o), new Consumer<Throwable>() {
@@ -44,20 +45,20 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
     } else if(intent.hasExtra("violator_link")) {
       final String link = intent.getStringExtra("violator_link");
       Observable.fromCallable(
-          () -> VioFacDe.getFacContents(VioFacDe.convertToItem(Jsoup.connect(link).get())))
+          () -> ViolatorDe.getContents(ViolatorDe.convertToItem(Jsoup.connect(link).get())))
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(o -> view.showContents(o), new Consumer<Throwable>() {
-            @Override public void accept(Throwable throwable) throws Exception {
-              Timber.d(throwable);
-            }
-          });
+          .subscribe(o -> view.showContents(o), throwable -> Timber.d(throwable));
     }
 
     view.showAd();
   }
 
   @Override public void onDestroy() {
+  }
+
+  @Override public void onLocationClick() {
+
   }
 
   @Override public void onBackPressed() {

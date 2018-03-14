@@ -1,8 +1,6 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.violator.model.Violator;
@@ -21,8 +19,6 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   private ViolatorFragmentPresenter.View view;
   private ViolatorAdapterDataModel adapterDataModel;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
-  private DatabaseReference databaseReference =
-      FirebaseDatabase.getInstance().getReference().child("child_violator");
 
   ViolatorFragmentPresenterImpl(ViolatorFragmentPresenter.View view) {
     this.view = view;
@@ -47,29 +43,9 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
           view.hideLoading();
         }, throwable -> {
           Timber.d(throwable);
-          view.hideLoading();
-        }));
-
-    /*
-    RxFirebaseDatabase.data(databaseReference)
-        .map(dataSnapshot -> {
-          ArrayList<Violator> items = Violator.convertToItems(dataSnapshot);
-          Comparator<Violator> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
-              .compareTo(Integer.valueOf(t1.getReg_number()));
-          Collections.sort(items, comparator);
-          return items;
-        })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(items -> {
-          adapterDataModel.addAll(items);
-          view.refresh();
-          view.hideLoading();
-        }, throwable -> {
           view.showMessage(R.string.error_server);
           view.hideLoading();
-        });
-    */
+        }));
   }
 
   @Override public void setAdapterModel(ViolatorAdapterDataModel adapterDataModel) {
@@ -77,7 +53,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   @Override public void onRecyclerItemClick(Violator violator) {
-    view.navigateToViolatorDetail(violator);
+    view.navigateToViolatorDetail(violator.getLink(), violator.getAddress());
   }
 
   @Override public void onDestroyView() {
@@ -96,26 +72,5 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     view.showLoading();
     adapterDataModel.clear();
     view.refresh();
-    /*
-    compositeDisposable.add(RxFirebaseDatabase.data(databaseReference)
-        .subscribeOn(Schedulers.io())
-        .map(dataSnapshot -> {
-          ArrayList<Violator> items =
-              Violator.getSearchResultItems(Violator.convertToItems(dataSnapshot), query);
-          Comparator<Violator> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
-              .compareTo(Integer.valueOf(t1.getReg_number()));
-          Collections.sort(items, comparator);
-          return items;
-        })
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(items -> {
-          adapterDataModel.addAll(items);
-          view.refresh();
-          view.hideLoading();
-        }, throwable -> {
-          view.showMessage(R.string.error_server);
-          view.showLoading();
-        }));
-    */
   }
 }

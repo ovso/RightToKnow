@@ -97,7 +97,7 @@ import timber.log.Timber;
     return new Gson().fromJson(jsonObject.toString(), VioFacDe.class);
   }
 
-  public static String getFacContents(VioFacDe o) {
+  public static String getContents(VioFacDe o) {
     Resources res = MyApplication.getInstance().getResources();
 
     StringBuilder builder = new StringBuilder();

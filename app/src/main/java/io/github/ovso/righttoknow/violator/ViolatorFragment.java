@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.violator;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -16,6 +17,7 @@ import io.github.ovso.righttoknow.fragment.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
+import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
 import io.github.ovso.righttoknow.violator.model.Violator;
 
 /**
@@ -73,12 +75,12 @@ public class ViolatorFragment extends BaseFragment
     recyclerView.setAdapter(adapter);
   }
 
-  @DebugLog @Override public void navigateToViolatorDetail(Violator violator) {
-    /*
+  @DebugLog @Override public void navigateToViolatorDetail(String link, String address) {
+
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
-    intent.putExtra("contents", violator);
+    intent.putExtra("violator_link", link);
+    intent.putExtra("address", address);
     startActivity(intent);
-    */
   }
 
   @Override public void setListener() {

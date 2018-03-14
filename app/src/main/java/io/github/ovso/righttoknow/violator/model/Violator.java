@@ -26,6 +26,7 @@ import org.jsoup.select.Elements;
   private String sigungu;
   private String fac_name;
   private String address;
+  private String link;
 
   /*
   public static ArrayList<Violator> convertToItems(DataSnapshot dataSnapshot) {
@@ -46,7 +47,6 @@ import org.jsoup.select.Elements;
     Elements trElements = tableElements.select("tr");
 
     for (Element trElement : trElements) {
-
       Elements tdElements = trElement.select("td");
       JSONObject object = new JSONObject();
       object.put("order", tdElements.get(0).ownText());

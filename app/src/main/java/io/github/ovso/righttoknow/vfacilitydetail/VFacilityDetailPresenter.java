@@ -15,6 +15,8 @@ public interface VFacilityDetailPresenter {
 
   void onDestroy();
 
+  void onLocationClick();
+
   interface View {
 
     void setSupportActionBar();

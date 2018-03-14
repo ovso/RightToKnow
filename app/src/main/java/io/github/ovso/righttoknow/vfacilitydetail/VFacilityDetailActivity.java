@@ -41,7 +41,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public void showContents(String contents) {
-    //contentsTextView.setMovementMethod(new ScrollingMovementMethod());
     contentsTextView.setText(contents);
   }
 
@@ -97,6 +96,11 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     Intent chooser = Intent.createChooser(intent, getString(R.string.share_message));
     startActivity(chooser);
   }
+
+  @OnClick(R.id.location_button) void onLocationClick() {
+    presenter.onLocationClick();
+  }
+
 
   @Override protected void onDestroy() {
     super.onDestroy();
