@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import timber.log.Timber;
 
 /**
  * Created by jaeho on 2017. 8. 3
@@ -28,19 +29,8 @@ import org.jsoup.select.Elements;
   private String address;
   private String link;
 
-  /*
-  public static ArrayList<Violator> convertToItems(DataSnapshot dataSnapshot) {
-    final ArrayList<Violator> items = new ArrayList<>();
-    Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-    while (iterator.hasNext()) {
-      Violator v = iterator.next().getValue(Violator.class);
-      items.add(v);
-    }
-    return items;
-  }
-  */
-
-  public static List<Violator> convertToItems(Document doc) throws JSONException, IOException {
+  public static List<Violator> convertToItems(Document doc)
+      throws JSONException, IOException, IndexOutOfBoundsException {
     JSONArray jsonArray = new JSONArray();
 
     Elements tableElements = doc.select("tbody");
@@ -66,7 +56,8 @@ import org.jsoup.select.Elements;
     }.getType());
   }
 
-  public static List<Violator> searchResultItems(String query, List<Violator> all) {
+  public static List<Violator> searchResultItems(String query, List<Violator> all)
+      throws IndexOutOfBoundsException {
     final ArrayList<Violator> items = new ArrayList<>();
     for (Violator violator : all) {
       if (violator.getSido().contains(query)

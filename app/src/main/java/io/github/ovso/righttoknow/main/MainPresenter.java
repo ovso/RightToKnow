@@ -16,7 +16,7 @@ public interface MainPresenter {
 
   void onNavigationItemSelected(int id);
 
-  void onBottomNavigationItemSelected(int id);
+  boolean onBottomNavigationItemSelected(int id);
 
   void onNewIntent(Intent intent);
 

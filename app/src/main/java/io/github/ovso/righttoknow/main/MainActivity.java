@@ -21,7 +21,6 @@ import com.fsn.cauly.CaulyAdInfo;
 import com.fsn.cauly.CaulyAdInfoBuilder;
 import com.fsn.cauly.CaulyAdView;
 import com.fsn.cauly.CaulyAdViewListener;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
@@ -44,18 +43,18 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
   @BindView(R.id.ad_container) ViewGroup adContainer;
 
-  @DebugLog @Override public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     presenter = new MainPresenterImpl(this);
     super.onCreate(savedInstanceState);
     presenter.onCreate(getIntent());
   }
 
-  @DebugLog @Override protected void onNewIntent(Intent intent) {
+  @Override protected void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
     presenter.onNewIntent(intent);
   }
 
-  @DebugLog @Override public boolean onCreateOptionsMenu(Menu menu) {
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.main, menu);
     MenuItem item = menu.findItem(R.id.option_menu_search);
     searchView.setMenuItem(item);
@@ -79,9 +78,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
       drawer.closeDrawer(GravityCompat.START);
       return true;
     });
-    bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-      presenter.onBottomNavigationItemSelected(item.getItemId());
-      return true;
+    bottomNavigationView.setOnNavigationItemSelectedListener(
+        item -> presenter.onBottomNavigationItemSelected(item.getItemId()));
+    bottomNavigationView.setOnNavigationItemReselectedListener(item -> {
+      // Do nothing..
     });
   }
 
@@ -197,8 +197,9 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void showAd() {
     CaulyAdView view;
-    CaulyAdInfo info = new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(
-        CaulyAdInfo.Effect.Circle.toString()).build();
+    CaulyAdInfo info =
+        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(CaulyAdInfo.Effect.Circle.toString())
+            .build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);
     view.setAdViewListener(new CaulyAdViewListener() {

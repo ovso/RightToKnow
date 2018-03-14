@@ -30,7 +30,8 @@ import org.jsoup.select.Elements;
   private String address;
   private String link;
 
-  public static List<VioFac> convertToItems(Document doc) throws JSONException, IOException {
+  public static List<VioFac> convertToItems(Document doc)
+      throws JSONException, IOException, IndexOutOfBoundsException {
     JSONArray jsonArray = new JSONArray();
 
     Elements tableElements = doc.select("tbody");
@@ -60,7 +61,8 @@ import org.jsoup.select.Elements;
     }.getType());
   }
 
-  public static List<VioFac> searchResultItems(String query, List<VioFac> all) {
+  public static List<VioFac> searchResultItems(String query, List<VioFac> all)
+      throws IndexOutOfBoundsException {
     final List<VioFac> items = new ArrayList<>();
     for (VioFac vioFac : all) {
       if (vioFac.getSido().contains(query)
