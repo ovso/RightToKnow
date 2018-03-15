@@ -8,13 +8,11 @@ import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.AddressUtils;
 import io.github.ovso.righttoknow.network.GeocodeNetwork;
 import io.github.ovso.righttoknow.network.model.GeometryLocation;
-import io.github.ovso.righttoknow.network.model.GoogleGeocode;
 import io.github.ovso.righttoknow.vfacilitydetail.model.VioFacDe;
 import io.github.ovso.righttoknow.vfacilitydetail.model.ViolatorDe;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
@@ -36,6 +34,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
     view.setListener();
+    view.hideButton();
     view.setSupportActionBar();
     view.showLoading();
     view.showAd();
@@ -44,18 +43,21 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
 
   private String fullAddress;
   private Disposable disposable;
-
+  private String facName;
   private void req(Intent intent) {
     if (intent.hasExtra("vio_fac_link")) {
       final String link = intent.getStringExtra("vio_fac_link");
       disposable = Observable.fromCallable(new Callable<String>() {
         @Override public String call() throws Exception {
           VioFacDe vioFacDe = VioFacDe.convertToItem(Jsoup.connect(link).get());
+          facName = vioFacDe.getVioFacName();
+          Timber.d("facName = " + facName);
           fullAddress = vioFacDe.getAddress();
           return VioFacDe.getContents(vioFacDe);
         }
       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
         view.showContents(o);
+        view.showButton();
         view.hideLoading();
       }, throwable -> {
         Timber.d(throwable);
@@ -67,11 +69,14 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
       disposable = Observable.fromCallable(new Callable<String>() {
         @Override public String call() throws Exception {
           ViolatorDe violatorDe = ViolatorDe.convertToItem(Jsoup.connect(link).get());
+          facName = violatorDe.getFacName();
+          Timber.d("facName = " + facName);
           fullAddress = violatorDe.getAddress();
           return ViolatorDe.getContents(violatorDe);
         }
       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
         view.showContents(o);
+        view.showButton();
         view.hideLoading();
       }, throwable -> {
         Timber.d(throwable);
@@ -92,44 +97,27 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
 
   @Override public void onMapClick(Intent intent) {
     view.showLoading();
-    String intetFacName = null;
     if (!TextUtils.isEmpty(fullAddress)) {
 
       try {
         String address = AddressUtils.removeBracket(fullAddress);
         Timber.d("address = " + address);
 
-        if (intent.hasExtra("facName")) {
-          intetFacName = intent.getStringExtra("facName");
-        } else {
-          intetFacName = "서울";
-        }
-        final String facName = intetFacName;
-        /*
-        double[] locationArray = AddressUtils.getFromLocation(MyApplication.getInstance(), address);
-        if (!ObjectUtils.isEmpty(locationArray)) {
-          view.navigateToMap(locationArray, facName);
-        } else {
-          view.showMessage(R.string.error_not_found_address);
-        }
-        view.hideLoading();
-        */
         disposable = geocodeNetwork.getGoogleGeocode(address)
-            .map(new Function<GoogleGeocode, double[]>() {
-              @Override public double[] apply(GoogleGeocode googleGeocode) throws Exception {
-                double[] locations = new double[2];
-                  Timber.d("status = " + googleGeocode.getStatus());
-                  GeometryLocation location =
-                      googleGeocode.getResults().get(0).getGeometry().getLocation();
-                  locations[0] = location.getLat();
-                  locations[1] = location.getLng();
-                  return locations;
-              }
+            .map(googleGeocode -> {
+              double[] locations = new double[2];
+                GeometryLocation location =
+                    googleGeocode.getResults().get(0).getGeometry().getLocation();
+                locations[0] = location.getLat();
+                locations[1] = location.getLng();
+                return locations;
             })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(locations -> {
-              Timber.d("locations = " + locations[0] + ", " + locations[1]);
+              if(TextUtils.isEmpty(facName)) {
+                new NullPointerException("facName is null");
+              }
               view.navigateToMap(locations, facName);
               view.hideLoading();
             }, throwable -> {
@@ -143,7 +131,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
         view.hideLoading();
       }
     } else {
-      view.showMessage(R.string.error_server);
+      view.showMessage(R.string.error_not_found_address);
       view.hideLoading();
     }
   }

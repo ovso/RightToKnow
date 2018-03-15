@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -14,6 +16,7 @@ import com.fsn.cauly.CaulyAdInfo;
 import com.fsn.cauly.CaulyAdInfoBuilder;
 import com.fsn.cauly.CaulyAdView;
 import com.fsn.cauly.CaulyAdViewListener;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.main.BaseActivity;
@@ -28,6 +31,8 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   VFacilityDetailPresenter presenter;
   @BindView(R.id.contents_textview) TextView contentsTextView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipe;
+  @BindView(R.id.share_button) Button shareButton;
+  @BindView(R.id.location_button) Button locationButton;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -97,15 +102,27 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
   @Override public void showMessage(int resId) {
     //Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
-    new AlertDialog.Builder(getApplicationContext()).setMessage(resId).setPositiveButton(
-        android.R.string.ok, (dialogInterface, which) -> dialogInterface.dismiss()).show();
+    new AlertDialog.Builder(getApplicationContext()).setMessage(resId)
+        .setPositiveButton(android.R.string.ok,
+            (dialogInterface, which) -> dialogInterface.dismiss())
+        .show();
   }
 
-  @Override public void navigateToMap(double[] locations, String facName) {
+  @DebugLog @Override public void navigateToMap(double[] locations, String facName) {
     Intent intent = new Intent(getApplicationContext(), MapActivity.class);
     intent.putExtra("locations", locations);
     intent.putExtra("facName", facName);
     startActivity(intent);
+  }
+
+  @Override public void hideButton() {
+    locationButton.setVisibility(View.INVISIBLE);
+    shareButton.setVisibility(View.INVISIBLE);
+  }
+
+  @Override public void showButton() {
+    locationButton.setVisibility(View.VISIBLE);
+    shareButton.setVisibility(View.VISIBLE);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

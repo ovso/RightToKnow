@@ -39,5 +39,9 @@ public interface VFacilityDetailPresenter {
     void showMessage(@StringRes int resId);
 
     void navigateToMap(double[] locations, String facName);
+
+    void hideButton();
+
+    void showButton();
   }
 }

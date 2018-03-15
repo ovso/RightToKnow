@@ -63,6 +63,7 @@ public class MapActivity extends BaseActivity {
     mapController.setMapCenter(currentPoint);
     NMapPOIdata poiData = new NMapPOIdata(1, provider);
     String facName = getIntent().getStringExtra("facName");
+    Timber.d("facName = " + facName);
     if (TextUtils.isEmpty(facName)) {
       facName = getString(R.string.vio_fac);
     }
