@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.fsn.cauly.CaulyAdInfo;
@@ -96,12 +96,14 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public void showMessage(int resId) {
-    Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
+    //Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
+    new AlertDialog.Builder(getApplicationContext()).setMessage(resId).setPositiveButton(
+        android.R.string.ok, (dialogInterface, which) -> dialogInterface.dismiss()).show();
   }
 
-  @Override public void navigateToMap(String address, String facName) {
+  @Override public void navigateToMap(double[] locations, String facName) {
     Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-    intent.putExtra("address", address);
+    intent.putExtra("locations", locations);
     intent.putExtra("facName", facName);
     startActivity(intent);
   }

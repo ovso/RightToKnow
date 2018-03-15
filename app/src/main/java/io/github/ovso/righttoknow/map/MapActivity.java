@@ -1,12 +1,9 @@
 package io.github.ovso.righttoknow.map;
 
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.widget.Toast;
 import butterknife.BindView;
 import com.nhn.android.maps.NMapContext;
 import com.nhn.android.maps.NMapController;
@@ -18,9 +15,6 @@ import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.main.BaseActivity;
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 import timber.log.Timber;
 
 /**
@@ -54,27 +48,9 @@ public class MapActivity extends BaseActivity {
   }
 
   private void setMarker() {
-    // seoul
-    double lat;
-    double lng;
 
-    try {
-      String address = getIntent().getStringExtra("address");
-      Timber.d("address = " + address);
-      List<Address> addressList =
-          new Geocoder(getApplicationContext(), Locale.KOREAN).getFromLocationName(address, 1);
-      Timber.d("addressList = " + addressList);
-      lat = addressList.get(0).getLatitude();
-      lng = addressList.get(0).getLongitude();
-    } catch (IOException e) {
-      Timber.e(e);
-      showMessage();
-      return;
-    } catch (Exception e) {
-      Timber.e(e);
-      showMessage();
-      return;
-    }
+    double[] locations = getIntent().getDoubleArrayExtra("locations");
+    Timber.d("locations = " + locations);
 
     NMapController mapController = mapView.getMapController();
     mapController.setZoomEnabled(true);
@@ -83,22 +59,18 @@ public class MapActivity extends BaseActivity {
     NMapViewerResourceProvider provider = new NMapViewerResourceProvider(getApplicationContext());
     NMapOverlayManager mapOverlayManager =
         new NMapOverlayManager(getApplicationContext(), mapView, provider);
-    NGeoPoint currentPoint = new NGeoPoint(lat, lng);
+    NGeoPoint currentPoint = new NGeoPoint(locations[1], locations[0]);
     mapController.setMapCenter(currentPoint);
     NMapPOIdata poiData = new NMapPOIdata(1, provider);
     String facName = getIntent().getStringExtra("facName");
     if (TextUtils.isEmpty(facName)) {
       facName = getString(R.string.vio_fac);
     }
-    poiData.addPOIitem(lng, lat, facName, NMapPOIflagType.PIN, 0);
+    poiData.addPOIitem(locations[1], locations[0], facName, NMapPOIflagType.PIN, 0);
     poiData.endPOIdata();
 
     NMapPOIdataOverlay poIdataOverlay = mapOverlayManager.createPOIdataOverlay(poiData, null);
     poIdataOverlay.showAllPOIdata(0);
-  }
-
-  private void showMessage() {
-    Toast.makeText(this, R.string.error_not_found_address, Toast.LENGTH_SHORT).show();
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

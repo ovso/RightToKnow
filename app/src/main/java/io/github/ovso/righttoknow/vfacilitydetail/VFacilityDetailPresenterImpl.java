@@ -4,11 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.common.AddressUtils;
+import io.github.ovso.righttoknow.network.GeocodeNetwork;
+import io.github.ovso.righttoknow.network.model.GeometryLocation;
+import io.github.ovso.righttoknow.network.model.GoogleGeocode;
 import io.github.ovso.righttoknow.vfacilitydetail.model.VioFacDe;
 import io.github.ovso.righttoknow.vfacilitydetail.model.ViolatorDe;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
@@ -20,9 +26,12 @@ import timber.log.Timber;
 
 public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
   private VFacilityDetailPresenter.View view;
+  private GeocodeNetwork geocodeNetwork;
 
   VFacilityDetailPresenterImpl(VFacilityDetailPresenter.View view) {
     this.view = view;
+    geocodeNetwork = new GeocodeNetwork(MyApplication.getInstance().getApplicationContext(),
+        GeocodeNetwork.GEOCODING_BASE_URL);
   }
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
@@ -33,7 +42,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
     req(intent);
   }
 
-  private String address;
+  private String fullAddress;
   private Disposable disposable;
 
   private void req(Intent intent) {
@@ -42,7 +51,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
       disposable = Observable.fromCallable(new Callable<String>() {
         @Override public String call() throws Exception {
           VioFacDe vioFacDe = VioFacDe.convertToItem(Jsoup.connect(link).get());
-          address = vioFacDe.getAddress();
+          fullAddress = vioFacDe.getAddress();
           return VioFacDe.getContents(vioFacDe);
         }
       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
@@ -58,7 +67,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
       disposable = Observable.fromCallable(new Callable<String>() {
         @Override public String call() throws Exception {
           ViolatorDe violatorDe = ViolatorDe.convertToItem(Jsoup.connect(link).get());
-          address = violatorDe.getAddress();
+          fullAddress = violatorDe.getAddress();
           return ViolatorDe.getContents(violatorDe);
         }
       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
@@ -77,27 +86,65 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
       disposable.dispose();
     }
   }
+  //37.5652894,126.8494635 서울
+  //locations[0] = 37.5652894;
+  //locations[1] = 126.8494635;
 
   @Override public void onMapClick(Intent intent) {
-    if (!TextUtils.isEmpty(address)) {
-      int beginIndex = address.indexOf(")") + 1;
-      int endIndex = address.indexOf("(", 1);
+    view.showLoading();
+    String intetFacName = null;
+    if (!TextUtils.isEmpty(fullAddress)) {
+
       try {
-        String subAddress = address.substring(beginIndex, endIndex);
-        subAddress = subAddress.trim();
-        Timber.d("subAddress = " + subAddress);
-        String facName = null;
-        if(intent.hasExtra("facName")) {
-          facName = intent.getStringExtra("facName");
+        String address = AddressUtils.removeBracket(fullAddress);
+        Timber.d("address = " + address);
+
+        if (intent.hasExtra("facName")) {
+          intetFacName = intent.getStringExtra("facName");
+        } else {
+          intetFacName = "서울";
         }
-        //subAddress = "전라북도 군산시 미장남로 10 109동 103호";
-        view.navigateToMap(subAddress, facName);
+        final String facName = intetFacName;
+        /*
+        double[] locationArray = AddressUtils.getFromLocation(MyApplication.getInstance(), address);
+        if (!ObjectUtils.isEmpty(locationArray)) {
+          view.navigateToMap(locationArray, facName);
+        } else {
+          view.showMessage(R.string.error_not_found_address);
+        }
+        view.hideLoading();
+        */
+        disposable = geocodeNetwork.getGoogleGeocode(address)
+            .map(new Function<GoogleGeocode, double[]>() {
+              @Override public double[] apply(GoogleGeocode googleGeocode) throws Exception {
+                double[] locations = new double[2];
+                  Timber.d("status = " + googleGeocode.getStatus());
+                  GeometryLocation location =
+                      googleGeocode.getResults().get(0).getGeometry().getLocation();
+                  locations[0] = location.getLat();
+                  locations[1] = location.getLng();
+                  return locations;
+              }
+            })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(locations -> {
+              Timber.d("locations = " + locations[0] + ", " + locations[1]);
+              view.navigateToMap(locations, facName);
+              view.hideLoading();
+            }, throwable -> {
+              Timber.e(throwable);
+              view.showMessage(R.string.error_not_found_address);
+              view.hideLoading();
+            });
       } catch (Exception e) {
         Timber.e(e);
         view.showMessage(R.string.error_not_found_address);
+        view.hideLoading();
       }
     } else {
       view.showMessage(R.string.error_server);
+      view.hideLoading();
     }
   }
 
