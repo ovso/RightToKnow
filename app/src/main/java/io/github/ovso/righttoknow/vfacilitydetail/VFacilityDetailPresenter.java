@@ -38,6 +38,6 @@ public interface VFacilityDetailPresenter {
 
     void showMessage(@StringRes int resId);
 
-    void navigateToMap(String address);
+    void navigateToMap(String address, String facName);
   }
 }

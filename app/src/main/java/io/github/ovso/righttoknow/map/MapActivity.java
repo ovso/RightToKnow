@@ -55,14 +55,14 @@ public class MapActivity extends BaseActivity {
 
   private void setMarker() {
     // seoul
-    double lat = 37.5652894;
-    double lng = 126.8494635;
+    double lat;
+    double lng;
 
     try {
       String address = getIntent().getStringExtra("address");
       Timber.d("address = " + address);
       List<Address> addressList =
-          new Geocoder(getApplicationContext(), Locale.KOREA).getFromLocationName(address, 1);
+          new Geocoder(getApplicationContext(), Locale.KOREAN).getFromLocationName(address, 1);
       Timber.d("addressList = " + addressList);
       lat = addressList.get(0).getLatitude();
       lng = addressList.get(0).getLongitude();
@@ -79,6 +79,7 @@ public class MapActivity extends BaseActivity {
     NMapController mapController = mapView.getMapController();
     mapController.setZoomEnabled(true);
     mapController.setZoomToFixingPoint(true);
+
     NMapViewerResourceProvider provider = new NMapViewerResourceProvider(getApplicationContext());
     NMapOverlayManager mapOverlayManager =
         new NMapOverlayManager(getApplicationContext(), mapView, provider);

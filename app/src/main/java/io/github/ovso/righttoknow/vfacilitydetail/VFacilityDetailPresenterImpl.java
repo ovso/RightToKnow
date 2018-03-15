@@ -35,6 +35,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
 
   private String address;
   private Disposable disposable;
+
   private void req(Intent intent) {
     if (intent.hasExtra("vio_fac_link")) {
       final String link = intent.getStringExtra("vio_fac_link");
@@ -80,14 +81,21 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
   @Override public void onMapClick(Intent intent) {
     if (!TextUtils.isEmpty(address)) {
       int beginIndex = address.indexOf(")") + 1;
-      int endIndex = address.indexOf("(", 1) - 1;
-      String subAddress = address.substring(beginIndex, endIndex);
-      Timber.d("address = " + address);
-      Timber.d("subAddress = " + subAddress);
-
-      Timber.d("addressssssssss = " + subAddress.substring(subAddress.length() - 10, subAddress.length()));
-
-      view.navigateToMap(subAddress);
+      int endIndex = address.indexOf("(", 1);
+      try {
+        String subAddress = address.substring(beginIndex, endIndex);
+        subAddress = subAddress.trim();
+        Timber.d("subAddress = " + subAddress);
+        String facName = null;
+        if(intent.hasExtra("facName")) {
+          facName = intent.getStringExtra("facName");
+        }
+        //subAddress = "전라북도 군산시 미장남로 10 109동 103호";
+        view.navigateToMap(subAddress, facName);
+      } catch (Exception e) {
+        Timber.e(e);
+        view.showMessage(R.string.error_not_found_address);
+      }
     } else {
       view.showMessage(R.string.error_server);
     }

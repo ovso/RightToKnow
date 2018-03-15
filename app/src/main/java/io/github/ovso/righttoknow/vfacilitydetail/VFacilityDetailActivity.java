@@ -99,9 +99,10 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
   }
 
-  @Override public void navigateToMap(String address) {
+  @Override public void navigateToMap(String address, String facName) {
     Intent intent = new Intent(getApplicationContext(), MapActivity.class);
     intent.putExtra("address", address);
+    intent.putExtra("facName", facName);
     startActivity(intent);
   }
 
@@ -142,5 +143,4 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
       setTitle(R.string.title_violator_inquiry_detail);
     }
   }
-
 }
