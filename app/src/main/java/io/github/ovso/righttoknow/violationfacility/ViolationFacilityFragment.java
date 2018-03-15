@@ -73,10 +73,11 @@ public class ViolationFacilityFragment extends BaseFragment
     swipeRefresh.setRefreshing(false);
   }
 
-  @Override public void navigateToViolationFacilityDetail(String webLink) {
+  @Override public void navigateToViolationFacilityDetail(String webLink, String address) {
 
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
     intent.putExtra("vio_fac_link", webLink);
+    intent.putExtra("address" , address);
     startActivity(intent);
 
   }

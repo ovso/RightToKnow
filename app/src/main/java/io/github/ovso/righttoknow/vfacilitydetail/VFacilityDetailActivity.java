@@ -99,8 +99,9 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
   }
 
-  @Override public void navigateToMap() {
+  @Override public void navigateToMap(String address) {
     Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+    intent.putExtra("address", address);
     startActivity(intent);
   }
 
@@ -119,8 +120,8 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     startActivity(chooser);
   }
 
-  @OnClick(R.id.location_button) void onLocationClick() {
-    presenter.onLocationClick();
+  @OnClick(R.id.location_button) void onMapClick() {
+    presenter.onMapClick(getIntent());
   }
 
   @Override protected void onDestroy() {
@@ -141,4 +142,5 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
       setTitle(R.string.title_violator_inquiry_detail);
     }
   }
+
 }

@@ -99,5 +99,7 @@
   <string name="show_location">위치보기</string>
   <string name="hint_sort">정렬</string>
   <string name="vio_fac_loc">법 위반 시설 위치</string>
+  <string name="str_done">완료</string>
+  <string name="vio_fac">법 위반 어린이집</string>
 
 </resources>

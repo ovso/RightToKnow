@@ -16,7 +16,7 @@ public interface VFacilityDetailPresenter {
 
   void onDestroy();
 
-  void onLocationClick();
+  void onMapClick(Intent intent);
 
   void onRefresh(Intent intent);
 
@@ -38,6 +38,6 @@ public interface VFacilityDetailPresenter {
 
     void showMessage(@StringRes int resId);
 
-    void navigateToMap();
+    void navigateToMap(String address);
   }
 }

@@ -39,7 +39,7 @@ public interface ViolationFacilityPresenter {
 
     void hideLoading();
 
-    void navigateToViolationFacilityDetail(String webLink);
+    void navigateToViolationFacilityDetail(String webLink, String address);
 
     void setListener();
 

@@ -60,8 +60,9 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
 
   @Override public void onRecyclerItemClick(VioFac vioFac) {
     String webLink = vioFac.getLink();
+    String address = vioFac.getAddress();
     if (webLink != null) {
-      view.navigateToViolationFacilityDetail(webLink);
+      view.navigateToViolationFacilityDetail(webLink, address);
     } else {
       view.showMessage(R.string.error_server);
     }
