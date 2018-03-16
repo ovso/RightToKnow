@@ -50,6 +50,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
               view.hideLoading();
             }, throwable -> {
               Timber.d(throwable);
+              view.showMessage(R.string.error_server);
               view.hideLoading();
             }));
   }

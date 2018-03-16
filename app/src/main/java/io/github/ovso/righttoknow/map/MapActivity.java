@@ -42,7 +42,9 @@ public class MapActivity extends BaseActivity {
     mapView.setFocusable(true);
     mapView.setFocusableInTouchMode(true);
     mapView.requestFocus();
-    mapView.setScalingFactor(4f);
+    mapView.setScalingFactor(2.0f);
+    mapView.setBuiltInZoomControls(true, null);
+    mapView.setAutoRotateEnabled(true, true);
 
     setMarker();
   }
@@ -54,13 +56,12 @@ public class MapActivity extends BaseActivity {
 
     NMapController mapController = mapView.getMapController();
     mapController.setZoomEnabled(true);
-    mapController.setZoomToFixingPoint(true);
 
     NMapViewerResourceProvider provider = new NMapViewerResourceProvider(getApplicationContext());
     NMapOverlayManager mapOverlayManager =
         new NMapOverlayManager(getApplicationContext(), mapView, provider);
     NGeoPoint currentPoint = new NGeoPoint(locations[1], locations[0]);
-    mapController.setMapCenter(currentPoint);
+    mapController.setMapCenter(currentPoint, 14);
     NMapPOIdata poiData = new NMapPOIdata(1, provider);
     String facName = getIntent().getStringExtra("facName");
     Timber.d("facName = " + facName);
@@ -72,6 +73,7 @@ public class MapActivity extends BaseActivity {
 
     NMapPOIdataOverlay poIdataOverlay = mapOverlayManager.createPOIdataOverlay(poiData, null);
     poIdataOverlay.showAllPOIdata(0);
+
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
