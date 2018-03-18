@@ -24,7 +24,7 @@ public class VideoDetailActivity extends Activity {
     if (getIntent().hasExtra("video_id")) {
       YouTubePlayerFragment youTubePlayerFragment =
           (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
-      youTubePlayerFragment.initialize(Security.DEVELOPER_KEY,
+      youTubePlayerFragment.initialize(Security.GOOGLE_API_KEY,
           new YouTubePlayer.OnInitializedListener() {
             @Override public void onInitializationSuccess(YouTubePlayer.Provider provider,
                 YouTubePlayer youTubePlayer, boolean b) {

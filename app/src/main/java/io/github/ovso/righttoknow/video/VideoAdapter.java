@@ -68,7 +68,7 @@ public class VideoAdapter extends BaseRecyclerAdapter
             }
           };
 
-      thumbnailView.initialize(Security.DEVELOPER_KEY, onInitializedListener);
+      thumbnailView.initialize(Security.GOOGLE_API_KEY, onInitializedListener);
 
       viewHolder.itemView.setOnClickListener(view -> {
         if (onRecyclerItemClickListener != null) {

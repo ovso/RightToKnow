@@ -30,7 +30,7 @@ public class GeocodeNetwork extends NetworkHelper2<GeocoderApi> {
     HashMap<String, String> queryMap = new HashMap<>();
     queryMap.put("address", address);
     queryMap.put("language", "ko");
-    queryMap.put("key", Security.GEOCODING_API_KEY);
+    queryMap.put("key", Security.GOOGLE_API_KEY);
     return getApi().getGeocode(queryMap);
   }
 }

@@ -86,7 +86,7 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
       playLandscape(video.getVideo_id());
     } else {
       Intent intent =
-          YouTubeStandalonePlayer.createVideoIntent(getActivity(), Security.DEVELOPER_KEY,
+          YouTubeStandalonePlayer.createVideoIntent(getActivity(), Security.GOOGLE_API_KEY,
               video.getVideo_id(), startTimeMillis, autoPlay, lightboxMode);
       startActivity(intent);
     }
