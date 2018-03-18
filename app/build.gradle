@@ -130,9 +130,6 @@ dependencies {
   implementation "com.firebase:firebase-jobdispatcher:$firebase_jobdispatcher"
   implementation "com.androidhuman.rxfirebase2:firebase-database:$rxfirebase_version"
 
-  // permission
-  implementation "gun0912.ted:tedpermission:$tedpermission_version"
-
   // rxjava
   implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
   implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"

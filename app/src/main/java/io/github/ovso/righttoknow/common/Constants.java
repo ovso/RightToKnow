@@ -59,9 +59,6 @@ public class Constants {
             + "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\n"
             + "THE SOFTWARE.\n", null));
 
-    notices.addNotice(new Notice("TedPermission", "https://github.com/ParkSangGwon/TedPermission",
-        "Copyright 2017 Ted Park", new ApacheSoftwareLicense20()));
-
     notices.addNotice(new Notice("AndroidPdfViewer", "https://github.com/barteksc/AndroidPdfViewer",
         "Copyright 2016 Bartosz Schiller", new ApacheSoftwareLicense20()));
     notices.addNotice(
