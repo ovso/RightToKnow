@@ -97,7 +97,9 @@ android {
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile fileTree(include: ['*.jar'], dir: 'libs')
+  implementation files('libs/YouTubeAndroidPlayerApi.jar')
+  implementation files('libs/CaulySDK_3.4.18.jar')
 
   // test
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -113,6 +115,7 @@ dependencies {
 
   // location
   implementation "com.google.android.gms:play-services-location:$play_services_version"
+  implementation "com.google.android.gms:play-services-maps:$play_services_version"
 
   // injection
   implementation "com.jakewharton:butterknife:$butterknife_version"
@@ -140,7 +143,6 @@ dependencies {
   implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
   implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
   implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
-
   provided "org.projectlombok:lombok:$lombok_version"
   annotationProcessor "org.projectlombok:lombok:$lombok_version"
   implementation "com.github.barteksc:android-pdf-viewer:$pdf_viewer_version"
@@ -150,8 +152,6 @@ dependencies {
   implementation "com.github.bumptech.glide:glide:$glide_version"
   annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
   implementation "org.jsoup:jsoup:$rootProject.jsoup_version"
-  implementation files('libs/YouTubeAndroidPlayerApi.jar', 'libs/CaulySDK_3.4.18.jar')
-  implementation "com.naver.maps.open:naver-map-api:$naver_map_version"
 }
 
 // Add to the bottom of the file

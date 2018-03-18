@@ -17,6 +17,10 @@
       android:theme="@style/AppTheme">
 
     <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyBdY9vP4_vQs5YEGJ3Ghu6s5gGY8yFlo0s"/>
+
+    <meta-data
         android:name="com.google.firebase.messaging.default_notification_icon"
         android:resource="@drawable/ic_new_releases_24dp"/>
 
@@ -97,6 +101,7 @@
         <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
       </intent-filter>
     </service>
+
   </application>
 
 </manifest>

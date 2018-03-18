@@ -1,19 +1,16 @@
 package io.github.ovso.righttoknow.map;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.MenuItem;
-import butterknife.BindView;
-import com.nhn.android.maps.NMapContext;
-import com.nhn.android.maps.NMapController;
-import com.nhn.android.maps.NMapView;
-import com.nhn.android.maps.maplib.NGeoPoint;
-import com.nhn.android.maps.overlay.NMapPOIdata;
-import com.nhn.android.mapviewer.overlay.NMapOverlayManager;
-import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.main.BaseActivity;
 import timber.log.Timber;
 
@@ -21,9 +18,7 @@ import timber.log.Timber;
  * Created by jaeho on 2018. 3. 15
  */
 
-public class MapActivity extends BaseActivity {
-  private NMapContext mapContext;
-  @BindView(R.id.map_view) NMapView mapView;
+public class MapActivity extends BaseActivity implements OnMapReadyCallback {
 
   @Override protected int getLayoutResId() {
     return R.layout.activity_map;
@@ -33,47 +28,12 @@ public class MapActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setTitle(R.string.vio_fac_loc);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    mapContext = new NMapContext(this);
-    mapContext.onCreate();
-    mapView.setClientId(Security.NAVER_CLIENT_ID);
-    mapContext.setupMapView(mapView);
-    mapView.setClickable(true);
-    mapView.setEnabled(true);
-    mapView.setFocusable(true);
-    mapView.setFocusableInTouchMode(true);
-    mapView.requestFocus();
-    mapView.setScalingFactor(2.0f);
-    mapView.setBuiltInZoomControls(true, null);
-    mapView.setAutoRotateEnabled(true, true);
-
-    setMarker();
-  }
-
-  private void setMarker() {
-
     double[] locations = getIntent().getDoubleArrayExtra("locations");
-    Timber.d("locations = " + locations);
+    Timber.d("locations = " + locations[0] + ", " + locations[1]);
 
-    NMapController mapController = mapView.getMapController();
-    mapController.setZoomEnabled(true);
-
-    NMapViewerResourceProvider provider = new NMapViewerResourceProvider(getApplicationContext());
-    NMapOverlayManager mapOverlayManager =
-        new NMapOverlayManager(getApplicationContext(), mapView, provider);
-    NGeoPoint currentPoint = new NGeoPoint(locations[1], locations[0]);
-    mapController.setMapCenter(currentPoint, 14);
-    NMapPOIdata poiData = new NMapPOIdata(1, provider);
-    String facName = getIntent().getStringExtra("facName");
-    Timber.d("facName = " + facName);
-    if (TextUtils.isEmpty(facName)) {
-      facName = getString(R.string.vio_fac);
-    }
-    poiData.addPOIitem(locations[1], locations[0], facName, NMapPOIflagType.PIN, 0);
-    poiData.endPOIdata();
-
-    NMapPOIdataOverlay poIdataOverlay = mapOverlayManager.createPOIdataOverlay(poiData, null);
-    poIdataOverlay.showAllPOIdata(0);
-
+    FragmentManager fragmentManager = getFragmentManager();
+    MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.map_fragment);
+    mapFragment.getMapAsync(this);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
@@ -81,28 +41,16 @@ public class MapActivity extends BaseActivity {
     return super.onOptionsItemSelected(item);
   }
 
-  @Override protected void onStart() {
-    mapContext.onStart();
-    super.onStart();
-  }
-
-  @Override protected void onResume() {
-    mapContext.onResume();
-    super.onResume();
-  }
-
-  @Override protected void onPause() {
-    mapContext.onPause();
-    super.onPause();
-  }
-
-  @Override protected void onStop() {
-    mapContext.onStop();
-    super.onStop();
-  }
-
-  @Override protected void onDestroy() {
-    mapContext.onDestroy();
-    super.onDestroy();
+  @Override public void onMapReady(GoogleMap googleMap) {
+    double[] locations = getIntent().getDoubleArrayExtra("locations");
+    Timber.d("locations = " + locations[0] + ", " + locations[1]);
+    LatLng latlng = new LatLng(locations[0], locations[1]);
+    MarkerOptions markerOptions = new MarkerOptions();
+    markerOptions.position(latlng);
+    markerOptions.title(getIntent().getStringExtra("facName"));
+    //markerOptions.snippet(getIntent().getStringExtra("facName"));
+    googleMap.addMarker(markerOptions);
+    googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
+    googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
   }
 }

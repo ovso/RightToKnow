@@ -29,6 +29,7 @@ public class GeocodeNetwork extends NetworkHelper2<GeocoderApi> {
   public Single<GoogleGeocode> getGoogleGeocode(String address) {
     HashMap<String, String> queryMap = new HashMap<>();
     queryMap.put("address", address);
+    queryMap.put("language", "ko");
     queryMap.put("key", Security.GEOCODING_API_KEY);
     return getApi().getGeocode(queryMap);
   }

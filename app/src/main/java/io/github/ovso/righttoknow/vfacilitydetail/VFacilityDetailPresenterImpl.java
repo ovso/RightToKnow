@@ -94,6 +94,8 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
   //37.5652894,126.8494635 서울
   //locations[0] = 37.5652894;
   //locations[1] = 126.8494635;
+  private final static double LAT_SEOUL = 37.5652894;
+  private final static double LNG_SEOUL = 126.8494635;
 
   @Override public void onMapClick(Intent intent) {
     view.showLoading();
@@ -106,11 +108,16 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
         disposable = geocodeNetwork.getGoogleGeocode(address)
             .map(googleGeocode -> {
               double[] locations = new double[2];
+              if (googleGeocode.getStatus().contains("OK")) {
                 GeometryLocation location =
                     googleGeocode.getResults().get(0).getGeometry().getLocation();
                 locations[0] = location.getLat();
                 locations[1] = location.getLng();
-                return locations;
+              } else {
+                locations[0] = LAT_SEOUL;
+                locations[1] = LNG_SEOUL;
+              }
+              return locations;
             })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

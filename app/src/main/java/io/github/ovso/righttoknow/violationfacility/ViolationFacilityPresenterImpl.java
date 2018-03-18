@@ -7,6 +7,7 @@ import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.violationfacility.model.VioFac;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -40,19 +41,19 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
 
   private void req() {
     view.showLoading();
-    compositeDisposable.add(
-        Observable.fromCallable(() -> VioFac.convertToItems(Jsoup.connect(connectUrl).get()))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(items -> {
-              adapterDataModel.addAll(items);
-              view.refresh();
-              view.hideLoading();
-            }, throwable -> {
-              Timber.d(throwable);
-              view.showMessage(R.string.error_server);
-              view.hideLoading();
-            }));
+
+    compositeDisposable.add(Maybe.fromCallable(
+        () -> VioFac.convertToItems(Jsoup.connect(connectUrl).get()))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(items -> {
+          adapterDataModel.addAll(items);
+          view.refresh();
+          view.hideLoading();
+        }, throwable -> {
+          view.showMessage(R.string.error_server);
+          view.hideLoading();
+        }));
   }
 
   @Override public void setAdapterModel(BaseAdapterDataModel<VioFac> adapterDataModel) {
