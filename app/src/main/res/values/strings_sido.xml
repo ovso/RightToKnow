@@ -1,0 +1,19 @@
+<resources>
+  <string name="sido1">서울특별시</string>
+  <string name="sido2">부산광역시</string>
+  <string name="sido3">대구광역시</string>
+  <string name="sido4">인천광역시</string>
+  <string name="sido5">광주광역시</string>
+  <string name="sido6">대전광역시</string>
+  <string name="sido7">울산광역시</string>
+  <string name="sido8">세종특별자치시</string>
+  <string name="sido9">경기도</string>
+  <string name="sido10">강원도</string>
+  <string name="sido11">충청북도</string>
+  <string name="sido12">충청남도</string>
+  <string name="sido13">전라북도</string>
+  <string name="sido14">전라남도</string>
+  <string name="sido15">경상북도</string>
+  <string name="sido16">경상남도</string>
+  <string name="sido17">제주도</string>
+</resources>

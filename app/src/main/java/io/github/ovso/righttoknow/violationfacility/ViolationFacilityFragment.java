@@ -7,16 +7,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
-import io.github.ovso.righttoknow.violationfacility.model.ViolationFacility;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -56,11 +57,8 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void setAdapter() {
     presenter.setAdapterModel(adapter);
     adapterView = adapter;
-    adapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<ViolationFacility>() {
-      @Override public void onItemClick(ViolationFacility violationFacility) {
-        presenter.onRecyclerItemClick(violationFacility);
-      }
-    });
+    adapter.setOnRecyclerItemClickListener(
+        violationFacility -> presenter.onRecyclerItemClick(violationFacility));
   }
 
   @Override public void refresh() {
@@ -75,15 +73,19 @@ public class ViolationFacilityFragment extends BaseFragment
     swipeRefresh.setRefreshing(false);
   }
 
-  @Override public void navigateToViolationFacilityDetail(ViolationFacility fac) {
+  @Override public void navigateToViolationFacilityDetail(String webLink, String address) {
+
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
-    intent.putExtra("contents", fac);
+    intent.putExtra("vio_fac_link", webLink);
+    intent.putExtra("address" , address);
     startActivity(intent);
+
   }
 
   @Override public void setListener() {
     swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+    setHasOptionsMenu(true);
   }
 
   @BindView(R.id.search_result_textview) TextView searchResultTextView;
@@ -109,5 +111,19 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void onDetach() {
     presenter.onDetach();
     super.onDetach();
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    presenter.onOptionsItemSelected(item.getItemId());
+    return super.onOptionsItemSelected(item);
+  }
+
+  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    super.onCreateOptionsMenu(menu, inflater);
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    getActivity().setTitle(R.string.title_vioation_facility_inquiry);
   }
 }

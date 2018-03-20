@@ -1,17 +1,19 @@
 package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
-import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import android.text.TextUtils;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.violationfacility.Sido;
 import io.github.ovso.righttoknow.violator.model.Violator;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.List;
+import org.jsoup.Jsoup;
+import timber.log.Timber;
 
 /**
  * Created by jaeho on 2017. 8. 3
@@ -21,11 +23,10 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   private ViolatorFragmentPresenter.View view;
   private ViolatorAdapterDataModel adapterDataModel;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
-  private DatabaseReference databaseReference =
-      FirebaseDatabase.getInstance().getReference().child("child_violator");
-
+  private String connectUrl;
   ViolatorFragmentPresenterImpl(ViolatorFragmentPresenter.View view) {
     this.view = view;
+    connectUrl = Constants.BASE_URL + Constants.VIOLATOR_LIST_PATH_QUERY;
   }
 
   @Override public void onActivityCreate(Bundle savedInstanceState) {
@@ -37,14 +38,8 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   private void req() {
-    RxFirebaseDatabase.data(databaseReference)
-        .map(dataSnapshot -> {
-          ArrayList<Violator> items = Violator.convertToItems(dataSnapshot);
-          Comparator<Violator> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
-              .compareTo(Integer.valueOf(t1.getReg_number()));
-          Collections.sort(items, comparator);
-          return items;
-        })
+    compositeDisposable.add(Observable.fromCallable(() -> Violator.convertToItems(
+        Jsoup.connect(connectUrl).get()))
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(items -> {
@@ -52,9 +47,10 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
           view.refresh();
           view.hideLoading();
         }, throwable -> {
+          Timber.d(throwable);
           view.showMessage(R.string.error_server);
           view.hideLoading();
-        });
+        }));
   }
 
   @Override public void setAdapterModel(ViolatorAdapterDataModel adapterDataModel) {
@@ -62,7 +58,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   @Override public void onRecyclerItemClick(Violator violator) {
-    view.navigateToViolatorDetail(violator);
+    view.navigateToViolatorDetail(violator.getLink(), violator.getAddress());
   }
 
   @Override public void onDestroyView() {
@@ -81,24 +77,24 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     view.showLoading();
     adapterDataModel.clear();
     view.refresh();
-    compositeDisposable.add(RxFirebaseDatabase.data(databaseReference)
-        .subscribeOn(Schedulers.io())
-        .map(dataSnapshot -> {
-          ArrayList<Violator> items =
-              Violator.getSearchResultItems(Violator.convertToItems(dataSnapshot), query);
-          Comparator<Violator> comparator = (t1, t2) -> Integer.valueOf(t2.getReg_number())
-              .compareTo(Integer.valueOf(t1.getReg_number()));
-          Collections.sort(items, comparator);
-          return items;
-        })
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(items -> {
-          adapterDataModel.addAll(items);
-          view.refresh();
-          view.hideLoading();
-        }, throwable -> {
-          view.showMessage(R.string.error_server);
-          view.showLoading();
-        }));
+    compositeDisposable.add(Observable.fromCallable(() -> {
+      List<Violator> items = Violator.convertToItems(
+          Jsoup.connect(connectUrl).get());
+      return Violator.searchResultItems(query, items);
+    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(items -> {
+      adapterDataModel.addAll(items);
+      view.refresh();
+      view.hideLoading();
+    }, throwable -> {
+      Timber.d(throwable);
+      view.hideLoading();
+    }));
+  }
+
+  @Override public void onOptionsItemSelected(int itemId) {
+    String sido = Sido.getSido(itemId, MyApplication.getInstance());
+    if (!TextUtils.isEmpty(sido)) {
+      onSearchQuery(sido);
+    }
   }
 }

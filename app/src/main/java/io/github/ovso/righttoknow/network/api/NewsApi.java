@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.network;
+package io.github.ovso.righttoknow.network.api;
 
 import io.github.ovso.righttoknow.news.model.NewsResult;
 import io.reactivex.Single;
@@ -11,9 +11,7 @@ import retrofit2.http.QueryMap;
  * Created by jaeho on 2017. 12. 20
  */
 
-public interface MyApi {
-
-  public final static String BASE_URL = "https://openapi.naver.com";
+public interface NewsApi {
 
   @GET("/v1/search/news") Single<NewsResult> getNews(@QueryMap HashMap<String, String> queryMap);
 

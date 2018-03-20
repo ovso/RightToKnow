@@ -3,9 +3,12 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -13,9 +16,11 @@ import com.fsn.cauly.CaulyAdInfo;
 import com.fsn.cauly.CaulyAdInfoBuilder;
 import com.fsn.cauly.CaulyAdView;
 import com.fsn.cauly.CaulyAdViewListener;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.main.BaseActivity;
+import io.github.ovso.righttoknow.map.MapActivity;
 
 /**
  * Created by jaeho on 2017. 8. 2
@@ -25,11 +30,18 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
   VFacilityDetailPresenter presenter;
   @BindView(R.id.contents_textview) TextView contentsTextView;
+  @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipe;
+  @BindView(R.id.share_button) Button shareButton;
+  @BindView(R.id.location_button) Button locationButton;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     presenter = new VFacilityDetailPresenterImpl(this);
     presenter.onCreate(savedInstanceState, getIntent());
+  }
+
+  @Override public void setTitle(int titleId) {
+    super.setTitle(titleId);
   }
 
   @Override protected int getLayoutResId() {
@@ -45,18 +57,17 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public void setListener() {
-  }
-
-  @BindView(R.id.content_view) View contentView;
-
-  @Override public void setTitle(String title) {
-    getSupportActionBar().setTitle(title);
+    swipe.setColorSchemeResources(R.color.colorPrimary);
+    swipe.setOnRefreshListener(() -> {
+      presenter.onRefresh(getIntent());
+    });
   }
 
   @Override public void showAd() {
     CaulyAdView view;
-    CaulyAdInfo info = new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(
-        CaulyAdInfo.Effect.Circle.toString()).build();
+    CaulyAdInfo info =
+        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(CaulyAdInfo.Effect.Circle.toString())
+            .build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);
     view.setAdViewListener(new CaulyAdViewListener() {
@@ -79,7 +90,39 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
     ViewGroup adContainer = findViewById(R.id.ad_container);
     adContainer.addView(view);
+  }
 
+  @Override public void showLoading() {
+    swipe.setRefreshing(true);
+  }
+
+  @Override public void hideLoading() {
+    swipe.setRefreshing(false);
+  }
+
+  @Override public void showMessage(int resId) {
+    //Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
+    new AlertDialog.Builder(getApplicationContext()).setMessage(resId)
+        .setPositiveButton(android.R.string.ok,
+            (dialogInterface, which) -> dialogInterface.dismiss())
+        .show();
+  }
+
+  @DebugLog @Override public void navigateToMap(double[] locations, String facName) {
+    Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+    intent.putExtra("locations", locations);
+    intent.putExtra("facName", facName);
+    startActivity(intent);
+  }
+
+  @Override public void hideButton() {
+    locationButton.setVisibility(View.INVISIBLE);
+    shareButton.setVisibility(View.INVISIBLE);
+  }
+
+  @Override public void showButton() {
+    locationButton.setVisibility(View.VISIBLE);
+    shareButton.setVisibility(View.VISIBLE);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
@@ -97,6 +140,10 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     startActivity(chooser);
   }
 
+  @OnClick(R.id.location_button) void onMapClick() {
+    presenter.onMapClick(getIntent());
+  }
+
   @Override protected void onDestroy() {
     super.onDestroy();
     presenter.onDestroy();
@@ -105,5 +152,14 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   @Override public void onBackPressed() {
     super.onBackPressed();
     presenter.onBackPressed();
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+    if (getIntent().hasExtra("vio_fac_link")) {
+      setTitle(R.string.title_vioation_facility_inquiry_detail);
+    } else if (getIntent().hasExtra("violator_link")) {
+      setTitle(R.string.title_violator_inquiry_detail);
+    }
   }
 }

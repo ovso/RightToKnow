@@ -8,17 +8,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
-import io.github.ovso.righttoknow.violator.model.Violator;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -28,6 +26,9 @@ public class ViolatorFragment extends BaseFragment
     implements ViolatorFragmentPresenter.View, OnFragmentEventListener {
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
+  @BindView(R.id.search_result_textview) TextView searchResultTextView;
+  @BindView(R.id.container_view) View containerView;
+
   private ViolatorAdapter adapter = new ViolatorAdapter();
   private BaseAdapterView adapterView;
   private ViolatorFragmentPresenter presenter;
@@ -62,11 +63,7 @@ public class ViolatorFragment extends BaseFragment
   @Override public void setAdapter() {
     presenter.setAdapterModel(adapter);
     adapterView = adapter;
-    adapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<Violator>() {
-      @Override public void onItemClick(Violator violator) {
-        presenter.onRecyclerItemClick(violator);
-      }
-    });
+    adapter.setOnRecyclerItemClickListener(violator -> presenter.onRecyclerItemClick(violator));
   }
 
   @Override public void setRecyclerView() {
@@ -75,20 +72,18 @@ public class ViolatorFragment extends BaseFragment
     recyclerView.setAdapter(adapter);
   }
 
-  @DebugLog @Override public void navigateToViolatorDetail(Violator violator) {
+  @Override public void navigateToViolatorDetail(String link, String address) {
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
-    intent.putExtra("contents", violator);
+    intent.putExtra("violator_link", link);
+    intent.putExtra("address", address);
     startActivity(intent);
   }
 
   @Override public void setListener() {
-    swipeRefresh.setOnRefreshListener(() -> {
-      presenter.onRefresh();
-    });
+    swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+    setHasOptionsMenu(true);
   }
-
-  @BindView(R.id.search_result_textview) TextView searchResultTextView;
 
   @Override public void setSearchResultText(@StringRes int resId) {
     searchResultTextView.setText(resId);
@@ -98,8 +93,6 @@ public class ViolatorFragment extends BaseFragment
     Snackbar.make(containerView, resId, Snackbar.LENGTH_SHORT).show();
   }
 
-  @BindView(R.id.container_view) View containerView;
-
   @Override public void onDestroyView() {
     presenter.onDestroyView();
     super.onDestroyView();
@@ -107,5 +100,16 @@ public class ViolatorFragment extends BaseFragment
 
   @Override public void onSearchQuery(String query) {
     presenter.onSearchQuery(query);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    //return super.onOptionsItemSelected(item);
+    presenter.onOptionsItemSelected(item.getItemId());
+    return false;
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    getActivity().setTitle(R.string.title_violator_inquiry);
   }
 }

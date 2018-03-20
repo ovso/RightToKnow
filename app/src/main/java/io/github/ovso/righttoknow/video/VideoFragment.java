@@ -42,6 +42,7 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     this.menuInflater = inflater;
     presenter.onCreateOptionsMenu();
     menu.findItem(R.id.option_menu_search).setVisible(false);
+    menu.findItem(R.id.option_menu_sort).setVisible(false);
     super.onCreateOptionsMenu(menu, inflater);
   }
 
@@ -85,7 +86,7 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
       playLandscape(video.getVideo_id());
     } else {
       Intent intent =
-          YouTubeStandalonePlayer.createVideoIntent(getActivity(), Security.DEVELOPER_KEY,
+          YouTubeStandalonePlayer.createVideoIntent(getActivity(), Security.GOOGLE_API_KEY,
               video.getVideo_id(), startTimeMillis, autoPlay, lightboxMode);
       startActivity(intent);
     }
@@ -137,5 +138,10 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
   @Override public void onDestroyView() {
     super.onDestroyView();
     presenter.onDestroyView();
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    getActivity().setTitle(R.string.title_video);
   }
 }

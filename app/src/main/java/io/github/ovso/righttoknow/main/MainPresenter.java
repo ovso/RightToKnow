@@ -16,7 +16,7 @@ public interface MainPresenter {
 
   void onNavigationItemSelected(int id);
 
-  void onBottomNavigationItemSelected(int id);
+  boolean onBottomNavigationItemSelected(int id);
 
   void onNewIntent(Intent intent);
 
@@ -28,8 +28,6 @@ public interface MainPresenter {
 
   interface View {
     void setListener();
-
-    void setTitle(String title);
 
     void setBottomNavigationViewBehavior();
 

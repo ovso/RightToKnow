@@ -1,6 +1,8 @@
 package io.github.ovso.righttoknow.network;
 
 import android.content.Context;
+import io.github.ovso.righttoknow.Security;
+import io.github.ovso.righttoknow.network.api.NewsApi;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -22,9 +24,9 @@ public class NetworkHelper {
     this.baseUrl = baseUrl;
   }
 
-  protected MyApi getMyApi() {
+  protected NewsApi getMyApi() {
     final Retrofit retrofit = createRetrofit();
-    return retrofit.create(MyApi.class);
+    return retrofit.create(NewsApi.class);
   }
 
   private Retrofit createRetrofit() {
@@ -43,8 +45,8 @@ public class NetworkHelper {
       Request original = chain.request();
       Request.Builder requestBuilder = original.newBuilder()
           .header("Content-Type", "plain/text")
-          .addHeader("X-Naver-Client-Id", "HLSg0Vn_L6Y2S65DbzKP")
-          .addHeader("X-Naver-Client-Secret", "oa1k9kyE0E");
+          .addHeader("X-Naver-Client-Id", Security.NAVER_CLIENT_ID)
+          .addHeader("X-Naver-Client-Secret", Security.NAVER_CLIENT_SECRET);
 
       Request request = requestBuilder.build();
       return chain.proceed(request);

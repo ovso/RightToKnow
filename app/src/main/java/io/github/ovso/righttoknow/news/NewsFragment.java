@@ -77,7 +77,9 @@ public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.
   }
 
   @Override public void hideLoading() {
-    swipeRefresh.setRefreshing(false);
+    if (swipeRefresh != null) {
+      swipeRefresh.setRefreshing(false);
+    }
   }
 
   @Override public void navigateToDetailNews(News item) {
@@ -107,6 +109,12 @@ public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.
 
   @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     menu.findItem(R.id.option_menu_search).setVisible(false);
+    menu.findItem(R.id.option_menu_sort).setVisible(false);
     super.onCreateOptionsMenu(menu, inflater);
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    getActivity().setTitle(R.string.title_news);
   }
 }

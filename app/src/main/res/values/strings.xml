@@ -23,9 +23,9 @@
   <string name="sigungu">시군구</string>
   <string name="daycare_center_name">어린이집명</string>
   <string name="type">유형</string>
-  <string name="contents_share">내용 공유</string>
+  <string name="contents_share">공유하기</string>
   <string name="map_view">위치 보기</string>
-  <string name="share_message">어린이집 위반시설 행정처분 공유</string>
+  <string name="share_message">공유하기</string>
   <string name="name">이름</string>
   <string name="detail_violator_name">✔︎︎ 이름 :&#160;</string>
   <string name="vio_old_center_name">위반당시 어린이집</string>
@@ -34,7 +34,9 @@
   <string name="violation_history">이력</string>
   <string name="violation_history_count">회</string>
   <string name="title_vioation_facility_inquiry">위반시설 조회</string>
+  <string name="title_vioation_facility_inquiry_detail">위반시설 조회 상세</string>
   <string name="title_violator_inquiry">위반행위자 조회</string>
+  <string name="title_violator_inquiry_detail">위반행위자 조회</string>
   <string name="title_certified">평가 인증</string>
   <string name="title_child_certified">평가 인증 어린이집 상세</string>
   <string name="msg_latest_info">최신정보입니다.</string>
@@ -56,7 +58,7 @@
   <string name="month">월</string>
   <string name="title_child_certified_detail">어린이집평가인증 신규 및 재인증 결과발표</string>
   <string name="opensource_licenses">오픈소스 라이선스</string>
-  <string name="hint_all_search">예)학대,부정,서울,어린이집,국공립 등..</string>
+  <string name="hint_all_search">예)지역,주소,어린이집명</string>
   <string name="title_news">뉴스 보도</string>
   <string name="title_video">VIDEO</string>
   <string name="play_in_portrait">세로모드로 재생</string>
@@ -90,12 +92,14 @@
   <string name="go_out_message">감사합니다.\n남겨주실 말씀이 있을까요?</string>
   <string name="donation">후원</string>
   <string name="help">도움말</string>
-  <string name="source">* 자료의 출처 : 어린이집 정보공개 포털, 보건복지부 > 사전정보공표, 정부24 > 지방자치단체소식, 각 지방자치 사이트
-    \n\n
-    * 광고수입으로, 초록우산어린이재단에 정기후원하고 있습니다.
-  </string>
-  <string name="child_abuse">아동학대란?</string>
+  <string name="source">* 자료의 출처 : 어린이집 정보공개 포털 \n\n * 제보 : 목록에 나와 있지 않은 \'법 위반 어린이집\'을 알고 계시다면 알려주세요. 정보공개 기관에 업데이트 요청하려고요.(ovsoc@daum.net) \n\n * 광고수입으로, 초록우산어린이재단에 정기후원하고 있습니다.</string>
+  <string name="child_abuse">아동학대 의심에서 신고까지</string>
   <string name="error_server">서버에 문제가 생겼습니다. 잠시후 다시 시도해주세요.</string>
   <string name="empty_search_query">검색어를 입력해주세요.</string>
+  <string name="show_location">위치보기</string>
+  <string name="hint_sort">정렬</string>
+  <string name="vio_fac_loc">법 위반 시설 위치</string>
+  <string name="str_done">완료</string>
+  <string name="vio_fac">법 위반 어린이집</string>
 
 </resources>

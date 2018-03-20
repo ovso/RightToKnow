@@ -70,7 +70,6 @@ class MainPresenterImpl implements MainPresenter {
   }
 
   @Override public void onCreate(Intent intent) {
-    view.setTitle(getTitle(Constants.ITEM_VIOLATION_FACILITY));
     view.setVersionName(
         MyApplication.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
             MyApplication.getInstance()));
@@ -96,7 +95,7 @@ class MainPresenterImpl implements MainPresenter {
     }
   }
 
-  @Override public void onBottomNavigationItemSelected(int id) {
+  @Override public boolean onBottomNavigationItemSelected(int id) {
     switch (id) {
       case R.id.bottom_nav_violation_facility:
         view.showViolationFragment();
@@ -114,6 +113,8 @@ class MainPresenterImpl implements MainPresenter {
         view.showVideoFragment();
         break;
     }
+
+    return true;
   }
 
   private String getTitle(int position) {
