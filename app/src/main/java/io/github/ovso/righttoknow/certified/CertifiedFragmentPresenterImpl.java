@@ -3,16 +3,14 @@ package io.github.ovso.righttoknow.certified;
 import android.os.Bundle;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.certified.model.ChildCertified;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import java.util.List;
-import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
 import timber.log.Timber;
 
@@ -45,42 +43,21 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
     view.showLoading();
     adapterDataModel.clear();
     view.refresh();
-    /*
-    compositeDisposable.add(RxFirebaseDatabase.data(databaseReference)
-        .subscribeOn(Schedulers.io())
-        .map(dataSnapshot -> ChildCertified.convertToItems(dataSnapshot))
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(items -> {
-          adapterDataModel.addAll(items);
-          view.refresh();
-          view.hideLoading();
-        }, throwable -> {
-          view.hideLoading();
-          view.showMessage(R.string.error_server);
-        }));
-    */
-    Maybe.fromCallable(new Callable<List<ChildCertified>>() {
-      @Override public List<ChildCertified> call() throws Exception {
-        return ChildCertified.convertToItems(Jsoup.connect(connectUrl).get());
-      }
-    })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Consumer<List<ChildCertified>>() {
-          @Override public void accept(List<ChildCertified> childCertifieds) throws Exception {
-            Timber.d(childCertifieds.toString());
-            view.hideLoading();
-          }
-        }, new Consumer<Throwable>() {
-          @Override public void accept(Throwable throwable) throws Exception {
-            Timber.d(throwable);
-            view.hideLoading();
-          }
-        });
-
+    compositeDisposable.add(
+        Maybe.fromCallable(() -> ChildCertified.convertToItems(Jsoup.connect(connectUrl).get()))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(items -> {
+              adapterDataModel.addAll(items);
+              view.refresh();
+              view.hideLoading();
+            }, throwable -> {
+              Timber.d(throwable);
+              view.hideLoading();
+            }));
   }
 
-  @Override public void onRecyclerItemClick(ChildCertified certified) {
+  @DebugLog @Override public void onRecyclerItemClick(ChildCertified certified) {
     //view.navigateToPDFViewer(certified.getPdf_name());
   }
 
