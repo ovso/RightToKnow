@@ -4,6 +4,7 @@ import android.os.Bundle;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import hugo.weaving.DebugLog;
+import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.certified.model.ChildCertified;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
@@ -12,7 +13,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import org.jsoup.Jsoup;
-import timber.log.Timber;
 
 /**
  * Created by jaeho on 2017. 8. 21
@@ -52,13 +52,23 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
               view.refresh();
               view.hideLoading();
             }, throwable -> {
-              Timber.d(throwable);
+              view.showMessage(R.string.error_server);
               view.hideLoading();
             }));
   }
 
-  @DebugLog @Override public void onRecyclerItemClick(ChildCertified certified) {
+  @DebugLog @Override public void onRecyclerItemClick(ChildCertified item) {
     //view.navigateToPDFViewer(certified.getPdf_name());
+    /*
+    compositeDisposable.add (Maybe.fromCallable(new Callable<Object>() {
+      @Override public Object call() throws Exception {
+        String pdfLink = ChildCertifiedDetail.convertToPdfLink(
+            Jsoup.connect(Constants.BASE_URL + item.getLink()).get());
+
+        return null;
+      }
+    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe());
+    */
   }
 
   @Override public void setAdapterModel(BaseAdapterDataModel<ChildCertified> adapter) {
