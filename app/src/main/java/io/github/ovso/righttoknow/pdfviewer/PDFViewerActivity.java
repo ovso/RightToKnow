@@ -18,13 +18,13 @@ public class PDFViewerActivity extends BaseActivity {
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    setTitle(R.string.title_child_certified_detail);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     if (getIntent().hasExtra("file")) {
       File file = (File) getIntent().getSerializableExtra("file");
       pdfView.fromFile(file).load();
     }
 
-    setTitle(R.string.title_child_certified_detail);
   }
 
   @Override protected int getLayoutResId() {
