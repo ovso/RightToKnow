@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.certified.model.ChildCertified;
+import java.io.File;
 
 /**
  * Created by jaeho on 2017. 8. 21
@@ -36,7 +37,7 @@ public interface CertifiedFragmentPresenter {
 
     void setListener();
 
-    void navigateToPDFViewer(String name);
+    void navigateToPDFViewer(File file);
 
     void showMessage(@StringRes int resId);
   }

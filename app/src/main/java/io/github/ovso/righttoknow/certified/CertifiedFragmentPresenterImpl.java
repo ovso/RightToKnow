@@ -1,10 +1,14 @@
 package io.github.ovso.righttoknow.certified;
 
 import android.os.Bundle;
+import com.downloader.Error;
+import com.downloader.OnDownloadListener;
+import com.downloader.PRDownloader;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.certified.model.ChildCertified;
 import io.github.ovso.righttoknow.common.Constants;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
@@ -12,7 +16,9 @@ import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import java.io.File;
 import org.jsoup.Jsoup;
+import timber.log.Timber;
 
 /**
  * Created by jaeho on 2017. 8. 21
@@ -58,17 +64,29 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
   }
 
   @DebugLog @Override public void onRecyclerItemClick(ChildCertified item) {
-    //view.navigateToPDFViewer(certified.getPdf_name());
-    /*
-    compositeDisposable.add (Maybe.fromCallable(new Callable<Object>() {
-      @Override public Object call() throws Exception {
-        String pdfLink = ChildCertifiedDetail.convertToPdfLink(
-            Jsoup.connect(Constants.BASE_URL + item.getLink()).get());
+    view.showLoading();
+    final String url = Constants.BASE_URL + item.getDownloadUrl();
+    final File dirPath = MyApplication.getInstance().getFilesDir();
+    final String fileName = "child.pdf";
+    File file = new File(dirPath.toString()+"/"+fileName);
+    if(file.exists()) {
+      file.delete();
+    }
+    PRDownloader.download(url, dirPath.toString(), fileName)
+        .build()
+        .start(new OnDownloadListener() {
+          @DebugLog @Override public void onDownloadComplete() {
+            File file = new File(MyApplication.getInstance().getFilesDir() + "/" + fileName);
+            Timber.d(file.toString());
+            view.navigateToPDFViewer(file);
+            view.hideLoading();
+          }
 
-        return null;
-      }
-    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe());
-    */
+          @DebugLog @Override public void onError(Error error) {
+            view.showMessage(R.string.error_server);
+            view.hideLoading();
+          }
+        });
   }
 
   @Override public void setAdapterModel(BaseAdapterDataModel<ChildCertified> adapter) {
@@ -78,6 +96,7 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
   @Override public void onDestroyView() {
     compositeDisposable.dispose();
     compositeDisposable.clear();
+    PRDownloader.cancelAll();
   }
 
   @Override public void onRefresh() {

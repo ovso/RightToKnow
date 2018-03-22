@@ -132,6 +132,7 @@ dependencies {
   // rxjava
   implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
   implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+  implementation "com.jakewharton.rxbinding2:rxbinding:$rxbinding2_version"
 
   // network
   implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -139,6 +140,7 @@ dependencies {
   implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
   implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
   implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
+
   provided "org.projectlombok:lombok:$lombok_version"
   annotationProcessor "org.projectlombok:lombok:$lombok_version"
   implementation "com.github.barteksc:android-pdf-viewer:$pdf_viewer_version"
@@ -148,6 +150,9 @@ dependencies {
   implementation "com.github.bumptech.glide:glide:$glide_version"
   annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
   implementation "org.jsoup:jsoup:$rootProject.jsoup_version"
+
+  //file downloader
+  implementation "com.mindorks.android:prdownloader:$rootProject.prdownloader_version"
 }
 
 // Add to the bottom of the file

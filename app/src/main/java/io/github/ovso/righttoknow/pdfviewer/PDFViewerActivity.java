@@ -1,14 +1,8 @@
 package io.github.ovso.righttoknow.pdfviewer;
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import butterknife.BindView;
 import com.github.barteksc.pdfviewer.PDFView;
 import io.github.ovso.righttoknow.R;
@@ -19,58 +13,26 @@ import java.io.File;
  * Created by jaeho on 2017. 8. 21
  */
 
-public class PDFViewerActivity extends BaseActivity implements PDFViewerPresenter.View {
+public class PDFViewerActivity extends BaseActivity {
   @BindView(R.id.pdf_view) PDFView pdfView;
-  @BindView(R.id.progress_bar) ProgressBar progressBar;
-  private PDFViewerPresenter presenter;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    presenter = new PDFViewerPresenterImpl(this);
-    presenter.onCreate(savedInstanceState, getIntent());
+
+    if (getIntent().hasExtra("file")) {
+      File file = (File) getIntent().getSerializableExtra("file");
+      pdfView.fromFile(file).load();
+    }
+
+    setTitle(R.string.title_child_certified_detail);
   }
 
   @Override protected int getLayoutResId() {
     return R.layout.activity_pdfviewer;
   }
 
-  @Override public void showLoading() {
-    progressBar.setVisibility(View.VISIBLE);
-  }
-
-  @Override public void hideLoading() {
-    progressBar.setVisibility(View.GONE);
-  }
-
-  @Override public void showPDF(File file) {
-    pdfView.fromFile(file).load();
-  }
-
-  @Override public void setTitle(String title) {
-    ActionBar actionBar = getSupportActionBar();
-    if (actionBar != null) {
-      actionBar.setTitle(title);
-      actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-  }
-
-  @Override public void setProgressbarColor(@ColorRes int color) {
-    progressBar.getIndeterminateDrawable()
-        .setColorFilter(ContextCompat.getColor(getApplicationContext(), color),
-            PorterDuff.Mode.MULTIPLY);
-
-  }
-
-  @Override public void finishActivity() {
-    finish();
-  }
-
-  @Override public void onBackPressed() {
-    presenter.onBackPressed();
-  }
-
   @Override public boolean onOptionsItemSelected(MenuItem item) {
-    presenter.onOptionsItemSelected();
+    finish();
     return true;
   }
 }
