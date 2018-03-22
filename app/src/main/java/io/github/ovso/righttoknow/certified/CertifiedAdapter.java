@@ -36,6 +36,7 @@ public class CertifiedAdapter extends BaseRecyclerAdapter
       final ChildCertified item = items.get(position);
 
       holder.titleTextview.setText(item.getTitle().trim().replace(" ", "\u00A0"));
+      holder.orderTextview.setText(String.valueOf(item.getOrder()));
       holder.itemView.setOnClickListener(view -> onRecyclerItemClickListener.onItemClick(item));
     }
   }
@@ -80,7 +81,7 @@ public class CertifiedAdapter extends BaseRecyclerAdapter
 
   final static class CertifiedViewHolder extends BaseViewHolder {
     @BindView(R.id.title_textview) TextView titleTextview;
-
+    @BindView(R.id.order_textview) TextView orderTextview;
     public CertifiedViewHolder(View itemView) {
       super(itemView);
     }
