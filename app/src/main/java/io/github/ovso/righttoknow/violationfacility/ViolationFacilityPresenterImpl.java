@@ -96,8 +96,8 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
   }
 
   @Override public void onDetach() {
-    compositeDisposable.clear();
     compositeDisposable.dispose();
+    compositeDisposable.clear();
   }
 
   @Override public void onOptionsItemSelected(int itemId) {

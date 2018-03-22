@@ -1,37 +1,55 @@
 package io.github.ovso.righttoknow.certified.model;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import lombok.Getter;
+import lombok.ToString;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * Created by jaeho on 2017. 8. 21
  */
 
-@Getter @IgnoreExtraProperties public class ChildCertified {
+@Getter @ToString public class ChildCertified {
+  private int order;
   private String title;
-  private String pdf_name;
+  private String regDate;
+  private int hits;
+  private String link;
 
-  public static List<ChildCertified> convertToItems(DataSnapshot dataSnapshot) {
-    final Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-    final List<ChildCertified> items = new ArrayList<>();
-    while (iterator.hasNext()) {
-      ChildCertified c = iterator.next().getValue(ChildCertified.class);
-      items.add(c);
+  public static List<ChildCertified> convertToItems(Document doc)
+      throws JSONException, IOException, IndexOutOfBoundsException {
+    JSONArray jsonArray = new JSONArray();
+
+    Elements tableElements = doc.select("tbody");
+    Elements trElements = tableElements.select("tr");
+
+    for (Element trElement : trElements) {
+
+      Elements tdElements = trElement.select("td");
+      JSONObject object = new JSONObject();
+      object.put("order", tdElements.get(0).ownText());
+      object.put("regDate", tdElements.get(3).ownText());
+      object.put("hits", tdElements.get(4).ownText());
+
+      Elements hrefElements = trElement.select("a[href]");
+      String link = hrefElements.get(0).attr("abs:href");
+      String title = hrefElements.get(0).attr("title");
+      object.put("title", title);
+      object.put("link", link);
+
+      jsonArray.put(object);
     }
 
-    return sorted(items);
-  }
-
-  private static List<ChildCertified> sorted(List<ChildCertified> items) {
-    Comparator<ChildCertified> comparator =
-        (t1, t2) -> t2.getPdf_name().compareTo(t1.getPdf_name());
-    Collections.sort(items, comparator);
-    return items;
+    return new Gson().fromJson(jsonArray.toString(), new TypeToken<ArrayList<ChildCertified>>() {
+    }.getType());
   }
 }
