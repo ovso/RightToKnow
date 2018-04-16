@@ -2,9 +2,15 @@ package io.github.ovso.righttoknow.violationfacility;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+
+import org.jsoup.Jsoup;
+
+import java.util.List;
+
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.common.TimeoutMillis;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.violationfacility.model.VioFac;
 import io.reactivex.Maybe;
@@ -12,8 +18,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import java.util.List;
-import org.jsoup.Jsoup;
 import timber.log.Timber;
 
 /**
@@ -43,7 +47,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     view.showLoading();
 
     compositeDisposable.add(Maybe.fromCallable(
-        () -> VioFac.convertToItems(Jsoup.connect(connectUrl).get()))
+        () -> VioFac.convertToItems(Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get()))
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(items -> {
@@ -83,7 +87,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     view.refresh();
 
     compositeDisposable.add(Observable.fromCallable(() -> {
-      List<VioFac> items = VioFac.convertToItems(Jsoup.connect(connectUrl).get());
+      List<VioFac> items = VioFac.convertToItems(Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
       return VioFac.searchResultItems(query, items);
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(items -> {
       adapterDataModel.addAll(items);

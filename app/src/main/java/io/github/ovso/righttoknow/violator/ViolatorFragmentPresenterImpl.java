@@ -2,17 +2,21 @@ package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+
+import org.jsoup.Jsoup;
+
+import java.util.List;
+
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
+import io.github.ovso.righttoknow.common.TimeoutMillis;
 import io.github.ovso.righttoknow.violationfacility.Sido;
 import io.github.ovso.righttoknow.violator.model.Violator;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import java.util.List;
-import org.jsoup.Jsoup;
 import timber.log.Timber;
 
 /**
@@ -39,7 +43,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
   private void req() {
     compositeDisposable.add(Observable.fromCallable(() -> Violator.convertToItems(
-        Jsoup.connect(connectUrl).get()))
+        Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get()))
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(items -> {
@@ -79,7 +83,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     view.refresh();
     compositeDisposable.add(Observable.fromCallable(() -> {
       List<Violator> items = Violator.convertToItems(
-          Jsoup.connect(connectUrl).get());
+          Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
       return Violator.searchResultItems(query, items);
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(items -> {
       adapterDataModel.addAll(items);

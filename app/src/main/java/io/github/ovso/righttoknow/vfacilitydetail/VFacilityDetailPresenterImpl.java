@@ -3,9 +3,15 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+
+import org.jsoup.Jsoup;
+
+import java.util.concurrent.Callable;
+
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.AddressUtils;
+import io.github.ovso.righttoknow.common.TimeoutMillis;
 import io.github.ovso.righttoknow.network.GeocodeNetwork;
 import io.github.ovso.righttoknow.network.model.GeometryLocation;
 import io.github.ovso.righttoknow.vfacilitydetail.model.VioFacDe;
@@ -14,8 +20,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import java.util.concurrent.Callable;
-import org.jsoup.Jsoup;
 import timber.log.Timber;
 
 /**
@@ -49,7 +53,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
       final String link = intent.getStringExtra("vio_fac_link");
       disposable = Observable.fromCallable(new Callable<String>() {
         @Override public String call() throws Exception {
-          VioFacDe vioFacDe = VioFacDe.convertToItem(Jsoup.connect(link).get());
+          VioFacDe vioFacDe = VioFacDe.convertToItem(Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
           facName = vioFacDe.getVioFacName();
           Timber.d("facName = " + facName);
           fullAddress = vioFacDe.getAddress();
@@ -68,7 +72,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
       final String link = intent.getStringExtra("violator_link");
       disposable = Observable.fromCallable(new Callable<String>() {
         @Override public String call() throws Exception {
-          ViolatorDe violatorDe = ViolatorDe.convertToItem(Jsoup.connect(link).get());
+          ViolatorDe violatorDe = ViolatorDe.convertToItem(Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
           facName = violatorDe.getFacName();
           Timber.d("facName = " + facName);
           fullAddress = violatorDe.getAddress();
