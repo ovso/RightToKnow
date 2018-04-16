@@ -2,6 +2,8 @@ package io.github.ovso.righttoknow.app;
 
 import android.app.Application;
 import com.downloader.PRDownloader;
+import com.google.android.gms.ads.MobileAds;
+import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.common.MessagingHandler;
 import io.github.ovso.righttoknow.framework.SystemUtils;
 import timber.log.Timber;
@@ -11,8 +13,12 @@ import timber.log.Timber;
  */
 
 public class MyApplication extends Application {
-  private static MyApplication instance;
   public static boolean DEBUG = false;
+  private static MyApplication instance;
+
+  public static MyApplication getInstance() {
+    return instance;
+  }
 
   @Override public void onCreate() {
     super.onCreate();
@@ -20,7 +26,12 @@ public class MyApplication extends Application {
     initDebuggable();
     initTimber();
     initFileDownloader();
+    initAdmob();
     MessagingHandler.createChannelToShowNotifications();
+  }
+
+  private void initAdmob() {
+    MobileAds.initialize(this, Security.getAdmobAppId(DEBUG));
   }
 
   private void initFileDownloader() {
@@ -35,9 +46,5 @@ public class MyApplication extends Application {
 
   private void initDebuggable() {
     this.DEBUG = SystemUtils.isDebuggable(this);
-  }
-
-  public static MyApplication getInstance() {
-    return instance;
   }
 }

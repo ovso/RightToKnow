@@ -20,9 +20,12 @@ import butterknife.BindView;
 import com.fsn.cauly.CaulyAdInfo;
 import com.fsn.cauly.CaulyAdInfoBuilder;
 import com.fsn.cauly.CaulyAdView;
-import com.fsn.cauly.CaulyAdViewListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
+import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.childabuse.ChildAbuseActivity;
 import io.github.ovso.righttoknow.common.ObjectUtils;
@@ -42,6 +45,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.nav_view) NavigationView navigationView;
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
   @BindView(R.id.ad_container) ViewGroup adContainer;
+  @BindView(R.id.ad_container_google) ViewGroup adContainerG;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     presenter = new MainPresenterImpl(this);
@@ -202,25 +206,16 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
             .build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);
-    view.setAdViewListener(new CaulyAdViewListener() {
-      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
-
-      }
-
-      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
-
-      }
-
-      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
-
-      }
-
-      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
-
-      }
-    });
-
     adContainer.addView(view);
+  }
+
+  @Override public void showAd2() {
+    AdView adView = new AdView(this);
+    adView.setAdSize(AdSize.SMART_BANNER);
+    adView.setAdUnitId(Security.getAdmobAppId(MyApplication.DEBUG));
+    adContainerG.addView(adView);
+    AdRequest adRequest = new AdRequest.Builder().build();
+    adView.loadAd(adRequest);
   }
 
   @Override public void showHelpAlert(String msg) {

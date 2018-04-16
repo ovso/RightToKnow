@@ -116,6 +116,7 @@ dependencies {
   // location
   implementation "com.google.android.gms:play-services-location:$play_services_version"
   implementation "com.google.android.gms:play-services-maps:$play_services_version"
+  implementation "com.google.android.gms:play-services-ads:$play_services_version"
 
   // injection
   implementation "com.jakewharton:butterknife:$butterknife_version"

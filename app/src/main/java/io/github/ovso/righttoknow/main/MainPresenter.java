@@ -70,5 +70,7 @@ public interface MainPresenter {
     void hideSearchView();
 
     void showSearchView();
+
+    void showAd2();
   }
 }
