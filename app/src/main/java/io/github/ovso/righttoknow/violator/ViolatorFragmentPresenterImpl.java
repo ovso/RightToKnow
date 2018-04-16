@@ -2,11 +2,6 @@ package io.github.ovso.righttoknow.violator;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-
-import org.jsoup.Jsoup;
-
-import java.util.List;
-
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.Constants;
@@ -17,6 +12,8 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import java.util.List;
+import org.jsoup.Jsoup;
 import timber.log.Timber;
 
 /**
@@ -28,6 +25,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   private ViolatorAdapterDataModel adapterDataModel;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private String connectUrl;
+
   ViolatorFragmentPresenterImpl(ViolatorFragmentPresenter.View view) {
     this.view = view;
     connectUrl = Constants.BASE_URL + Constants.VIOLATOR_LIST_PATH_QUERY;

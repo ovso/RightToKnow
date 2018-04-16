@@ -1,17 +1,11 @@
 package io.github.ovso.righttoknow.certified;
 
 import android.os.Bundle;
-
 import com.downloader.Error;
 import com.downloader.OnDownloadListener;
 import com.downloader.PRDownloader;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.jsoup.Jsoup;
-
-import java.io.File;
-
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
@@ -23,6 +17,8 @@ import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import java.io.File;
+import org.jsoup.Jsoup;
 import timber.log.Timber;
 
 /**
@@ -55,7 +51,8 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
     adapterDataModel.clear();
     view.refresh();
     compositeDisposable.add(
-        Maybe.fromCallable(() -> ChildCertified.convertToItems(Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get()))
+        Maybe.fromCallable(() -> ChildCertified.convertToItems(
+            Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get()))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(items -> {
@@ -73,8 +70,8 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
     final String url = Constants.BASE_URL + item.getDownloadUrl();
     final File dirPath = MyApplication.getInstance().getFilesDir();
     final String fileName = "child.pdf";
-    File file = new File(dirPath.toString()+"/"+fileName);
-    if(file.exists()) {
+    File file = new File(dirPath.toString() + "/" + fileName);
+    if (file.exists()) {
       file.delete();
     }
     PRDownloader.download(url, dirPath.toString(), fileName)

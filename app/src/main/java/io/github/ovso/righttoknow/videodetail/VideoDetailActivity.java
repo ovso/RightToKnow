@@ -40,5 +40,4 @@ public class VideoDetailActivity extends Activity {
       onBackPressed();
     }
   }
-
 }

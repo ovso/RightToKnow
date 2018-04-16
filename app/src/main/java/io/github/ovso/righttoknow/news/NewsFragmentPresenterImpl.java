@@ -19,6 +19,18 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
   private NewsFragmentPresenter.View view;
   private NewsNetwork network = new NewsNetwork(MyApplication.getInstance().getApplicationContext(),
       "https://openapi.naver.com");
+  private Disposable disposable;
+  private OnNewsRecyclerItemClickListener onRecyclerItemClickListener =
+      new OnNewsRecyclerItemClickListener<News>() {
+        @Override public void onSimpleNewsItemClick(News item) {
+          view.showSimpleNewsDialog(item);
+        }
+
+        @Override public void onItemClick(News item) {
+          view.navigateToDetailNews(item);
+        }
+      };
+  private NewsAdapterDataModel adapterDataModel;
 
   NewsFragmentPresenterImpl(NewsFragmentPresenter.View view) {
     this.view = view;
@@ -31,8 +43,6 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
     adapterDataModel.setOnItemClickListener(onRecyclerItemClickListener);
     req();
   }
-
-  private Disposable disposable;
 
   private void req() {
     view.showLoading();
@@ -54,18 +64,6 @@ public class NewsFragmentPresenterImpl implements NewsFragmentPresenter {
           view.hideLoading();
         });
   }
-
-  private OnNewsRecyclerItemClickListener onRecyclerItemClickListener =
-      new OnNewsRecyclerItemClickListener<News>() {
-        @Override public void onSimpleNewsItemClick(News item) {
-          view.showSimpleNewsDialog(item);
-        }
-
-        @Override public void onItemClick(News item) {
-          view.navigateToDetailNews(item);
-        }
-      };
-  private NewsAdapterDataModel adapterDataModel;
 
   @Override public void setAdapterModel(NewsAdapterDataModel dataModel) {
     adapterDataModel = dataModel;
