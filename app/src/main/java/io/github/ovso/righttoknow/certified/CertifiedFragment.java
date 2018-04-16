@@ -11,11 +11,12 @@ import android.view.MenuInflater;
 import android.widget.Toast;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.certified.model.ChildCertified;
 import io.github.ovso.righttoknow.fragment.BaseFragment;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.pdfviewer.PDFViewerActivity;
+import java.io.File;
 
 /**
  * Created by jaeho on 2017. 8. 21
@@ -83,9 +84,9 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }
 
-  @Override public void navigateToPDFViewer(String name) {
+  @Override public void navigateToPDFViewer(File file) {
     Intent intent = new Intent(getContext(), PDFViewerActivity.class);
-    intent.putExtra("name", name);
+    intent.putExtra("file", file);
     startActivity(intent);
   }
 
@@ -94,8 +95,9 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
   }
 
   @Override public void onDestroyView() {
-    super.onDestroyView();
     presenter.onDestroyView();
+    adapter.onDestroyView();
+    super.onDestroyView();
   }
 
   @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

@@ -3,15 +3,17 @@ package io.github.ovso.righttoknow.certified;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
-import butterknife.OnClick;
+import com.jakewharton.rxbinding2.view.RxView;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.certified.model.ChildCertified;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.certified.model.ChildCertified;
+import io.reactivex.disposables.CompositeDisposable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import lombok.Setter;
 
 /**
@@ -21,7 +23,9 @@ import lombok.Setter;
 public class CertifiedAdapter extends BaseRecyclerAdapter
     implements BaseAdapterView, BaseAdapterDataModel<ChildCertified> {
 
-  private List<ChildCertified> certifieds = new ArrayList<>();
+  private List<ChildCertified> items = new ArrayList<>();
+
+  private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
   @Override protected BaseViewHolder createViewHolder(View view, int viewType) {
     return new CertifiedViewHolder(view);
@@ -34,10 +38,14 @@ public class CertifiedAdapter extends BaseRecyclerAdapter
   @Override public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
     if (baseHolder instanceof CertifiedViewHolder) {
       CertifiedViewHolder holder = (CertifiedViewHolder) baseHolder;
-      ChildCertified certified = certifieds.get(position);
-      holder.certified = certified;
-      holder.titleTextview.setText(certified.getTitle());
-      holder.onRecyclerItemClickListener = onRecyclerItemClickListener;
+      final ChildCertified item = items.get(position);
+
+      holder.titleTextview.setText(item.getTitle().trim().replace(" ", "\u00A0"));
+      holder.orderTextview.setText(String.valueOf(item.getOrder()));
+      //holder.itemView.setOnClickListener(view -> onRecyclerItemClickListener.onItemClick(item));
+      compositeDisposable.add(RxView.clicks(holder.itemView)
+          .throttleFirst(1, TimeUnit.SECONDS)
+          .subscribe(o -> onRecyclerItemClickListener.onItemClick(item)));
     }
   }
 
@@ -50,46 +58,45 @@ public class CertifiedAdapter extends BaseRecyclerAdapter
   }
 
   @Override public void add(ChildCertified item) {
-    certifieds.add(item);
+    items.add(item);
   }
 
   @Override public void addAll(List<ChildCertified> items) {
-    certifieds.addAll(items);
+    this.items.addAll(items);
   }
 
   @Override public ChildCertified remove(int position) {
-    return certifieds.remove(position);
+    return items.remove(position);
   }
 
   @Override public ChildCertified getItem(int position) {
-    return certifieds.get(position);
+    return items.get(position);
   }
 
   @Override public void add(int index, ChildCertified item) {
-    certifieds.add(index, item);
+    items.add(index, item);
   }
 
   @Override public int getSize() {
-    return certifieds.size();
+    return items.size();
   }
 
-  @Setter private OnRecyclerItemClickListener onRecyclerItemClickListener;
+  @Override public void clear() {
+    items.clear();
+  }
+  @Setter private OnRecyclerItemClickListener<ChildCertified> onRecyclerItemClickListener;
+
+  public void onDestroyView() {
+    compositeDisposable.dispose();
+    compositeDisposable.clear();
+  }
 
   final static class CertifiedViewHolder extends BaseViewHolder {
     @BindView(R.id.title_textview) TextView titleTextview;
-    OnRecyclerItemClickListener onRecyclerItemClickListener;
-    ChildCertified certified;
+    @BindView(R.id.order_textview) TextView orderTextview;
 
     public CertifiedViewHolder(View itemView) {
       super(itemView);
     }
-
-    @OnClick(R.id.container_view) void onItemClick() {
-      onRecyclerItemClickListener.onItemClick(certified);
-    }
-  }
-
-  @Override public void clear() {
-    certifieds.clear();
   }
 }

@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.app;
 
 import android.app.Application;
+import com.downloader.PRDownloader;
 import io.github.ovso.righttoknow.common.MessagingHandler;
 import io.github.ovso.righttoknow.framework.SystemUtils;
 import timber.log.Timber;
@@ -18,7 +19,12 @@ public class MyApplication extends Application {
     instance = this;
     initDebuggable();
     initTimber();
+    initFileDownloader();
     MessagingHandler.createChannelToShowNotifications();
+  }
+
+  private void initFileDownloader() {
+    PRDownloader.initialize(getApplicationContext());
   }
 
   private void initTimber() {

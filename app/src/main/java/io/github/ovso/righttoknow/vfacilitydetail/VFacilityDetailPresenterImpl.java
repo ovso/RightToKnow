@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.common.AddressUtils;
+import io.github.ovso.righttoknow.common.TimeoutMillis;
 import io.github.ovso.righttoknow.network.GeocodeNetwork;
 import io.github.ovso.righttoknow.network.model.GeometryLocation;
 import io.github.ovso.righttoknow.vfacilitydetail.model.VioFacDe;
@@ -23,8 +24,16 @@ import timber.log.Timber;
  */
 
 public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
+  //37.5652894,126.8494635 서울
+  //locations[0] = 37.5652894;
+  //locations[1] = 126.8494635;
+  private final static double LAT_SEOUL = 37.5652894;
+  private final static double LNG_SEOUL = 126.8494635;
   private VFacilityDetailPresenter.View view;
   private GeocodeNetwork geocodeNetwork;
+  private String fullAddress;
+  private Disposable disposable;
+  private String facName;
 
   VFacilityDetailPresenterImpl(VFacilityDetailPresenter.View view) {
     this.view = view;
@@ -41,15 +50,13 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
     req(intent);
   }
 
-  private String fullAddress;
-  private Disposable disposable;
-  private String facName;
   private void req(Intent intent) {
     if (intent.hasExtra("vio_fac_link")) {
       final String link = intent.getStringExtra("vio_fac_link");
       disposable = Observable.fromCallable(new Callable<String>() {
         @Override public String call() throws Exception {
-          VioFacDe vioFacDe = VioFacDe.convertToItem(Jsoup.connect(link).get());
+          VioFacDe vioFacDe = VioFacDe.convertToItem(
+              Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
           facName = vioFacDe.getVioFacName();
           Timber.d("facName = " + facName);
           fullAddress = vioFacDe.getAddress();
@@ -68,7 +75,8 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
       final String link = intent.getStringExtra("violator_link");
       disposable = Observable.fromCallable(new Callable<String>() {
         @Override public String call() throws Exception {
-          ViolatorDe violatorDe = ViolatorDe.convertToItem(Jsoup.connect(link).get());
+          ViolatorDe violatorDe = ViolatorDe.convertToItem(
+              Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
           facName = violatorDe.getFacName();
           Timber.d("facName = " + facName);
           fullAddress = violatorDe.getAddress();
@@ -91,11 +99,6 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
       disposable.dispose();
     }
   }
-  //37.5652894,126.8494635 서울
-  //locations[0] = 37.5652894;
-  //locations[1] = 126.8494635;
-  private final static double LAT_SEOUL = 37.5652894;
-  private final static double LNG_SEOUL = 126.8494635;
 
   @Override public void onMapClick(Intent intent) {
     view.showLoading();
@@ -122,7 +125,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(locations -> {
-              if(TextUtils.isEmpty(facName)) {
+              if (TextUtils.isEmpty(facName)) {
                 new NullPointerException("facName is null");
               }
               view.navigateToMap(locations, facName);

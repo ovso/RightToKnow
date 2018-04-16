@@ -1,40 +1,30 @@
 package io.github.ovso.righttoknow.certified.model;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import timber.log.Timber;
 
 /**
  * Created by jaeho on 2017. 8. 21
  */
 
-@Getter @ToString public class ChildCertified {
-  private int order;
-  private String title;
-  private String regDate;
-  private int hits;
-  private String link;
-  private String BBSGB;
-  private String BID;
-  private String flag;
-  private String downloadUrl;
+@Getter @ToString public class ChildCertifiedDetail {
+  private String pdfLink;
 
-  public static List<ChildCertified> convertToItems(Document doc)
+  public static String convertToPdfLink(Document doc)
       throws JSONException, IOException, IndexOutOfBoundsException {
     JSONArray jsonArray = new JSONArray();
     Elements tableElements = doc.select("tbody");
     Elements trElements = tableElements.select("tr");
-
+    Elements fileElements = trElements.select("a href");
+    Timber.d("fileElements = " + fileElements);
+    Timber.d("trElements = " + trElements);
+    /*
     for (Element trElement : trElements) {
 
       Elements tdElements = trElement.select("td");
@@ -59,20 +49,14 @@ import org.jsoup.select.Elements;
           + "&BID="
           + BID;
       object.put("link", link);
-      String downloadUrl = "/cpis/community/common/DownloadBoardFile.jsp"
-          + "?"
-          + "BBSGB="
-          + BBSGB
-          + "&BID="
-          + BID
-          + "&ATCHMNFLSEQ="
-          + "1";
-      object.put("downloadUrl", downloadUrl);
 
       jsonArray.put(object);
     }
+    */
 
-    return new Gson().fromJson(jsonArray.toString(), new TypeToken<ArrayList<ChildCertified>>() {
-    }.getType());
+    //return new Gson().fromJson(jsonArray.toString(), new TypeToken<ArrayList<ChildCertifiedDetail>>() {
+    //}.getType());
+
+    return "";
   }
 }

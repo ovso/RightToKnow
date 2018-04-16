@@ -10,13 +10,13 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 
 android {
-  compileSdkVersion 26
-  buildToolsVersion '27.0.0'
+  compileSdkVersion 27
+  buildToolsVersion '27.0.3'
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 16
-    targetSdkVersion 26
-    versionCode 72
+    targetSdkVersion 27
+    versionCode 74
 
     int versionMajor = 0
     int versionMinor = 0
@@ -57,7 +57,6 @@ android {
       useProguard true
       proguardFile getDefaultProguardFile('proguard-android.txt')
       proguardFile 'proguard-rules.pro'
-      proguardFile 'proguard-tedpermission.pro'
       proguardFile 'proguard-firebase.pro'
       proguardFile 'proguard-butterknipe.pro'
       proguardFile 'proguard-pdfviewer.pro'
@@ -67,6 +66,7 @@ android {
       proguardFile 'proguard-retrofit.pro'
       proguardFile 'proguard-okhttp.pro'
       proguardFile 'proguard-dagger.pro'
+      proguardFile 'proguard-jsoup.pro'
 
       signingConfig signingConfigs.release
       /*
@@ -133,6 +133,7 @@ dependencies {
   // rxjava
   implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
   implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+  implementation "com.jakewharton.rxbinding2:rxbinding:$rxbinding2_version"
 
   // network
   implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -140,6 +141,7 @@ dependencies {
   implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
   implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
   implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
+
   provided "org.projectlombok:lombok:$lombok_version"
   annotationProcessor "org.projectlombok:lombok:$lombok_version"
   implementation "com.github.barteksc:android-pdf-viewer:$pdf_viewer_version"
@@ -149,6 +151,9 @@ dependencies {
   implementation "com.github.bumptech.glide:glide:$glide_version"
   annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
   implementation "org.jsoup:jsoup:$rootProject.jsoup_version"
+
+  //file downloader
+  implementation "com.mindorks.android:prdownloader:$rootProject.prdownloader_version"
 }
 
 // Add to the bottom of the file
