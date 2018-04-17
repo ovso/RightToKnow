@@ -25,7 +25,6 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
-import io.github.ovso.righttoknow.app.MyApplication;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.childabuse.ChildAbuseActivity;
 import io.github.ovso.righttoknow.common.ObjectUtils;
@@ -37,6 +36,8 @@ import io.github.ovso.righttoknow.settings.SettingsActivity;
 import io.github.ovso.righttoknow.video.VideoFragment;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
+
+import static io.github.ovso.righttoknow.app.MyApplication.DEBUG;
 
 public class MainActivity extends BaseActivity implements MainPresenter.View {
 
@@ -207,12 +208,14 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     view = new CaulyAdView(this);
     view.setAdInfo(info);
     adContainer.addView(view);
+    adContainer.setVisibility(View.GONE);
   }
 
   @Override public void showAd2() {
+    //MobileAds.initialize(this, Security.getAdmobAppId(DEBUG));
     AdView adView = new AdView(this);
     adView.setAdSize(AdSize.SMART_BANNER);
-    adView.setAdUnitId(Security.getAdmobAppId(MyApplication.DEBUG));
+    adView.setAdUnitId(Security.getAdmobAppId(DEBUG));
     adContainerG.addView(adView);
     AdRequest adRequest = new AdRequest.Builder().build();
     adView.loadAd(adRequest);

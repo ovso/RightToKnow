@@ -9,8 +9,8 @@ buildscript {
     okhttp3_version = '3.9.0'
     //rxfirebase_version = '11.8.0.0'
     rxfirebase_version = '11.6.0.1'
-    play_services_version = '11.8.0'
-    firebase_version = '11.8.0'
+    play_services_version = '15.0.0'
+    firebase_version = '15.0.0'
     firebase_jobdispatcher = '0.8.5'
     pdf_viewer_version = '2.8.1'
     licensesdialog_version = '1.8.3'
@@ -34,7 +34,7 @@ buildscript {
   dependencies {
     classpath 'com.android.tools.build:gradle:3.0.1'
     classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
-    classpath 'com.google.gms:google-services:3.1.0'
+    classpath 'com.google.gms:google-services:3.2.1'
     // NOTE: Do not place your application dependencies here; they belong
     // in the individual module build.gradle files
   }
