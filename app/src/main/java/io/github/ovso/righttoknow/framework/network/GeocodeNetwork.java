@@ -1,9 +1,9 @@
-package io.github.ovso.righttoknow.network;
+package io.github.ovso.righttoknow.framework.network;
 
 import android.content.Context;
 import io.github.ovso.righttoknow.Security;
-import io.github.ovso.righttoknow.network.api.GeocoderApi;
-import io.github.ovso.righttoknow.network.model.GoogleGeocode;
+import io.github.ovso.righttoknow.framework.network.api.GeocoderApi;
+import io.github.ovso.righttoknow.framework.network.model.GoogleGeocode;
 import io.reactivex.Single;
 import java.util.HashMap;
 import okhttp3.Request;

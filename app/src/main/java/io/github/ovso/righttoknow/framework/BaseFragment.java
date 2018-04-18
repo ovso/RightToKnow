@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.github.ovso.righttoknow.common.ObjectUtils;
+import io.github.ovso.righttoknow.framework.utils.ObjectUtils;
 
 /**
  * Created by jaeho on 2017. 8. 1

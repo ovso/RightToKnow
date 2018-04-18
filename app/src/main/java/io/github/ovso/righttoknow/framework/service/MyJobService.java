@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.service;
+package io.github.ovso.righttoknow.framework.service;
 
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;

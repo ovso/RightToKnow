@@ -12,7 +12,7 @@ import com.fsn.cauly.CaulyAdViewListener;
 import com.github.barteksc.pdfviewer.PDFView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
-import io.github.ovso.righttoknow.main.BaseActivity;
+import io.github.ovso.righttoknow.framework.BaseActivity;
 import java.io.File;
 
 /**

@@ -4,8 +4,8 @@ import android.app.Application;
 import com.downloader.PRDownloader;
 import com.google.android.gms.ads.MobileAds;
 import io.github.ovso.righttoknow.Security;
-import io.github.ovso.righttoknow.common.MessagingHandler;
-import io.github.ovso.righttoknow.framework.SystemUtils;
+import io.github.ovso.righttoknow.framework.utils.MessagingHandler;
+import io.github.ovso.righttoknow.framework.utils.SystemUtils;
 import timber.log.Timber;
 
 /**

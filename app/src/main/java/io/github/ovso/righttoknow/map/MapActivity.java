@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
-import io.github.ovso.righttoknow.main.BaseActivity;
+import io.github.ovso.righttoknow.framework.BaseActivity;
 import timber.log.Timber;
 
 /**

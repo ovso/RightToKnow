@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.service;
+package io.github.ovso.righttoknow.framework.service;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;

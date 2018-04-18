@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.listener;
+package io.github.ovso.righttoknow.framework.listener;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 

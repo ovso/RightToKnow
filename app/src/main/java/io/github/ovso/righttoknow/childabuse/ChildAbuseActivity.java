@@ -15,7 +15,7 @@ import com.fsn.cauly.CaulyAdView;
 import com.fsn.cauly.CaulyAdViewListener;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
-import io.github.ovso.righttoknow.main.BaseActivity;
+import io.github.ovso.righttoknow.framework.BaseActivity;
 
 /**
  * Created by jaeho on 2018. 1. 4

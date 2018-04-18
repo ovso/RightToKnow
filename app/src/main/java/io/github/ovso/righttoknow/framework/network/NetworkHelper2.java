@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.network;
+package io.github.ovso.righttoknow.framework.network;
 
 import android.content.Context;
 import okhttp3.OkHttpClient;

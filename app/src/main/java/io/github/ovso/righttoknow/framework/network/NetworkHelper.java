@@ -1,8 +1,8 @@
-package io.github.ovso.righttoknow.network;
+package io.github.ovso.righttoknow.framework.network;
 
 import android.content.Context;
 import io.github.ovso.righttoknow.Security;
-import io.github.ovso.righttoknow.network.api.NewsApi;
+import io.github.ovso.righttoknow.framework.network.api.NewsApi;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;

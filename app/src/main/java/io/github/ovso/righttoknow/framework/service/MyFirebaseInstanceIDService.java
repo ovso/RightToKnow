@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.service;
+package io.github.ovso.righttoknow.framework.service;
 
 import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceId;

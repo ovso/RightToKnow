@@ -1,6 +1,6 @@
 package io.github.ovso.righttoknow.news.model;
 
-import io.github.ovso.righttoknow.common.Utility;
+import io.github.ovso.righttoknow.framework.utils.Utility;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

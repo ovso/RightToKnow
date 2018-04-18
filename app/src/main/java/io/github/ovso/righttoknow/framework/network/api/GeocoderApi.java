@@ -1,6 +1,6 @@
-package io.github.ovso.righttoknow.network.api;
+package io.github.ovso.righttoknow.framework.network.api;
 
-import io.github.ovso.righttoknow.network.model.GoogleGeocode;
+import io.github.ovso.righttoknow.framework.network.model.GoogleGeocode;
 import io.reactivex.Single;
 import java.util.HashMap;
 import retrofit2.http.GET;

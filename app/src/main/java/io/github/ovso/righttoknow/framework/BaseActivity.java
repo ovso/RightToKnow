@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.main;
+package io.github.ovso.righttoknow.framework;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -19,8 +19,8 @@ import io.github.ovso.righttoknow.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
   private Unbinder unbinder;
-  @BindView(R.id.toolbar) Toolbar toolbar;
-  @BindView(R.id.search_view) MaterialSearchView searchView;
+  protected @BindView(R.id.toolbar) Toolbar toolbar;
+  protected @BindView(R.id.search_view) MaterialSearchView searchView;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

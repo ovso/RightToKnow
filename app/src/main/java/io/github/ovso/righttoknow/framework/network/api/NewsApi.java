@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.network.api;
+package io.github.ovso.righttoknow.framework.network.api;
 
 import io.github.ovso.righttoknow.news.model.NewsResult;
 import io.reactivex.Single;

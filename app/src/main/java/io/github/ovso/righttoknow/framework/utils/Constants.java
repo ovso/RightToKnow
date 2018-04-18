@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.common;
+package io.github.ovso.righttoknow.framework.utils;
 
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
 import de.psdev.licensesdialog.model.Notice;

@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.framework;
+package io.github.ovso.righttoknow.framework.utils;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;

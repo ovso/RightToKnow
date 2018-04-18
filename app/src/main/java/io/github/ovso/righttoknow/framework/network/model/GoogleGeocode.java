@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.network.model;
+package io.github.ovso.righttoknow.framework.network.model;
 
 import java.util.List;
 import lombok.Getter;
