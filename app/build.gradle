@@ -85,7 +85,9 @@ android {
   }
   configurations.all {
     resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+    exclude group: 'com.android.support', module: 'customtabs'
   }
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
