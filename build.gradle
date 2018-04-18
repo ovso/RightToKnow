@@ -26,6 +26,7 @@ buildscript {
     naver_map_version = '2.1.2@aar'
     prdownloader_version = '0.2.0'
     rxbinding2_version = '2.1.1'
+    dagger_version = '2.15'
   }
   repositories {
     jcenter()

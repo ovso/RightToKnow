@@ -156,8 +156,14 @@ dependencies {
   annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
   implementation "org.jsoup:jsoup:$rootProject.jsoup_version"
 
-  //file downloader
+  // file downloader
   implementation "com.mindorks.android:prdownloader:$rootProject.prdownloader_version"
+
+  // dagger2
+  implementation "com.google.dagger:dagger:$dagger_version"
+  implementation "com.google.dagger:dagger-android-support:$dagger_version"
+  annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+  annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
 }
 
 // Add to the bottom of the file
