@@ -27,15 +27,16 @@ import io.github.ovso.righttoknow.videodetail.VideoDetailActivity;
 
 public class VideoFragment extends BaseFragment implements VideoFragmentPresenter.View {
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
+  @BindView(R.id.recyclerview) RecyclerView recyclerView;
   private VideoFragmentPresenter presenter;
+  private Menu menu;
+  private MenuInflater menuInflater;
+  private BaseAdapterView adapterView;
 
   public static VideoFragment newInstance() {
     VideoFragment f = new VideoFragment();
     return f;
   }
-
-  private Menu menu;
-  private MenuInflater menuInflater;
 
   @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     this.menu = menu;
@@ -60,10 +61,6 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     return R.layout.fragment_video;
   }
 
-  private BaseAdapterView adapterView;
-
-  @BindView(R.id.recyclerview) RecyclerView recyclerView;
-
   @Override public void setRecyclerView() {
     LinearLayoutManager layout = new LinearLayoutManager(getContext());
     VideoAdapter adapter = new VideoAdapter();
@@ -86,7 +83,8 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
       playLandscape(video.getVideo_id());
     } else {
       Intent intent =
-          YouTubeStandalonePlayer.createVideoIntent(getActivity(), Security.GOOGLE_API_KEY,
+          YouTubeStandalonePlayer.createVideoIntent(getActivity(),
+              Security.GOOGLE_API_KEY.getValue(),
               video.getVideo_id(), startTimeMillis, autoPlay, lightboxMode);
       startActivity(intent);
     }

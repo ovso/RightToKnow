@@ -38,7 +38,8 @@ public class PDFViewerActivity extends BaseActivity {
   private void showAd() {
     CaulyAdView view;
     CaulyAdInfo info =
-        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(CaulyAdInfo.Effect.Circle.toString())
+        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE.getValue()).effect(
+            CaulyAdInfo.Effect.Circle.toString())
             .build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);

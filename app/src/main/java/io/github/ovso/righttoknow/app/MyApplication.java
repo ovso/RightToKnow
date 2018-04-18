@@ -31,7 +31,7 @@ public class MyApplication extends Application {
   }
 
   private void initAdmob() {
-    MobileAds.initialize(this, Security.getAdmobAppId(DEBUG));
+    MobileAds.initialize(this, Security.ADMOB_UNIT_ID.getValue());
   }
 
   private void initFileDownloader() {

@@ -37,8 +37,6 @@ import io.github.ovso.righttoknow.video.VideoFragment;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
 
-import static io.github.ovso.righttoknow.app.MyApplication.DEBUG;
-
 public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   private MainPresenter presenter;
@@ -203,7 +201,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @Override public void showAd() {
     CaulyAdView view;
     CaulyAdInfo info =
-        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(CaulyAdInfo.Effect.Circle.toString())
+        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE.getValue()).effect(CaulyAdInfo.Effect.Circle.toString())
             .build();
     view = new CaulyAdView(this);
     view.setAdInfo(info);
@@ -212,10 +210,9 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public void showAd2() {
-    //MobileAds.initialize(this, Security.getAdmobAppId(DEBUG));
     AdView adView = new AdView(this);
     adView.setAdSize(AdSize.SMART_BANNER);
-    adView.setAdUnitId(Security.getAdmobAppId(DEBUG));
+    adView.setAdUnitId(Security.ADMOB_UNIT_ID.getValue());
     adContainerG.addView(adView);
     AdRequest adRequest = new AdRequest.Builder().build();
     adView.loadAd(adRequest);

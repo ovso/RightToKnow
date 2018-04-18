@@ -45,8 +45,8 @@ public class NetworkHelper {
       Request original = chain.request();
       Request.Builder requestBuilder = original.newBuilder()
           .header("Content-Type", "plain/text")
-          .addHeader("X-Naver-Client-Id", Security.NAVER_CLIENT_ID)
-          .addHeader("X-Naver-Client-Secret", Security.NAVER_CLIENT_SECRET);
+          .addHeader("X-Naver-Client-Id", Security.NAVER_CLIENT_ID.getValue())
+          .addHeader("X-Naver-Client-Secret", Security.NAVER_CLIENT_SECRET.getValue());
 
       Request request = requestBuilder.build();
       return chain.proceed(request);
