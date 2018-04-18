@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.fragment;
+package io.github.ovso.righttoknow.framework;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
