@@ -27,20 +27,22 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.childabuse.ChildAbuseActivity;
-import io.github.ovso.righttoknow.framework.utils.ObjectUtils;
 import io.github.ovso.righttoknow.framework.BaseActivity;
 import io.github.ovso.righttoknow.framework.customview.BottomNavigationViewBehavior;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.framework.listener.OnSimpleQueryTextListener;
+import io.github.ovso.righttoknow.framework.utils.ObjectUtils;
 import io.github.ovso.righttoknow.news.NewsFragment;
 import io.github.ovso.righttoknow.settings.SettingsActivity;
 import io.github.ovso.righttoknow.video.VideoFragment;
 import io.github.ovso.righttoknow.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.violator.ViolatorFragment;
+import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity implements MainPresenter.View {
 
-  private MainPresenter presenter;
+  @Inject MainPresenter presenter;
+
   @BindView(R.id.drawer_layout) DrawerLayout drawer;
   @BindView(R.id.nav_view) NavigationView navigationView;
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
@@ -48,7 +50,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.ad_container_google) ViewGroup adContainerG;
 
   @Override public void onCreate(Bundle savedInstanceState) {
-    presenter = new MainPresenterImpl(this);
     super.onCreate(savedInstanceState);
     presenter.onCreate(getIntent());
   }

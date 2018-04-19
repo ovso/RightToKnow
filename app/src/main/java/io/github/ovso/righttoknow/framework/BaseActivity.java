@@ -11,6 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import dagger.android.AndroidInjection;
 import io.github.ovso.righttoknow.R;
 
 /**
@@ -24,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    AndroidInjection.inject(this);
     setContentView(getLayoutResId());
     unbinder = ButterKnife.bind(this);
     setSupportActionBar(toolbar);
