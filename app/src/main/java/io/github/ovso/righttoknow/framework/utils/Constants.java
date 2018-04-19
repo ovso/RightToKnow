@@ -77,6 +77,9 @@ public class Constants {
 
     notices.addNotice(new Notice("RxFirebase", "https://github.com/kunny/RxFirebase",
         "Copyright 2016-2017 Taeho Kim <jyte82@gmail.com>", new ApacheSoftwareLicense20()));
+
+    notices.addNotice(new Notice("Dagger", "https://github.com/google/dagger",
+        "Copyright 2012 The Dagger Authors", new ApacheSoftwareLicense20()));
     return notices;
   }
 }
