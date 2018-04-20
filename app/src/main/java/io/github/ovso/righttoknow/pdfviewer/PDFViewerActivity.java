@@ -5,15 +5,12 @@ import android.support.annotation.Nullable;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import butterknife.BindView;
-import com.fsn.cauly.CaulyAdInfo;
-import com.fsn.cauly.CaulyAdInfoBuilder;
 import com.fsn.cauly.CaulyAdView;
-import com.fsn.cauly.CaulyAdViewListener;
 import com.github.barteksc.pdfviewer.PDFView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.framework.BaseActivity;
 import java.io.File;
+import javax.inject.Inject;
 
 /**
  * Created by jaeho on 2017. 8. 21
@@ -22,7 +19,7 @@ import java.io.File;
 public class PDFViewerActivity extends BaseActivity {
   @BindView(R.id.pdf_view) PDFView pdfView;
   @BindView(R.id.ad_container) ViewGroup adContainer;
-
+  @Inject CaulyAdView caulyAdView;
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTitle(R.string.title_child_certified_detail);
@@ -36,31 +33,7 @@ public class PDFViewerActivity extends BaseActivity {
   }
 
   private void showAd() {
-    CaulyAdView view;
-    CaulyAdInfo info =
-        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE.getValue()).effect(
-            CaulyAdInfo.Effect.Circle.toString())
-            .build();
-    view = new CaulyAdView(this);
-    view.setAdInfo(info);
-    view.setAdViewListener(new CaulyAdViewListener() {
-      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
-
-      }
-
-      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
-
-      }
-
-      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
-
-      }
-
-      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
-
-      }
-    });
-    adContainer.addView(view);
+    adContainer.addView(caulyAdView);
   }
 
   @Override protected int getLayoutResId() {

@@ -9,21 +9,28 @@ import android.support.v7.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import com.fsn.cauly.CaulyAdView;
+import com.google.android.gms.ads.AdView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import dagger.android.support.DaggerAppCompatActivity;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.framework.ad.MyAdView;
 
 /**
  * Created by jaeho on 2017. 7. 31
  */
 
 public abstract class BaseActivity extends DaggerAppCompatActivity {
-  private Unbinder unbinder;
   protected @BindView(R.id.toolbar) Toolbar toolbar;
   protected @BindView(R.id.search_view) MaterialSearchView searchView;
+  protected CaulyAdView caulyAdView;
+  protected AdView admobAdView;
+  private Unbinder unbinder;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    caulyAdView = MyAdView.getCaulyAdView(getApplicationContext());
+    admobAdView = MyAdView.getAdmobAdView(getApplicationContext());
     setContentView(getLayoutResId());
     unbinder = ButterKnife.bind(this);
     setSupportActionBar(toolbar);

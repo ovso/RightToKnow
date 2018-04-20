@@ -13,12 +13,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import butterknife.BindView;
-import com.fsn.cauly.CaulyAdInfo;
-import com.fsn.cauly.CaulyAdInfoBuilder;
-import com.fsn.cauly.CaulyAdView;
-import com.fsn.cauly.CaulyAdViewListener;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.framework.BaseActivity;
 import io.github.ovso.righttoknow.news.model.News;
 
@@ -27,14 +22,14 @@ import io.github.ovso.righttoknow.news.model.News;
  */
 
 public class DetailNewsActivity extends BaseActivity {
+  @BindView(R.id.webview) WebView webView;
+  @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
+  @BindView(R.id.ad_container) ViewGroup adContainer;
+  private News news;
+
   @Override protected int getLayoutResId() {
     return R.layout.activity_detail_news;
   }
-
-  @BindView(R.id.webview) WebView webView;
-  @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
-
-  private News news;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -50,31 +45,7 @@ public class DetailNewsActivity extends BaseActivity {
   }
 
   private void adView() {
-    CaulyAdView view;
-    CaulyAdInfo info = new CaulyAdInfoBuilder(Security.CAULY_APP_CODE.getValue()).effect(
-        CaulyAdInfo.Effect.Circle.toString()).build();
-    view = new CaulyAdView(this);
-    view.setAdInfo(info);
-    view.setAdViewListener(new CaulyAdViewListener() {
-      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
-
-      }
-
-      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
-
-      }
-
-      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
-
-      }
-
-      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
-
-      }
-    });
-
-    ViewGroup adContainer = findViewById(R.id.ad_container);
-    adContainer.addView(view);
+    adContainer.addView(caulyAdView);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

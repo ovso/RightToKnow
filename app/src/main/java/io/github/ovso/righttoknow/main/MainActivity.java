@@ -17,14 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
-import com.fsn.cauly.CaulyAdInfo;
-import com.fsn.cauly.CaulyAdInfoBuilder;
-import com.fsn.cauly.CaulyAdView;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.childabuse.ChildAbuseActivity;
 import io.github.ovso.righttoknow.framework.BaseActivity;
@@ -52,6 +45,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     presenter.onCreate(getIntent());
+
   }
 
   @Override protected void onNewIntent(Intent intent) {
@@ -201,23 +195,11 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public void showAd() {
-    CaulyAdView view;
-    CaulyAdInfo info =
-        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE.getValue()).effect(CaulyAdInfo.Effect.Circle.toString())
-            .build();
-    view = new CaulyAdView(this);
-    view.setAdInfo(info);
-    adContainer.addView(view);
-    adContainer.setVisibility(View.GONE);
+    adContainer.addView(caulyAdView);
   }
 
   @Override public void showAd2() {
-    AdView adView = new AdView(this);
-    adView.setAdSize(AdSize.SMART_BANNER);
-    adView.setAdUnitId(Security.ADMOB_UNIT_ID.getValue());
-    adContainerG.addView(adView);
-    AdRequest adRequest = new AdRequest.Builder().build();
-    adView.loadAd(adRequest);
+    adContainerG.addView(admobAdView);
   }
 
   @Override public void showHelpAlert(String msg) {
