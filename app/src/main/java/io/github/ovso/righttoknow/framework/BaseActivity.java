@@ -13,14 +13,19 @@ import com.fsn.cauly.CaulyAdView;
 import com.google.android.gms.ads.AdView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import dagger.android.support.DaggerAppCompatActivity;
+import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.ad.MyAdView;
+import io.github.ovso.righttoknow.framework.firebase.MyFirebaseRemoteConfig;
+import io.github.ovso.righttoknow.framework.firebase.OnMyFirebaseRemoteConfigListener;
 
 /**
  * Created by jaeho on 2017. 7. 31
  */
 
-public abstract class BaseActivity extends DaggerAppCompatActivity {
+public abstract class BaseActivity extends DaggerAppCompatActivity
+    implements OnMyFirebaseRemoteConfigListener {
+
   protected @BindView(R.id.toolbar) Toolbar toolbar;
   protected @BindView(R.id.search_view) MaterialSearchView searchView;
   protected CaulyAdView caulyAdView;
@@ -35,6 +40,21 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     unbinder = ButterKnife.bind(this);
     setSupportActionBar(toolbar);
     setNavigationBarColor();
+
+    MyFirebaseRemoteConfig config = new MyFirebaseRemoteConfig.Builder().setListener(this).build();
+    config.init(this);
+  }
+
+  @DebugLog @Override public void onAdmob() {
+
+  }
+
+  @DebugLog @Override public void onCauly() {
+
+  }
+
+  @DebugLog @Override public void onFailure() {
+
   }
 
   private void setNavigationBarColor() {
