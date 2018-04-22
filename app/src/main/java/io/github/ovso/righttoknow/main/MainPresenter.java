@@ -49,8 +49,6 @@ public interface MainPresenter {
 
     void finish();
 
-    void showAd();
-
     void showHelpAlert(String msg);
 
     void navigateToChildAbuse();
@@ -71,6 +69,5 @@ public interface MainPresenter {
 
     void showSearchView();
 
-    void showAd2();
   }
 }

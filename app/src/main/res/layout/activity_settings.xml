@@ -8,10 +8,23 @@
     >
 
   <include layout="@layout/app_bar_layout"/>
-  <fragment
-      android:name="io.github.ovso.righttoknow.settings.SettingsFragment"
-      android:tag="SettingsFragment"
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+      android:orientation="vertical"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"
+      >
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <fragment
+        android:name="io.github.ovso.righttoknow.settings.SettingsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="SettingsFragment"
+        />
+    <FrameLayout
+        android:id="@id/ad_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+  </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

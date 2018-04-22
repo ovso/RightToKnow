@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
@@ -39,13 +38,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.drawer_layout) DrawerLayout drawer;
   @BindView(R.id.nav_view) NavigationView navigationView;
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
-  @BindView(R.id.ad_container) ViewGroup adContainer;
-  @BindView(R.id.ad_container_google) ViewGroup adContainerG;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     presenter.onCreate(getIntent());
-
   }
 
   @Override protected void onNewIntent(Intent intent) {
@@ -192,14 +188,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void closeDrawer() {
     drawer.closeDrawer(GravityCompat.START);
-  }
-
-  @Override public void showAd() {
-    adContainer.addView(caulyAdView);
-  }
-
-  @Override public void showAd2() {
-    adContainerG.addView(admobAdView);
   }
 
   @Override public void showHelpAlert(String msg) {

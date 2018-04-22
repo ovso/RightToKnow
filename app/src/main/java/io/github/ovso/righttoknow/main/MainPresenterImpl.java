@@ -75,8 +75,6 @@ class MainPresenterImpl implements MainPresenter {
             MyApplication.getInstance()));
     view.setListener();
     view.setSearchView();
-    view.showAd();
-    view.showAd2();
 
     fcmNav(intent);
   }

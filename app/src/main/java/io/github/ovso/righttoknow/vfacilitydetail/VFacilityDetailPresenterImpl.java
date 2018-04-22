@@ -46,7 +46,6 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
     view.hideButton();
     view.setSupportActionBar();
     view.showLoading();
-    view.showAd();
     req(intent);
   }
 

@@ -6,6 +6,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -28,8 +29,9 @@ public abstract class BaseActivity extends DaggerAppCompatActivity
 
   protected @BindView(R.id.toolbar) Toolbar toolbar;
   protected @BindView(R.id.search_view) MaterialSearchView searchView;
-  protected CaulyAdView caulyAdView;
-  protected AdView admobAdView;
+  protected @BindView(R.id.ad_container) ViewGroup adContainer;
+  private CaulyAdView caulyAdView;
+  private AdView admobAdView;
   private Unbinder unbinder;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,15 +48,15 @@ public abstract class BaseActivity extends DaggerAppCompatActivity
   }
 
   @DebugLog @Override public void onAdmob() {
-
+    adContainer.addView(admobAdView);
   }
 
   @DebugLog @Override public void onCauly() {
-
+    adContainer.addView(caulyAdView);
   }
 
   @DebugLog @Override public void onFailure() {
-
+    adContainer.addView(admobAdView);
   }
 
   private void setNavigationBarColor() {

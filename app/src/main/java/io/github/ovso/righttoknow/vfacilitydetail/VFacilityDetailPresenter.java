@@ -30,8 +30,6 @@ public interface VFacilityDetailPresenter {
 
     void setTitle(@StringRes int resId);
 
-    void showAd();
-
     void showLoading();
 
     void hideLoading();

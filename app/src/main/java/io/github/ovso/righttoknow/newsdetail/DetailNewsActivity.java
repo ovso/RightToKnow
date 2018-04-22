@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.SpannableString;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -24,7 +23,6 @@ import io.github.ovso.righttoknow.news.model.News;
 public class DetailNewsActivity extends BaseActivity {
   @BindView(R.id.webview) WebView webView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
-  @BindView(R.id.ad_container) ViewGroup adContainer;
   private News news;
 
   @Override protected int getLayoutResId() {
@@ -41,11 +39,6 @@ public class DetailNewsActivity extends BaseActivity {
       setTitle();
       loadUrl();
     }
-    adView();
-  }
-
-  private void adView() {
-    adContainer.addView(caulyAdView);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

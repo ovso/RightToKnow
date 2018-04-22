@@ -3,7 +3,6 @@ package io.github.ovso.righttoknow.childabuse;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -18,7 +17,6 @@ import io.github.ovso.righttoknow.framework.BaseActivity;
 
 public class ChildAbuseActivity extends BaseActivity {
   @BindView(R.id.webview) WebView webView;
-  @BindView(R.id.ad_container) ViewGroup adContainer;
 
   @Override protected int getLayoutResId() {
     return R.layout.activity_child_abuse;
@@ -40,12 +38,6 @@ public class ChildAbuseActivity extends BaseActivity {
     webView.setWebChromeClient(new WebChromeClient());
     webView.loadUrl(
         "http://m.post.naver.com/viewer/postView.nhn?volumeNo=9367173&memberNo=22718804&vType=VERTICAL");
-
-    showAd();
-  }
-
-  private void showAd() {
-    adContainer.addView(caulyAdView);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

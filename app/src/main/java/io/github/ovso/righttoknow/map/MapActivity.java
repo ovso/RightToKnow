@@ -4,8 +4,6 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import butterknife.BindView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -21,7 +19,6 @@ import timber.log.Timber;
  */
 
 public class MapActivity extends BaseActivity implements OnMapReadyCallback {
-  @BindView(R.id.ad_container) ViewGroup adContainer;
   @Override protected int getLayoutResId() {
     return R.layout.activity_map;
   }
@@ -33,12 +30,6 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
     FragmentManager fragmentManager = getFragmentManager();
     MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.map_fragment);
     mapFragment.getMapAsync(this);
-
-    showAd();
-  }
-
-  private void showAd() {
-    adContainer.addView(caulyAdView);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

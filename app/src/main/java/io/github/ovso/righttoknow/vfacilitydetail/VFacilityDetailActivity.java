@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -29,7 +28,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipe;
   @BindView(R.id.share_button) Button shareButton;
   @BindView(R.id.location_button) Button locationButton;
-  @BindView(R.id.ad_container) ViewGroup adContainer;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -57,10 +55,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     swipe.setOnRefreshListener(() -> {
       presenter.onRefresh(getIntent());
     });
-  }
-
-  @Override public void showAd() {
-    adContainer.addView(caulyAdView);
   }
 
   @Override public void showLoading() {

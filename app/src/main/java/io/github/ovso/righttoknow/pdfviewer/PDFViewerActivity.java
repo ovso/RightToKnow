@@ -3,7 +3,6 @@ package io.github.ovso.righttoknow.pdfviewer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import butterknife.BindView;
 import com.fsn.cauly.CaulyAdView;
 import com.github.barteksc.pdfviewer.PDFView;
@@ -18,7 +17,6 @@ import javax.inject.Inject;
 
 public class PDFViewerActivity extends BaseActivity {
   @BindView(R.id.pdf_view) PDFView pdfView;
-  @BindView(R.id.ad_container) ViewGroup adContainer;
   @Inject CaulyAdView caulyAdView;
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -28,12 +26,6 @@ public class PDFViewerActivity extends BaseActivity {
       File file = (File) getIntent().getSerializableExtra("file");
       pdfView.fromFile(file).load();
     }
-
-    showAd();
-  }
-
-  private void showAd() {
-    adContainer.addView(caulyAdView);
   }
 
   @Override protected int getLayoutResId() {

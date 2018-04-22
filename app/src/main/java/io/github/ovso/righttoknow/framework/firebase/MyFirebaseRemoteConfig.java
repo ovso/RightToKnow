@@ -1,7 +1,6 @@
 package io.github.ovso.righttoknow.framework.firebase;
 
 import android.app.Activity;
-import android.widget.Toast;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import io.github.ovso.righttoknow.R;
@@ -53,16 +52,11 @@ public class MyFirebaseRemoteConfig {
     firebaseRemoteConfig.fetch(cacheExpiration)
         .addOnCompleteListener(activity, task -> {
           if (task.isSuccessful()) {
-            Toast.makeText(activity, "Fetch Succeeded",
-                Toast.LENGTH_SHORT).show();
-
             // After config data is successfully fetched, it must be activated before newly fetched
             // values are returned.
             firebaseRemoteConfig.activateFetched();
-          } else {
-            Toast.makeText(activity, "Fetch Failed",
-                Toast.LENGTH_SHORT).show();
           }
+          
           displayWelcomeMessage();
         });
     // [END fetch_config_with_callback]
