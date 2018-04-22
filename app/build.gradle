@@ -16,7 +16,7 @@ android {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 16
     targetSdkVersion 27
-    versionCode 74
+    versionCode 75
 
     int versionMajor = 0
     int versionMinor = 0
