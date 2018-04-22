@@ -56,13 +56,13 @@ public class MyFirebaseRemoteConfig {
             // values are returned.
             firebaseRemoteConfig.activateFetched();
           }
-          
-          displayWelcomeMessage();
+
+          webcomeAd();
         });
     // [END fetch_config_with_callback]
   }
 
-  private void displayWelcomeMessage() {
+  private void webcomeAd() {
     // [START get_config_values]
     String adviewValue = firebaseRemoteConfig.getString(ADVIEW_PARAMETER_KEY);
     // [END get_config_values]
