@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.main;
 import android.content.Intent;
 import android.support.annotation.StringRes;
 import android.view.MenuItem;
-import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
+import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import javax.annotation.Nonnull;
 
 /**
@@ -49,8 +49,6 @@ public interface MainPresenter {
 
     void finish();
 
-    void showAd();
-
     void showHelpAlert(String msg);
 
     void navigateToChildAbuse();
@@ -70,5 +68,6 @@ public interface MainPresenter {
     void hideSearchView();
 
     void showSearchView();
+
   }
 }

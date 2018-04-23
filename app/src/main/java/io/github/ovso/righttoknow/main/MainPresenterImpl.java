@@ -8,9 +8,9 @@ import android.view.MenuItem;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
-import io.github.ovso.righttoknow.common.Constants;
-import io.github.ovso.righttoknow.common.Utility;
-import io.github.ovso.righttoknow.listener.OnFragmentEventListener;
+import io.github.ovso.righttoknow.framework.utils.Constants;
+import io.github.ovso.righttoknow.framework.utils.Utility;
+import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -75,7 +75,6 @@ class MainPresenterImpl implements MainPresenter {
             MyApplication.getInstance()));
     view.setListener();
     view.setSearchView();
-    view.showAd();
 
     fcmNav(intent);
   }

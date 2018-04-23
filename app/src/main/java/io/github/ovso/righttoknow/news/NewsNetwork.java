@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.news;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.network.NetworkHelper;
+import io.github.ovso.righttoknow.framework.network.NetworkHelper;
 import io.github.ovso.righttoknow.news.model.NewsResult;
 import io.reactivex.Single;
 

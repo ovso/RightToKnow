@@ -7,20 +7,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
-import com.fsn.cauly.CaulyAdInfo;
-import com.fsn.cauly.CaulyAdInfoBuilder;
-import com.fsn.cauly.CaulyAdView;
-import com.fsn.cauly.CaulyAdViewListener;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.Security;
-import io.github.ovso.righttoknow.main.BaseActivity;
+import io.github.ovso.righttoknow.framework.BaseActivity;
 import io.github.ovso.righttoknow.map.MapActivity;
+import javax.inject.Inject;
 
 /**
  * Created by jaeho on 2017. 8. 2
@@ -28,7 +23,7 @@ import io.github.ovso.righttoknow.map.MapActivity;
 
 public class VFacilityDetailActivity extends BaseActivity implements VFacilityDetailPresenter.View {
 
-  VFacilityDetailPresenter presenter;
+  @Inject VFacilityDetailPresenter presenter;
   @BindView(R.id.contents_textview) TextView contentsTextView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipe;
   @BindView(R.id.share_button) Button shareButton;
@@ -36,7 +31,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    presenter = new VFacilityDetailPresenterImpl(this);
     presenter.onCreate(savedInstanceState, getIntent());
   }
 
@@ -61,35 +55,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     swipe.setOnRefreshListener(() -> {
       presenter.onRefresh(getIntent());
     });
-  }
-
-  @Override public void showAd() {
-    CaulyAdView view;
-    CaulyAdInfo info =
-        new CaulyAdInfoBuilder(Security.CAULY_APP_CODE).effect(CaulyAdInfo.Effect.Circle.toString())
-            .build();
-    view = new CaulyAdView(this);
-    view.setAdInfo(info);
-    view.setAdViewListener(new CaulyAdViewListener() {
-      @Override public void onReceiveAd(CaulyAdView caulyAdView, boolean b) {
-
-      }
-
-      @Override public void onFailedToReceiveAd(CaulyAdView caulyAdView, int i, String s) {
-
-      }
-
-      @Override public void onShowLandingScreen(CaulyAdView caulyAdView) {
-
-      }
-
-      @Override public void onCloseLandingScreen(CaulyAdView caulyAdView) {
-
-      }
-    });
-
-    ViewGroup adContainer = findViewById(R.id.ad_container);
-    adContainer.addView(view);
   }
 
   @Override public void showLoading() {

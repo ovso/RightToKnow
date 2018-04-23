@@ -1,0 +1,12 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="io.github.ovso.righttoknow.pdfviewer.PDFViewerActivity"
+    >
+
+  <include layout="@layout/app_bar_layout"/>
+  <include layout="@layout/content_pdf_viewer"/>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
-import io.github.ovso.righttoknow.common.Constants;
-import io.github.ovso.righttoknow.common.Utility;
+import io.github.ovso.righttoknow.framework.utils.Constants;
+import io.github.ovso.righttoknow.framework.utils.Utility;
 
 /**
  * Created by jaeho on 2017. 9. 15

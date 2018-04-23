@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.main.BaseActivity;
+import io.github.ovso.righttoknow.framework.BaseActivity;
 
 /**
  * Created by jaeho on 2017. 9. 15

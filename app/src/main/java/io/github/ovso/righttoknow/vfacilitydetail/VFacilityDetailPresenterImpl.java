@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.app.MyApplication;
-import io.github.ovso.righttoknow.common.AddressUtils;
-import io.github.ovso.righttoknow.common.TimeoutMillis;
-import io.github.ovso.righttoknow.network.GeocodeNetwork;
-import io.github.ovso.righttoknow.network.model.GeometryLocation;
+import io.github.ovso.righttoknow.framework.utils.AddressUtils;
+import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
+import io.github.ovso.righttoknow.framework.network.GeocodeNetwork;
+import io.github.ovso.righttoknow.framework.network.model.GeometryLocation;
 import io.github.ovso.righttoknow.vfacilitydetail.model.VioFacDe;
 import io.github.ovso.righttoknow.vfacilitydetail.model.ViolatorDe;
 import io.reactivex.Observable;
@@ -46,7 +46,6 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
     view.hideButton();
     view.setSupportActionBar();
     view.showLoading();
-    view.showAd();
     req(intent);
   }
 
