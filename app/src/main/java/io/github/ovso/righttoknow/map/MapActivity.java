@@ -12,7 +12,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.BaseActivity;
-import timber.log.Timber;
 
 /**
  * Created by jaeho on 2018. 3. 15
@@ -39,7 +38,6 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
 
   @Override public void onMapReady(GoogleMap googleMap) {
     double[] locations = getIntent().getDoubleArrayExtra("locations");
-    Timber.d("locations = " + locations[0] + ", " + locations[1]);
     LatLng latlng = new LatLng(locations[0], locations[1]);
     MarkerOptions markerOptions = new MarkerOptions();
     markerOptions.anchor(0.0f, 1.0f);
