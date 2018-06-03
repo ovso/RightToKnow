@@ -37,12 +37,12 @@ public class VideoAdapter extends BaseRecyclerAdapter
 
   @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
     if (holder instanceof VideoViewHolder) {
-      VideoViewHolder viewHolder = (VideoViewHolder) holder;
-      Video video = items.get(position);
+      final VideoViewHolder viewHolder = (VideoViewHolder) holder;
+      final Video video = items.get(position);
       viewHolder.removeThumbnailView();
       viewHolder.addThumbnailView();
       YouTubeThumbnailView thumbnailView = viewHolder.thumbnailView;
-      YouTubeThumbnailLoader.OnThumbnailLoadedListener onThumbnailLoadedListener =
+      final YouTubeThumbnailLoader.OnThumbnailLoadedListener onThumbnailLoadedListener =
           new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
             @Override
             public void onThumbnailLoaded(YouTubeThumbnailView thumbnail, String video_id) {
@@ -70,9 +70,11 @@ public class VideoAdapter extends BaseRecyclerAdapter
 
       thumbnailView.initialize(Security.GOOGLE_API_KEY.getValue(), onInitializedListener);
 
-      viewHolder.itemView.setOnClickListener(view -> {
-        if (onRecyclerItemClickListener != null) {
-          onRecyclerItemClickListener.onItemClick(video);
+      viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+          if (onRecyclerItemClickListener != null) {
+            onRecyclerItemClickListener.onItemClick(video);
+          }
         }
       });
 

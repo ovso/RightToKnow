@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.vfacilitydetail.model;
 import android.content.res.Resources;
 import com.google.gson.Gson;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.App;
 import java.io.IOException;
 import lombok.Getter;
 import lombok.ToString;
@@ -98,7 +98,7 @@ import timber.log.Timber;
   }
 
   public static String getContents(VioFacDe o) {
-    Resources res = MyApplication.getInstance().getResources();
+    Resources res = App.getInstance().getResources();
 
     StringBuilder builder = new StringBuilder();
     //sido

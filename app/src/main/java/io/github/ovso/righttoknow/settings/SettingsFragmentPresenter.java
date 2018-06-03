@@ -12,8 +12,6 @@ public interface SettingsFragmentPresenter {
 
   void onCreate(Bundle savedInstanceState);
 
-  boolean onNotificationsClick();
-
   void onResume();
 
   boolean onOpensourceClick();
@@ -21,14 +19,6 @@ public interface SettingsFragmentPresenter {
   interface View {
 
     void setContentView(@XmlRes int resId);
-
-    void navigateToSettingsNotifications26();
-
-    void navigateToSettingsNotifications21();
-
-    void navigateToSettingsNotifications();
-
-    void setNotifications(boolean enable);
 
     void setListener();
 

@@ -1,8 +1,11 @@
 package io.github.ovso.righttoknow.framework.network;
 
 import android.content.Context;
+import java.io.IOException;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -43,7 +46,11 @@ public abstract class NetworkHelper2<T> {
   private OkHttpClient createClient() {
     OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     httpClient.addInterceptor(
-        chain -> chain.proceed(NetworkHelper2.this.createRequst(chain.request())));
+        new Interceptor() {
+          @Override public Response intercept(Chain chain) throws IOException {
+            return chain.proceed(NetworkHelper2.this.createRequst(chain.request()));
+          }
+        });
     HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 

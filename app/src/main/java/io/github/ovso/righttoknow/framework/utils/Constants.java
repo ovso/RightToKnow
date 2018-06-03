@@ -4,7 +4,7 @@ import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
 import de.psdev.licensesdialog.model.Notice;
 import de.psdev.licensesdialog.model.Notices;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.App;
 
 /**
  * Created by jaeho on 2017. 8. 1
@@ -31,7 +31,7 @@ public class Constants {
     final Notices notices = new Notices();
 
     notices.addNotice(new Notice("App Icon(Launcher Icon)", "https://edukame.com/",
-        MyApplication.getInstance().getString(R.string.photo_credit_by), null));
+        App.getInstance().getString(R.string.photo_credit_by), null));
 
     notices.addNotice(
         new Notice("MaterialSearchView", "https://github.com/MiguelCatalan/MaterialSearchView",

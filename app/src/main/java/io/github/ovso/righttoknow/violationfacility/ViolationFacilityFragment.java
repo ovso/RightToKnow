@@ -16,8 +16,10 @@ import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
+import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.vfacilitydetail.VFacilityDetailActivity;
+import io.github.ovso.righttoknow.violationfacility.model.VioFac;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -58,7 +60,11 @@ public class ViolationFacilityFragment extends BaseFragment
     presenter.setAdapterModel(adapter);
     adapterView = adapter;
     adapter.setOnRecyclerItemClickListener(
-        violationFacility -> presenter.onRecyclerItemClick(violationFacility));
+        new OnRecyclerItemClickListener<VioFac>() {
+          @Override public void onItemClick(VioFac violationFacility) {
+            presenter.onRecyclerItemClick(violationFacility);
+          }
+        });
   }
 
   @Override public void refresh() {
@@ -83,7 +89,11 @@ public class ViolationFacilityFragment extends BaseFragment
   }
 
   @Override public void setListener() {
-    swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
+    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override public void onRefresh() {
+        presenter.onRefresh();
+      }
+    });
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
     setHasOptionsMenu(true);
   }

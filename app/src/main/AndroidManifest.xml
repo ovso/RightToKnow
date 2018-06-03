@@ -6,7 +6,7 @@
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
   <application
-      android:name=".app.MyApplication"
+      android:name=".App"
       android:allowBackup="true"
       android:icon="@mipmap/ic_launcher"
       android:label="@string/app_name"
@@ -79,26 +79,6 @@
         android:launchMode="singleInstance"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar"/>
-
-    <service
-        android:name=".framework.service.MyFirebaseMessagingService">
-      <intent-filter>
-        <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-      </intent-filter>
-    </service>
-    <service
-        android:name=".framework.service.MyFirebaseInstanceIDService">
-      <intent-filter>
-        <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-      </intent-filter>
-    </service>
-    <service
-        android:name=".framework.service.MyJobService"
-        android:exported="false">
-      <intent-filter>
-        <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
-      </intent-filter>
-    </service>
 
   </application>
 

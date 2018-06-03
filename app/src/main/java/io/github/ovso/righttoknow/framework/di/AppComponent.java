@@ -6,7 +6,7 @@ import dagger.Component;
 import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 import dagger.android.support.DaggerApplication;
-import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.App;
 
 @Component(modules = {
     AndroidSupportInjectionModule.class, AppModule.class, ActivityBuilder.class
@@ -17,5 +17,5 @@ import io.github.ovso.righttoknow.app.MyApplication;
     AppComponent build();
   }
 
-  void inject(MyApplication app);
+  void inject(App app);
 }

@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.vfacilitydetail;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -52,8 +53,10 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
   @Override public void setListener() {
     swipe.setColorSchemeResources(R.color.colorPrimary);
-    swipe.setOnRefreshListener(() -> {
-      presenter.onRefresh(getIntent());
+    swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override public void onRefresh() {
+        presenter.onRefresh(VFacilityDetailActivity.this.getIntent());
+      }
     });
   }
 
@@ -69,7 +72,11 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     //Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
     new AlertDialog.Builder(getApplicationContext()).setMessage(resId)
         .setPositiveButton(android.R.string.ok,
-            (dialogInterface, which) -> dialogInterface.dismiss())
+            new DialogInterface.OnClickListener() {
+              @Override public void onClick(DialogInterface dialogInterface, int which) {
+                dialogInterface.dismiss();
+              }
+            })
         .show();
   }
 

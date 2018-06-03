@@ -31,7 +31,11 @@ import lombok.ToString;
   }
 
   private static ArrayList<Video> sorted(ArrayList<Video> items) {
-    Comparator<Video> comparator = (t1, t2) -> t2.getDate().compareTo(t1.getDate());
+    Comparator<Video> comparator = new Comparator<Video>() {
+      @Override public int compare(Video t1, Video t2) {
+        return t2.getDate().compareTo(t1.getDate());
+      }
+    };
     Collections.sort(items, comparator);
     return items;
   }

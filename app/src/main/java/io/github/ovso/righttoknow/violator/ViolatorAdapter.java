@@ -32,14 +32,18 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
   @Override public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
     if (baseHolder instanceof ViolatorViewHolder) {
       ViolatorViewHolder holder = (ViolatorViewHolder) baseHolder;
-      Violator violator = items.get(position);
+      final Violator violator = items.get(position);
       holder.orderTextview.setText(String.valueOf(violator.getOrder()));
       holder.sidoTextView.setText(violator.getSido());
       holder.sigunguTextView.setText(violator.getSigungu());
       holder.nameTextView.setText(violator.getName());
       holder.vioFacTextView.setText(violator.getFac_name());
       holder.historyTextView.setText(violator.getHistory());
-      holder.itemView.setOnClickListener(view -> onRecyclerItemClickListener.onItemClick(violator));
+      holder.itemView.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+          onRecyclerItemClickListener.onItemClick(violator);
+        }
+      });
     }
   }
 

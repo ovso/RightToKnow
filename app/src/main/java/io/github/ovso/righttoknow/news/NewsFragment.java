@@ -51,8 +51,10 @@ public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.
   }
 
   @Override public void setListener() {
-    swipeRefresh.setOnRefreshListener(() -> {
-      presenter.onRefresh();
+    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override public void onRefresh() {
+        presenter.onRefresh();
+      }
     });
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }

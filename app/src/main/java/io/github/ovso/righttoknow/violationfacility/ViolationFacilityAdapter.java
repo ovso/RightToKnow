@@ -33,13 +33,17 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
   @Override public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
     if (baseHolder instanceof ViolationFacilityViewHolder) {
       ViolationFacilityViewHolder holder = (ViolationFacilityViewHolder) baseHolder;
-      VioFac fac = items.get(position);
+      final VioFac fac = items.get(position);
       holder.orderTextView.setText(String.valueOf(fac.getOrder()));
       holder.sidoTextView.setText(fac.getSido());
       holder.sigunguTextView.setText(fac.getSigungu());
       holder.facNameTextView.setText(fac.getFac_name());
       holder.typeTextView.setText(fac.getType());
-      holder.itemView.setOnClickListener(view -> onRecyclerItemClickListener.onItemClick(fac));
+      holder.itemView.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+          onRecyclerItemClickListener.onItemClick(fac);
+        }
+      });
     }
   }
 

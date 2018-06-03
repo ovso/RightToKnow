@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.violator;
 import android.os.Bundle;
 import android.text.TextUtils;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.framework.utils.Constants;
 import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
 import io.github.ovso.righttoknow.violationfacility.Sido;
@@ -11,8 +11,10 @@ import io.github.ovso.righttoknow.violator.model.Violator;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
+import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
 import timber.log.Timber;
 
@@ -40,18 +42,26 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   private void req() {
-    compositeDisposable.add(Observable.fromCallable(() -> Violator.convertToItems(
-        Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get()))
+    compositeDisposable.add(Observable.fromCallable(new Callable<List<Violator>>() {
+      @Override public List<Violator> call() throws Exception {
+        return Violator.convertToItems(
+            Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
+      }
+    })
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(items -> {
-          adapterDataModel.addAll(items);
-          view.refresh();
-          view.hideLoading();
-        }, throwable -> {
-          Timber.d(throwable);
-          view.showMessage(R.string.error_server);
-          view.hideLoading();
+        .subscribe(new Consumer<List<Violator>>() {
+          @Override public void accept(List<Violator> items) throws Exception {
+            adapterDataModel.addAll(items);
+            view.refresh();
+            view.hideLoading();
+          }
+        }, new Consumer<Throwable>() {
+          @Override public void accept(Throwable throwable) throws Exception {
+            Timber.d(throwable);
+            view.showMessage(R.string.error_server);
+            view.hideLoading();
+          }
         }));
   }
 
@@ -75,26 +85,33 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     req();
   }
 
-  @Override public void onSearchQuery(String query) {
+  @Override public void onSearchQuery(final String query) {
     view.showLoading();
     adapterDataModel.clear();
     view.refresh();
-    compositeDisposable.add(Observable.fromCallable(() -> {
-      List<Violator> items = Violator.convertToItems(
-          Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
-      return Violator.searchResultItems(query, items);
-    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(items -> {
-      adapterDataModel.addAll(items);
-      view.refresh();
-      view.hideLoading();
-    }, throwable -> {
-      Timber.d(throwable);
-      view.hideLoading();
+    compositeDisposable.add(Observable.fromCallable(new Callable<List<Violator>>() {
+      @Override public List<Violator> call() throws Exception {
+        List<Violator> items = Violator.convertToItems(
+            Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
+        return Violator.searchResultItems(query, items);
+      }
+    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+        new Consumer<List<Violator>>() {
+          @Override public void accept(List<Violator> items) throws Exception {
+            adapterDataModel.addAll(items);
+            view.refresh();
+            view.hideLoading();
+          }
+        }, new Consumer<Throwable>() {
+      @Override public void accept(Throwable throwable) throws Exception {
+        Timber.d(throwable);
+        view.hideLoading();
+      }
     }));
   }
 
   @Override public void onOptionsItemSelected(int itemId) {
-    String sido = Sido.getSido(itemId, MyApplication.getInstance());
+    String sido = Sido.getSido(itemId, App.getInstance());
     if (!TextUtils.isEmpty(sido)) {
       onSearchQuery(sido);
     }

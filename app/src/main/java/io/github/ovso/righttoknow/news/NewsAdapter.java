@@ -33,20 +33,26 @@ public class NewsAdapter extends BaseRecyclerAdapter
   @Override public void onBindViewHolder(BaseViewHolder viewHolder, int position) {
     if (viewHolder instanceof NewsViewHolder) {
       NewsViewHolder holder = (NewsViewHolder) viewHolder;
-      News news = items.get(position);
+      final News news = items.get(position);
       String title = news.getTitle();
       SpannableString spannableString = new SpannableString(Html.fromHtml(title));
       holder.titleTextview.setText(spannableString);
       holder.countTextview.setText(String.valueOf(position+1));
       String date = Utility.convertDate(news.getPubDate(), "yy-MM-dd");
       holder.dateTextView.setText(date);
-      holder.itemView.setOnClickListener(view -> {
-        if (onRecyclerItemClickListener != null) {
-          onRecyclerItemClickListener.onItemClick(news);
+      holder.itemView.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+          if (onRecyclerItemClickListener != null) {
+            onRecyclerItemClickListener.onItemClick(news);
+          }
         }
       });
       holder.imageView.setOnClickListener(
-          view -> onRecyclerItemClickListener.onSimpleNewsItemClick(news));
+          new View.OnClickListener() {
+            @Override public void onClick(View view) {
+              onRecyclerItemClickListener.onSimpleNewsItemClick(news);
+            }
+          });
     }
   }
 

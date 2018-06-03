@@ -6,7 +6,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.App;
 import java.util.HashMap;
 
 /**
@@ -17,7 +17,7 @@ public class MessagingHandler {
 
   public static void createChannelToShowNotifications() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      Context context = MyApplication.getInstance();
+      Context context = App.getInstance();
       String channelId = context.getString(R.string.default_notification_channel_id);
       String channelName = context.getString(R.string.default_notification_channel_name);
       NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
@@ -52,7 +52,7 @@ public class MessagingHandler {
       storeVersionNumber = 0;
     }
     String replaceVersion =
-        Utility.getVersionName(MyApplication.getInstance()).replaceAll("\\.", "");
+        Utility.getVersionName(App.getInstance()).replaceAll("\\.", "");
     int appVersionNumber;
     try {
       appVersionNumber = Integer.parseInt(replaceVersion);

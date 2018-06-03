@@ -14,9 +14,10 @@ android {
   buildToolsVersion '27.0.3'
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
-    minSdkVersion 16
+    minSdkVersion 21
     targetSdkVersion 27
-    versionCode 75
+    //multiDexEnabled true
+    versionCode 76
 
     int versionMajor = 0
     int versionMinor = 0
@@ -38,7 +39,6 @@ android {
 
     versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    //multiDexEnabled true
   }
   lintOptions {
     abortOnError false
@@ -56,6 +56,7 @@ android {
     release {
       minifyEnabled true
       useProguard true
+      //shrinkResources true
       proguardFile getDefaultProguardFile('proguard-android.txt')
       proguardFile 'proguard-rules.pro'
       proguardFile 'proguard-firebase.pro'
@@ -70,18 +71,8 @@ android {
       proguardFile 'proguard-jsoup.pro'
 
       signingConfig signingConfigs.release
-      /*
-            applicationVariants.all { variant ->
-              variant.outputs.each { output ->
-                def formattedDate = new Date().format('yyyyMMdd_HHmmss')
-                def apkName = "RightToKnow_" + variant.versionName + "_" + formattedDate + "_release.apk"
-                output.outputFile = new File(output.outputFile.parent, apkName)
-              }
-            }
-      */
     }
     debug {
-      //versionNameSuffix '-debug'
     }
   }
   configurations.all {
@@ -89,10 +80,12 @@ android {
     exclude group: 'com.android.support', module: 'customtabs'
   }
 
+/*
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+*/
 
   lintOptions {
     disable 'LongLogTag'
@@ -119,7 +112,6 @@ dependencies {
   // location
   implementation "com.google.android.gms:play-services-location:$play_services_version"
   implementation "com.google.android.gms:play-services-maps:$play_services_version"
-  implementation "com.google.android.gms:play-services-ads:$play_services_version"
 
   // butter knife
   implementation "com.jakewharton:butterknife:$butterknife_version"
@@ -129,13 +121,13 @@ dependencies {
   implementation "com.jakewharton.timber:timber:$timber_version"
 
   // firebase
-  implementation "com.google.firebase:firebase-auth:$firebase_version"
-  implementation "com.google.firebase:firebase-database:$firebase_version"
-  implementation "com.google.firebase:firebase-storage:$firebase_version"
-  implementation "com.google.firebase:firebase-messaging:$firebase_version"
-  implementation "com.google.firebase:firebase-config:$firebase_version"
-  implementation "com.firebase:firebase-jobdispatcher:$firebase_jobdispatcher"
+  implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
+  implementation "com.google.firebase:firebase-database:$firebase_database_version"
   implementation "com.androidhuman.rxfirebase2:firebase-database:$rxfirebase_version"
+  //implementation "com.google.firebase:firebase-storage:$firebase_storage_version"
+  //implementation "com.google.firebase:firebase-messaging:$firebase_messaging_version"
+  //implementation "com.google.firebase:firebase-config:$firebase_config_version"
+  //implementation "com.firebase:firebase-jobdispatcher:$firebase_jobdispatcher"
 
   // rxjava
   implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
@@ -149,9 +141,9 @@ dependencies {
   implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
   implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
 
-  provided "org.projectlombok:lombok:$lombok_version"
+  compileOnly "org.projectlombok:lombok:$lombok_version"
   annotationProcessor "org.projectlombok:lombok:$lombok_version"
-  implementation "com.github.barteksc:android-pdf-viewer:$pdf_viewer_version"
+
   implementation "de.psdev.licensesdialog:licensesdialog:$licensesdialog_version"
   implementation "com.miguelcatalan:materialsearchview:$materialsearchview_version"
   implementation "com.wang.avi:library:$avi_library_version"
@@ -159,7 +151,9 @@ dependencies {
   annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
   implementation "org.jsoup:jsoup:$rootProject.jsoup_version"
 
-  // file downloader
+  // pdf
+  implementation "com.github.barteksc:android-pdf-viewer:$pdf_viewer_version"
+  // downloader
   implementation "com.mindorks.android:prdownloader:$rootProject.prdownloader_version"
 
   // dagger2

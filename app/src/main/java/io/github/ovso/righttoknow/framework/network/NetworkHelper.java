@@ -3,8 +3,11 @@ package io.github.ovso.righttoknow.framework.network;
 import android.content.Context;
 import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.framework.network.api.NewsApi;
+import java.io.IOException;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -41,15 +44,17 @@ public class NetworkHelper {
 
   private OkHttpClient createClient() {
     OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-    httpClient.addInterceptor(chain -> {
-      Request original = chain.request();
-      Request.Builder requestBuilder = original.newBuilder()
-          .header("Content-Type", "plain/text")
-          .addHeader("X-Naver-Client-Id", Security.NAVER_CLIENT_ID.getValue())
-          .addHeader("X-Naver-Client-Secret", Security.NAVER_CLIENT_SECRET.getValue());
+    httpClient.addInterceptor(new Interceptor() {
+      @Override public Response intercept(Chain chain) throws IOException {
+        Request original = chain.request();
+        Request.Builder requestBuilder = original.newBuilder()
+            .header("Content-Type", "plain/text")
+            .addHeader("X-Naver-Client-Id", Security.NAVER_CLIENT_ID.getValue())
+            .addHeader("X-Naver-Client-Secret", Security.NAVER_CLIENT_SECRET.getValue());
 
-      Request request = requestBuilder.build();
-      return chain.proceed(request);
+        Request request = requestBuilder.build();
+        return chain.proceed(request);
+      }
     });
     HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

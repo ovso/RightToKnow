@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import lombok.Getter;
@@ -21,18 +22,20 @@ import lombok.Getter;
   private List<News> items;
 
   public static List<News> sortItems(List<News> items) {
-    Collections.sort(items, (o1, o2) -> {
-      String pattern = "yy-MM-dd";
-      try {
-        String o1String = Utility.convertDate(o1.getPubDate(), pattern);
-        String o2String = Utility.convertDate(o2.getPubDate(), pattern);
+    Collections.sort(items, new Comparator<News>() {
+      @Override public int compare(News o1, News o2) {
+        String pattern = "yy-MM-dd";
+        try {
+          String o1String = Utility.convertDate(o1.getPubDate(), pattern);
+          String o2String = Utility.convertDate(o2.getPubDate(), pattern);
 
-        Date o1Date = new SimpleDateFormat(pattern).parse(o1String);
-        Date o2Date = new SimpleDateFormat(pattern).parse(o2String);
-        return o2Date.compareTo(o1Date);
-      } catch (ParseException e) {
-        e.printStackTrace();
-        return 0;
+          Date o1Date = new SimpleDateFormat(pattern).parse(o1String);
+          Date o2Date = new SimpleDateFormat(pattern).parse(o2String);
+          return o2Date.compareTo(o1Date);
+        } catch (ParseException e) {
+          e.printStackTrace();
+          return 0;
+        }
       }
     });
 

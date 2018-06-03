@@ -11,7 +11,7 @@ import android.os.Build;
 import android.view.Window;
 import android.view.WindowManager;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.App;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,7 +45,7 @@ public class Utility {
   }
 
   public static String getActionEmoji(List<String> actions) {
-    Resources res = MyApplication.getInstance().getResources();
+    Resources res = App.getInstance().getResources();
     for (String action : actions) {
       if (action.contains(res.getString(R.string.abused)) || action.contains(
           res.getString(R.string.attack))) {
@@ -57,7 +57,7 @@ public class Utility {
   }
 
   public static String getActionEmoji(String[] actions) {
-    Resources res = MyApplication.getInstance().getResources();
+    Resources res = App.getInstance().getResources();
     for (String action : actions) {
       if (action.contains(res.getString(R.string.abused)) || action.contains(
           res.getString(R.string.attack))) {

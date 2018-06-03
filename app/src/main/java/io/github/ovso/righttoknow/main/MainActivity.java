@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -68,16 +69,26 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     drawer.setDrawerListener(toggle);
     toggle.syncState();
 
-    navigationView.setNavigationItemSelectedListener(item -> {
-      presenter.onNavigationItemSelected(item.getItemId());
-      drawer.closeDrawer(GravityCompat.START);
-      return true;
-    });
+    navigationView.setNavigationItemSelectedListener(
+        new NavigationView.OnNavigationItemSelectedListener() {
+          @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            presenter.onNavigationItemSelected(item.getItemId());
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+          }
+        });
     bottomNavigationView.setOnNavigationItemSelectedListener(
-        item -> presenter.onBottomNavigationItemSelected(item.getItemId()));
-    bottomNavigationView.setOnNavigationItemReselectedListener(item -> {
-      // Do nothing..
-    });
+        new BottomNavigationView.OnNavigationItemSelectedListener() {
+          @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            return presenter.onBottomNavigationItemSelected(item.getItemId());
+          }
+        });
+    bottomNavigationView.setOnNavigationItemReselectedListener(
+        new BottomNavigationView.OnNavigationItemReselectedListener() {
+          @Override public void onNavigationItemReselected(@NonNull MenuItem item) {
+            // Do nothing..
+          }
+        });
   }
 
   @Override public void setBottomNavigationViewBehavior() {

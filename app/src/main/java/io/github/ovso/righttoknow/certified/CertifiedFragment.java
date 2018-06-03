@@ -78,8 +78,10 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
   }
 
   @Override public void setListener() {
-    swipeRefresh.setOnRefreshListener(() -> {
-      presenter.onRefresh();
+    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override public void onRefresh() {
+        presenter.onRefresh();
+      }
     });
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }

@@ -66,7 +66,11 @@ public class DetailNewsActivity extends BaseActivity {
   }
 
   private void setSwipeRefresh() {
-    swipeRefresh.setOnRefreshListener(() -> webView.loadUrl(news.getLink()));
+    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override public void onRefresh() {
+        webView.loadUrl(news.getLink());
+      }
+    });
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }
 

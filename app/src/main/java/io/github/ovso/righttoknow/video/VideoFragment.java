@@ -97,8 +97,10 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
   }
 
   @Override public void setRefreshLayout() {
-    swipeRefresh.setOnRefreshListener(() -> {
-      presenter.onRefresh();
+    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override public void onRefresh() {
+        presenter.onRefresh();
+      }
     });
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }

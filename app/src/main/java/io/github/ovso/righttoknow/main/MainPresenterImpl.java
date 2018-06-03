@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.app.MyApplication;
+import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.framework.utils.Constants;
 import io.github.ovso.righttoknow.framework.utils.Utility;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
@@ -71,8 +71,8 @@ class MainPresenterImpl implements MainPresenter {
 
   @Override public void onCreate(Intent intent) {
     view.setVersionName(
-        MyApplication.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
-            MyApplication.getInstance()));
+        App.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
+            App.getInstance()));
     view.setListener();
     view.setSearchView();
 
@@ -88,7 +88,7 @@ class MainPresenterImpl implements MainPresenter {
         view.navigateToSettings();
         break;
       case R.id.nav_help:
-        String msg = MyApplication.getInstance().getString(R.string.source);
+        String msg = App.getInstance().getString(R.string.source);
         view.showHelpAlert(msg);
         break;
     }
@@ -117,7 +117,7 @@ class MainPresenterImpl implements MainPresenter {
   }
 
   private String getTitle(int position) {
-    Resources res = MyApplication.getInstance().getResources();
+    Resources res = App.getInstance().getResources();
     String title = res.getString(R.string.title_vioation_facility_inquiry);
     switch (position) {
       case Constants.ITEM_VIOLATION_FACILITY:

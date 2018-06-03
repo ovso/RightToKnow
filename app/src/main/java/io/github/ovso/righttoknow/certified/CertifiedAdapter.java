@@ -11,6 +11,7 @@ import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +46,11 @@ public class CertifiedAdapter extends BaseRecyclerAdapter
       //holder.itemView.setOnClickListener(view -> onRecyclerItemClickListener.onItemClick(item));
       compositeDisposable.add(RxView.clicks(holder.itemView)
           .throttleFirst(1, TimeUnit.SECONDS)
-          .subscribe(o -> onRecyclerItemClickListener.onItemClick(item)));
+          .subscribe(new Consumer<Object>() {
+            @Override public void accept(Object o) throws Exception {
+              onRecyclerItemClickListener.onItemClick(item);
+            }
+          }));
     }
   }
 
