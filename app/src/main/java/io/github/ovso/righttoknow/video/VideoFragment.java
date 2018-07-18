@@ -47,11 +47,11 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     super.onCreateOptionsMenu(menu, inflater);
   }
 
-  @DebugLog @Override public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     return presenter.onOptionsItemSelected(item.getItemId());
   }
 
-  @DebugLog @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+  @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     presenter = new VideoFragmentPresenterImpl(this);
     presenter.onActivityCreated(savedInstanceState);
@@ -74,7 +74,7 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     adapterView.refresh();
   }
 
-  @DebugLog @Override public void navigateToVideoDetail(Video video) {
+  @Override public void navigateToVideoDetail(Video video) {
     int startTimeMillis = 0;
     boolean autoPlay = true;
     MenuItem menuItem = menu.findItem(R.id.option_menu_lock_portrait);

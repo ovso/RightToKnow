@@ -80,7 +80,7 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
         .show();
   }
 
-  @DebugLog @Override public void navigateToMap(double[] locations, String facName) {
+  @Override public void navigateToMap(double[] locations, String facName) {
     Intent intent = new Intent(getApplicationContext(), MapActivity.class);
     intent.putExtra("locations", locations);
     intent.putExtra("facName", facName);

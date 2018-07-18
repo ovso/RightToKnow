@@ -89,7 +89,7 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
     compositeDisposable.clear();
   }
 
-  @DebugLog @Override public boolean onOptionsItemSelected(int itemId) {
+  @Override public boolean onOptionsItemSelected(int itemId) {
     view.clearMenuMode();
     switch (itemId) {
       case R.id.option_menu_lock_portrait:

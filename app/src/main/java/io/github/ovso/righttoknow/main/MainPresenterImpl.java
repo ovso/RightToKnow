@@ -44,7 +44,7 @@ class MainPresenterImpl implements MainPresenter {
     }
   }
 
-  @DebugLog @Override public void onPrepareOptionsMenu(String simpleName, MenuItem item) {
+  @Override public void onPrepareOptionsMenu(String simpleName, MenuItem item) {
 
   }
 
@@ -70,6 +70,7 @@ class MainPresenterImpl implements MainPresenter {
   }
 
   @Override public void onCreate(Intent intent) {
+    // show ad
     view.setVersionName(
         App.getInstance().getString(R.string.version) + " " + Utility.getVersionName(
             App.getInstance()));

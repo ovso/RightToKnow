@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'hugo'
+//apply plugin: 'hugo'
 
 // keystorePropertiesFile 변수를 만들고 프로젝트 폴더의 keystore.properties 파일로 초기화 한다.
 def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -80,13 +80,6 @@ android {
     exclude group: 'com.android.support', module: 'customtabs'
   }
 
-/*
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-  }
-*/
-
   lintOptions {
     disable 'LongLogTag'
   }
@@ -124,10 +117,6 @@ dependencies {
   implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
   implementation "com.google.firebase:firebase-database:$firebase_database_version"
   implementation "com.androidhuman.rxfirebase2:firebase-database:$rxfirebase_version"
-  //implementation "com.google.firebase:firebase-storage:$firebase_storage_version"
-  //implementation "com.google.firebase:firebase-messaging:$firebase_messaging_version"
-  //implementation "com.google.firebase:firebase-config:$firebase_config_version"
-  //implementation "com.firebase:firebase-jobdispatcher:$firebase_jobdispatcher"
 
   // rxjava
   implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
@@ -161,7 +150,6 @@ dependencies {
   implementation "com.google.dagger:dagger-android-support:$dagger_version"
   annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
   annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
-
 }
 
 // Add to the bottom of the file

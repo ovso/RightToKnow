@@ -76,7 +76,7 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
             }));
   }
 
-  @DebugLog @Override public void onRecyclerItemClick(ChildCertified item) {
+  @Override public void onRecyclerItemClick(ChildCertified item) {
     view.showLoading();
     final String url = Constants.BASE_URL + item.getDownloadUrl();
     final File dirPath = App.getInstance().getFilesDir();
@@ -88,14 +88,14 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
     PRDownloader.download(url, dirPath.toString(), fileName)
         .build()
         .start(new OnDownloadListener() {
-          @DebugLog @Override public void onDownloadComplete() {
+          @Override public void onDownloadComplete() {
             File file = new File(App.getInstance().getFilesDir() + "/" + fileName);
             Timber.d(file.toString());
             view.navigateToPDFViewer(file);
             view.hideLoading();
           }
 
-          @DebugLog @Override public void onError(Error error) {
+          @Override public void onError(Error error) {
             view.showMessage(R.string.error_server);
             view.hideLoading();
           }
