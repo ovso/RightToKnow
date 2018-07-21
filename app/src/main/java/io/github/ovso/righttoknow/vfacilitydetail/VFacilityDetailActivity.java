@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.BaseActivity;
 import io.github.ovso.righttoknow.map.MapActivity;
@@ -122,8 +121,8 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public void onBackPressed() {
-    super.onBackPressed();
     presenter.onBackPressed();
+    super.onBackPressed();
   }
 
   @Override protected void onResume() {

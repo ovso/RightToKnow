@@ -5,12 +5,11 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import hugo.weaving.DebugLog;
-import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.App;
+import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.framework.utils.Constants;
 import io.github.ovso.righttoknow.framework.utils.Utility;
-import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 
 /**
  * Created by jaeho on 2017. 7. 31

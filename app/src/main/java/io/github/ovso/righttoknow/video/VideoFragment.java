@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import butterknife.BindView;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
-import hugo.weaving.DebugLog;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.framework.BaseFragment;
