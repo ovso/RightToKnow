@@ -3,6 +3,8 @@ package io.github.ovso.righttoknow.vfacilitydetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.InterstitialAd;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.framework.network.model.GoogleGeocode;
@@ -22,10 +24,6 @@ import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
 import timber.log.Timber;
 
-/**
- * Created by jaeho on 2017. 8. 2
- */
-
 public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
   //37.5652894,126.8494635 서울
   //locations[0] = 37.5652894;
@@ -37,13 +35,21 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
   private String fullAddress;
   private Disposable disposable;
   private String facName;
+  private InterstitialAd interstitialAd;
 
-  VFacilityDetailPresenterImpl(VFacilityDetailPresenter.View view) {
+  VFacilityDetailPresenterImpl(VFacilityDetailPresenter.View view, InterstitialAd $interstitialAd) {
     this.view = view;
     geocodeNetwork = new GeocodeNetwork(App.getInstance().getApplicationContext(),
         GeocodeNetwork.GEOCODING_BASE_URL);
+    interstitialAd = $interstitialAd;
+    interstitialAd.setAdListener(interstitialAdListener);
   }
-
+  private AdListener interstitialAdListener = new AdListener() {
+    @Override public void onAdClosed() {
+      super.onAdClosed();
+      view.finish();
+    }
+  };
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
     view.setListener();
     view.hideButton();
@@ -168,6 +174,19 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
     req(intent);
   }
 
+  @Override public void onOptionsItemSelected() {
+    setupInterstitialAd();
+  }
+
   @Override public void onBackPressed() {
+    setupInterstitialAd();
+  }
+
+  private void setupInterstitialAd() {
+    if(interstitialAd.isLoaded()) {
+      interstitialAd.show();
+    } else {
+      view.finish();
+    }
   }
 }

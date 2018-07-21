@@ -97,7 +97,7 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
-    finish();
+    presenter.onOptionsItemSelected();
     return true;
   }
 
@@ -122,7 +122,7 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
 
   @Override public void onBackPressed() {
     presenter.onBackPressed();
-    super.onBackPressed();
+    //super.onBackPressed();
   }
 
   @Override protected void onResume() {

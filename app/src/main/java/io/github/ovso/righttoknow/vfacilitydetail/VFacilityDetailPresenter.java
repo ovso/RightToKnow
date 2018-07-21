@@ -20,6 +20,8 @@ public interface VFacilityDetailPresenter {
 
   void onRefresh(Intent intent);
 
+  void onOptionsItemSelected();
+
   interface View {
 
     void setSupportActionBar();
@@ -41,5 +43,7 @@ public interface VFacilityDetailPresenter {
     void hideButton();
 
     void showButton();
+
+    void finish();
   }
 }
