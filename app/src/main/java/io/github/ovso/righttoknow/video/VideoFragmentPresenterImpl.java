@@ -1,13 +1,20 @@
 package io.github.ovso.righttoknow.video;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.os.Bundle;
 import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
+import io.github.ovso.righttoknow.framework.utils.ObjectUtils;
 import io.github.ovso.righttoknow.video.model.Video;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -16,10 +23,6 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 
-/**
- * Created by jaeho on 2017. 9. 7
- */
-
 public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
 
   private VideoFragmentPresenter.View view;
@@ -27,26 +30,62 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private DatabaseReference databaseReference =
       FirebaseDatabase.getInstance().getReference().child("child_care_video");
+  private InterstitialAd interstitialAd;
+  private Video videoItem;
 
   VideoFragmentPresenterImpl(VideoFragmentPresenter.View view) {
     this.view = view;
+    interstitialAd = provideInterstitialAd(App.getInstance());
   }
+
+  private InterstitialAd provideInterstitialAd(Context context) {
+    InterstitialAd interstitialAd = new InterstitialAd(context);
+    interstitialAd.setAdUnitId(Security.ADMOB_INTERSTITIAL_UNIT_ID.getValue());
+    AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+    interstitialAd.setAdListener(interstitialAdListener);
+    interstitialAd.loadAd(adRequestBuilder.build());
+
+    return interstitialAd;
+  }
+
+  private AdListener interstitialAdListener = new AdListener() {
+    @Override public void onAdClosed() {
+      super.onAdClosed();
+      if (!ObjectUtils.isEmpty(videoItem)) {
+        navigateToVideoDetail(videoItem);
+      }
+    }
+  };
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     view.setHasOptionsMenu(true);
     view.setRefreshLayout();
     view.setRecyclerView();
+    setAdapterListener();
+    req();
+  }
+
+  private void setAdapterListener() {
     adapterDataModel.setOnItemClickListener(new OnRecyclerItemClickListener<Video>() {
       @Override public void onItemClick(Video item) {
-        try {
-          view.navigateToVideoDetail(item);
-        } catch (ActivityNotFoundException e) {
-          e.printStackTrace();
-          view.showWarningDialog();
+        videoItem = item;
+        if (interstitialAd.isLoaded()) {
+          interstitialAd.show();
+        } else {
+          navigateToVideoDetail(item);
         }
       }
     });
-    req();
+  }
+
+  private void navigateToVideoDetail(Video item) {
+    try {
+      videoItem = item;
+      view.navigateToVideoDetail(item);
+    } catch (ActivityNotFoundException e) {
+      e.printStackTrace();
+      view.showWarningDialog();
+    }
   }
 
   private void req() {

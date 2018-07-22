@@ -20,10 +20,6 @@ import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.video.model.Video;
 import io.github.ovso.righttoknow.videodetail.VideoDetailActivity;
 
-/**
- * Created by jaeho on 2017. 9. 7
- */
-
 public class VideoFragment extends BaseFragment implements VideoFragmentPresenter.View {
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
@@ -79,17 +75,22 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
     MenuItem menuItem = menu.findItem(R.id.option_menu_lock_portrait);
     boolean lightboxMode = menuItem != null ? true : false;
     if (!lightboxMode) {
-      playLandscape(video.getVideo_id());
+      navigateToLandscapeVideo(video.getVideo_id());
     } else {
-      Intent intent =
-          YouTubeStandalonePlayer.createVideoIntent(getActivity(),
-              Security.GOOGLE_API_KEY.getValue(),
-              video.getVideo_id(), startTimeMillis, autoPlay, lightboxMode);
-      startActivity(intent);
+      navigateToPortraitVideo(video.getVideo_id(), startTimeMillis, autoPlay, lightboxMode);
     }
   }
 
-  private void playLandscape(String videoId) {
+  private void navigateToPortraitVideo(String videoId, int startTimeMillis, boolean autoPlay,
+      boolean lightboxMode) {
+    Intent intent =
+        YouTubeStandalonePlayer.createVideoIntent(getActivity(),
+            Security.GOOGLE_API_KEY.getValue(),
+            videoId, startTimeMillis, autoPlay, lightboxMode);
+    startActivity(intent);
+  }
+
+  private void navigateToLandscapeVideo(String videoId) {
     Intent intent = new Intent(getContext(), VideoDetailActivity.class);
     intent.putExtra("video_id", videoId);
     startActivity(intent);
