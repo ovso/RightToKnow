@@ -4,20 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
 import butterknife.BindView;
-import com.fsn.cauly.CaulyAdView;
 import com.github.barteksc.pdfviewer.PDFView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.framework.BaseActivity;
+import io.github.ovso.righttoknow.framework.AdsActivity;
 import java.io.File;
-import javax.inject.Inject;
 
-/**
- * Created by jaeho on 2017. 8. 21
- */
-
-public class PDFViewerActivity extends BaseActivity {
+public class PDFViewerActivity extends AdsActivity {
   @BindView(R.id.pdf_view) PDFView pdfView;
-  @Inject CaulyAdView caulyAdView;
+
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTitle(R.string.title_child_certified_detail);

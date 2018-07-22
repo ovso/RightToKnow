@@ -13,14 +13,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.framework.BaseActivity;
+import io.github.ovso.righttoknow.framework.AdsActivity;
 import io.github.ovso.righttoknow.news.model.News;
 
-/**
- * Created by jaeho on 2017. 9. 2
- */
-
-public class DetailNewsActivity extends BaseActivity {
+public class DetailNewsActivity extends AdsActivity {
   @BindView(R.id.webview) WebView webView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
   private News news;

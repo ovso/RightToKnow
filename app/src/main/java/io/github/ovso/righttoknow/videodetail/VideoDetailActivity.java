@@ -11,10 +11,6 @@ import com.google.android.youtube.player.YouTubePlayerFragment;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
 
-/**
- * Created by jaeho on 2017. 9. 7
- */
-
 public class VideoDetailActivity extends Activity {
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
