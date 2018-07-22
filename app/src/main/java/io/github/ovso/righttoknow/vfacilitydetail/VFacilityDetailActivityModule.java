@@ -7,9 +7,7 @@ import javax.inject.Singleton;
 
 @Module public abstract class VFacilityDetailActivityModule {
   @Singleton @Provides public static VFacilityDetailPresenter provideVFacilityDetailPresenter(
-      VFacilityDetailActivity activity, InterstitialAd $interstitialAd) {
-    return new VFacilityDetailPresenterImpl(activity, $interstitialAd);
+      VFacilityDetailActivity activity) {
+    return new VFacilityDetailPresenterImpl(activity);
   }
-
-
 }

@@ -12,15 +12,11 @@ public interface VFacilityDetailPresenter {
 
   void onCreate(Bundle savedInstanceState, Intent intent);
 
-  void onBackPressed();
-
   void onDestroy();
 
   void onMapClick(Intent intent);
 
   void onRefresh(Intent intent);
-
-  void onOptionsItemSelected();
 
   interface View {
 

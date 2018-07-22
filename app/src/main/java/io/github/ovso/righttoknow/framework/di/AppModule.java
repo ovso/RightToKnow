@@ -7,7 +7,6 @@ import com.google.android.gms.ads.InterstitialAd;
 import dagger.Module;
 import dagger.Provides;
 import io.github.ovso.righttoknow.Security;
-import javax.inject.Singleton;
 
 @Module public class AppModule {
   @Provides Context provideContext(Application application) {

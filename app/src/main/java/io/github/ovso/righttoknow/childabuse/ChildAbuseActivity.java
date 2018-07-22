@@ -9,13 +9,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.framework.BaseActivity;
+import io.github.ovso.righttoknow.framework.AdsActivity;
 
-/**
- * Created by jaeho on 2018. 1. 4
- */
-
-public class ChildAbuseActivity extends BaseActivity {
+public class ChildAbuseActivity extends AdsActivity {
   @BindView(R.id.webview) WebView webView;
 
   @Override protected int getLayoutResId() {

@@ -6,22 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.framework.BaseActivity;
+import io.github.ovso.righttoknow.framework.AdsActivity;
 import io.github.ovso.righttoknow.map.MapActivity;
 import javax.inject.Inject;
 
-/**
- * Created by jaeho on 2017. 8. 2
- */
-
-public class VFacilityDetailActivity extends BaseActivity implements VFacilityDetailPresenter.View {
+public class VFacilityDetailActivity extends AdsActivity implements VFacilityDetailPresenter.View {
 
   @Inject VFacilityDetailPresenter presenter;
   @BindView(R.id.contents_textview) TextView contentsTextView;
@@ -96,11 +91,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
     shareButton.setVisibility(View.VISIBLE);
   }
 
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-    presenter.onOptionsItemSelected();
-    return true;
-  }
-
   @OnClick(R.id.share_button) void onShareClick() {
     Intent intent = new Intent();
     intent.setAction(Intent.ACTION_SEND);
@@ -118,11 +108,6 @@ public class VFacilityDetailActivity extends BaseActivity implements VFacilityDe
   @Override protected void onDestroy() {
     super.onDestroy();
     presenter.onDestroy();
-  }
-
-  @Override public void onBackPressed() {
-    presenter.onBackPressed();
-    //super.onBackPressed();
   }
 
   @Override protected void onResume() {
