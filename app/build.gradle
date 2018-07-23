@@ -54,9 +54,9 @@ android {
 
   buildTypes {
     release {
-      minifyEnabled true
-      useProguard true
-      //shrinkResources true
+      minifyEnabled false
+      useProguard false
+      shrinkResources false
       proguardFile getDefaultProguardFile('proguard-android.txt')
       proguardFile 'proguard-rules.pro'
       proguardFile 'proguard-firebase.pro'
@@ -69,6 +69,7 @@ android {
       proguardFile 'proguard-okhttp.pro'
       proguardFile 'proguard-dagger.pro'
       proguardFile 'proguard-jsoup.pro'
+      proguardFile 'proguard-lombok.pro'
 
       signingConfig signingConfigs.release
     }
