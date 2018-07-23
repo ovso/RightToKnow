@@ -1,20 +1,16 @@
 package io.github.ovso.righttoknow.video;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.Security;
+import io.github.ovso.righttoknow.data.ActivityReqCode;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.framework.utils.ObjectUtils;
 import io.github.ovso.righttoknow.video.model.Video;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -31,31 +27,12 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
   private DatabaseReference databaseReference =
       FirebaseDatabase.getInstance().getReference().child("child_care_video");
   private InterstitialAd interstitialAd;
-  private Video videoItem;
+  //private Video videoItem;
 
-  VideoFragmentPresenterImpl(VideoFragmentPresenter.View view) {
+  VideoFragmentPresenterImpl(VideoFragmentPresenter.View view, InterstitialAd $inInterstitialAd) {
     this.view = view;
-    interstitialAd = provideInterstitialAd(App.getInstance());
+    interstitialAd = $inInterstitialAd;
   }
-
-  private InterstitialAd provideInterstitialAd(Context context) {
-    InterstitialAd interstitialAd = new InterstitialAd(context);
-    interstitialAd.setAdUnitId(Security.ADMOB_INTERSTITIAL_UNIT_ID.getValue());
-    AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-    interstitialAd.setAdListener(interstitialAdListener);
-    interstitialAd.loadAd(adRequestBuilder.build());
-
-    return interstitialAd;
-  }
-
-  private AdListener interstitialAdListener = new AdListener() {
-    @Override public void onAdClosed() {
-      super.onAdClosed();
-      if (!ObjectUtils.isEmpty(videoItem)) {
-        navigateToVideoDetail(videoItem);
-      }
-    }
-  };
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     view.setHasOptionsMenu(true);
@@ -68,19 +45,19 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
   private void setAdapterListener() {
     adapterDataModel.setOnItemClickListener(new OnRecyclerItemClickListener<Video>() {
       @Override public void onItemClick(Video item) {
-        videoItem = item;
-        if (interstitialAd.isLoaded()) {
-          interstitialAd.show();
-        } else {
+        //videoItem = item;
+        //if (interstitialAd.isLoaded()) {
+        //  interstitialAd.show();
+        //} else {
           navigateToVideoDetail(item);
-        }
+        //}
       }
     });
   }
 
   private void navigateToVideoDetail(Video item) {
     try {
-      videoItem = item;
+      //videoItem = item;
       view.navigateToVideoDetail(item);
     } catch (ActivityNotFoundException e) {
       e.printStackTrace();
@@ -142,5 +119,11 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
 
   @Override public void onCreateOptionsMenu() {
     view.setPortraitMode();
+  }
+
+  @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if(requestCode == ActivityReqCode.YOUTUBE.get() && interstitialAd.isLoaded()) {
+      interstitialAd.show();
+    }
   }
 }

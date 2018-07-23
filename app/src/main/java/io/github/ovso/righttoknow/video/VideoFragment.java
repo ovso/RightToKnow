@@ -15,15 +15,17 @@ import butterknife.BindView;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
-import io.github.ovso.righttoknow.framework.BaseFragment;
+import io.github.ovso.righttoknow.data.ActivityReqCode;
+import io.github.ovso.righttoknow.framework.DaggerFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.video.model.Video;
 import io.github.ovso.righttoknow.videodetail.VideoDetailActivity;
+import javax.inject.Inject;
 
-public class VideoFragment extends BaseFragment implements VideoFragmentPresenter.View {
+public class VideoFragment extends DaggerFragment implements VideoFragmentPresenter.View {
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
-  private VideoFragmentPresenter presenter;
+  @Inject VideoFragmentPresenter presenter;
   private Menu menu;
   private MenuInflater menuInflater;
   private BaseAdapterView adapterView;
@@ -48,7 +50,6 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    presenter = new VideoFragmentPresenterImpl(this);
     presenter.onActivityCreated(savedInstanceState);
   }
 
@@ -87,13 +88,13 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
         YouTubeStandalonePlayer.createVideoIntent(getActivity(),
             Security.GOOGLE_API_KEY.getValue(),
             videoId, startTimeMillis, autoPlay, lightboxMode);
-    startActivity(intent);
+    startActivityForResult(intent, ActivityReqCode.YOUTUBE.get());
   }
 
   private void navigateToLandscapeVideo(String videoId) {
     Intent intent = new Intent(getContext(), VideoDetailActivity.class);
     intent.putExtra("video_id", videoId);
-    startActivity(intent);
+    startActivityForResult(intent, ActivityReqCode.YOUTUBE.get());
   }
 
   @Override public void setRefreshLayout() {
@@ -143,5 +144,10 @@ public class VideoFragment extends BaseFragment implements VideoFragmentPresente
   @Override public void onResume() {
     super.onResume();
     getActivity().setTitle(R.string.title_video);
+  }
+
+  @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    presenter.onActivityResult(requestCode, resultCode, data);
   }
 }

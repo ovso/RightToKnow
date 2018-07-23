@@ -11,10 +11,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.github.ovso.righttoknow.framework.utils.ObjectUtils;
 
-/**
- * Created by jaeho on 2017. 8. 1
- */
-
 public abstract class BaseFragment extends Fragment {
   private Unbinder unbinder;
 

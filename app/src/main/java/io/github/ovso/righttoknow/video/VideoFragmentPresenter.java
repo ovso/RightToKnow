@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.video;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.video.model.Video;
@@ -21,6 +22,8 @@ public interface VideoFragmentPresenter {
   boolean onOptionsItemSelected(int itemId);
 
   void onCreateOptionsMenu();
+
+  void onActivityResult(int requestCode, int resultCode, Intent data);
 
   interface View {
 
