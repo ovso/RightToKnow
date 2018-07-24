@@ -92,7 +92,7 @@
   <string name="go_out_message">감사합니다.\n남겨주실 말씀이 있을까요?</string>
   <string name="donation">후원</string>
   <string name="help">도움말</string>
-  <string name="source">* 자료의 출처 : 어린이집 정보공개 포털 \n\n * 제보 : 목록에 나와 있지 않은 \'법 위반 어린이집\'을 알고 계시다면 알려주세요. 정보공개 기관에 업데이트 요청하려고요.(ovsoc@daum.net) \n\n * 광고수입으로, 초록우산어린이재단에 정기후원하고 있습니다.</string>
+  <string name="source">* 정보는 어린이집 정보공개 포털을 기반으로 제공합니다.</string>
   <string name="child_abuse">아동학대 의심에서 신고까지</string>
   <string name="error_server">서버에 문제가 생겼습니다. 잠시후 다시 시도해주세요.</string>
   <string name="empty_search_query">검색어를 입력해주세요.</string>

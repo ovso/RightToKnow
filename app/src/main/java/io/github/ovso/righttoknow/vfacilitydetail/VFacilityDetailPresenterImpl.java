@@ -14,6 +14,7 @@ import io.github.ovso.righttoknow.vfacilitydetail.model.VioFacDe;
 import io.github.ovso.righttoknow.vfacilitydetail.model.ViolatorDe;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -29,6 +30,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
   private GeocodeNetwork geocodeNetwork;
   private String fullAddress;
   private Disposable disposable;
+  private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private String facName;
 
   VFacilityDetailPresenterImpl(VFacilityDetailPresenter.View view) {
@@ -48,32 +50,35 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
   private void req(Intent intent) {
     if (intent.hasExtra("vio_fac_link")) {
       final String link = intent.getStringExtra("vio_fac_link");
-      disposable = Observable.fromCallable(new Callable<String>() {
-        @Override public String call() throws Exception {
-          VioFacDe vioFacDe = VioFacDe.convertToItem(
-              Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
-          facName = vioFacDe.getVioFacName();
-          Timber.d("facName = " + facName);
-          fullAddress = vioFacDe.getAddress();
-          return VioFacDe.getContents(vioFacDe);
-        }
-      }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-          new Consumer<String>() {
-            @Override public void accept(String o) throws Exception {
-              view.showContents(o);
-              view.showButton();
-              view.hideLoading();
+      compositeDisposable.add(
+          Observable.fromCallable(new Callable<String>() {
+            @Override public String call() throws Exception {
+              VioFacDe vioFacDe = VioFacDe.convertToItem(
+                  Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
+              facName = vioFacDe.getVioFacName();
+              Timber.d("facName = " + facName);
+              fullAddress = vioFacDe.getAddress();
+              return VioFacDe.getContents(vioFacDe);
             }
-          }, new Consumer<Throwable>() {
-            @Override public void accept(Throwable throwable) throws Exception {
-              Timber.d(throwable);
-              view.showMessage(R.string.error_server);
-              view.hideLoading();
-            }
-          });
+          }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+              new Consumer<String>() {
+                @Override public void accept(String o) throws Exception {
+                  view.showContents(o);
+                  view.showButton();
+                  view.hideLoading();
+                }
+              }, new Consumer<Throwable>() {
+                @Override public void accept(Throwable throwable) throws Exception {
+                  Timber.d(throwable);
+                  view.showMessage(R.string.error_server);
+                  view.hideLoading();
+                }
+              })
+
+      );
     } else if (intent.hasExtra("violator_link")) {
       final String link = intent.getStringExtra("violator_link");
-      disposable = Observable.fromCallable(new Callable<String>() {
+      compositeDisposable.add(Observable.fromCallable(new Callable<String>() {
         @Override public String call() throws Exception {
           ViolatorDe violatorDe = ViolatorDe.convertToItem(
               Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
@@ -95,7 +100,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
               view.showMessage(R.string.error_server);
               view.hideLoading();
             }
-          });
+          }));
     }
   }
 
