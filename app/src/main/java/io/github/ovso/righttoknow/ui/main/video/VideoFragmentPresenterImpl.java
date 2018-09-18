@@ -26,8 +26,6 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
   private VideoFragmentPresenter.View view;
   private VideoAdapterDataModel adapterDataModel;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
-  private DatabaseReference databaseReference =
-      FirebaseDatabase.getInstance().getReference().child("child_care_video");
   private InterstitialAd interstitialAd;
   private VideoRequest videoRequest;
   private ResourceProvider resourceProvider;
@@ -54,7 +52,7 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
   }
 
   private void req() {
-    String q = resourceProvider.getString(R.string.video_query);
+    q = resourceProvider.getString(R.string.video_query);
     Disposable disposable = videoRequest.getResult(q, pageToken)
         .subscribeOn(schedulersFacade.io())
         .observeOn(schedulersFacade.ui())
@@ -63,6 +61,7 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
             pageToken = search.getNextPageToken();
             adapterDataModel.addAll(search.getItems());
             view.refresh();
+            view.hideLoading();
           }
         }, new Consumer<Throwable>() {
           @Override public void accept(Throwable throwable) throws Exception {
@@ -145,7 +144,6 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
               });
       compositeDisposable.add(disposable);
     }
-
   }
 
   @Override public void onItemClick(SearchItem data) {
