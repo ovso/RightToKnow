@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.data.ActivityReqCode;
 import io.github.ovso.righttoknow.data.network.VideoRequest;
 import io.github.ovso.righttoknow.data.network.model.video.Search;
 import io.github.ovso.righttoknow.data.network.model.video.SearchItem;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
-import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.utils.ResourceProvider;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import io.reactivex.disposables.CompositeDisposable;
@@ -56,18 +53,12 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
     Disposable disposable = videoRequest.getResult(q, pageToken)
         .subscribeOn(schedulersFacade.io())
         .observeOn(schedulersFacade.ui())
-        .subscribe(new Consumer<Search>() {
-          @Override public void accept(Search search) throws Exception {
-            pageToken = search.getNextPageToken();
-            adapterDataModel.addAll(search.getItems());
-            view.refresh();
-            view.hideLoading();
-          }
-        }, new Consumer<Throwable>() {
-          @Override public void accept(Throwable throwable) throws Exception {
-
-          }
-        });
+        .subscribe(search -> {
+          pageToken = search.getNextPageToken();
+          adapterDataModel.addAll(search.getItems());
+          view.refresh();
+          view.hideLoading();
+        }, throwable -> view.hideLoading());
     compositeDisposable.add(disposable);
   }
 
@@ -87,6 +78,7 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
   @Override public void onRefresh() {
     adapterDataModel.clear();
     view.refresh();
+    pageToken = null;
     req();
   }
 
