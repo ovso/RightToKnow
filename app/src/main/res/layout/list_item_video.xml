@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    >
+  <android.support.v7.widget.AppCompatImageView
+      android:id="@+id/thumbnail_image_view"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginStart="16dp"
+      android:foreground="?android:attr/selectableItemBackground"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintDimensionRatio="16:9"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="1.0"
+      />
+  <ImageButton
+      android:id="@+id/play_button"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toBottomOf="@+id/thumbnail_image_view"
+      app:layout_constraintEnd_toEndOf="@+id/thumbnail_image_view"
+      app:layout_constraintStart_toStartOf="@+id/thumbnail_image_view"
+      app:layout_constraintTop_toTopOf="@+id/thumbnail_image_view"
+      android:background="?android:selectableItemBackground"
+      app:srcCompat="@drawable/ic_play_arrow"
+      android:scaleType="fitCenter"
+      />
+</android.support.constraint.ConstraintLayout>

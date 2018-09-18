@@ -6,25 +6,29 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 import butterknife.BindView;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
 import io.github.ovso.righttoknow.data.ActivityReqCode;
+import io.github.ovso.righttoknow.data.network.model.video.SearchItem;
 import io.github.ovso.righttoknow.framework.DaggerFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.ui.main.video.model.Video;
+import io.github.ovso.righttoknow.ui.base.OnEndlessRecyclerScrollListener;
+import io.github.ovso.righttoknow.ui.base.OnRecyclerViewItemClickListener;
+import io.github.ovso.righttoknow.ui.base.VideoRecyclerView;
 import io.github.ovso.righttoknow.ui.videodetail.VideoDetailActivity;
 import javax.inject.Inject;
 
-public class VideoFragment extends DaggerFragment implements VideoFragmentPresenter.View {
+public class VideoFragment extends DaggerFragment implements VideoFragmentPresenter.View,
+    OnEndlessRecyclerScrollListener.OnLoadMoreListener, OnRecyclerViewItemClickListener<SearchItem> {
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
-  @BindView(R.id.recyclerview) RecyclerView recyclerView;
+  @BindView(R.id.recyclerview) VideoRecyclerView recyclerView;
   @Inject VideoFragmentPresenter presenter;
   private Menu menu;
   private MenuInflater menuInflater;
@@ -64,21 +68,29 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
     adapterView = adapter;
     recyclerView.setLayoutManager(layout);
     recyclerView.setAdapter(adapter);
+    recyclerView.addOnScrollListener(
+        new OnEndlessRecyclerScrollListener
+            .Builder((LinearLayoutManager) recyclerView.getLayoutManager(), this)
+            .setVisibleThreshold(20)
+            .build()
+    );
+    recyclerView.setOnItemClickListener(this);
+
   }
 
   @Override public void refresh() {
     adapterView.refresh();
   }
 
-  @Override public void navigateToVideoDetail(Video video) {
+  @Override public void navigateToVideoDetail(SearchItem video) {
     int startTimeMillis = 0;
     boolean autoPlay = true;
     MenuItem menuItem = menu.findItem(R.id.option_menu_lock_portrait);
     boolean lightboxMode = menuItem != null ? true : false;
     if (!lightboxMode) {
-      navigateToLandscapeVideo(video.getVideo_id());
+      navigateToLandscapeVideo(video.getId().getVideoId());
     } else {
-      navigateToPortraitVideo(video.getVideo_id(), startTimeMillis, autoPlay, lightboxMode);
+      navigateToPortraitVideo(video.getId().getVideoId(), startTimeMillis, autoPlay, lightboxMode);
     }
   }
 
@@ -136,6 +148,10 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
     Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
   }
 
+  @Override public void setLoaded() {
+    recyclerView.getOnEndlessRecyclerScrollListener().setLoaded();
+  }
+
   @Override public void onDestroyView() {
     super.onDestroyView();
     presenter.onDestroyView();
@@ -149,5 +165,13 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     presenter.onActivityResult(requestCode, resultCode, data);
+  }
+
+  @Override public void onLoadMore() {
+    presenter.onLoadMore();
+  }
+
+  @Override public void onItemClick(View view, SearchItem data, int itemPosition) {
+    presenter.onItemClick(data);
   }
 }

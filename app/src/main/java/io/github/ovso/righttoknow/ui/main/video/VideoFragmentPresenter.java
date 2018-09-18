@@ -3,11 +3,7 @@ package io.github.ovso.righttoknow.ui.main.video;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import io.github.ovso.righttoknow.ui.main.video.model.Video;
-
-/**
- * Created by jaeho on 2017. 9. 7
- */
+import io.github.ovso.righttoknow.data.network.model.video.SearchItem;
 
 public interface VideoFragmentPresenter {
 
@@ -25,13 +21,17 @@ public interface VideoFragmentPresenter {
 
   void onActivityResult(int requestCode, int resultCode, Intent data);
 
+  void onLoadMore();
+
+  void onItemClick(SearchItem data);
+
   interface View {
 
     void setRecyclerView();
 
     void refresh();
 
-    void navigateToVideoDetail(Video video);
+    void navigateToVideoDetail(SearchItem video);
 
     void setRefreshLayout();
 
@@ -50,5 +50,7 @@ public interface VideoFragmentPresenter {
     void showWarningDialog();
 
     void showMessage(@StringRes int resId);
+
+    void setLoaded();
   }
 }
