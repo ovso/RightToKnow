@@ -1,6 +1,6 @@
 package io.github.ovso.righttoknow.framework.network.api;
 
-import io.github.ovso.righttoknow.news.model.NewsResult;
+import io.github.ovso.righttoknow.ui.main.news.model.NewsResult;
 import io.reactivex.Single;
 import java.util.HashMap;
 import retrofit2.http.GET;

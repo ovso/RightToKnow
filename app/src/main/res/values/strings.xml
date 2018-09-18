@@ -60,7 +60,7 @@
   <string name="opensource_licenses">오픈소스 라이선스</string>
   <string name="hint_all_search">예)지역,주소,어린이집명</string>
   <string name="title_news">뉴스 보도</string>
-  <string name="title_video">VIDEO</string>
+  <string name="title_video">CCTV</string>
   <string name="play_in_portrait">세로모드로 재생</string>
   <string name="play_in_landscape">가로모드로 재생</string>
   <string name="no_videos_found">영상을 찾을 수 없습니다.</string>
@@ -92,7 +92,7 @@
   <string name="go_out_message">감사합니다.\n남겨주실 말씀이 있을까요?</string>
   <string name="donation">후원</string>
   <string name="help">도움말</string>
-  <string name="source">* 정보는 어린이집 정보공개 포털을 기반으로 제공합니다.</string>
+  <string name="help_content">* 시설 정보는 어린이집 정보공개 포털을 기반으로 제공합니다.\n\n* 행정처분 받은 시설은, 각 지자체가 어린이집 정보공개 포털에 공유하게 되어 있습니다.\n\n* 공표시기가 지난 경우, 재판중인 경우, 공표 여부를 시설에서 선택할 수 있는 경우는 포털에서 확인할 수 없습니다.\n\n* 확실히 행정처분이 되었으나, 공표되지 않은 시설이 있다면 각 지자체에 민원을 신청하시거나 제보 주시면 민원 신청해 보겠습니다.(ovsoc@daum.net)\n\n 좋은 하루 보내세요.</string>
   <string name="child_abuse">아동학대 의심에서 신고까지</string>
   <string name="error_server">서버에 문제가 생겼습니다. 잠시후 다시 시도해주세요.</string>
   <string name="empty_search_query">검색어를 입력해주세요.</string>
