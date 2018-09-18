@@ -12,6 +12,7 @@ import io.github.ovso.righttoknow.data.ActivityReqCode;
 import io.github.ovso.righttoknow.data.network.VideoRequest;
 import io.github.ovso.righttoknow.data.network.model.video.Search;
 import io.github.ovso.righttoknow.data.network.model.video.SearchItem;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.utils.ResourceProvider;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
@@ -24,7 +25,7 @@ import timber.log.Timber;
 public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
 
   private VideoFragmentPresenter.View view;
-  private VideoAdapterDataModel adapterDataModel;
+  private BaseAdapterDataModel<SearchItem> adapterDataModel;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private InterstitialAd interstitialAd;
   private VideoRequest videoRequest;
@@ -47,7 +48,6 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
     view.setHasOptionsMenu(true);
     view.setRefreshLayout();
     view.setRecyclerView();
-    setAdapterListener();
     req();
   }
 
@@ -71,14 +71,6 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
     compositeDisposable.add(disposable);
   }
 
-  private void setAdapterListener() {
-    adapterDataModel.setOnItemClickListener(new OnRecyclerItemClickListener<SearchItem>() {
-      @Override public void onItemClick(SearchItem item) {
-        navigateToVideoDetail(item);
-      }
-    });
-  }
-
   private void navigateToVideoDetail(SearchItem item) {
     try {
       view.navigateToVideoDetail(item);
@@ -88,7 +80,7 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
     }
   }
 
-  @Override public void setAdapterDataModel(VideoAdapterDataModel dataModel) {
+  @Override public void setAdapterDataModel(BaseAdapterDataModel<SearchItem> dataModel) {
     this.adapterDataModel = dataModel;
   }
 

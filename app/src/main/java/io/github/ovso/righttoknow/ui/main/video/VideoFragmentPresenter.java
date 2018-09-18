@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.data.network.model.video.SearchItem;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 
 public interface VideoFragmentPresenter {
 
   void onActivityCreated(Bundle savedInstanceState);
 
-  void setAdapterDataModel(VideoAdapterDataModel dataModel);
+  void setAdapterDataModel(BaseAdapterDataModel<SearchItem> dataModel);
 
   void onRefresh();
 

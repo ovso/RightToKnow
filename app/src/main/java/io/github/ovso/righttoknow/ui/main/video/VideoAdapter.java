@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import io.github.ovso.righttoknow.data.network.model.video.SearchItem;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.ui.base.OnRecyclerViewItemClickListener;
 import io.github.ovso.righttoknow.ui.main.video.adapter.Bindable;
 import io.github.ovso.righttoknow.ui.main.video.adapter.VideoViewHolder;
@@ -14,7 +14,7 @@ import java.util.List;
 import lombok.Setter;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder>
-    implements VideoAdapterDataModel, BaseAdapterView {
+    implements BaseAdapterDataModel<SearchItem>, BaseAdapterView {
   private List<SearchItem> items = new ArrayList<>();
   @Setter private OnRecyclerViewItemClickListener onRecyclerViewItemClickListener;
 
@@ -26,6 +26,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder>
   @Override public void onBindViewHolder(VideoViewHolder holder, int position) {
     if (holder instanceof Bindable) {
       ((Bindable) holder).bind(getItem(position));
+      holder.setOnRecyclerViewItemClickListener(onRecyclerViewItemClickListener);
     }
   }
 
@@ -63,11 +64,5 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder>
 
   @Override public void clear() {
     items.clear();
-  }
-
-  private OnRecyclerItemClickListener<SearchItem> onRecyclerItemClickListener;
-
-  @Override public void setOnItemClickListener(OnRecyclerItemClickListener<SearchItem> listener) {
-    onRecyclerItemClickListener = listener;
   }
 }
