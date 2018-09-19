@@ -37,7 +37,6 @@ public abstract class AdsActivity extends BaseActivity {
   }
 
   @Override public void onBackPressed() {
-    //super.onBackPressed();
     showInterstitialAd();
   }
 }

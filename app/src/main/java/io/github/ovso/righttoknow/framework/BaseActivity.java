@@ -9,8 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Optional;
 import butterknife.Unbinder;
 import com.google.android.gms.ads.AdView;
+import com.jakewharton.rxbinding2.internal.GenericTypeNullable;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import dagger.android.support.DaggerAppCompatActivity;
 import io.github.ovso.righttoknow.R;
@@ -19,7 +21,6 @@ import io.github.ovso.righttoknow.framework.ad.MyAdView;
 public abstract class BaseActivity extends DaggerAppCompatActivity {
 
   protected @BindView(R.id.toolbar) Toolbar toolbar;
-  protected @BindView(R.id.search_view) MaterialSearchView searchView;
   protected @BindView(R.id.ad_container) ViewGroup adContainer;
   private AdView admobAdView;
   private Unbinder unbinder;

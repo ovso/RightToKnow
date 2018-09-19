@@ -16,7 +16,7 @@ android {
     minSdkVersion 21
     targetSdkVersion 27
     //multiDexEnabled true
-    versionCode 79
+    versionCode 81
 
     int versionMajor = 0
     int versionMinor = 0
@@ -71,6 +71,15 @@ android {
       proguardFile 'proguard-lombok.pro'
 
       signingConfig signingConfigs.release
+
+      android.applicationVariants.all { variant ->
+        variant.outputs.all {
+          def formattedDate = new Date().format('yyyyMMddHHmmss')
+          def appName = variant.getApplicationId().split(/[.]/)[3]
+          outputFileName =
+              "${appName}-${variant.name}-${variant.versionCode}-${variant.versionName}-${formattedDate}.apk"
+        }
+      }
     }
     debug {
     }
@@ -78,6 +87,11 @@ android {
 
   lintOptions {
     disable 'LongLogTag'
+  }
+
+  compileOptions {
+    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_1_8
   }
 }
 
@@ -112,8 +126,10 @@ dependencies {
 
   // firebase
   implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
-  implementation "com.google.firebase:firebase-database:$firebase_database_version"
-  implementation "com.androidhuman.rxfirebase2:firebase-database:$rxfirebase_version"
+  //implementation "com.google.firebase:firebase-core:$firebase_core_version"
+  //implementation "com.google.firebase:firebase-database:$firebase_database_version"
+  //implementation "com.androidhuman.rxfirebase2:firebase-database:$rxfirebase_version"
+
 
   // rxjava
   implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
