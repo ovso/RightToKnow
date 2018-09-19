@@ -3,6 +3,7 @@ ext {
   play_services_version = '15.0.1'
 
   firebase_ads_version = '15.0.1'
+  firebase_core_version = '16.0.3'
   firebase_database_version = '16.0.1'
   firebase_storage_version = '16.0.1'
   firebase_messaging_version = '17.0.0'
@@ -28,7 +29,6 @@ ext {
   junit_version = '4.12'
   constraint_layout_version = '1.0.2'
   jsoup_version = '1.10.3'
-  naver_map_version = '2.1.2@aar'
   prdownloader_version = '0.2.0'
 
   dagger_version = '2.16'

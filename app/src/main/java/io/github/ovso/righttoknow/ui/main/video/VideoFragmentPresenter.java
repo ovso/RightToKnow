@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.ui.main.video;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
@@ -32,8 +33,6 @@ public interface VideoFragmentPresenter {
 
     void refresh();
 
-    void navigateToVideoDetail(SearchItem video);
-
     void setRefreshLayout();
 
     void showLoading();
@@ -48,10 +47,16 @@ public interface VideoFragmentPresenter {
 
     void clearMenuMode();
 
-    void showWarningDialog();
-
     void showMessage(@StringRes int resId);
 
     void setLoaded();
+
+    void showPortraitVideo(String videoId);
+
+    void showLandscapeVideo(String videoId);
+
+    void showYoutubeUseWarningDialog();
+
+    void showVideoTypeDialog(DialogInterface.OnClickListener onClickListener);
   }
 }

@@ -13,7 +13,9 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
@@ -46,25 +48,18 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     view.showLoading();
 
     compositeDisposable.add(Maybe.fromCallable(
-        new Callable<List<VioFac>>() {
-          @Override public List<VioFac> call() throws Exception {
-            return VioFac.convertToItems(
-                Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
-          }
-        })
+        () -> VioFac.convertToItems(
+            Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get()))
+        .onErrorReturn(throwable -> new ArrayList<>())
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Consumer<List<VioFac>>() {
-          @Override public void accept(List<VioFac> items) throws Exception {
-            adapterDataModel.addAll(items);
-            view.refresh();
-            view.hideLoading();
-          }
-        }, new Consumer<Throwable>() {
-          @Override public void accept(Throwable throwable) throws Exception {
-            view.showMessage(R.string.error_server);
-            view.hideLoading();
-          }
+        .subscribe(items -> {
+          adapterDataModel.addAll(items);
+          view.refresh();
+          view.hideLoading();
+        }, throwable -> {
+          view.showMessage(R.string.error_server);
+          view.hideLoading();
         }));
   }
 
@@ -108,11 +103,11 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
             view.hideLoading();
           }
         }, new Consumer<Throwable>() {
-      @Override public void accept(Throwable throwable) throws Exception {
-        Timber.d(throwable);
-        view.hideLoading();
-      }
-    }));
+          @Override public void accept(Throwable throwable) throws Exception {
+            Timber.d(throwable);
+            view.hideLoading();
+          }
+        }));
   }
 
   @Override public void onDetach() {

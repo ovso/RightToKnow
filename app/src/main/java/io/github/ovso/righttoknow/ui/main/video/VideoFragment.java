@@ -1,10 +1,10 @@
 package io.github.ovso.righttoknow.ui.main.video;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +22,14 @@ import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.ui.base.OnEndlessRecyclerScrollListener;
 import io.github.ovso.righttoknow.ui.base.OnRecyclerViewItemClickListener;
 import io.github.ovso.righttoknow.ui.base.VideoRecyclerView;
+import io.github.ovso.righttoknow.ui.video.LandscapeVideoActivity;
+import io.github.ovso.righttoknow.ui.video.PortraitVideoActivity;
 import io.github.ovso.righttoknow.ui.videodetail.VideoDetailActivity;
 import javax.inject.Inject;
 
 public class VideoFragment extends DaggerFragment implements VideoFragmentPresenter.View,
-    OnEndlessRecyclerScrollListener.OnLoadMoreListener, OnRecyclerViewItemClickListener<SearchItem> {
+    OnEndlessRecyclerScrollListener.OnLoadMoreListener,
+    OnRecyclerViewItemClickListener<SearchItem> {
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
   @BindView(R.id.recyclerview) VideoRecyclerView recyclerView;
   @Inject VideoFragmentPresenter presenter;
@@ -75,23 +78,10 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
             .build()
     );
     recyclerView.setOnItemClickListener(this);
-
   }
 
   @Override public void refresh() {
     adapterView.refresh();
-  }
-
-  @Override public void navigateToVideoDetail(SearchItem video) {
-    int startTimeMillis = 0;
-    boolean autoPlay = true;
-    MenuItem menuItem = menu.findItem(R.id.option_menu_lock_portrait);
-    boolean lightboxMode = menuItem != null ? true : false;
-    if (!lightboxMode) {
-      navigateToLandscapeVideo(video.getId().getVideoId());
-    } else {
-      navigateToPortraitVideo(video.getId().getVideoId(), startTimeMillis, autoPlay, lightboxMode);
-    }
   }
 
   private void navigateToPortraitVideo(String videoId, int startTimeMillis, boolean autoPlay,
@@ -138,12 +128,6 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
     menu.clear();
   }
 
-  @Override public void showWarningDialog() {
-    new AlertDialog.Builder(getActivity()).setIcon(R.drawable.ic_new_releases_24dp)
-        .setMessage(R.string.not_fount_youtube)
-        .setPositiveButton(android.R.string.ok, null).show();
-  }
-
   @Override public void showMessage(int resId) {
     Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
   }
@@ -173,5 +157,33 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
 
   @Override public void onItemClick(View view, SearchItem data, int itemPosition) {
     presenter.onItemClick(data);
+  }
+
+  @Override public void showVideoTypeDialog(DialogInterface.OnClickListener onClickListener) {
+    new android.app.AlertDialog.Builder(getContext()).setMessage(
+        R.string.please_select_the_player_mode)
+        .setPositiveButton(R.string.portrait_mode,
+            onClickListener)
+        .setNeutralButton(R.string.landscape_mode, onClickListener)
+        .setNegativeButton(android.R.string.cancel, onClickListener)
+        .show();
+  }
+
+  @Override public void showPortraitVideo(String videoId) {
+    Intent intent = new Intent(getContext(), PortraitVideoActivity.class);
+    intent.putExtra("video_id", videoId);
+    startActivity(intent);
+  }
+
+  @Override public void showLandscapeVideo(String videoId) {
+    Intent intent = new Intent(getContext(), LandscapeVideoActivity.class);
+    intent.putExtra("video_id", videoId);
+    startActivity(intent);
+  }
+
+  @Override public void showYoutubeUseWarningDialog() {
+    new android.app.AlertDialog.Builder(getActivity()).setMessage(R.string.youtube_use_warning)
+        .setPositiveButton(android.R.string.ok, null)
+        .show();
   }
 }

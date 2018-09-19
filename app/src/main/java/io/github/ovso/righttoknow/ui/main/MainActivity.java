@@ -53,8 +53,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.main, menu);
     MenuItem item = menu.findItem(R.id.option_menu_search);
-    searchView.setMenuItem(item);
-
     return true;
   }
 
@@ -116,19 +114,9 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public void closeSearchView() {
-    searchView.closeSearch();
   }
 
   @Override public void setSearchView() {
-    searchView.setVoiceSearch(true);
-    searchView.setOnQueryTextListener(new OnSimpleQueryTextListener() {
-      @Override public void onSubmit(String query) {
-        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (!ObjectUtils.isEmpty(f)) {
-          presenter.onSubmit((OnFragmentEventListener) f, query);
-        }
-      }
-    });
   }
 
   @Override public void navigateToSettings() {
@@ -186,11 +174,9 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public void hideSearchView() {
-    searchView.setVisibility(View.GONE);
   }
 
   @Override public void showSearchView() {
-    searchView.setVisibility(View.VISIBLE);
   }
 
   @Override public void onBackPressed() {

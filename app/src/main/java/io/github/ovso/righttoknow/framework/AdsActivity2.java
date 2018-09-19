@@ -1,18 +1,29 @@
 package io.github.ovso.righttoknow.framework;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import javax.inject.Inject;
+import io.github.ovso.righttoknow.Security;
 
-public abstract class AdsActivity extends BaseActivity {
+public abstract class AdsActivity2 extends Activity {
 
-  @Inject InterstitialAd interstitialAd;
+  private InterstitialAd interstitialAd;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    setupInterstitialAd();
+  }
+
+  private void setupInterstitialAd() {
+    interstitialAd = new InterstitialAd(this);
+    interstitialAd.setAdUnitId(Security.ADMOB_INTERSTITIAL_UNIT_ID.getValue());
+    AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+    interstitialAd.loadAd(adRequestBuilder.build());
     interstitialAd.setAdListener(interstitialAdadListener);
   }
 
@@ -29,7 +40,7 @@ public abstract class AdsActivity extends BaseActivity {
   }
 
   private void showInterstitialAd() {
-    if(interstitialAd.isLoaded()) {
+    if (interstitialAd.isLoaded()) {
       interstitialAd.show();
     } else {
       finish();

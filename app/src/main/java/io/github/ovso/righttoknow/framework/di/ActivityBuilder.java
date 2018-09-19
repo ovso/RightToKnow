@@ -17,6 +17,8 @@ import io.github.ovso.righttoknow.ui.settings.SettingsActivity;
 import io.github.ovso.righttoknow.ui.settings.SettingsActivityModule;
 import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity;
 import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivityModule;
+import io.github.ovso.righttoknow.ui.video.LandscapeVideoActivity;
+import io.github.ovso.righttoknow.ui.video.PortraitVideoActivity;
 import javax.inject.Singleton;
 
 @Module(includes = { AndroidSupportInjectionModule.class })
@@ -41,4 +43,10 @@ public abstract class ActivityBuilder {
 
   @Singleton @ContributesAndroidInjector(modules = { ChildAbuseActivityModule.class })
   abstract ChildAbuseActivity bindChildAbuseActivity();
+
+  @Singleton @ContributesAndroidInjector(modules = {})
+  abstract LandscapeVideoActivity bindLandscapeVideoActivity();
+
+  @Singleton @ContributesAndroidInjector(modules = {})
+  abstract PortraitVideoActivity bindPortraitVideoActivity();
 }

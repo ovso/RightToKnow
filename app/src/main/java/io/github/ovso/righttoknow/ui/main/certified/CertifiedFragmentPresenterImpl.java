@@ -4,14 +4,12 @@ import android.os.Bundle;
 import com.downloader.Error;
 import com.downloader.OnDownloadListener;
 import com.downloader.PRDownloader;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.ui.main.certified.model.ChildCertified;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.framework.utils.Constants;
 import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
+import io.github.ovso.righttoknow.ui.main.certified.model.ChildCertified;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -23,16 +21,10 @@ import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
 import timber.log.Timber;
 
-/**
- * Created by jaeho on 2017. 8. 21
- */
-
 public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresenter {
 
   private CertifiedFragmentPresenter.View view;
   private BaseAdapterDataModel<ChildCertified> adapterDataModel;
-  private DatabaseReference databaseReference =
-      FirebaseDatabase.getInstance().getReference().child("child_certified");
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private String connectUrl;
 
