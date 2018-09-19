@@ -23,7 +23,7 @@ ext {
   materialsearchview_version = '1.4.0'
   avi_library_version = '2.1.3'
   glide_version = '4.3.1'
-  lombok_version = '1.18.0'
+  lombok_version = '1.16.20'
   butterknife_version = '8.8.1'
   timber_version = '4.6.1'
   junit_version = '4.12'
@@ -31,5 +31,5 @@ ext {
   jsoup_version = '1.10.3'
   prdownloader_version = '0.2.0'
 
-  dagger_version = '2.16'
+  dagger_version = '2.17'
 }

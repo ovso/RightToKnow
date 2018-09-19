@@ -127,8 +127,8 @@ dependencies {
   // firebase
   implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
   //implementation "com.google.firebase:firebase-core:$firebase_core_version"
-  implementation "com.google.firebase:firebase-database:$firebase_database_version"
-  implementation "com.androidhuman.rxfirebase2:firebase-database:$rxfirebase_version"
+  //implementation "com.google.firebase:firebase-database:$firebase_database_version"
+  //implementation "com.androidhuman.rxfirebase2:firebase-database:$rxfirebase_version"
 
 
   // rxjava
