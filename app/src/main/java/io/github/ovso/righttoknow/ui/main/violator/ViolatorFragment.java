@@ -8,6 +8,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -19,10 +21,6 @@ import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity;
 import io.github.ovso.righttoknow.ui.main.violator.model.Violator;
-
-/**
- * Created by jaeho on 2017. 7. 31
- */
 
 public class ViolatorFragment extends BaseFragment
     implements ViolatorFragmentPresenter.View, OnFragmentEventListener {
@@ -46,6 +44,7 @@ public class ViolatorFragment extends BaseFragment
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    setHasOptionsMenu(true);
     presenter = new ViolatorFragmentPresenterImpl(this);
     presenter.onActivityCreate(savedInstanceState);
   }
@@ -65,11 +64,7 @@ public class ViolatorFragment extends BaseFragment
   @Override public void setAdapter() {
     presenter.setAdapterModel(adapter);
     adapterView = adapter;
-    adapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<Violator>() {
-      @Override public void onItemClick(Violator violator) {
-        presenter.onRecyclerItemClick(violator);
-      }
-    });
+    adapter.setOnRecyclerItemClickListener(violator -> presenter.onRecyclerItemClick(violator));
   }
 
   @Override public void setRecyclerView() {
@@ -122,4 +117,10 @@ public class ViolatorFragment extends BaseFragment
     super.onResume();
     getActivity().setTitle(R.string.title_violator_inquiry);
   }
+
+  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    menu.findItem(R.id.option_menu_search).setVisible(false);
+    super.onCreateOptionsMenu(menu, inflater);
+  }
+
 }

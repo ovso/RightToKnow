@@ -74,6 +74,10 @@
         android:screenOrientation="sensorPortrait"
         android:theme="@android:style/Theme.Black.NoTitleBar"/>
 
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyBdY9vP4_vQs5YEGJ3Ghu6s5gGY8yFlo0s"/>
+
   </application>
 
 </manifest>

@@ -21,10 +21,6 @@ import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity;
 import io.github.ovso.righttoknow.ui.main.violationfacility.model.VioFac;
 
-/**
- * Created by jaeho on 2017. 7. 31
- */
-
 public class ViolationFacilityFragment extends BaseFragment
     implements ViolationFacilityPresenter.View, OnFragmentEventListener {
 
@@ -42,6 +38,7 @@ public class ViolationFacilityFragment extends BaseFragment
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    setHasOptionsMenu(true);
     presenter = new ViolationFacilityPresenterImpl(this);
     presenter.onActivityCreated(savedInstanceState);
   }
@@ -83,9 +80,8 @@ public class ViolationFacilityFragment extends BaseFragment
 
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
     intent.putExtra("vio_fac_link", webLink);
-    intent.putExtra("address" , address);
+    intent.putExtra("address", address);
     startActivity(intent);
-
   }
 
   @Override public void setListener() {
@@ -128,12 +124,13 @@ public class ViolationFacilityFragment extends BaseFragment
     return super.onOptionsItemSelected(item);
   }
 
-  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    super.onCreateOptionsMenu(menu, inflater);
-  }
-
   @Override public void onResume() {
     super.onResume();
     getActivity().setTitle(R.string.title_vioation_facility_inquiry);
+  }
+
+  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    menu.findItem(R.id.option_menu_search).setVisible(false);
+    super.onCreateOptionsMenu(menu, inflater);
   }
 }
