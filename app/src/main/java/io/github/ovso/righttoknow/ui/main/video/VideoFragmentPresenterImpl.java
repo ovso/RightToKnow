@@ -42,7 +42,6 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
   }
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
-    view.setHasOptionsMenu(true);
     view.setRefreshLayout();
     view.setRecyclerView();
     req();
@@ -77,23 +76,6 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
   @Override public void onDestroyView() {
     compositeDisposable.dispose();
     compositeDisposable.clear();
-  }
-
-  @Override public boolean onOptionsItemSelected(int itemId) {
-    view.clearMenuMode();
-    switch (itemId) {
-      case R.id.option_menu_lock_portrait:
-        view.setLandscapeMode();
-        break;
-      case R.id.option_menu_lock_landscape:
-        view.setPortraitMode();
-        break;
-    }
-    return true;
-  }
-
-  @Override public void onCreateOptionsMenu() {
-    view.setPortraitMode();
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {

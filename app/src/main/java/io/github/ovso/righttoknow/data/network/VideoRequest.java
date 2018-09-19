@@ -35,11 +35,13 @@ public class VideoRequest extends BaseRequest<VideoService> {
 
   private Map<String, Object> createQueryMap(String q, String pageToken) {
     Map<String, Object> queryMap = new HashMap<>();
-    queryMap.put(KeyName.Q.get(), q);
+    if (!TextUtils.isEmpty(q)) {
+      queryMap.put(KeyName.Q.get(), q);
+    }
     queryMap.put(KeyName.MAX_RESULTS.get(), 50);
     queryMap.put(KeyName.ORDER.get(), "date");
     queryMap.put(KeyName.TYPE.get(), "video");
-    queryMap.put(KeyName.VIDEO_SYNDICATED.get(), "any");
+    queryMap.put(KeyName.VIDEO_SYNDICATED.get(), "true");
     queryMap.put(KeyName.KEY.get(), Security.GOOGLE_API_KEY.getValue());
     queryMap.put(KeyName.PART.get(), "snippet");
     if (!TextUtils.isEmpty(pageToken)) {

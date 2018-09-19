@@ -6,16 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import butterknife.BindView;
-import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.Security;
-import io.github.ovso.righttoknow.data.ActivityReqCode;
 import io.github.ovso.righttoknow.data.network.model.video.SearchItem;
 import io.github.ovso.righttoknow.framework.DaggerFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
@@ -24,7 +18,6 @@ import io.github.ovso.righttoknow.ui.base.OnRecyclerViewItemClickListener;
 import io.github.ovso.righttoknow.ui.base.VideoRecyclerView;
 import io.github.ovso.righttoknow.ui.video.LandscapeVideoActivity;
 import io.github.ovso.righttoknow.ui.video.PortraitVideoActivity;
-import io.github.ovso.righttoknow.ui.videodetail.VideoDetailActivity;
 import javax.inject.Inject;
 
 public class VideoFragment extends DaggerFragment implements VideoFragmentPresenter.View,
@@ -33,26 +26,11 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
   @BindView(R.id.recyclerview) VideoRecyclerView recyclerView;
   @Inject VideoFragmentPresenter presenter;
-  private Menu menu;
-  private MenuInflater menuInflater;
   private BaseAdapterView adapterView;
 
   public static VideoFragment newInstance() {
     VideoFragment f = new VideoFragment();
     return f;
-  }
-
-  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    this.menu = menu;
-    this.menuInflater = inflater;
-    presenter.onCreateOptionsMenu();
-    menu.findItem(R.id.option_menu_search).setVisible(false);
-    menu.findItem(R.id.option_menu_sort).setVisible(false);
-    super.onCreateOptionsMenu(menu, inflater);
-  }
-
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-    return presenter.onOptionsItemSelected(item.getItemId());
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -84,27 +62,8 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
     adapterView.refresh();
   }
 
-  private void navigateToPortraitVideo(String videoId, int startTimeMillis, boolean autoPlay,
-      boolean lightboxMode) {
-    Intent intent =
-        YouTubeStandalonePlayer.createVideoIntent(getActivity(),
-            Security.GOOGLE_API_KEY.getValue(),
-            videoId, startTimeMillis, autoPlay, lightboxMode);
-    startActivityForResult(intent, ActivityReqCode.YOUTUBE.get());
-  }
-
-  private void navigateToLandscapeVideo(String videoId) {
-    Intent intent = new Intent(getContext(), VideoDetailActivity.class);
-    intent.putExtra("video_id", videoId);
-    startActivityForResult(intent, ActivityReqCode.YOUTUBE.get());
-  }
-
   @Override public void setRefreshLayout() {
-    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-      @Override public void onRefresh() {
-        presenter.onRefresh();
-      }
-    });
+    swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }
 
@@ -114,18 +73,6 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
 
   @Override public void hideLoading() {
     swipeRefresh.setRefreshing(false);
-  }
-
-  @Override public void setLandscapeMode() {
-    menuInflater.inflate(R.menu.main_video_landscape, menu);
-  }
-
-  @Override public void setPortraitMode() {
-    menuInflater.inflate(R.menu.main_video_portrait, menu);
-  }
-
-  @Override public void clearMenuMode() {
-    menu.clear();
   }
 
   @Override public void showMessage(int resId) {
