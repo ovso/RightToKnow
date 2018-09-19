@@ -71,6 +71,15 @@ android {
       proguardFile 'proguard-lombok.pro'
 
       signingConfig signingConfigs.release
+
+      android.applicationVariants.all { variant ->
+        variant.outputs.all {
+          def formattedDate = new Date().format('yyyyMMddHHmmss')
+          def appName = variant.getApplicationId().split(/[.]/)[3]
+          outputFileName =
+              "${appName}-${variant.name}-${variant.versionCode}-${variant.versionName}-${formattedDate}.apk"
+        }
+      }
     }
     debug {
     }

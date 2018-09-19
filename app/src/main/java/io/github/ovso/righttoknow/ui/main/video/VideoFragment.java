@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 import butterknife.BindView;
@@ -35,6 +37,7 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    setHasOptionsMenu(true);
     presenter.onActivityCreated(savedInstanceState);
   }
 
@@ -133,4 +136,11 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
         .setPositiveButton(android.R.string.ok, null)
         .show();
   }
+
+  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    menu.findItem(R.id.option_menu_search).setVisible(false);
+    menu.findItem(R.id.option_menu_sort).setVisible(false);
+    super.onCreateOptionsMenu(menu, inflater);
+  }
+
 }
