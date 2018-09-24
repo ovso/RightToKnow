@@ -9,6 +9,7 @@ ext {
   firebase_messaging_version = '17.0.0'
   firebase_config_version = '16.0.0'
   firebase_jobdispatcher = '0.8.5'
+  firebase_appindexing_version = '16.0.1'
 
   rxbinding2_version = '2.1.1'
   rxjava_version = '2.1.16'
