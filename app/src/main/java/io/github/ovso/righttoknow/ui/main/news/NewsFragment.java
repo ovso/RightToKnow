@@ -104,9 +104,9 @@ public class NewsFragment extends BaseFragment implements NewsFragmentPresenter.
     Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
   }
 
-  @Override public void onDetach() {
-    super.onDetach();
-    presenter.onDetach();
+  @Override public void onDestroyView() {
+    presenter.onDestroyView();
+    super.onDestroyView();
   }
 
   @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

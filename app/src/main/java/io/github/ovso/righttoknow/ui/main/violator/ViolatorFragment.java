@@ -122,5 +122,4 @@ public class ViolatorFragment extends BaseFragment
     menu.findItem(R.id.option_menu_search).setVisible(false);
     super.onCreateOptionsMenu(menu, inflater);
   }
-
 }

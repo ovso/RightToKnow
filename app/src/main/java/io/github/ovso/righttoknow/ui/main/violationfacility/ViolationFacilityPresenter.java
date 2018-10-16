@@ -23,9 +23,9 @@ public interface ViolationFacilityPresenter {
 
   void onSearchQuery(String query);
 
-  void onDetach();
-
   void onOptionsItemSelected(@IdRes int itemId);
+
+  void onDestroyView();
 
   interface View {
 

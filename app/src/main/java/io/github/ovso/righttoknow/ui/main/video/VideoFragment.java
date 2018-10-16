@@ -87,8 +87,8 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
   }
 
   @Override public void onDestroyView() {
-    super.onDestroyView();
     presenter.onDestroyView();
+    super.onDestroyView();
   }
 
   @Override public void onResume() {
