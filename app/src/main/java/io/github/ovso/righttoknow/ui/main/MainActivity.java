@@ -179,6 +179,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @Override public void showSearchView() {
   }
 
+  @Override public void navigateToShare() {
+    //https://developer.android.com/training/sharing/send#java
+  }
+
   @Override public void onBackPressed() {
     presenter.onBackPressed(drawer.isDrawerOpen(GravityCompat.START));
   }

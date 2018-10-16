@@ -90,6 +90,9 @@ public class MainPresenterImpl implements MainPresenter {
         String msg = resourceProvider.getString(R.string.help_content);
         view.showHelpAlert(msg);
         break;
+      case R.id.nav_share:
+        view.navigateToShare();
+        break;
     }
   }
 
