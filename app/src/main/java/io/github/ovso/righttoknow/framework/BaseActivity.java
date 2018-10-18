@@ -1,5 +1,7 @@
 package io.github.ovso.righttoknow.framework;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -35,6 +37,10 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
   protected void showAd() {
     //adContainer.addView(admobAdView);
     adContainer.setImageResource(R.drawable.banner_wink);
+    adContainer.setOnClickListener(v -> {
+      Intent intentWeb = new Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/2CoVYvW"));
+      startActivity(intentWeb);
+    });
   }
 
   private void setNavigationBarColor() {
