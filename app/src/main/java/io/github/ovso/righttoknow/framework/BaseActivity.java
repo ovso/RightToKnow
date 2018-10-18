@@ -6,7 +6,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -18,7 +18,7 @@ import io.github.ovso.righttoknow.framework.ad.MyAdView;
 public abstract class BaseActivity extends DaggerAppCompatActivity {
 
   protected @BindView(R.id.toolbar) Toolbar toolbar;
-  protected @BindView(R.id.ad_container) ViewGroup adContainer;
+  protected @BindView(R.id.ad_container) ImageView adContainer;
   private AdView admobAdView;
   private Unbinder unbinder;
 
@@ -29,7 +29,12 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     unbinder = ButterKnife.bind(this);
     setSupportActionBar(toolbar);
     setNavigationBarColor();
-    adContainer.addView(admobAdView);
+    showAd();
+  }
+
+  protected void showAd() {
+    //adContainer.addView(admobAdView);
+    adContainer.setImageResource(R.drawable.banner_wink);
   }
 
   private void setNavigationBarColor() {

@@ -21,10 +21,6 @@
         android:layout_height="match_parent"
         android:tag="SettingsFragment"
         />
-    <FrameLayout
-        android:id="@id/ad_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+    <include layout="@layout/adview_standalone"/>
   </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

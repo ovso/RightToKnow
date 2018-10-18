@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,18 +17,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.ui.main.certified.CertifiedFragment;
-import io.github.ovso.righttoknow.ui.childabuse.ChildAbuseActivity;
 import io.github.ovso.righttoknow.framework.BaseActivity;
 import io.github.ovso.righttoknow.framework.customview.BottomNavigationViewBehavior;
-import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
-import io.github.ovso.righttoknow.framework.listener.OnSimpleQueryTextListener;
-import io.github.ovso.righttoknow.framework.utils.ObjectUtils;
+import io.github.ovso.righttoknow.ui.childabuse.ChildAbuseActivity;
+import io.github.ovso.righttoknow.ui.main.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.ui.main.news.NewsFragment;
-import io.github.ovso.righttoknow.ui.settings.SettingsActivity;
 import io.github.ovso.righttoknow.ui.main.video.VideoFragment;
 import io.github.ovso.righttoknow.ui.main.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.ui.main.violator.ViolatorFragment;
+import io.github.ovso.righttoknow.ui.settings.SettingsActivity;
 import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity implements MainPresenter.View {
@@ -180,7 +176,14 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   }
 
   @Override public void navigateToShare() {
-    //https://developer.android.com/training/sharing/send#java
+    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+    intent.setType("text/plain");
+    String subject = getString(R.string.app_name);
+    String text = "https://play.google.com/store/apps/details?id=io.github.ovso.righttoknow";
+    intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+    intent.putExtra(Intent.EXTRA_TEXT, text);
+    Intent chooser = Intent.createChooser(intent, getString(R.string.share_message));
+    startActivity(chooser);
   }
 
   @Override public void onBackPressed() {
