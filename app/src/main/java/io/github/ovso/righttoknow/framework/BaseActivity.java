@@ -1,19 +1,18 @@
 package io.github.ovso.righttoknow.framework;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 import butterknife.Unbinder;
 import com.google.android.gms.ads.AdView;
-import com.jakewharton.rxbinding2.internal.GenericTypeNullable;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import dagger.android.support.DaggerAppCompatActivity;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.ad.MyAdView;
@@ -21,7 +20,7 @@ import io.github.ovso.righttoknow.framework.ad.MyAdView;
 public abstract class BaseActivity extends DaggerAppCompatActivity {
 
   protected @BindView(R.id.toolbar) Toolbar toolbar;
-  protected @BindView(R.id.ad_container) ViewGroup adContainer;
+  protected @BindView(R.id.ad_container) ImageView adContainer;
   private AdView admobAdView;
   private Unbinder unbinder;
 
@@ -32,7 +31,16 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     unbinder = ButterKnife.bind(this);
     setSupportActionBar(toolbar);
     setNavigationBarColor();
-    adContainer.addView(admobAdView);
+    showAd();
+  }
+
+  protected void showAd() {
+    //adContainer.addView(admobAdView);
+    adContainer.setImageResource(R.drawable.banner_wink);
+    adContainer.setOnClickListener(v -> {
+      Intent intentWeb = new Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/2CoVYvW"));
+      startActivity(intentWeb);
+    });
   }
 
   private void setNavigationBarColor() {

@@ -107,16 +107,12 @@ public class ViolationFacilityFragment extends BaseFragment
   @BindView(R.id.container_view) View containerView;
 
   @Override public void onDestroyView() {
+    presenter.onDestroyView();
     super.onDestroyView();
   }
 
   @Override public void onSearchQuery(String query) {
     presenter.onSearchQuery(query);
-  }
-
-  @Override public void onDetach() {
-    presenter.onDetach();
-    super.onDetach();
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

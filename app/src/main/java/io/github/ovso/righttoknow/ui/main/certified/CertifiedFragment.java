@@ -11,16 +11,10 @@ import android.view.MenuInflater;
 import android.widget.Toast;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.ui.main.certified.model.ChildCertified;
 import io.github.ovso.righttoknow.framework.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.ui.pdfviewer.PDFViewerActivity;
 import java.io.File;
-
-/**
- * Created by jaeho on 2017. 8. 21
- */
 
 public class CertifiedFragment extends BaseFragment implements CertifiedFragmentPresenter.View {
   private CertifiedFragmentPresenter presenter;
@@ -48,11 +42,7 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
     adapter = new CertifiedAdapter();
     presenter.setAdapterModel(adapter);
     adapterView = adapter;
-    adapter.setOnRecyclerItemClickListener(new OnRecyclerItemClickListener<ChildCertified>() {
-      @Override public void onItemClick(ChildCertified certified) {
-        presenter.onRecyclerItemClick(certified);
-      }
-    });
+    adapter.setOnRecyclerItemClickListener(certified -> presenter.onRecyclerItemClick(certified));
   }
 
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
@@ -78,11 +68,7 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
   }
 
   @Override public void setListener() {
-    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-      @Override public void onRefresh() {
-        presenter.onRefresh();
-      }
-    });
+    swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }
 

@@ -16,7 +16,7 @@ public interface NewsFragmentPresenter {
 
   void onRefresh();
 
-  void onDetach();
+  void onDestroyView();
 
   interface View {
 

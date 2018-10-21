@@ -74,7 +74,6 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   @Override public void onDestroyView() {
-    compositeDisposable.dispose();
     compositeDisposable.clear();
   }
 

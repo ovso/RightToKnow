@@ -74,7 +74,6 @@ public class VideoFragmentPresenterImpl implements VideoFragmentPresenter {
   }
 
   @Override public void onDestroyView() {
-    compositeDisposable.dispose();
     compositeDisposable.clear();
   }
 
