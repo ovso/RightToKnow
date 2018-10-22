@@ -20,6 +20,7 @@ import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity;
 import io.github.ovso.righttoknow.ui.main.violationfacility.model.VioFac;
+import timber.log.Timber;
 
 public class ViolationFacilityFragment extends BaseFragment
     implements ViolationFacilityPresenter.View, OnFragmentEventListener {
@@ -57,11 +58,7 @@ public class ViolationFacilityFragment extends BaseFragment
     presenter.setAdapterModel(adapter);
     adapterView = adapter;
     adapter.setOnRecyclerItemClickListener(
-        new OnRecyclerItemClickListener<VioFac>() {
-          @Override public void onItemClick(VioFac violationFacility) {
-            presenter.onRecyclerItemClick(violationFacility);
-          }
-        });
+        violationFacility -> presenter.onRecyclerItemClick(violationFacility));
   }
 
   @Override public void refresh() {
@@ -77,7 +74,7 @@ public class ViolationFacilityFragment extends BaseFragment
   }
 
   @Override public void navigateToViolationFacilityDetail(String webLink, String address) {
-
+    Timber.d("webLink = " + webLink);
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
     intent.putExtra("vio_fac_link", webLink);
     intent.putExtra("address", address);

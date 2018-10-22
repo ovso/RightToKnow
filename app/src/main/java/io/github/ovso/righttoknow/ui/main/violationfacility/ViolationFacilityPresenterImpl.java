@@ -12,11 +12,9 @@ import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
 import timber.log.Timber;
 
@@ -84,24 +82,18 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     adapterDataModel.clear();
     view.refresh();
 
-    compositeDisposable.add(Observable.fromCallable(new Callable<List<VioFac>>() {
-      @Override public List<VioFac> call() throws Exception {
-        List<VioFac> items = VioFac.convertToItems(
-            Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
-        return VioFac.searchResultItems(query, items);
-      }
+    compositeDisposable.add(Observable.fromCallable(() -> {
+      List<VioFac> items = VioFac.convertToItems(
+          Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
+      return VioFac.searchResultItems(query, items);
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-        new Consumer<List<VioFac>>() {
-          @Override public void accept(List<VioFac> items) throws Exception {
-            adapterDataModel.addAll(items);
-            view.refresh();
-            view.hideLoading();
-          }
-        }, new Consumer<Throwable>() {
-          @Override public void accept(Throwable throwable) throws Exception {
-            Timber.d(throwable);
-            view.hideLoading();
-          }
+        items -> {
+          adapterDataModel.addAll(items);
+          view.refresh();
+          view.hideLoading();
+        }, throwable -> {
+          Timber.d(throwable);
+          view.hideLoading();
         }));
   }
 

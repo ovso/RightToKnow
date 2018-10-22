@@ -13,10 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
 
-/**
- * Created by jaeho on 2017. 8. 1
- */
-
 public class ViolationFacilityAdapter extends BaseRecyclerAdapter
     implements BaseAdapterView, BaseAdapterDataModel<VioFac> {
 
@@ -39,11 +35,7 @@ public class ViolationFacilityAdapter extends BaseRecyclerAdapter
       holder.sigunguTextView.setText(fac.getSigungu());
       holder.facNameTextView.setText(fac.getFac_name());
       holder.typeTextView.setText(fac.getType());
-      holder.itemView.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View view) {
-          onRecyclerItemClickListener.onItemClick(fac);
-        }
-      });
+      holder.itemView.setOnClickListener(view -> onRecyclerItemClickListener.onItemClick(fac));
     }
   }
 

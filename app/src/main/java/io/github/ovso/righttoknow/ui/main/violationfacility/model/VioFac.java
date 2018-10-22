@@ -52,7 +52,7 @@ import org.jsoup.select.Elements;
 
       jsonArray.put(object);
     }
-
+    String json = jsonArray.toString();
     return new Gson().fromJson(jsonArray.toString(), new TypeToken<ArrayList<VioFac>>() {
     }.getType());
   }

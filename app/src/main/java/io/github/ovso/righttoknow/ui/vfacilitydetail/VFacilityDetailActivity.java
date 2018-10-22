@@ -47,11 +47,7 @@ public class VFacilityDetailActivity extends AdsActivity implements VFacilityDet
 
   @Override public void setListener() {
     swipe.setColorSchemeResources(R.color.colorPrimary);
-    swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-      @Override public void onRefresh() {
-        presenter.onRefresh(VFacilityDetailActivity.this.getIntent());
-      }
-    });
+    swipe.setOnRefreshListener(() -> presenter.onRefresh(VFacilityDetailActivity.this.getIntent()));
   }
 
   @Override public void showLoading() {
@@ -66,11 +62,7 @@ public class VFacilityDetailActivity extends AdsActivity implements VFacilityDet
     //Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
     new AlertDialog.Builder(getApplicationContext()).setMessage(resId)
         .setPositiveButton(android.R.string.ok,
-            new DialogInterface.OnClickListener() {
-              @Override public void onClick(DialogInterface dialogInterface, int which) {
-                dialogInterface.dismiss();
-              }
-            })
+            (dialogInterface, which) -> dialogInterface.dismiss())
         .show();
   }
 

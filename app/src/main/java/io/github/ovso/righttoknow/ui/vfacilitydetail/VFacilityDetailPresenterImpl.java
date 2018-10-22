@@ -51,15 +51,13 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
     if (intent.hasExtra("vio_fac_link")) {
       final String link = intent.getStringExtra("vio_fac_link");
       compositeDisposable.add(
-          Observable.fromCallable(new Callable<String>() {
-            @Override public String call() throws Exception {
-              VioFacDe vioFacDe = VioFacDe.convertToItem(
-                  Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
-              facName = vioFacDe.getVioFacName();
-              Timber.d("facName = " + facName);
-              fullAddress = vioFacDe.getAddress();
-              return VioFacDe.getContents(vioFacDe);
-            }
+          Observable.fromCallable(() -> {
+            VioFacDe vioFacDe = VioFacDe.convertToItem(
+                Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
+            facName = vioFacDe.getVioFacName();
+            Timber.d("facName = " + facName);
+            fullAddress = vioFacDe.getAddress();
+            return VioFacDe.getContents(vioFacDe);
           }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
               new Consumer<String>() {
                 @Override public void accept(String o) throws Exception {
