@@ -15,10 +15,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-/**
- * Created by jaeho on 2017. 8. 1
- */
-
 @Getter @ToString @EqualsAndHashCode(callSuper = false) public class VioFac {
   private int order;
   private String sido;
