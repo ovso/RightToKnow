@@ -105,10 +105,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     versionNameView.setText(versionName);
   }
 
-  @Override public void changeTheme() {
-    setTheme(R.style.AppTheme_NoActionBar);
-  }
-
   @Override public void closeSearchView() {
   }
 
