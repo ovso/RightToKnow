@@ -18,7 +18,7 @@ public class Certified {
   public String link;
   public String download_url;
 
-  public static List<Certified> toCertified(Document doc) {
+  public static List<Certified> toObjects(Document doc) {
 
     List<Certified> items = new ArrayList<>();
     Elements tableElements = doc.select("tbody");

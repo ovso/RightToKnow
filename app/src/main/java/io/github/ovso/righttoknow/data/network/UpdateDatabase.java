@@ -3,6 +3,7 @@ package io.github.ovso.righttoknow.data.network;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import io.github.ovso.righttoknow.BuildConfig;
+import io.github.ovso.righttoknow.data.network.model.certified.Certified;
 import io.github.ovso.righttoknow.data.network.model.violation.Violation;
 import io.github.ovso.righttoknow.data.network.model.violation.ViolationContents;
 import io.github.ovso.righttoknow.data.network.model.violation.ViolationData;
@@ -16,6 +17,7 @@ import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,7 +42,7 @@ public class UpdateDatabase {
       FirebaseDatabase database = FirebaseDatabase.getInstance();
       DatabaseReference myRef = database.getReference("violation");
       //reqViolation(URL_VIOLATION);
-      reqViolators(URL_VIOLATORS);
+      //reqViolators(URL_VIOLATORS);
       reqCertified(URL_CERTIFIED);
     }
   }
@@ -98,6 +100,7 @@ public class UpdateDatabase {
           }
 
           @Override public void onSuccess(List<Violators> $violators) {
+            Timber.d("onSuccess = " + $violators.size());
             List<Observable<ViolatorsContents>> observables = new ArrayList<>();
             for (Violators violator : $violators) {
 
@@ -135,6 +138,16 @@ public class UpdateDatabase {
   }
 
   private void reqCertified(String url) {
+    AtomicInteger atomic = new AtomicInteger();
+    Disposable disposable = Single.fromCallable(() -> Certified.toObjects(getDoc(url)))
+        .subscribeOn(schedulersFacade.io())
+        .subscribe(
+            $certifieds -> FirebaseDatabase.getInstance()
+                .getReference("certified")
+                .setValue($certifieds, (databaseError, databaseReference) -> Timber.d(
+                    databaseError + ", " + databaseReference.getKey())),
+            throwable -> Timber.d(throwable));
+    compositeDisposable.add(disposable);
   }
 
   private Document getDoc(String url) throws Exception {

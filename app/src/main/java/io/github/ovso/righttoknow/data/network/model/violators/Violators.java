@@ -37,6 +37,7 @@ public class Violators {
       String link = hrefElements.get(0).attr("abs:href");
       vio.link = link;
       vio.vio_name = hrefElements.get(0).text();
+      items.add(vio);
     }
 
     return items;
