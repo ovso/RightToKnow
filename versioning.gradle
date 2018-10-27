@@ -2,9 +2,9 @@ ext {
   support_library_version = '27.1.1'
   play_services_version = '15.0.1'
 
-  firebase_ads_version = '15.0.1'
-  firebase_core_version = '16.0.3'
-  firebase_database_version = '16.0.1'
+  firebase_ads_version = '17.0.0'
+  firebase_core_version = '16.0.4'
+  firebase_database_version = '16.0.3'
   firebase_storage_version = '16.0.1'
   firebase_messaging_version = '17.0.0'
   firebase_config_version = '16.0.0'

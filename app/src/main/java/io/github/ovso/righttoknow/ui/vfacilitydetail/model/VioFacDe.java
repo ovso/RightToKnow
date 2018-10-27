@@ -83,11 +83,11 @@ import timber.log.Timber;
     jsonObject.put("type", type);
 
     jsonObject.put("nowFacName", nowFacName);
-    jsonObject.put("nowMaster", nowFacName);
+    jsonObject.put("nowMaster", nowMaster);
     jsonObject.put("nowDirector", nowDirector);
 
     jsonObject.put("vioFacName", vioFacName);
-    jsonObject.put("vioMaster", vioFacName);
+    jsonObject.put("vioMaster", vioMaster);
     jsonObject.put("vioDirector", vioDirector);
 
     jsonObject.put("address", address);
