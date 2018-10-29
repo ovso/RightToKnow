@@ -1,8 +1,10 @@
 package io.github.ovso.righttoknow.data.network;
 
 import android.support.annotation.NonNull;
+import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import io.github.ovso.righttoknow.BuildConfig;
@@ -43,11 +45,57 @@ public class UpdateDatabase {
   private SchedulersFacade schedulersFacade = new SchedulersFacade();
 
   public void update() {
-    if (BuildConfig.DEBUG) {
-      getLastUpdateDay("violation", () -> reqViolation(URL_VIOLATION));
-      getLastUpdateDay("violator", () -> reqViolators(URL_VIOLATORS));
-      getLastUpdateDay("certified", () -> reqCertified(URL_CERTIFIED));
-    }
+    //if (BuildConfig.DEBUG) {
+    //  getLastUpdateDay("violation", () -> reqViolation(URL_VIOLATION));
+    //  getLastUpdateDay("violator", () -> reqViolators(URL_VIOLATORS));
+    //  getLastUpdateDay("certified", () -> reqCertified(URL_CERTIFIED));
+    //}
+
+    reqDatabase();
+  }
+
+  private void reqDatabase() {
+    DatabaseReference databaseReference =
+        FirebaseDatabase.getInstance().getReference("violation").child("items");
+
+    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        String s = dataSnapshot.getValue().toString();
+        //Timber.d("s = " + s);
+      }
+
+      @Override public void onCancelled(@NonNull DatabaseError databaseError) {
+
+      }
+    });
+    /*
+    RxFirebaseDatabase.data(databaseReference)
+        .observeOn(schedulersFacade.io())
+        .subscribeOn(schedulersFacade.ui())
+        .subscribe(new SingleObserver<DataSnapshot>() {
+          @Override public void onSubscribe(Disposable d) {
+            compositeDisposable.add(d);
+          }
+
+          @Override public void onSuccess(DataSnapshot dataSnapshot) {
+            Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+          }
+
+          @Override public void onError(Throwable e) {
+
+          }
+        });
+    */
+
+    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+      }
+
+      @Override public void onCancelled(@NonNull DatabaseError databaseError) {
+
+      }
+    });
   }
 
   private void reqViolation(String url) {

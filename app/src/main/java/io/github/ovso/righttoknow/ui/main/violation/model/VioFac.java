@@ -1,8 +1,7 @@
-package io.github.ovso.righttoknow.ui.main.violationfacility.model;
+package io.github.ovso.righttoknow.ui.main.violation.model;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import io.github.ovso.righttoknow.ui.vfacilitydetail.model.VioFacDe;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import lombok.ToString;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

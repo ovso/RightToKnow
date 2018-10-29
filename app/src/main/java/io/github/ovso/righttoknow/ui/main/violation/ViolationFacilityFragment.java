@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.ui.main.violationfacility;
+package io.github.ovso.righttoknow.ui.main.violation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
+import com.google.firebase.database.FirebaseDatabase;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity;
-import io.github.ovso.righttoknow.ui.main.violationfacility.model.VioFac;
+import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import timber.log.Timber;
 
 public class ViolationFacilityFragment extends BaseFragment
@@ -40,7 +40,7 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     setHasOptionsMenu(true);
-    presenter = new ViolationFacilityPresenterImpl(this);
+    presenter = new ViolationFacilityPresenterImpl(this, new SchedulersFacade());
     presenter.onActivityCreated(savedInstanceState);
   }
 

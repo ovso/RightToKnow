@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.ui.main.violationfacility;
+package io.github.ovso.righttoknow.ui.main.violation;
 
 import android.view.View;
 import android.widget.TextView;
@@ -8,7 +8,7 @@ import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.ui.main.violationfacility.model.VioFac;
+import io.github.ovso.righttoknow.ui.main.violation.model.VioFac;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;

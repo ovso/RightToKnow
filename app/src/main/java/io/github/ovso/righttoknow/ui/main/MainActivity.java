@@ -23,7 +23,7 @@ import io.github.ovso.righttoknow.ui.childabuse.ChildAbuseActivity;
 import io.github.ovso.righttoknow.ui.main.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.ui.main.news.NewsFragment;
 import io.github.ovso.righttoknow.ui.main.video.VideoFragment;
-import io.github.ovso.righttoknow.ui.main.violationfacility.ViolationFacilityFragment;
+import io.github.ovso.righttoknow.ui.main.violation.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.ui.main.violator.ViolatorFragment;
 import io.github.ovso.righttoknow.ui.settings.SettingsActivity;
 import javax.inject.Inject;

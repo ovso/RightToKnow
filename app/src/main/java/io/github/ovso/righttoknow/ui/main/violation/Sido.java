@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.ui.main.violationfacility;
+package io.github.ovso.righttoknow.ui.main.violation;
 
 import android.content.Context;
 import android.content.res.Resources;

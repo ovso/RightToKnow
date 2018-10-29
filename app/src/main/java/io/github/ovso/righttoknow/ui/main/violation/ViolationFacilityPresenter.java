@@ -1,11 +1,11 @@
-package io.github.ovso.righttoknow.ui.main.violationfacility;
+package io.github.ovso.righttoknow.ui.main.violation;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
-import io.github.ovso.righttoknow.ui.main.violationfacility.model.VioFac;
+import io.github.ovso.righttoknow.ui.main.violation.model.VioFac;
 
 /**
  * Created by jaeho on 2017. 8. 1
