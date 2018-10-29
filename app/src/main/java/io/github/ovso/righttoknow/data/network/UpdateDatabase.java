@@ -1,6 +1,10 @@
 package io.github.ovso.righttoknow.data.network;
 
+import android.support.annotation.NonNull;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import io.github.ovso.righttoknow.BuildConfig;
 import io.github.ovso.righttoknow.data.network.model.certified.Certified;
 import io.github.ovso.righttoknow.data.network.model.certified.CertifiedData;
@@ -17,11 +21,13 @@ import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import timber.log.Timber;
@@ -38,13 +44,14 @@ public class UpdateDatabase {
 
   public void update() {
     if (BuildConfig.DEBUG) {
-      reqViolation(URL_VIOLATION);
-      reqViolators(URL_VIOLATORS);
-      reqCertified(URL_CERTIFIED);
+      getLastUpdateDay("violation", () -> reqViolation(URL_VIOLATION));
+      getLastUpdateDay("violator", () -> reqViolators(URL_VIOLATORS));
+      getLastUpdateDay("certified", () -> reqCertified(URL_CERTIFIED));
     }
   }
 
   private void reqViolation(String url) {
+    Timber.d("start reqViolation");
     Single.fromCallable(() -> Violation.toObjects(getDoc(url)))
         .subscribeOn(schedulersFacade.io())
         .subscribe(new SingleObserver<List<Violation>>() {
@@ -87,6 +94,7 @@ public class UpdateDatabase {
   }
 
   private void reqViolators(String url) {
+    Timber.d("start reqViolator");
     Single.fromCallable(() -> Violator.toObjects(getDoc(url)))
         .subscribeOn(schedulersFacade.io())
         .subscribe(new SingleObserver<List<Violator>>() {
@@ -132,6 +140,7 @@ public class UpdateDatabase {
   }
 
   private void reqCertified(String url) {
+    Timber.d("start reqCertified");
     Disposable disposable = Single.fromCallable(() -> Certified.toObjects(getDoc(url)))
         .subscribeOn(schedulersFacade.io())
         .subscribe(
@@ -151,5 +160,32 @@ public class UpdateDatabase {
 
   private Document getDoc(String url) throws Exception {
     return Jsoup.connect(url).timeout(TimeoutMillis.JSOUP.getValue()).get();
+  }
+
+  private synchronized void getLastUpdateDay(String path, UpdateCheckListener l) {
+    FirebaseDatabase.getInstance()
+        .getReference(path)
+        .child("date").addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        String date = dataSnapshot.getValue().toString();
+        DateTime fbDateTime =
+            DateTime.parse(date, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.yyy"));
+        int fbDay = fbDateTime.dayOfMonth().get();
+
+        DateTime dateTime = new DateTime();
+        int dayOfMonth = dateTime.getDayOfMonth();
+        if (l != null && dayOfMonth > fbDay) {
+          l.onUpdate();
+        }
+      }
+
+      @Override public void onCancelled(@NonNull DatabaseError databaseError) {
+
+      }
+    });
+  }
+
+  private interface UpdateCheckListener {
+    void onUpdate();
   }
 }
