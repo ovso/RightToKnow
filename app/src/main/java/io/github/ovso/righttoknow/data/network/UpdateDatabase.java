@@ -61,21 +61,20 @@ public class UpdateDatabase {
                       .map(contents -> violation.contents = contents);
               observables.add(contentsObservable);
             }
-            AtomicInteger atomic = new AtomicInteger();
             Disposable disposable = Observable.concat(observables)
                 .subscribe(
-                    contents -> Timber.d(atomic.incrementAndGet() + ""),
+                    contents -> {
+                    },
                     e -> Timber.d(e),
                     () -> {
-                      Timber.d("violations size = " + $violations.size());
                       ViolationData value = new ViolationData();
                       value.date = new Timestamp(new Date().getTime()).toString();
                       value.items = $violations;
                       FirebaseDatabase.getInstance()
                           .getReference("violation")
-                          .setValue(value, (databaseError, databaseReference) -> Timber.d(
-                              databaseError + ", " + databaseReference.getKey()));
-                      Timber.d(Thread.currentThread().getName());
+                          .setValue(value);
+                      Timber.d("violation date = " + value.date);
+                      Timber.d("violation size = " + value.items.size());
                     });
 
             compositeDisposable.add(disposable);
@@ -96,7 +95,6 @@ public class UpdateDatabase {
           }
 
           @Override public void onSuccess(List<Violator> $violators) {
-            Timber.d("onSuccess = " + $violators.size());
             List<Observable<ViolatorContents>> observables = new ArrayList<>();
             for (Violator violator : $violators) {
 
@@ -107,21 +105,21 @@ public class UpdateDatabase {
 
               observables.add(contentsObservable);
             }
-            AtomicInteger atomic = new AtomicInteger();
             Disposable disposable = Observable.concat(observables)
                 .subscribe(
-                    contents -> Timber.d(atomic.incrementAndGet() + ""),
+                    contents -> {
+
+                    },
                     e -> Timber.d(e),
                     () -> {
-                      Timber.d("violators size = " + $violators.size());
                       ViolatorData value = new ViolatorData();
                       value.date = new Timestamp(new Date().getTime()).toString();
                       value.items = $violators;
                       FirebaseDatabase.getInstance()
                           .getReference("violator")
-                          .setValue(value, (databaseError, databaseReference) -> Timber.d(
-                              databaseError + ", " + databaseReference.getKey()));
-                      Timber.d(Thread.currentThread().getName());
+                          .setValue(value);
+                      Timber.d("violator date = " + value.date);
+                      Timber.d("violator size = " + value.items.size());
                     });
 
             compositeDisposable.add(disposable);
@@ -143,8 +141,9 @@ public class UpdateDatabase {
               value.items = $certifieds;
               FirebaseDatabase.getInstance()
                   .getReference("certified")
-                  .setValue(value, (databaseError, databaseReference) -> Timber.d(
-                      databaseError + ", " + databaseReference.getKey()));
+                  .setValue(value);
+              Timber.d("certified date = " + value.date);
+              Timber.d("certified size = " + value.items.size());
             },
             throwable -> Timber.d(throwable));
     compositeDisposable.add(disposable);
@@ -153,5 +152,4 @@ public class UpdateDatabase {
   private Document getDoc(String url) throws Exception {
     return Jsoup.connect(url).timeout(TimeoutMillis.JSOUP.getValue()).get();
   }
-
 }
