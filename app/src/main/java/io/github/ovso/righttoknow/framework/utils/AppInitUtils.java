@@ -4,6 +4,7 @@ import android.content.Context;
 import com.downloader.PRDownloader;
 import com.google.android.gms.ads.MobileAds;
 import io.github.ovso.righttoknow.Security;
+import net.danlew.android.joda.JodaTimeAndroid;
 import timber.log.Timber;
 
 public final class AppInitUtils {
@@ -28,5 +29,9 @@ public final class AppInitUtils {
 
   public static void prDownloader(Context context) {
     PRDownloader.initialize(context);
+  }
+
+  public static void joda(Context context) {
+    JodaTimeAndroid.init(context);
   }
 }

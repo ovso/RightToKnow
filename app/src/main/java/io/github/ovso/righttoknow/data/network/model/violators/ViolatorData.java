@@ -2,7 +2,7 @@ package io.github.ovso.righttoknow.data.network.model.violators;
 
 import java.util.List;
 
-public class ViolatorsData {
+public class ViolatorData {
   public String date;
-  public List<Violators> items;
+  public List<Violator> items;
 }

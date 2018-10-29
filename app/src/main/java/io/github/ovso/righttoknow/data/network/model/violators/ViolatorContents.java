@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.data.network.model.violators;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class ViolatorsContents {
+public class ViolatorContents {
   public String sido;
   public String sigungu;
   public String name;
@@ -13,8 +13,8 @@ public class ViolatorsContents {
   public String vio_action;
   public String disposition;
 
-  public static ViolatorsContents toObject(Document doc) {
-    ViolatorsContents c = new ViolatorsContents();
+  public static ViolatorContents toObject(Document doc) {
+    ViolatorContents c = new ViolatorContents();
 
     Elements tbodyElements = doc.body().select("tbody");
     Elements trElements = tbodyElements.select("tr");

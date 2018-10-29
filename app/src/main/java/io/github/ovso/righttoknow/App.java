@@ -21,6 +21,7 @@ public class App extends DaggerApplication {
     AppInitUtils.ad(getApplicationContext());
     AppInitUtils.timber(DEBUG);
     AppInitUtils.prDownloader(getApplicationContext());
+    AppInitUtils.joda(this);
     new UpdateDatabase().update();
   }
 
