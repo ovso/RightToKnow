@@ -128,7 +128,8 @@ dependencies {
   implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
   implementation "com.google.firebase:firebase-core:$firebase_core_version"
   implementation "com.google.firebase:firebase-database:$firebase_database_version"
-  //implementation "com.androidhuman.rxfirebase2:firebase-database:$rxfirebase_database_version"
+  implementation "com.androidhuman.rxfirebase2:firebase-database:$rxfirebase_database_version"
+  implementation "com.androidhuman.rxfirebase2:firebase-core:$rxfirebase_core_version"
 
   // rxjava
   implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
@@ -165,7 +166,9 @@ dependencies {
 
   // joda-time
   implementation "net.danlew:android.joda:$joda_version"
+
 }
 
 // Add to the bottom of the file
 apply plugin: 'com.google.gms.google-services'
+

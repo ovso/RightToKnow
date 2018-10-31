@@ -1,16 +1,14 @@
 package io.github.ovso.righttoknow.ui.main.violation;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.data.network.model.violation.Violation;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.framework.utils.Constants;
 import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
@@ -24,6 +22,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.jsoup.Jsoup;
 import timber.log.Timber;
@@ -31,7 +30,7 @@ import timber.log.Timber;
 public class ViolationFacilityPresenterImpl implements ViolationFacilityPresenter {
 
   private ViolationFacilityPresenter.View view;
-  private BaseAdapterDataModel<VioFac> adapterDataModel;
+  private BaseAdapterDataModel<Violation> adapterDataModel;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private String connectUrl;
   private SchedulersFacade schedulersFacade;
@@ -50,13 +49,53 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     view.setAdapter();
     view.setRecyclerView();
     //reqDatabase();
-    req();
+    //req();
+    req2();
+  }
+
+  private void req2() {
+    view.showLoading();
+    RxFirebaseDatabase.data(getRef())
+        .map(v -> toList(v.getChildren().iterator()))
+        .subscribeOn(schedulersFacade.io())
+        .observeOn(schedulersFacade.ui())
+        .subscribe(new SingleObserver<List<Violation>>() {
+          @Override public void onSubscribe(Disposable d) {
+            compositeDisposable.add(d);
+          }
+
+          @Override public void onSuccess(List<Violation> violations) {
+            Timber.d("size = " + violations.size());
+            adapterDataModel.addAll(violations);
+            view.refresh();
+            view.hideLoading();
+          }
+
+          @Override public void onError(Throwable e) {
+            Timber.d(e);
+            view.hideLoading();
+          }
+        });
+  }
+
+  private DatabaseReference getRef() {
+    return FirebaseDatabase.getInstance().getReference("violation").child("items");
+  }
+
+  private List<Violation> toList(Iterator<DataSnapshot> iterator) {
+    List<Violation> violations = new ArrayList<>();
+    while (iterator.hasNext()) {
+      Violation violation = iterator.next().getValue(Violation.class);
+      violations.add(violation);
+    }
+    return violations;
   }
 
   private void req() {
 
     view.showLoading();
 
+    /*
     compositeDisposable.add(Maybe.fromCallable(
         () -> VioFac.convertToItems(
             Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get()))
@@ -71,15 +110,16 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
           view.showMessage(R.string.error_server);
           view.hideLoading();
         }));
+    */
   }
 
-  @Override public void setAdapterModel(BaseAdapterDataModel<VioFac> adapterDataModel) {
+  @Override public void setAdapterModel(BaseAdapterDataModel<Violation> adapterDataModel) {
     this.adapterDataModel = adapterDataModel;
   }
 
-  @Override public void onRecyclerItemClick(VioFac vioFac) {
-    String webLink = vioFac.getLink();
-    String address = vioFac.getAddress();
+  @Override public void onRecyclerItemClick(Violation violation) {
+    String webLink = violation.link;
+    String address = violation.address;
     if (webLink != null) {
       view.navigateToViolationFacilityDetail(webLink, address);
     } else {
@@ -99,6 +139,8 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
     adapterDataModel.clear();
     view.refresh();
 
+
+    /*
     compositeDisposable.add(Observable.fromCallable(() -> {
       List<VioFac> items = VioFac.convertToItems(
           Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
@@ -112,6 +154,7 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
           Timber.d(throwable);
           view.hideLoading();
         }));
+    */
   }
 
   @Override public void onOptionsItemSelected(int itemId) {

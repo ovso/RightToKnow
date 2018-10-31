@@ -4,20 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
+import io.github.ovso.righttoknow.data.network.model.violation.Violation;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
-import io.github.ovso.righttoknow.ui.main.violation.model.VioFac;
-
-/**
- * Created by jaeho on 2017. 8. 1
- */
 
 public interface ViolationFacilityPresenter {
 
   void onActivityCreated(Bundle savedInstanceState);
 
-  void setAdapterModel(BaseAdapterDataModel<VioFac> adapterDataModel);
+  void setAdapterModel(BaseAdapterDataModel<Violation> adapterDataModel);
 
-  void onRecyclerItemClick(VioFac vioFac);
+  void onRecyclerItemClick(Violation violation);
 
   void onRefresh();
 

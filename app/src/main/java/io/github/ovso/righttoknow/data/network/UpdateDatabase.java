@@ -1,13 +1,11 @@
 package io.github.ovso.righttoknow.data.network;
 
 import android.support.annotation.NonNull;
-import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import io.github.ovso.righttoknow.BuildConfig;
 import io.github.ovso.righttoknow.data.network.model.certified.Certified;
 import io.github.ovso.righttoknow.data.network.model.certified.CertifiedData;
 import io.github.ovso.righttoknow.data.network.model.violation.Violation;
@@ -23,7 +21,6 @@ import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,7 +48,7 @@ public class UpdateDatabase {
     //  getLastUpdateDay("certified", () -> reqCertified(URL_CERTIFIED));
     //}
 
-    reqDatabase();
+    //reqDatabase();
   }
 
   private void reqDatabase() {
@@ -62,34 +59,6 @@ public class UpdateDatabase {
       @Override public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         String s = dataSnapshot.getValue().toString();
         //Timber.d("s = " + s);
-      }
-
-      @Override public void onCancelled(@NonNull DatabaseError databaseError) {
-
-      }
-    });
-    /*
-    RxFirebaseDatabase.data(databaseReference)
-        .observeOn(schedulersFacade.io())
-        .subscribeOn(schedulersFacade.ui())
-        .subscribe(new SingleObserver<DataSnapshot>() {
-          @Override public void onSubscribe(Disposable d) {
-            compositeDisposable.add(d);
-          }
-
-          @Override public void onSuccess(DataSnapshot dataSnapshot) {
-            Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-          }
-
-          @Override public void onError(Throwable e) {
-
-          }
-        });
-    */
-
-    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-      @Override public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
       }
 
       @Override public void onCancelled(@NonNull DatabaseError databaseError) {
