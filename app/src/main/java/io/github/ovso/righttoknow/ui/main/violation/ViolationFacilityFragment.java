@@ -13,24 +13,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
-import com.google.firebase.database.FirebaseDatabase;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity;
+import io.github.ovso.righttoknow.utils.ResourceProvider;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import timber.log.Timber;
 
 public class ViolationFacilityFragment extends BaseFragment
-    implements ViolationFacilityPresenter.View, OnFragmentEventListener {
+    implements ViolationPresenter.View, OnFragmentEventListener {
 
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
 
   private ViolationFacilityAdapter adapter = new ViolationFacilityAdapter();
   private BaseAdapterView adapterView;
-  private ViolationFacilityPresenter presenter;
+  private ViolationPresenter presenter;
 
   public static ViolationFacilityFragment newInstance() {
     ViolationFacilityFragment f = new ViolationFacilityFragment();
@@ -40,10 +40,12 @@ public class ViolationFacilityFragment extends BaseFragment
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     setHasOptionsMenu(true);
-    presenter = new ViolationFacilityPresenterImpl(this, new SchedulersFacade());
+    presenter = createPresenter();
     presenter.onActivityCreated(savedInstanceState);
   }
-
+  private ViolationPresenter createPresenter() {
+    return new ViolationPresenterImpl(this, new SchedulersFacade(), new ResourceProvider(getContext()));
+  }
   @Override public int getLayoutResId() {
     return R.layout.fragment_violation;
   }
@@ -73,7 +75,7 @@ public class ViolationFacilityFragment extends BaseFragment
     swipeRefresh.setRefreshing(false);
   }
 
-  @Override public void navigateToViolationFacilityDetail(String webLink, String address) {
+  @Override public void navigateToViolationDetail(String webLink, String address) {
     Timber.d("webLink = " + webLink);
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
     intent.putExtra("vio_fac_link", webLink);

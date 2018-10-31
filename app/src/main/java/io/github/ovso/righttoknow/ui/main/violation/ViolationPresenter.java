@@ -7,7 +7,7 @@ import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.data.network.model.violation.Violation;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 
-public interface ViolationFacilityPresenter {
+public interface ViolationPresenter {
 
   void onActivityCreated(Bundle savedInstanceState);
 
@@ -35,7 +35,7 @@ public interface ViolationFacilityPresenter {
 
     void hideLoading();
 
-    void navigateToViolationFacilityDetail(String webLink, String address);
+    void navigateToViolationDetail(String webLink, String address);
 
     void setListener();
 

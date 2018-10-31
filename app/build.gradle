@@ -167,6 +167,9 @@ dependencies {
   // joda-time
   implementation "net.danlew:android.joda:$joda_version"
 
+  // guava
+  implementation group: 'com.google.guava', name: 'guava', version: '26.0-android'
+  //exclude group: "com.mcxiaoke.volley", module: "library"
 }
 
 // Add to the bottom of the file

@@ -5,10 +5,7 @@ import android.content.res.Resources;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.R;
-
-/**
- * Created by jaeho on 2018. 3. 14..
- */
+import io.github.ovso.righttoknow.utils.ResourceProvider;
 
 public enum Sido {
   SIDO1(R.id.sido1, R.string.sido1), SIDO2(R.id.sido2, R.string.sido2), SIDO3(R.id.sido3,
@@ -25,6 +22,15 @@ public enum Sido {
   private Sido(@IdRes int itemId, @StringRes int resId) {
     this.itemId = itemId;
     this.resId = resId;
+  }
+
+  public static String toName(@IdRes int itemId, ResourceProvider res) {
+    for (Sido sido : Sido.values()) {
+      if(sido.itemId == itemId) {
+        return res.getString(sido.resId);
+      }
+    }
+    return "";
   }
 
   public static String getSido(@IdRes int itemId, Context context) {
