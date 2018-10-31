@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.data.Sido;
 import io.github.ovso.righttoknow.data.network.model.violation.Violation;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.utils.ResourceProvider;
@@ -20,15 +21,15 @@ import java.util.Iterator;
 import java.util.List;
 import timber.log.Timber;
 
-public class ViolationPresenterImpl implements ViolationPresenter {
+public class ViolationFragmentPresenterImpl implements ViolationFragmentPresenter {
 
-  private ViolationPresenter.View view;
+  private ViolationFragmentPresenter.View view;
   private BaseAdapterDataModel<Violation> adapterDataModel;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private SchedulersFacade schedulersFacade;
   private ResourceProvider resourceProvider;
 
-  ViolationPresenterImpl(ViolationPresenter.View view,
+  ViolationFragmentPresenterImpl(ViolationFragmentPresenter.View view,
       SchedulersFacade $schedulersFacade, ResourceProvider $resourceProvider) {
     this.view = view;
     schedulersFacade = $schedulersFacade;
@@ -88,7 +89,8 @@ public class ViolationPresenterImpl implements ViolationPresenter {
     String webLink = violation.link;
     String address = violation.address;
     if (webLink != null) {
-      view.navigateToViolationDetail(webLink, address);
+      view.navigateToContents(webLink, address, violation);
+      //view.navigateToContents(violation);
     } else {
       view.showMessage(R.string.error_server);
     }

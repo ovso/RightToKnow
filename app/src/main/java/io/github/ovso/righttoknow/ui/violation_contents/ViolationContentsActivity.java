@@ -58,8 +58,7 @@ public class ViolationContentsActivity extends AdsActivity implements ViolationC
   }
 
   @Override public void showMessage(int resId) {
-    //Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
-    new AlertDialog.Builder(getApplicationContext()).setMessage(resId)
+    new AlertDialog.Builder(this).setMessage(resId)
         .setPositiveButton(android.R.string.ok,
             (dialogInterface, which) -> dialogInterface.dismiss())
         .show();

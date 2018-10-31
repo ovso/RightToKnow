@@ -6,7 +6,7 @@ import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.utils.Constants;
 import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
-import io.github.ovso.righttoknow.ui.main.violation.Sido;
+import io.github.ovso.righttoknow.data.Sido;
 import io.github.ovso.righttoknow.ui.main.violator.model.Violator;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;

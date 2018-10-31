@@ -23,7 +23,7 @@ import io.github.ovso.righttoknow.ui.childabuse.ChildAbuseActivity;
 import io.github.ovso.righttoknow.ui.main.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.ui.main.news.NewsFragment;
 import io.github.ovso.righttoknow.ui.main.video.VideoFragment;
-import io.github.ovso.righttoknow.ui.main.violation.ViolationFacilityFragment;
+import io.github.ovso.righttoknow.ui.main.violation.ViolationFragment;
 import io.github.ovso.righttoknow.ui.main.violator.ViolatorFragment;
 import io.github.ovso.righttoknow.ui.settings.SettingsActivity;
 import javax.inject.Inject;
@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     getSupportFragmentManager().beginTransaction()
         .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
             R.animator.enter_animation, R.animator.exit_animation)
-        .replace(R.id.fragment_container, ViolationFacilityFragment.newInstance())
+        .replace(R.id.fragment_container, ViolationFragment.newInstance())
         .commit();
   }
 

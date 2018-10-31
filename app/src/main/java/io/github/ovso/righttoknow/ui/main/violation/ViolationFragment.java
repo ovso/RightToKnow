@@ -2,6 +2,7 @@ package io.github.ovso.righttoknow.ui.main.violation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,26 +15,28 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.data.network.model.violation.Violation;
 import io.github.ovso.righttoknow.framework.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.ui.violation_contents.ViolationContentsActivity;
 import io.github.ovso.righttoknow.utils.ResourceProvider;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
+import org.parceler.Parcels;
 import timber.log.Timber;
 
-public class ViolationFacilityFragment extends BaseFragment
-    implements ViolationPresenter.View, OnFragmentEventListener {
+public class ViolationFragment extends BaseFragment
+    implements ViolationFragmentPresenter.View, OnFragmentEventListener {
 
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
 
-  private ViolationFacilityAdapter adapter = new ViolationFacilityAdapter();
+  private ViolationAdapter adapter = new ViolationAdapter();
   private BaseAdapterView adapterView;
-  private ViolationPresenter presenter;
+  private ViolationFragmentPresenter presenter;
 
-  public static ViolationFacilityFragment newInstance() {
-    ViolationFacilityFragment f = new ViolationFacilityFragment();
+  public static ViolationFragment newInstance() {
+    ViolationFragment f = new ViolationFragment();
     return f;
   }
 
@@ -43,9 +46,12 @@ public class ViolationFacilityFragment extends BaseFragment
     presenter = createPresenter();
     presenter.onActivityCreated(savedInstanceState);
   }
-  private ViolationPresenter createPresenter() {
-    return new ViolationPresenterImpl(this, new SchedulersFacade(), new ResourceProvider(getContext()));
+
+  private ViolationFragmentPresenter createPresenter() {
+    return new ViolationFragmentPresenterImpl(this, new SchedulersFacade(),
+        new ResourceProvider(getContext()));
   }
+
   @Override public int getLayoutResId() {
     return R.layout.fragment_violation;
   }
@@ -75,11 +81,18 @@ public class ViolationFacilityFragment extends BaseFragment
     swipeRefresh.setRefreshing(false);
   }
 
-  @Override public void navigateToViolationDetail(String webLink, String address) {
+  @Override public void navigateToContents(String webLink, String address, Violation violation) {
     Timber.d("webLink = " + webLink);
     Intent intent = new Intent(getContext(), ViolationContentsActivity.class);
     intent.putExtra("vio_fac_link", webLink);
     intent.putExtra("address", address);
+    intent.putExtra("contents", Parcels.wrap(violation.contents));
+    startActivity(intent);
+  }
+
+  @Override public void navigateToContents(Violation violation) {
+    Intent intent = new Intent(getContext(), ViolationContentsActivity.class);
+    intent.putExtra("contents", Parcels.wrap(violation.contents));
     startActivity(intent);
   }
 

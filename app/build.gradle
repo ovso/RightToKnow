@@ -169,6 +169,10 @@ dependencies {
 
   // guava
   implementation "com.google.guava:guava:$guava_version"
+
+  // parceler
+  implementation "org.parceler:parceler-api:$parceler_version"
+  annotationProcessor "org.parceler:parceler:$parceler_version"
 }
 
 // Add to the bottom of the file

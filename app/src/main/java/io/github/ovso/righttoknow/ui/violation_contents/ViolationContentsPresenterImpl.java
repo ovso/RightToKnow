@@ -2,9 +2,11 @@ package io.github.ovso.righttoknow.ui.violation_contents;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.data.network.model.violation.ViolationContents;
 import io.github.ovso.righttoknow.framework.network.GeocodeNetwork;
 import io.github.ovso.righttoknow.framework.network.model.GeometryLocation;
 import io.github.ovso.righttoknow.framework.network.model.GoogleGeocode;
@@ -12,7 +14,10 @@ import io.github.ovso.righttoknow.framework.utils.AddressUtils;
 import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
 import io.github.ovso.righttoknow.ui.violation_contents.model.VioFacDe;
 import io.github.ovso.righttoknow.ui.violation_contents.model.ViolatorDe;
+import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -21,6 +26,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
+import org.parceler.Parcels;
 import timber.log.Timber;
 
 public class ViolationContentsPresenterImpl implements ViolationContentsPresenter {
@@ -32,19 +38,41 @@ public class ViolationContentsPresenterImpl implements ViolationContentsPresente
   private Disposable disposable;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private String facName;
-
-  ViolationContentsPresenterImpl(ViolationContentsPresenter.View view) {
+  private SchedulersFacade schedulersFacade;
+  ViolationContentsPresenterImpl(ViolationContentsPresenter.View view, SchedulersFacade $schedulersFacade) {
     this.view = view;
     geocodeNetwork = new GeocodeNetwork(App.getInstance().getApplicationContext(),
         GeocodeNetwork.GEOCODING_BASE_URL);
+    schedulersFacade = $schedulersFacade;
   }
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
     view.setListener();
     view.hideButton();
     view.setSupportActionBar();
-    view.showLoading();
-    req(intent);
+
+    Single.fromCallable(() -> {
+      Parcelable parcelable = intent.getParcelableExtra("contents");
+      ViolationContents contents = Parcels.unwrap(parcelable);
+      return ViolationContents.toFormatedText(contents);
+
+    }).subscribeOn(schedulersFacade.io()).observeOn(schedulersFacade.ui()).subscribe(
+        new SingleObserver<String>() {
+          @Override public void onSubscribe(Disposable d) {
+            compositeDisposable.add(d);
+          }
+
+          @Override public void onSuccess(String contents) {
+            view.showContents(contents);
+            view.showButton();
+          }
+
+          @Override public void onError(Throwable e) {
+            Timber.d(e);
+          }
+        });
+
+    //req(intent);
   }
 
   private void req(Intent intent) {
@@ -106,6 +134,7 @@ public class ViolationContentsPresenterImpl implements ViolationContentsPresente
     if (disposable != null) {
       disposable.dispose();
     }
+    compositeDisposable.clear();
   }
 
   @Override public void onMapClick(Intent intent) {

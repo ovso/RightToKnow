@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
 
-public class ViolationFacilityAdapter extends BaseRecyclerAdapter
+public class ViolationAdapter extends BaseRecyclerAdapter
     implements BaseAdapterView, BaseAdapterDataModel<Violation> {
 
   private List<Violation> items = new ArrayList<>();
