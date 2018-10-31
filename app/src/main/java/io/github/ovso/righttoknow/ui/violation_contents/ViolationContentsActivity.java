@@ -1,6 +1,5 @@
-package io.github.ovso.righttoknow.ui.vfacilitydetail;
+package io.github.ovso.righttoknow.ui.violation_contents;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,9 +15,9 @@ import io.github.ovso.righttoknow.framework.AdsActivity;
 import io.github.ovso.righttoknow.ui.map.MapActivity;
 import javax.inject.Inject;
 
-public class VFacilityDetailActivity extends AdsActivity implements VFacilityDetailPresenter.View {
+public class ViolationContentsActivity extends AdsActivity implements ViolationContentsPresenter.View {
 
-  @Inject VFacilityDetailPresenter presenter;
+  @Inject ViolationContentsPresenter presenter;
   @BindView(R.id.contents_textview) TextView contentsTextView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipe;
   @BindView(R.id.share_button) Button shareButton;
@@ -47,7 +46,7 @@ public class VFacilityDetailActivity extends AdsActivity implements VFacilityDet
 
   @Override public void setListener() {
     swipe.setColorSchemeResources(R.color.colorPrimary);
-    swipe.setOnRefreshListener(() -> presenter.onRefresh(VFacilityDetailActivity.this.getIntent()));
+    swipe.setOnRefreshListener(() -> presenter.onRefresh(ViolationContentsActivity.this.getIntent()));
   }
 
   @Override public void showLoading() {

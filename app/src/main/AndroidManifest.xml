@@ -34,7 +34,7 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar"/>
     <activity
-        android:name=".ui.vfacilitydetail.VFacilityDetailActivity"
+        android:name=".ui.violation_contents.ViolationContentsActivity"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar"/>
     <activity

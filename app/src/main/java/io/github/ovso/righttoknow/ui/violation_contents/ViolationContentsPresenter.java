@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.ui.vfacilitydetail;
+package io.github.ovso.righttoknow.ui.violation_contents;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.support.annotation.StringRes;
  * Created by jaeho on 2017. 8. 2
  */
 
-public interface VFacilityDetailPresenter {
+public interface ViolationContentsPresenter {
 
   void onCreate(Bundle savedInstanceState, Intent intent);
 

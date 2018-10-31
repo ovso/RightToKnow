@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.ui.vfacilitydetail;
+package io.github.ovso.righttoknow.ui.violation_contents;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +10,8 @@ import io.github.ovso.righttoknow.framework.network.model.GeometryLocation;
 import io.github.ovso.righttoknow.framework.network.model.GoogleGeocode;
 import io.github.ovso.righttoknow.framework.utils.AddressUtils;
 import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
-import io.github.ovso.righttoknow.ui.vfacilitydetail.model.VioFacDe;
-import io.github.ovso.righttoknow.ui.vfacilitydetail.model.ViolatorDe;
+import io.github.ovso.righttoknow.ui.violation_contents.model.VioFacDe;
+import io.github.ovso.righttoknow.ui.violation_contents.model.ViolatorDe;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -23,17 +23,17 @@ import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
 import timber.log.Timber;
 
-public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
+public class ViolationContentsPresenterImpl implements ViolationContentsPresenter {
   private final static double LAT_SEOUL = 37.5652894;
   private final static double LNG_SEOUL = 126.8494635;
-  private VFacilityDetailPresenter.View view;
+  private ViolationContentsPresenter.View view;
   private GeocodeNetwork geocodeNetwork;
   private String fullAddress;
   private Disposable disposable;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private String facName;
 
-  VFacilityDetailPresenterImpl(VFacilityDetailPresenter.View view) {
+  ViolationContentsPresenterImpl(ViolationContentsPresenter.View view) {
     this.view = view;
     geocodeNetwork = new GeocodeNetwork(App.getInstance().getApplicationContext(),
         GeocodeNetwork.GEOCODING_BASE_URL);

@@ -18,7 +18,7 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
-import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity;
+import io.github.ovso.righttoknow.ui.violation_contents.ViolationContentsActivity;
 
 public class ViolatorFragment extends BaseFragment
     implements ViolatorFragmentPresenter.View, OnFragmentEventListener {
@@ -72,7 +72,7 @@ public class ViolatorFragment extends BaseFragment
   }
 
   @Override public void navigateToViolatorDetail(String link, String address) {
-    Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
+    Intent intent = new Intent(getContext(), ViolationContentsActivity.class);
     intent.putExtra("violator_link", link);
     intent.putExtra("address", address);
     startActivity(intent);

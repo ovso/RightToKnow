@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.ui.vfacilitydetail.model;
+package io.github.ovso.righttoknow.ui.violation_contents.model;
 
 import android.content.res.Resources;
 import com.google.gson.Gson;

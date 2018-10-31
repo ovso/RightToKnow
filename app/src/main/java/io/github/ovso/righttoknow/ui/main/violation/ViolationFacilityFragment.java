@@ -17,7 +17,7 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
-import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity;
+import io.github.ovso.righttoknow.ui.violation_contents.ViolationContentsActivity;
 import io.github.ovso.righttoknow.utils.ResourceProvider;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import timber.log.Timber;
@@ -77,7 +77,7 @@ public class ViolationFacilityFragment extends BaseFragment
 
   @Override public void navigateToViolationDetail(String webLink, String address) {
     Timber.d("webLink = " + webLink);
-    Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
+    Intent intent = new Intent(getContext(), ViolationContentsActivity.class);
     intent.putExtra("vio_fac_link", webLink);
     intent.putExtra("address", address);
     startActivity(intent);

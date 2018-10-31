@@ -15,8 +15,8 @@ import io.github.ovso.righttoknow.ui.pdfviewer.PDFViewerActivity;
 import io.github.ovso.righttoknow.ui.pdfviewer.PDFViewerActivityModule;
 import io.github.ovso.righttoknow.ui.settings.SettingsActivity;
 import io.github.ovso.righttoknow.ui.settings.SettingsActivityModule;
-import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity;
-import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivityModule;
+import io.github.ovso.righttoknow.ui.violation_contents.ViolationContentsActivity;
+import io.github.ovso.righttoknow.ui.violation_contents.ViolationContentsActivityModule;
 import io.github.ovso.righttoknow.ui.video.LandscapeVideoActivity;
 import io.github.ovso.righttoknow.ui.video.PortraitVideoActivity;
 import javax.inject.Singleton;
@@ -26,8 +26,8 @@ public abstract class ActivityBuilder {
   @Singleton @ContributesAndroidInjector(modules = { MainActivityModule.class })
   abstract MainActivity bindMainActivity();
 
-  @Singleton @ContributesAndroidInjector(modules = { VFacilityDetailActivityModule.class })
-  abstract VFacilityDetailActivity bindVFacilityDetailActivity();
+  @Singleton @ContributesAndroidInjector(modules = { ViolationContentsActivityModule.class })
+  abstract ViolationContentsActivity bindVFacilityDetailActivity();
 
   @Singleton @ContributesAndroidInjector(modules = { MapActivityActivityModule.class })
   abstract MapActivity bindMapActivity();
