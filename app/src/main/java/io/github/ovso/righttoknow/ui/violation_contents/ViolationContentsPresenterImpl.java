@@ -2,7 +2,6 @@ package io.github.ovso.righttoknow.ui.violation_contents;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
@@ -11,11 +10,7 @@ import io.github.ovso.righttoknow.framework.network.GeocodeNetwork;
 import io.github.ovso.righttoknow.framework.network.model.GeometryLocation;
 import io.github.ovso.righttoknow.framework.network.model.GoogleGeocode;
 import io.github.ovso.righttoknow.framework.utils.AddressUtils;
-import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
-import io.github.ovso.righttoknow.ui.violation_contents.model.VioFacDe;
-import io.github.ovso.righttoknow.ui.violation_contents.model.ViolatorDe;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -24,9 +19,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import java.util.concurrent.Callable;
-import org.jsoup.Jsoup;
-import org.parceler.Parcels;
 import timber.log.Timber;
 
 public class ViolationContentsPresenterImpl implements ViolationContentsPresenter {
@@ -39,11 +31,17 @@ public class ViolationContentsPresenterImpl implements ViolationContentsPresente
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private String facName;
   private SchedulersFacade schedulersFacade;
-  ViolationContentsPresenterImpl(ViolationContentsPresenter.View view, SchedulersFacade $schedulersFacade) {
-    this.view = view;
+  private ViolationContents contents;
+
+  ViolationContentsPresenterImpl(
+      ViolationContentsPresenter.View $view,
+      SchedulersFacade $schedulersFacade,
+      ViolationContents $contents) {
+    this.view = $view;
     geocodeNetwork = new GeocodeNetwork(App.getInstance().getApplicationContext(),
         GeocodeNetwork.GEOCODING_BASE_URL);
     schedulersFacade = $schedulersFacade;
+    contents = $contents;
   }
 
   @Override public void onCreate(Bundle savedInstanceState, Intent intent) {
@@ -51,83 +49,30 @@ public class ViolationContentsPresenterImpl implements ViolationContentsPresente
     view.hideButton();
     view.setSupportActionBar();
 
-    Single.fromCallable(() -> {
-      Parcelable parcelable = intent.getParcelableExtra("contents");
-      ViolationContents contents = Parcels.unwrap(parcelable);
-      return ViolationContents.toFormatedText(contents);
-
-    }).subscribeOn(schedulersFacade.io()).observeOn(schedulersFacade.ui()).subscribe(
-        new SingleObserver<String>() {
-          @Override public void onSubscribe(Disposable d) {
-            compositeDisposable.add(d);
-          }
-
-          @Override public void onSuccess(String contents) {
-            view.showContents(contents);
-            view.showButton();
-          }
-
-          @Override public void onError(Throwable e) {
-            Timber.d(e);
-          }
-        });
-
-    //req(intent);
+    showContents();
   }
 
-  private void req(Intent intent) {
-    if (intent.hasExtra("vio_fac_link")) {
-      final String link = intent.getStringExtra("vio_fac_link");
-      compositeDisposable.add(
-          Observable.fromCallable(() -> {
-            VioFacDe vioFacDe = VioFacDe.convertToItem(
-                Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
-            facName = vioFacDe.getVioFacName();
-            Timber.d("facName = " + facName);
-            fullAddress = vioFacDe.getAddress();
-            return VioFacDe.getContents(vioFacDe);
-          }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-              new Consumer<String>() {
-                @Override public void accept(String o) throws Exception {
-                  view.showContents(o);
-                  view.showButton();
-                  view.hideLoading();
-                }
-              }, new Consumer<Throwable>() {
-                @Override public void accept(Throwable throwable) throws Exception {
-                  Timber.d(throwable);
-                  view.showMessage(R.string.error_server);
-                  view.hideLoading();
-                }
-              })
+  private void showContents() {
+    Single.fromCallable(() -> ViolationContents.toFormatedText(contents))
+        .subscribeOn(schedulersFacade.io())
+        .observeOn(schedulersFacade.ui())
+        .subscribe(
+            new SingleObserver<String>() {
+              @Override public void onSubscribe(Disposable d) {
+                compositeDisposable.add(d);
+              }
 
-      );
-    } else if (intent.hasExtra("violator_link")) {
-      final String link = intent.getStringExtra("violator_link");
-      compositeDisposable.add(Observable.fromCallable(new Callable<String>() {
-        @Override public String call() throws Exception {
-          ViolatorDe violatorDe = ViolatorDe.convertToItem(
-              Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
-          facName = violatorDe.getFacName();
-          Timber.d("facName = " + facName);
-          fullAddress = violatorDe.getAddress();
-          return ViolatorDe.getContents(violatorDe);
-        }
-      }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-          new Consumer<String>() {
-            @Override public void accept(String o) throws Exception {
-              view.showContents(o);
-              view.showButton();
-              view.hideLoading();
-            }
-          }, new Consumer<Throwable>() {
-            @Override public void accept(Throwable throwable) throws Exception {
-              Timber.d(throwable);
-              view.showMessage(R.string.error_server);
-              view.hideLoading();
-            }
-          }));
-    }
+              @Override public void onSuccess(String contents) {
+                view.showContents(contents);
+                view.showButton();
+                view.hideLoading();
+              }
+
+              @Override public void onError(Throwable e) {
+                Timber.d(e);
+                view.hideLoading();
+              }
+            });
   }
 
   @Override public void onDestroy() {
@@ -190,6 +135,6 @@ public class ViolationContentsPresenterImpl implements ViolationContentsPresente
   }
 
   @Override public void onRefresh(Intent intent) {
-    req(intent);
+    showContents();
   }
 }
