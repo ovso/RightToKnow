@@ -92,7 +92,7 @@ public class ViolationContentsActivity extends AdsActivity implements ViolationC
   }
 
   @OnClick(R.id.location_button) void onMapClick() {
-    presenter.onMapClick(getIntent());
+    presenter.onMapClick();
   }
 
   @Override protected void onDestroy() {

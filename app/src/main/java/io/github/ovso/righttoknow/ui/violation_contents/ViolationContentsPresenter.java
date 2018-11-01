@@ -4,17 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 
-/**
- * Created by jaeho on 2017. 8. 2
- */
-
 public interface ViolationContentsPresenter {
 
   void onCreate(Bundle savedInstanceState, Intent intent);
 
   void onDestroy();
 
-  void onMapClick(Intent intent);
+  void onMapClick();
 
   void onRefresh(Intent intent);
 

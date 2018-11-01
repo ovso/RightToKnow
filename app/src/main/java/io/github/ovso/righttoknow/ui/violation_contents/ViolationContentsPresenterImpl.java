@@ -26,10 +26,8 @@ public class ViolationContentsPresenterImpl implements ViolationContentsPresente
   private final static double LNG_SEOUL = 126.8494635;
   private ViolationContentsPresenter.View view;
   private GeocodeNetwork geocodeNetwork;
-  private String fullAddress;
   private Disposable disposable;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
-  private String facName;
   private SchedulersFacade schedulersFacade;
   private ViolationContents contents;
 
@@ -82,46 +80,37 @@ public class ViolationContentsPresenterImpl implements ViolationContentsPresente
     compositeDisposable.clear();
   }
 
-  @Override public void onMapClick(Intent intent) {
+  @Override public void onMapClick() {
     view.showLoading();
-    if (!TextUtils.isEmpty(fullAddress)) {
+    if (!TextUtils.isEmpty(contents.address)) {
 
       try {
-        String address = AddressUtils.removeBracket(fullAddress);
+        String address = AddressUtils.removeBracket(contents.address);
         Timber.d("address = " + address);
 
         disposable = geocodeNetwork.getGoogleGeocode(address)
-            .map(new Function<GoogleGeocode, double[]>() {
-              @Override public double[] apply(GoogleGeocode googleGeocode) throws Exception {
-                double[] locations = new double[2];
-                if (googleGeocode.getStatus().contains("OK")) {
-                  GeometryLocation location =
-                      googleGeocode.getResults().get(0).getGeometry().getLocation();
-                  locations[0] = location.getLat();
-                  locations[1] = location.getLng();
-                } else {
-                  locations[0] = LAT_SEOUL;
-                  locations[1] = LNG_SEOUL;
-                }
-                return locations;
+            .map(googleGeocode -> {
+              double[] locations = new double[2];
+              if (googleGeocode.getStatus().contains("OK")) {
+                GeometryLocation location =
+                    googleGeocode.getResults().get(0).getGeometry().getLocation();
+                locations[0] = location.getLat();
+                locations[1] = location.getLng();
+              } else {
+                locations[0] = LAT_SEOUL;
+                locations[1] = LNG_SEOUL;
               }
+              return locations;
             })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Consumer<double[]>() {
-              @Override public void accept(double[] locations) throws Exception {
-                if (TextUtils.isEmpty(facName)) {
-                  new NullPointerException("facName is null");
-                }
-                view.navigateToMap(locations, facName);
-                view.hideLoading();
-              }
-            }, new Consumer<Throwable>() {
-              @Override public void accept(Throwable throwable) throws Exception {
-                Timber.e(throwable);
-                view.showMessage(R.string.error_not_found_address);
-                view.hideLoading();
-              }
+            .subscribe(locations -> {
+              view.navigateToMap(locations, contents.vio_ccc);
+              view.hideLoading();
+            }, throwable -> {
+              Timber.e(throwable);
+              view.showMessage(R.string.error_not_found_address);
+              view.hideLoading();
             });
       } catch (Exception e) {
         Timber.e(e);
