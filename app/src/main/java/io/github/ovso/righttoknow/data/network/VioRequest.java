@@ -1,11 +1,9 @@
 package io.github.ovso.righttoknow.data.network;
 
-import android.support.annotation.NonNull;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import io.github.ovso.righttoknow.BuildConfig;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.OnLifecycleEvent;
+import io.github.ovso.righttoknow.data.network.model.VioData;
 import io.github.ovso.righttoknow.data.network.model.certified.Certified;
 import io.github.ovso.righttoknow.data.network.model.certified.CertifiedData;
 import io.github.ovso.righttoknow.data.network.model.violation.Violation;
@@ -15,6 +13,7 @@ import io.github.ovso.righttoknow.data.network.model.violators.Violator;
 import io.github.ovso.righttoknow.data.network.model.violators.ViolatorContents;
 import io.github.ovso.righttoknow.data.network.model.violators.ViolatorData;
 import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
+import io.github.ovso.righttoknow.ui.base.IBuilder;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -25,12 +24,13 @@ import io.reactivex.disposables.Disposable;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import timber.log.Timber;
 
-public class UpdateDatabase {
+public class VioRequest implements LifecycleObserver {
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private final static String URL_VIOLATION =
       "http://info.childcare.go.kr/info/cfvp/VioltfcltySlL.jsp?limit=500";
@@ -40,12 +40,18 @@ public class UpdateDatabase {
       "http://info.childcare.go.kr/info/cera/community/notice/CertNoticeSlPL.jsp?limit=500";
   private SchedulersFacade schedulersFacade = new SchedulersFacade();
 
-  public void update() {
-    if (BuildConfig.DEBUG) {
-      getLastUpdateDay("certified", () -> reqCertified(URL_CERTIFIED));
-      getLastUpdateDay("violator", () -> reqViolators(URL_VIOLATORS));
-      getLastUpdateDay("violation", () -> reqViolation(URL_VIOLATION));
-    }
+  private OnVioDataLoadCompleteListener onVioDataLoadCompleteListener;
+  private VioData vioData;
+
+  private VioRequest(Builder builder) {
+    onVioDataLoadCompleteListener = builder.listener;
+    vioData = builder.vioData;
+  }
+
+  public void execute() {
+    reqCertified(URL_CERTIFIED);
+    reqViolators(URL_VIOLATORS);
+    reqViolation(URL_VIOLATION);
   }
 
   private void reqViolation(String url) {
@@ -78,28 +84,44 @@ public class UpdateDatabase {
 
                   @Override public void onError(Throwable e) {
                     Timber.d(e);
+                    error(e);
                   }
 
                   @Override public void onComplete() {
-                    ViolationData value = new ViolationData();
-                    value.date = DateTime.now().toString();
-                    value.items = $violations;
-                    FirebaseDatabase.getInstance()
-                        .getReference("violation")
-                        .setValue(value, (databaseError, databaseReference) -> {
-                          Timber.d("violation complete");
-                          if (completeListener != null) {
-                            completeListener.onComplete();
-                          }
-                        });
+                    Timber.d("reqViolation complete");
+                    ViolationData violationData = new ViolationData();
+                    violationData.date = DateTime.now().toString();
+                    violationData.items = $violations;
+                    vioData.violation = violationData;
+                    vioData.date = DateTime.now().toString();
+
+                    completeLoad();
                   }
                 });
           }
 
           @Override public void onError(Throwable e) {
             Timber.d(e);
+            error(e);
           }
         });
+  }
+
+  private void completeLoad() {
+    if (onVioDataLoadCompleteListener != null) {
+      if (vioData.violation != null && vioData.violator != null && vioData.certified != null) {
+        Timber.d("complete full data");
+        onVioDataLoadCompleteListener.onComplete(vioData);
+      }
+      //onVioDataLoadCompleteListener.onError("ㅋㅋㅋㅋㅋ");
+    }
+  }
+
+  private void error(Throwable t) {
+    if (onVioDataLoadCompleteListener != null) {
+      String msg = t.getMessage();
+      onVioDataLoadCompleteListener.onError(msg);
+    }
   }
 
   private void reqViolators(String url) {
@@ -133,24 +155,25 @@ public class UpdateDatabase {
                   }
 
                   @Override public void onError(Throwable e) {
-
+                    error(e);
                   }
 
                   @Override public void onComplete() {
-                    ViolatorData value = new ViolatorData();
-                    value.date = DateTime.now().toString();
-                    value.items = $violators;
-                    FirebaseDatabase.getInstance()
-                        .getReference("violator")
-                        .setValue(value, (databaseError, databaseReference) -> {
-                          Timber.d("violator complete");
-                        });
+                    Timber.d("reqViolator complete");
+
+                    ViolatorData violatorData = new ViolatorData();
+                    violatorData.date = DateTime.now().toString();
+                    violatorData.items = $violators;
+                    vioData.violator = violatorData;
+
+                    completeLoad();
                   }
                 });
           }
 
           @Override public void onError(Throwable e) {
             Timber.d(e);
+            error(e);
           }
         });
   }
@@ -165,18 +188,16 @@ public class UpdateDatabase {
           }
 
           @Override public void onSuccess(List<Certified> $certifieds) {
-            CertifiedData value = new CertifiedData();
-            value.date = DateTime.now().toString();
-            value.items = $certifieds;
-            FirebaseDatabase.getInstance()
-                .getReference("certified")
-                .setValue(value, (databaseError, databaseReference) -> {
-                  Timber.d("certified complete");
-                });
+            Timber.d("reqCertified complete");
+            CertifiedData certifiedData = new CertifiedData();
+            certifiedData.date = DateTime.now().toString();
+            certifiedData.items = $certifieds;
+            vioData.certified = certifiedData;
+            completeLoad();
           }
 
           @Override public void onError(Throwable e) {
-
+            error(e);
           }
         });
   }
@@ -185,33 +206,24 @@ public class UpdateDatabase {
     return Jsoup.connect(url).timeout(TimeoutMillis.JSOUP.getValue()).get();
   }
 
-  private synchronized void getLastUpdateDay(String path, UpdateCheckListener l) {
-    FirebaseDatabase.getInstance()
-        .getReference(path)
-        .child("date").addListenerForSingleValueEvent(new ValueEventListener() {
-      @Override public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        String date = dataSnapshot.getValue().toString();
-        DateTime fbDateTime = DateTime.parse(date);
-        DateTime dateTime = new DateTime();
-        if (l != null && dateTime.getMillis() > fbDateTime.getMillis()) {
-          l.onUpdate();
-        }
-        //Timber.d("fb date time = " + fbDateTime.getMillis());
-        //Timber.d("nw date time = " + dateTime.getMillis());
-      }
+  public interface OnVioDataLoadCompleteListener {
+    void onComplete(VioData vioData);
 
-      @Override public void onCancelled(@NonNull DatabaseError databaseError) {
-
-      }
-    });
+    void onError(String msg);
   }
 
-  private interface UpdateCheckListener {
-    void onUpdate();
-  }
-  @Setter private CompleteListener completeListener;
+  public static class Builder implements IBuilder<VioRequest> {
+    @Setter @Accessors(chain = true) private OnVioDataLoadCompleteListener listener;
+    private VioData vioData;
 
-  public interface CompleteListener {
-    void onComplete();
+    @Override public VioRequest build() {
+      vioData = new VioData();
+      return new VioRequest(this);
+    }
+  }
+
+  @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+  private void clear() {
+    compositeDisposable.clear();
   }
 }
