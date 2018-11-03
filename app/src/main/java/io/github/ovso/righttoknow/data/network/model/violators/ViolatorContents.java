@@ -1,9 +1,14 @@
 package io.github.ovso.righttoknow.data.network.model.violators;
 
+import android.content.res.Resources;
+import io.github.ovso.righttoknow.App;
+import io.github.ovso.righttoknow.R;
+import lombok.ToString;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.parceler.Parcel;
 
-public class ViolatorContents {
+@Parcel @ToString public class ViolatorContents {
   public String sido;
   public String sigungu;
   public String name;
@@ -35,5 +40,36 @@ public class ViolatorContents {
     c.disposition = trElements.get(4).select("td").get(0).ownText();
 
     return c;
+  }
+
+  public static String toFormatedText(ViolatorContents violator) {
+    Resources res = App.getInstance().getResources();
+    StringBuilder builder = new StringBuilder();
+    //sido
+    builder.append(res.getString(R.string.detail_sido)).append(violator.sido);
+    builder.append("\n\n");
+    //sigungu
+    builder.append(res.getString(R.string.detail_sigungu)).append(violator.sigungu);
+    builder.append("\n\n");
+    //name
+    builder.append(res.getString(R.string.detail_violator_name)).append(violator.name);
+    builder.append("\n\n");
+    //old center name
+    builder.append(res.getString(R.string.detail_vio_old_center_name))
+        .append(violator.vio_ccc);
+    builder.append("\n\n");
+    //history
+    builder.append(res.getString(R.string.detail_violation_history)).append(violator.history);
+    builder.append("\n\n");
+    //address
+    builder.append(res.getString(R.string.detail_address)).append(violator.address);
+    builder.append("\n\n");
+    //action
+    builder.append("\n");
+    builder.append("\n");
+    //disposal
+    builder.append("\n");
+    builder.append("\n");
+    return builder.toString();
   }
 }

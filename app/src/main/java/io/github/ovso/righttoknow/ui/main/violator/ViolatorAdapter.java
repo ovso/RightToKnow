@@ -4,17 +4,13 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.data.network.model.violators.Violator;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter;
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
-import io.github.ovso.righttoknow.ui.main.violator.model.Violator;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
-
-/**
- * Created by jaeho on 2017. 8. 3
- */
 
 public class ViolatorAdapter extends BaseRecyclerAdapter
     implements BaseAdapterView, ViolatorAdapterDataModel<Violator> {
@@ -33,12 +29,12 @@ public class ViolatorAdapter extends BaseRecyclerAdapter
     if (baseHolder instanceof ViolatorViewHolder) {
       ViolatorViewHolder holder = (ViolatorViewHolder) baseHolder;
       final Violator violator = items.get(position);
-      holder.orderTextview.setText(String.valueOf(violator.getOrder()));
-      holder.sidoTextView.setText(violator.getSido());
-      holder.sigunguTextView.setText(violator.getSigungu());
-      holder.nameTextView.setText(violator.getName());
-      holder.vioFacTextView.setText(violator.getFac_name());
-      holder.historyTextView.setText(violator.getHistory());
+      holder.orderTextview.setText(String.valueOf(violator.order));
+      holder.sidoTextView.setText(violator.sido);
+      holder.sigunguTextView.setText(violator.sigungu);
+      holder.nameTextView.setText(violator.vio_name);
+      holder.vioFacTextView.setText(violator.vio_ccc);
+      holder.historyTextView.setText(violator.history);
       holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
           onRecyclerItemClickListener.onItemClick(violator);

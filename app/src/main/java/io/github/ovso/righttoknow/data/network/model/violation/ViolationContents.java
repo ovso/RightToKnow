@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import com.google.firebase.database.IgnoreExtraProperties;
 import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.ui.violation_contents.model.VioFacDe;
 import lombok.ToString;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;

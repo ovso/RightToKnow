@@ -41,4 +41,6 @@ ext {
   guava_version = '26.0-android'
 
   parceler_version = '1.1.11'
+
+  lottie_version = '2.7.0'
 }

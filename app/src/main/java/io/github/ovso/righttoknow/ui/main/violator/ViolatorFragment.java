@@ -15,10 +15,15 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.data.network.model.violators.Violator;
 import io.github.ovso.righttoknow.framework.BaseFragment;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
-import io.github.ovso.righttoknow.ui.violation_contents.ViolationContentsActivity;
+import io.github.ovso.righttoknow.ui.violator_contents.ViolatorContentsActivity;
+import io.github.ovso.righttoknow.utils.ResourceProvider;
+import io.github.ovso.righttoknow.utils.SchedulersFacade;
+import org.parceler.Parcels;
 
 public class ViolatorFragment extends BaseFragment
     implements ViolatorFragmentPresenter.View, OnFragmentEventListener {
@@ -43,8 +48,20 @@ public class ViolatorFragment extends BaseFragment
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     setHasOptionsMenu(true);
-    presenter = new ViolatorFragmentPresenterImpl(this);
+    presenter = createPresenter();
     presenter.onActivityCreate(savedInstanceState);
+  }
+
+  private ViolatorFragmentPresenter createPresenter() {
+    BaseAdapterDataModel<Violator> adapterDataModel = adapter;
+    adapterView = adapter;
+    SchedulersFacade schedulersFacade = new SchedulersFacade();
+    ResourceProvider resourceProvider = new ResourceProvider(getContext());
+    return new ViolatorFragmentPresenterImpl(
+        this,
+        schedulersFacade,
+        resourceProvider,
+        adapterDataModel);
   }
 
   @Override public void hideLoading() {
@@ -60,8 +77,6 @@ public class ViolatorFragment extends BaseFragment
   }
 
   @Override public void setAdapter() {
-    presenter.setAdapterModel(adapter);
-    adapterView = adapter;
     adapter.setOnRecyclerItemClickListener(violator -> presenter.onRecyclerItemClick(violator));
   }
 
@@ -71,10 +86,9 @@ public class ViolatorFragment extends BaseFragment
     recyclerView.setAdapter(adapter);
   }
 
-  @Override public void navigateToViolatorDetail(String link, String address) {
-    Intent intent = new Intent(getContext(), ViolationContentsActivity.class);
-    intent.putExtra("violator_link", link);
-    intent.putExtra("address", address);
+  @Override public void navigateToViolatorDetail(Violator violator) {
+    Intent intent = new Intent(getContext(), ViolatorContentsActivity.class);
+    intent.putExtra("contents", Parcels.wrap(violator.contents));
     startActivity(intent);
   }
 

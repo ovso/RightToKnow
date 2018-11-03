@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.ui.violation_contents;
+package io.github.ovso.righttoknow.ui.violator_contents;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.data.network.model.violation.ViolationContents;
+import io.github.ovso.righttoknow.data.network.model.violators.ViolatorContents;
 import io.github.ovso.righttoknow.framework.network.GeocodeNetwork;
 import io.github.ovso.righttoknow.framework.network.model.GeometryLocation;
 import io.github.ovso.righttoknow.framework.utils.AddressUtils;
@@ -18,20 +19,20 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class ViolationContentsPresenterImpl implements ViolationContentsPresenter {
+public class ViolatorContentsPresenterImpl implements ViolatorContentsPresenter {
   private final static double LAT_SEOUL = 37.5652894;
   private final static double LNG_SEOUL = 126.8494635;
-  private ViolationContentsPresenter.View view;
+  private View view;
   private GeocodeNetwork geocodeNetwork;
   private Disposable disposable;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private SchedulersFacade schedulersFacade;
-  private ViolationContents contents;
+  private ViolatorContents contents;
 
-  ViolationContentsPresenterImpl(
-      ViolationContentsPresenter.View $view,
+  ViolatorContentsPresenterImpl(
+      View $view,
       SchedulersFacade $schedulersFacade,
-      ViolationContents $contents) {
+      ViolatorContents $contents) {
     this.view = $view;
     geocodeNetwork = new GeocodeNetwork(App.getInstance().getApplicationContext(),
         GeocodeNetwork.GEOCODING_BASE_URL);
@@ -48,7 +49,7 @@ public class ViolationContentsPresenterImpl implements ViolationContentsPresente
   }
 
   private void showContents() {
-    Single.fromCallable(() -> ViolationContents.toFormatedText(contents))
+    Single.fromCallable(() -> ViolatorContents.toFormatedText(contents))
         .subscribeOn(schedulersFacade.io())
         .observeOn(schedulersFacade.ui())
         .subscribe(

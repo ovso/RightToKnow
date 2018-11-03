@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.framework.di;
+package io.github.ovso.righttoknow.di;
 
 import android.app.Application;
 import dagger.BindsInstance;

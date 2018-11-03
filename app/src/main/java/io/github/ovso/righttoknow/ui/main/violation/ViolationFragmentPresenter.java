@@ -35,8 +35,6 @@ public interface ViolationFragmentPresenter {
 
     void hideLoading();
 
-    void navigateToContents(String webLink, String address, Violation violation);
-
     void setListener();
 
     Context getActivity();

@@ -1,4 +1,4 @@
-package io.github.ovso.righttoknow.framework.di;
+package io.github.ovso.righttoknow.di;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -19,6 +19,8 @@ import io.github.ovso.righttoknow.ui.violation_contents.ViolationContentsActivit
 import io.github.ovso.righttoknow.ui.violation_contents.ViolationContentsActivityModule;
 import io.github.ovso.righttoknow.ui.video.LandscapeVideoActivity;
 import io.github.ovso.righttoknow.ui.video.PortraitVideoActivity;
+import io.github.ovso.righttoknow.ui.violator_contents.ViolatorContentsActivity;
+import io.github.ovso.righttoknow.ui.violator_contents.ViolatorContentsActivityModule;
 import javax.inject.Singleton;
 
 @Module(includes = { AndroidSupportInjectionModule.class })
@@ -27,7 +29,10 @@ public abstract class ActivityBuilder {
   abstract MainActivity bindMainActivity();
 
   @Singleton @ContributesAndroidInjector(modules = { ViolationContentsActivityModule.class })
-  abstract ViolationContentsActivity bindVFacilityDetailActivity();
+  abstract ViolationContentsActivity bindViolationContentsActivity();
+
+  @Singleton @ContributesAndroidInjector(modules = { ViolatorContentsActivityModule.class })
+  abstract ViolatorContentsActivity bindViolatorContentsActivity();
 
   @Singleton @ContributesAndroidInjector(modules = { MapActivityActivityModule.class })
   abstract MapActivity bindMapActivity();

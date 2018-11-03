@@ -4,11 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
-import io.github.ovso.righttoknow.ui.main.violator.model.Violator;
-
-/**
- * Created by jaeho on 2017. 8. 3
- */
+import io.github.ovso.righttoknow.data.network.model.violators.Violator;
 
 public interface ViolatorFragmentPresenter {
 
@@ -38,8 +34,6 @@ public interface ViolatorFragmentPresenter {
 
     void setRecyclerView();
 
-    void navigateToViolatorDetail(String link, String address);
-
     void setListener();
 
     Context getActivity();
@@ -47,5 +41,7 @@ public interface ViolatorFragmentPresenter {
     void setSearchResultText(@StringRes int resId);
 
     void showMessage(@StringRes int resId);
+
+    void navigateToViolatorDetail(Violator violator);
   }
 }

@@ -38,6 +38,10 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar"/>
     <activity
+        android:name=".ui.violator_contents.ViolatorContentsActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoActionBar"/>
+    <activity
         android:name=".ui.pdfviewer.PDFViewerActivity"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar"/>

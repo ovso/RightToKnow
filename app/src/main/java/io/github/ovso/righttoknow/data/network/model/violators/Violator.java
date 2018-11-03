@@ -5,6 +5,7 @@ import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.parceler.Parcel;
 
 public class Violator {
 

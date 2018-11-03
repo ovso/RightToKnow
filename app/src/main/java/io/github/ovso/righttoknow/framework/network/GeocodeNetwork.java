@@ -8,10 +8,6 @@ import io.reactivex.Single;
 import java.util.HashMap;
 import okhttp3.Request;
 
-/**
- * Created by jaeho on 2018. 3. 12
- */
-
 public class GeocodeNetwork extends NetworkHelper2<GeocoderApi> {
   public final static String GEOCODING_BASE_URL = "https://maps.googleapis.com";
   public GeocodeNetwork(Context context, String baseUrl) {

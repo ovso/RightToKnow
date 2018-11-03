@@ -2,8 +2,7 @@ package io.github.ovso.righttoknow;
 
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
-import io.github.ovso.righttoknow.data.network.UpdateDatabase;
-import io.github.ovso.righttoknow.framework.di.DaggerAppComponent;
+import io.github.ovso.righttoknow.di.DaggerAppComponent;
 import io.github.ovso.righttoknow.framework.utils.AppInitUtils;
 
 public class App extends DaggerApplication {
@@ -22,7 +21,6 @@ public class App extends DaggerApplication {
     AppInitUtils.timber(DEBUG);
     AppInitUtils.prDownloader(getApplicationContext());
     AppInitUtils.joda(this);
-    new UpdateDatabase().update();
   }
 
   @Override protected AndroidInjector<? extends DaggerApplication> applicationInjector() {

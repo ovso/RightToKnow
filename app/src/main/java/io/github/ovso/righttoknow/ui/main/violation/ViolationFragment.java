@@ -81,15 +81,6 @@ public class ViolationFragment extends BaseFragment
     swipeRefresh.setRefreshing(false);
   }
 
-  @Override public void navigateToContents(String webLink, String address, Violation violation) {
-    Timber.d("webLink = " + webLink);
-    Intent intent = new Intent(getContext(), ViolationContentsActivity.class);
-    intent.putExtra("vio_fac_link", webLink);
-    intent.putExtra("address", address);
-    intent.putExtra("contents", Parcels.wrap(violation.contents));
-    startActivity(intent);
-  }
-
   @Override public void navigateToContents(Violation violation) {
     Intent intent = new Intent(getContext(), ViolationContentsActivity.class);
     intent.putExtra("contents", Parcels.wrap(violation.contents));

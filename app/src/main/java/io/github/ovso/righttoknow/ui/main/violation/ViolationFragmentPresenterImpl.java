@@ -89,7 +89,7 @@ public class ViolationFragmentPresenterImpl implements ViolationFragmentPresente
     String webLink = violation.link;
     String address = violation.address;
     if (webLink != null) {
-      view.navigateToContents(webLink, address, violation);
+      view.navigateToContents(violation);
       //view.navigateToContents(violation);
     } else {
       view.showMessage(R.string.error_server);

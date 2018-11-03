@@ -3,9 +3,9 @@ package io.github.ovso.righttoknow.data.network;
 import android.support.annotation.NonNull;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import io.github.ovso.righttoknow.BuildConfig;
 import io.github.ovso.righttoknow.data.network.model.certified.Certified;
 import io.github.ovso.righttoknow.data.network.model.certified.CertifiedData;
 import io.github.ovso.righttoknow.data.network.model.violation.Violation;
@@ -17,16 +17,15 @@ import io.github.ovso.righttoknow.data.network.model.violators.ViolatorData;
 import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import lombok.Setter;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import timber.log.Timber;
@@ -42,29 +41,11 @@ public class UpdateDatabase {
   private SchedulersFacade schedulersFacade = new SchedulersFacade();
 
   public void update() {
-    //if (BuildConfig.DEBUG) {
-    //  getLastUpdateDay("violation", () -> reqViolation(URL_VIOLATION));
-    //  getLastUpdateDay("violator", () -> reqViolators(URL_VIOLATORS));
-    //  getLastUpdateDay("certified", () -> reqCertified(URL_CERTIFIED));
-    //}
-
-    //reqDatabase();
-  }
-
-  private void reqDatabase() {
-    DatabaseReference databaseReference =
-        FirebaseDatabase.getInstance().getReference("violation").child("items");
-
-    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-      @Override public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        String s = dataSnapshot.getValue().toString();
-        //Timber.d("s = " + s);
-      }
-
-      @Override public void onCancelled(@NonNull DatabaseError databaseError) {
-
-      }
-    });
+    if (BuildConfig.DEBUG) {
+      getLastUpdateDay("certified", () -> reqCertified(URL_CERTIFIED));
+      getLastUpdateDay("violator", () -> reqViolators(URL_VIOLATORS));
+      getLastUpdateDay("violation", () -> reqViolation(URL_VIOLATION));
+    }
   }
 
   private void reqViolation(String url) {
@@ -85,23 +66,34 @@ public class UpdateDatabase {
                       .map(contents -> violation.contents = contents);
               observables.add(contentsObservable);
             }
-            Disposable disposable = Observable.concat(observables)
-                .subscribe(
-                    contents -> {
-                    },
-                    e -> Timber.d(e),
-                    () -> {
-                      ViolationData value = new ViolationData();
-                      value.date = new Timestamp(new Date().getTime()).toString();
-                      value.items = $violations;
-                      FirebaseDatabase.getInstance()
-                          .getReference("violation")
-                          .setValue(value);
-                      Timber.d("violation date = " + value.date);
-                      Timber.d("violation size = " + value.items.size());
-                    });
+            Observable.concat(observables)
+                .subscribe(new Observer<ViolationContents>() {
+                  @Override public void onSubscribe(Disposable d) {
+                    compositeDisposable.add(d);
+                  }
 
-            compositeDisposable.add(disposable);
+                  @Override public void onNext(ViolationContents contents) {
+
+                  }
+
+                  @Override public void onError(Throwable e) {
+                    Timber.d(e);
+                  }
+
+                  @Override public void onComplete() {
+                    ViolationData value = new ViolationData();
+                    value.date = DateTime.now().toString();
+                    value.items = $violations;
+                    FirebaseDatabase.getInstance()
+                        .getReference("violation")
+                        .setValue(value, (databaseError, databaseReference) -> {
+                          Timber.d("violation complete");
+                          if (completeListener != null) {
+                            completeListener.onComplete();
+                          }
+                        });
+                  }
+                });
           }
 
           @Override public void onError(Throwable e) {
@@ -130,24 +122,31 @@ public class UpdateDatabase {
 
               observables.add(contentsObservable);
             }
-            Disposable disposable = Observable.concat(observables)
-                .subscribe(
-                    contents -> {
+            Observable.concat(observables)
+                .subscribe(new Observer<ViolatorContents>() {
+                  @Override public void onSubscribe(Disposable d) {
+                    compositeDisposable.add(d);
+                  }
 
-                    },
-                    e -> Timber.d(e),
-                    () -> {
-                      ViolatorData value = new ViolatorData();
-                      value.date = new Timestamp(new Date().getTime()).toString();
-                      value.items = $violators;
-                      FirebaseDatabase.getInstance()
-                          .getReference("violator")
-                          .setValue(value);
-                      Timber.d("violator date = " + value.date);
-                      Timber.d("violator size = " + value.items.size());
-                    });
+                  @Override public void onNext(ViolatorContents violatorContents) {
 
-            compositeDisposable.add(disposable);
+                  }
+
+                  @Override public void onError(Throwable e) {
+
+                  }
+
+                  @Override public void onComplete() {
+                    ViolatorData value = new ViolatorData();
+                    value.date = DateTime.now().toString();
+                    value.items = $violators;
+                    FirebaseDatabase.getInstance()
+                        .getReference("violator")
+                        .setValue(value, (databaseError, databaseReference) -> {
+                          Timber.d("violator complete");
+                        });
+                  }
+                });
           }
 
           @Override public void onError(Throwable e) {
@@ -158,21 +157,28 @@ public class UpdateDatabase {
 
   private void reqCertified(String url) {
     Timber.d("start reqCertified");
-    Disposable disposable = Single.fromCallable(() -> Certified.toObjects(getDoc(url)))
+    Single.fromCallable(() -> Certified.toObjects(getDoc(url)))
         .subscribeOn(schedulersFacade.io())
-        .subscribe(
-            $certifieds -> {
-              CertifiedData value = new CertifiedData();
-              value.date = new Timestamp(new Date().getTime()).toString();
-              value.items = $certifieds;
-              FirebaseDatabase.getInstance()
-                  .getReference("certified")
-                  .setValue(value);
-              Timber.d("certified date = " + value.date);
-              Timber.d("certified size = " + value.items.size());
-            },
-            throwable -> Timber.d(throwable));
-    compositeDisposable.add(disposable);
+        .subscribe(new SingleObserver<List<Certified>>() {
+          @Override public void onSubscribe(Disposable d) {
+            compositeDisposable.add(d);
+          }
+
+          @Override public void onSuccess(List<Certified> $certifieds) {
+            CertifiedData value = new CertifiedData();
+            value.date = DateTime.now().toString();
+            value.items = $certifieds;
+            FirebaseDatabase.getInstance()
+                .getReference("certified")
+                .setValue(value, (databaseError, databaseReference) -> {
+                  Timber.d("certified complete");
+                });
+          }
+
+          @Override public void onError(Throwable e) {
+
+          }
+        });
   }
 
   private Document getDoc(String url) throws Exception {
@@ -185,15 +191,13 @@ public class UpdateDatabase {
         .child("date").addListenerForSingleValueEvent(new ValueEventListener() {
       @Override public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         String date = dataSnapshot.getValue().toString();
-        DateTime fbDateTime =
-            DateTime.parse(date, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.yyy"));
-        int fbDay = fbDateTime.dayOfMonth().get();
-
+        DateTime fbDateTime = DateTime.parse(date);
         DateTime dateTime = new DateTime();
-        int dayOfMonth = dateTime.getDayOfMonth();
-        if (l != null && dayOfMonth > fbDay) {
+        if (l != null && dateTime.getMillis() > fbDateTime.getMillis()) {
           l.onUpdate();
         }
+        //Timber.d("fb date time = " + fbDateTime.getMillis());
+        //Timber.d("nw date time = " + dateTime.getMillis());
       }
 
       @Override public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -204,5 +208,10 @@ public class UpdateDatabase {
 
   private interface UpdateCheckListener {
     void onUpdate();
+  }
+  @Setter private CompleteListener completeListener;
+
+  public interface CompleteListener {
+    void onComplete();
   }
 }
