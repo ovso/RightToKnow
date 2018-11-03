@@ -88,7 +88,7 @@ public class VioRequest implements LifecycleObserver {
                   }
 
                   @Override public void onComplete() {
-                    Timber.d("reqViolation complete");
+                    Timber.d("complete reqViolation");
                     ViolationData violationData = new ViolationData();
                     violationData.date = DateTime.now().toString();
                     violationData.items = $violations;
@@ -159,7 +159,7 @@ public class VioRequest implements LifecycleObserver {
                   }
 
                   @Override public void onComplete() {
-                    Timber.d("reqViolator complete");
+                    Timber.d("complete reqViolator");
 
                     ViolatorData violatorData = new ViolatorData();
                     violatorData.date = DateTime.now().toString();
@@ -188,7 +188,7 @@ public class VioRequest implements LifecycleObserver {
           }
 
           @Override public void onSuccess(List<Certified> $certifieds) {
-            Timber.d("reqCertified complete");
+            Timber.d("complete reqCertified");
             CertifiedData certifiedData = new CertifiedData();
             certifiedData.date = DateTime.now().toString();
             certifiedData.items = $certifieds;
