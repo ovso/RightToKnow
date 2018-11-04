@@ -2,9 +2,13 @@ package io.github.ovso.righttoknow.ui.splash;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.support.annotation.NonNull;
 import com.androidhuman.rxfirebase2.database.RxFirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import io.github.ovso.righttoknow.data.network.VioRequest;
 import io.github.ovso.righttoknow.data.network.model.VioData;
 import io.github.ovso.righttoknow.data.network.model.certified.VioDataWrapper;
@@ -13,6 +17,7 @@ import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import org.joda.time.DateTime;
 import timber.log.Timber;
 
 public class SplashPresenterImpl implements SplashPresenter {
@@ -45,8 +50,26 @@ public class SplashPresenterImpl implements SplashPresenter {
 
   @Override public void onComplete(VioData $vioData) {
     vioDataWrapper.vioData = $vioData;
-    getRef().setValue(vioDataWrapper.vioData);
+    updateFirebase();
     view.navigateToMain();
+  }
+
+  private void updateFirebase() {
+    getRef().child("date").addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        String date = dataSnapshot.getValue().toString();
+        DateTime fibDate = DateTime.parse(date);
+        DateTime nowDate = DateTime.now();
+        if (fibDate.getDayOfMonth() == nowDate.getDayOfMonth()) {
+          getRef().setValue(vioDataWrapper.vioData,
+              ((databaseError, databaseReference) -> Timber.d("updateFirebase complete")));
+        }
+      }
+
+      @Override public void onCancelled(@NonNull DatabaseError databaseError) {
+        Timber.d("databaseError = " + databaseError);
+      }
+    });
   }
 
   @Override public void onError(String msg) {

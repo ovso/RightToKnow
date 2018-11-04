@@ -3,11 +3,11 @@ package io.github.ovso.righttoknow.framework.utils;
 import lombok.Getter;
 
 @Getter public enum TimeoutMillis {
-    JSOUP(10000);
+  JSOUP(1000 * 5);
 
-    private int value;
+  private int value;
 
-    TimeoutMillis(int value) {
-        this.value = value;
-    }
+  TimeoutMillis(int value) {
+    this.value = value;
+  }
 }

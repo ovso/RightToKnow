@@ -84,7 +84,6 @@ public class VioRequest implements LifecycleObserver {
 
                   @Override public void onError(Throwable e) {
                     Timber.d(e);
-                    error(e);
                   }
 
                   @Override public void onComplete() {
@@ -113,7 +112,6 @@ public class VioRequest implements LifecycleObserver {
         Timber.d("complete full data");
         onVioDataLoadCompleteListener.onComplete(vioData);
       }
-      //onVioDataLoadCompleteListener.onError("ㅋㅋㅋㅋㅋ");
     }
   }
 
@@ -155,7 +153,7 @@ public class VioRequest implements LifecycleObserver {
                   }
 
                   @Override public void onError(Throwable e) {
-                    error(e);
+                    Timber.d(e);
                   }
 
                   @Override public void onComplete() {
@@ -172,7 +170,6 @@ public class VioRequest implements LifecycleObserver {
           }
 
           @Override public void onError(Throwable e) {
-            Timber.d(e);
             error(e);
           }
         });

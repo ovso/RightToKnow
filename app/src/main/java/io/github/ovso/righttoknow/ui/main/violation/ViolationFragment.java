@@ -2,7 +2,6 @@ package io.github.ovso.righttoknow.ui.main.violation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,7 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
+import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.data.network.model.certified.VioDataWrapper;
 import io.github.ovso.righttoknow.data.network.model.violation.Violation;
 import io.github.ovso.righttoknow.framework.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
@@ -23,7 +24,6 @@ import io.github.ovso.righttoknow.ui.violation_contents.ViolationContentsActivit
 import io.github.ovso.righttoknow.utils.ResourceProvider;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import org.parceler.Parcels;
-import timber.log.Timber;
 
 public class ViolationFragment extends BaseFragment
     implements ViolationFragmentPresenter.View, OnFragmentEventListener {
@@ -48,8 +48,16 @@ public class ViolationFragment extends BaseFragment
   }
 
   private ViolationFragmentPresenter createPresenter() {
-    return new ViolationFragmentPresenterImpl(this, new SchedulersFacade(),
-        new ResourceProvider(getContext()));
+    ViolationFragmentPresenter.View view = this;
+    SchedulersFacade schedulersFacade = new SchedulersFacade();
+    ResourceProvider rProvider = new ResourceProvider(getContext());
+    VioDataWrapper vioDataWrapper = ((App) getActivity().getApplication()).getVioDataWrapper();
+    return new ViolationFragmentPresenterImpl(
+        view,
+        schedulersFacade,
+        rProvider,
+        vioDataWrapper.vioData
+    );
   }
 
   @Override public int getLayoutResId() {
@@ -88,11 +96,7 @@ public class ViolationFragment extends BaseFragment
   }
 
   @Override public void setListener() {
-    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-      @Override public void onRefresh() {
-        presenter.onRefresh();
-      }
-    });
+    swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
     setHasOptionsMenu(true);
   }
