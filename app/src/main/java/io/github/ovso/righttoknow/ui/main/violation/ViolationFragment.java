@@ -29,6 +29,8 @@ import org.parceler.Parcels;
 public class ViolationFragment extends BaseFragment
     implements ViolationFragmentPresenter.View, OnFragmentEventListener {
 
+  @BindView(R.id.search_result_textview) TextView searchResultTextView;
+  @BindView(R.id.container_view) View containerView;
   @BindView(R.id.recyclerview) RecyclerView recyclerView;
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
 
@@ -102,21 +104,12 @@ public class ViolationFragment extends BaseFragment
     setHasOptionsMenu(true);
   }
 
-  @BindView(R.id.search_result_textview) TextView searchResultTextView;
-
   @Override public void setSearchResultText(int resId) {
     searchResultTextView.setText(resId);
   }
 
   @Override public void showMessage(int resId) {
     Snackbar.make(containerView, resId, Snackbar.LENGTH_SHORT).show();
-  }
-
-  @BindView(R.id.container_view) View containerView;
-
-  @Override public void onDestroyView() {
-    presenter.onDestroyView();
-    super.onDestroyView();
   }
 
   @Override public void onSearchQuery(String query) {

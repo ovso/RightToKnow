@@ -14,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
+import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.data.network.model.certified.VioDataWrapper;
 import io.github.ovso.righttoknow.data.network.model.violators.Violator;
 import io.github.ovso.righttoknow.framework.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
@@ -57,11 +59,14 @@ public class ViolatorFragment extends BaseFragment
     adapterView = adapter;
     SchedulersFacade schedulersFacade = new SchedulersFacade();
     ResourceProvider resourceProvider = new ResourceProvider(getContext());
+    VioDataWrapper vioDataWrapper = ((App) getActivity().getApplication()).getVioDataWrapper();
     return new ViolatorFragmentPresenterImpl(
         this,
         schedulersFacade,
         resourceProvider,
-        adapterDataModel);
+        adapterDataModel,
+        vioDataWrapper.vioData
+    );
   }
 
   @Override public void hideLoading() {
@@ -76,11 +81,11 @@ public class ViolatorFragment extends BaseFragment
     adapterView.refresh();
   }
 
-  @Override public void setAdapter() {
+  @Override public void setupAdapter() {
     adapter.setOnRecyclerItemClickListener(violator -> presenter.onRecyclerItemClick(violator));
   }
 
-  @Override public void setRecyclerView() {
+  @Override public void setupRecyclerView() {
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(adapter);
@@ -93,11 +98,7 @@ public class ViolatorFragment extends BaseFragment
   }
 
   @Override public void setListener() {
-    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-      @Override public void onRefresh() {
-        presenter.onRefresh();
-      }
-    });
+    swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
     setHasOptionsMenu(true);
   }

@@ -30,9 +30,9 @@ public interface ViolatorFragmentPresenter {
 
     void refresh();
 
-    void setAdapter();
+    void setupAdapter();
 
-    void setRecyclerView();
+    void setupRecyclerView();
 
     void setListener();
 

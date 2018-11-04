@@ -1,12 +1,13 @@
 package io.github.ovso.righttoknow.ui.main.violation;
 
+import android.arch.lifecycle.LifecycleObserver;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.data.network.model.violation.Violation;
 
-public interface ViolationFragmentPresenter {
+public interface ViolationFragmentPresenter extends LifecycleObserver {
 
   void onActivityCreated(Bundle savedInstanceState);
 
@@ -17,8 +18,6 @@ public interface ViolationFragmentPresenter {
   void onSearchQuery(String query);
 
   void onOptionsItemSelected(@IdRes int itemId);
-
-  void onDestroyView();
 
   interface View {
 

@@ -1,5 +1,7 @@
 package io.github.ovso.righttoknow.ui.main.violation;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import io.github.ovso.righttoknow.data.Sido;
@@ -84,7 +86,8 @@ public class ViolationFragmentPresenterImpl implements ViolationFragmentPresente
     }
   }
 
-  @Override public void onDestroyView() {
+  @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+  private void clear() {
     compositeDisposable.clear();
   }
 }
