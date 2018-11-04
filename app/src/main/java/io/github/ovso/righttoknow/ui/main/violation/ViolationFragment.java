@@ -18,6 +18,7 @@ import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.data.network.model.certified.VioDataWrapper;
 import io.github.ovso.righttoknow.data.network.model.violation.Violation;
 import io.github.ovso.righttoknow.framework.BaseFragment;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.ui.violation_contents.ViolationContentsActivity;
@@ -52,11 +53,12 @@ public class ViolationFragment extends BaseFragment
     SchedulersFacade schedulersFacade = new SchedulersFacade();
     ResourceProvider rProvider = new ResourceProvider(getContext());
     VioDataWrapper vioDataWrapper = ((App) getActivity().getApplication()).getVioDataWrapper();
+    BaseAdapterDataModel<Violation> adapterDataModel = adapter;
     return new ViolationFragmentPresenterImpl(
         view,
         schedulersFacade,
         rProvider,
-        vioDataWrapper.vioData
+        vioDataWrapper.vioData, adapterDataModel
     );
   }
 
@@ -64,14 +66,13 @@ public class ViolationFragment extends BaseFragment
     return R.layout.fragment_violation;
   }
 
-  @Override public void setRecyclerView() {
+  @Override public void setupRecyclerView() {
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(adapter);
   }
 
-  @Override public void setAdapter() {
-    presenter.setAdapterModel(adapter);
+  @Override public void setupAdapter() {
     adapterView = adapter;
     adapter.setOnRecyclerItemClickListener(
         violationFacility -> presenter.onRecyclerItemClick(violationFacility));

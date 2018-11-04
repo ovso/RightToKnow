@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import io.github.ovso.righttoknow.data.network.model.violation.Violation;
-import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 
 public interface ViolationFragmentPresenter {
 
   void onActivityCreated(Bundle savedInstanceState);
-
-  void setAdapterModel(BaseAdapterDataModel<Violation> adapterDataModel);
 
   void onRecyclerItemClick(Violation violation);
 
@@ -25,9 +22,9 @@ public interface ViolationFragmentPresenter {
 
   interface View {
 
-    void setRecyclerView();
+    void setupRecyclerView();
 
-    void setAdapter();
+    void setupAdapter();
 
     void refresh();
 

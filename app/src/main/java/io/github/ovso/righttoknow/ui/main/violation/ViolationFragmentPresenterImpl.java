@@ -26,17 +26,18 @@ public class ViolationFragmentPresenterImpl implements ViolationFragmentPresente
 
   ViolationFragmentPresenterImpl(ViolationFragmentPresenter.View view,
       SchedulersFacade $schedulersFacade, ResourceProvider $resourceProvider,
-      VioData $vioData) {
+      VioData $vioData, BaseAdapterDataModel<Violation> $adapterDataModel) {
     this.view = view;
     schedulersFacade = $schedulersFacade;
     resourceProvider = $resourceProvider;
     vioData = $vioData;
+    adapterDataModel = $adapterDataModel;
   }
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     view.setListener();
-    view.setAdapter();
-    view.setRecyclerView();
+    view.setupAdapter();
+    view.setupRecyclerView();
     updateAdapter(vioData.violation.items);
   }
 
@@ -45,10 +46,6 @@ public class ViolationFragmentPresenterImpl implements ViolationFragmentPresente
     adapterDataModel.addAll($items);
     view.refresh();
     view.hideLoading();
-  }
-
-  @Override public void setAdapterModel(BaseAdapterDataModel<Violation> adapterDataModel) {
-    this.adapterDataModel = adapterDataModel;
   }
 
   @Override public void onRecyclerItemClick(Violation violation) {
