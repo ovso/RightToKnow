@@ -60,13 +60,15 @@ public class ViolatorFragment extends BaseFragment
     SchedulersFacade schedulersFacade = new SchedulersFacade();
     ResourceProvider resourceProvider = new ResourceProvider(getContext());
     VioDataWrapper vioDataWrapper = ((App) getActivity().getApplication()).getVioDataWrapper();
-    return new ViolatorFragmentPresenterImpl(
+    ViolatorFragmentPresenter p = new ViolatorFragmentPresenterImpl(
         this,
         schedulersFacade,
         resourceProvider,
         adapterDataModel,
         vioDataWrapper.vioData
     );
+    getLifecycle().addObserver(p);
+    return p;
   }
 
   @Override public void hideLoading() {
@@ -109,11 +111,6 @@ public class ViolatorFragment extends BaseFragment
 
   @Override public void showMessage(int resId) {
     Snackbar.make(containerView, resId, Snackbar.LENGTH_SHORT).show();
-  }
-
-  @Override public void onDestroyView() {
-    presenter.onDestroyView();
-    super.onDestroyView();
   }
 
   @Override public void onSearchQuery(String query) {

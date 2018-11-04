@@ -1,75 +1,51 @@
 package io.github.ovso.righttoknow.ui.main.certified;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
 import com.downloader.Error;
 import com.downloader.OnDownloadListener;
 import com.downloader.PRDownloader;
 import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.data.network.model.VioData;
+import io.github.ovso.righttoknow.data.network.model.certified.Certified;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
-import io.github.ovso.righttoknow.framework.utils.Constants;
-import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
-import io.github.ovso.righttoknow.ui.main.certified.model.ChildCertified;
-import io.reactivex.Maybe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.Callable;
-import org.jsoup.Jsoup;
 import timber.log.Timber;
 
 public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresenter {
 
   private CertifiedFragmentPresenter.View view;
-  private BaseAdapterDataModel<ChildCertified> adapterDataModel;
+  private BaseAdapterDataModel<Certified> adapterDataModel;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
-  private String connectUrl;
+  private VioData vioData;
 
-  CertifiedFragmentPresenterImpl(CertifiedFragmentPresenter.View view) {
+  CertifiedFragmentPresenterImpl(CertifiedFragmentPresenter.View view,
+      BaseAdapterDataModel<Certified> $adapterDataModel, VioData $vioData) {
     this.view = view;
-    connectUrl = Constants.BASE_URL + Constants.CERTIFIED_LIST_PATH_QUERY;
+    adapterDataModel = $adapterDataModel;
+    vioData = $vioData;
   }
 
   @Override public void onActivityCreate(Bundle savedInstanceState) {
     view.setListener();
-    view.setAdapter();
-    view.setRecyclerView();
-    req();
+    view.setupRecyclerView();
+    updateAdapter(vioData.certified.items);
   }
 
-  private void req() {
-    view.showLoading();
+  private void updateAdapter(List<Certified> $items) {
     adapterDataModel.clear();
+    adapterDataModel.addAll($items);
     view.refresh();
-    compositeDisposable.add(
-        Maybe.fromCallable(new Callable<List<ChildCertified>>() {
-          @Override public List<ChildCertified> call() throws Exception {
-            return ChildCertified.convertToItems(
-                Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
-          }
-        })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Consumer<List<ChildCertified>>() {
-              @Override public void accept(List<ChildCertified> items) throws Exception {
-                adapterDataModel.addAll(items);
-                view.refresh();
-                view.hideLoading();
-              }
-            }, new Consumer<Throwable>() {
-              @Override public void accept(Throwable throwable) throws Exception {
-                view.showMessage(R.string.error_server);
-                view.hideLoading();
-              }
-            }));
+    view.hideLoading();
   }
 
-  @Override public void onRecyclerItemClick(ChildCertified item) {
+  @Override public void onRecyclerItemClick(Certified item) {
     view.showLoading();
-    final String url = Constants.BASE_URL + item.getDownloadUrl();
+    final String url = item.download_url;
     final File dirPath = App.getInstance().getFilesDir();
     final String fileName = "child.pdf";
     File file = new File(dirPath.toString() + "/" + fileName);
@@ -93,19 +69,13 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
         });
   }
 
-  @Override public void setAdapterModel(BaseAdapterDataModel<ChildCertified> adapter) {
-    adapterDataModel = adapter;
-  }
-
-  @Override public void onDestroyView() {
-    compositeDisposable.dispose();
+  @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+  private void clear() {
     compositeDisposable.clear();
     PRDownloader.cancelAll();
   }
 
   @Override public void onRefresh() {
-    adapterDataModel.clear();
-    view.refresh();
-    req();
+    updateAdapter(vioData.certified.items);
   }
 }

@@ -60,7 +60,7 @@ public class SplashPresenterImpl implements SplashPresenter {
         String date = dataSnapshot.getValue().toString();
         DateTime fibDate = DateTime.parse(date);
         DateTime nowDate = DateTime.now();
-        if (fibDate.getDayOfMonth() == nowDate.getDayOfMonth()) {
+        if (fibDate.getDayOfMonth() != nowDate.getDayOfMonth()) {
           getRef().setValue(vioDataWrapper.vioData,
               ((databaseError, databaseReference) -> Timber.d("updateFirebase complete")));
         }

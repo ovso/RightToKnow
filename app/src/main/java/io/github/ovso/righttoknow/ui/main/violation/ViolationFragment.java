@@ -56,12 +56,14 @@ public class ViolationFragment extends BaseFragment
     ResourceProvider rProvider = new ResourceProvider(getContext());
     VioDataWrapper vioDataWrapper = ((App) getActivity().getApplication()).getVioDataWrapper();
     BaseAdapterDataModel<Violation> adapterDataModel = adapter;
-    return new ViolationFragmentPresenterImpl(
+    ViolationFragmentPresenter p = new ViolationFragmentPresenterImpl(
         view,
         schedulersFacade,
         rProvider,
         vioDataWrapper.vioData, adapterDataModel
     );
+    getLifecycle().addObserver(p);
+    return p;
   }
 
   @Override public int getLayoutResId() {

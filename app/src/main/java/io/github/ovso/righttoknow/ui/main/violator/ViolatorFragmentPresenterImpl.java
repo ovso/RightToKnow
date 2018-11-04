@@ -1,5 +1,7 @@
 package io.github.ovso.righttoknow.ui.main.violator;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import io.github.ovso.righttoknow.App;
@@ -50,21 +52,16 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     view.hideLoading();
   }
 
-  @Override public void setAdapterModel(ViolatorAdapterDataModel adapterDataModel) {
-    this.adapterDataModel = adapterDataModel;
-  }
-
   @Override public void onRecyclerItemClick(Violator violator) {
     view.navigateToViolatorDetail(violator);
   }
 
-  @Override public void onDestroyView() {
+  @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+  private void clear() {
     compositeDisposable.clear();
   }
 
   @Override public void onRefresh() {
-    adapterDataModel.clear();
-    view.refresh();
     updateAdapter(vioData.violator.items);
   }
 
