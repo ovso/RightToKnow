@@ -25,6 +25,7 @@ public class App extends DaggerApplication {
     AppInitUtils.prDownloader(getApplicationContext());
     AppInitUtils.joda(this);
     vioDataWrapper = new VioDataWrapper();
+    AppInitUtils.config();
   }
 
   @Override protected AndroidInjector<? extends DaggerApplication> applicationInjector() {

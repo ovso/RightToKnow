@@ -16,7 +16,7 @@ android {
     minSdkVersion 21
     targetSdkVersion 27
     //multiDexEnabled true
-    versionCode 82
+    versionCode 83
 
     int versionMajor = 0
     int versionMinor = 0
@@ -123,6 +123,7 @@ dependencies {
   implementation "com.jakewharton.timber:timber:$timber_version"
 
   // firebase
+  implementation "com.google.firebase:firebase-config:$firebase_config_version"
   implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
   implementation "com.google.firebase:firebase-core:$firebase_core_version"
   implementation "com.google.firebase:firebase-database:$firebase_database_version"
