@@ -6,10 +6,6 @@ import de.psdev.licensesdialog.model.Notices;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.App;
 
-/**
- * Created by jaeho on 2017. 8. 1
- */
-
 public class Constants {
   public final static String BASE_URL = "http://info.childcare.go.kr";
   public final static String FAC_LIST_PATH_QUERY = "/info/cfvp/VioltfcltySlL.jsp?limit=500";

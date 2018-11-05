@@ -1,24 +1,17 @@
 package io.github.ovso.righttoknow.ui.main.violator;
 
+import android.arch.lifecycle.LifecycleObserver;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
-import io.github.ovso.righttoknow.ui.main.violator.model.Violator;
+import io.github.ovso.righttoknow.data.network.model.violators.Violator;
 
-/**
- * Created by jaeho on 2017. 8. 3
- */
-
-public interface ViolatorFragmentPresenter {
+public interface ViolatorFragmentPresenter extends LifecycleObserver {
 
   void onActivityCreate(Bundle savedInstanceState);
 
-  void setAdapterModel(ViolatorAdapterDataModel adapterDataModel);
-
   void onRecyclerItemClick(Violator violator);
-
-  void onDestroyView();
 
   void onRefresh();
 
@@ -34,11 +27,9 @@ public interface ViolatorFragmentPresenter {
 
     void refresh();
 
-    void setAdapter();
+    void setupAdapter();
 
-    void setRecyclerView();
-
-    void navigateToViolatorDetail(String link, String address);
+    void setupRecyclerView();
 
     void setListener();
 
@@ -47,5 +38,7 @@ public interface ViolatorFragmentPresenter {
     void setSearchResultText(@StringRes int resId);
 
     void showMessage(@StringRes int resId);
+
+    void navigateToViolatorDetail(Violator violator);
   }
 }

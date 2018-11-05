@@ -13,9 +13,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import dagger.android.support.DaggerAppCompatActivity;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.ad.MyAdView;
+import timber.log.Timber;
 
 public abstract class BaseActivity extends DaggerAppCompatActivity {
 

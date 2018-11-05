@@ -14,13 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
+import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
+import io.github.ovso.righttoknow.data.network.model.certified.VioDataWrapper;
+import io.github.ovso.righttoknow.data.network.model.violators.Violator;
 import io.github.ovso.righttoknow.framework.BaseFragment;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
-import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity;
-import io.github.ovso.righttoknow.ui.main.violator.model.Violator;
+import io.github.ovso.righttoknow.ui.violator_contents.ViolatorContentsActivity;
+import io.github.ovso.righttoknow.utils.ResourceProvider;
+import io.github.ovso.righttoknow.utils.SchedulersFacade;
+import org.parceler.Parcels;
 
 public class ViolatorFragment extends BaseFragment
     implements ViolatorFragmentPresenter.View, OnFragmentEventListener {
@@ -45,8 +50,25 @@ public class ViolatorFragment extends BaseFragment
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     setHasOptionsMenu(true);
-    presenter = new ViolatorFragmentPresenterImpl(this);
+    presenter = createPresenter();
     presenter.onActivityCreate(savedInstanceState);
+  }
+
+  private ViolatorFragmentPresenter createPresenter() {
+    BaseAdapterDataModel<Violator> adapterDataModel = adapter;
+    adapterView = adapter;
+    SchedulersFacade schedulersFacade = new SchedulersFacade();
+    ResourceProvider resourceProvider = new ResourceProvider(getContext());
+    VioDataWrapper vioDataWrapper = ((App) getActivity().getApplication()).getVioDataWrapper();
+    ViolatorFragmentPresenter p = new ViolatorFragmentPresenterImpl(
+        this,
+        schedulersFacade,
+        resourceProvider,
+        adapterDataModel,
+        vioDataWrapper.vioData
+    );
+    getLifecycle().addObserver(p);
+    return p;
   }
 
   @Override public void hideLoading() {
@@ -61,31 +83,24 @@ public class ViolatorFragment extends BaseFragment
     adapterView.refresh();
   }
 
-  @Override public void setAdapter() {
-    presenter.setAdapterModel(adapter);
-    adapterView = adapter;
+  @Override public void setupAdapter() {
     adapter.setOnRecyclerItemClickListener(violator -> presenter.onRecyclerItemClick(violator));
   }
 
-  @Override public void setRecyclerView() {
+  @Override public void setupRecyclerView() {
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(adapter);
   }
 
-  @Override public void navigateToViolatorDetail(String link, String address) {
-    Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
-    intent.putExtra("violator_link", link);
-    intent.putExtra("address", address);
+  @Override public void navigateToViolatorDetail(Violator violator) {
+    Intent intent = new Intent(getContext(), ViolatorContentsActivity.class);
+    intent.putExtra("contents", Parcels.wrap(violator.contents));
     startActivity(intent);
   }
 
   @Override public void setListener() {
-    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-      @Override public void onRefresh() {
-        presenter.onRefresh();
-      }
-    });
+    swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
     setHasOptionsMenu(true);
   }
@@ -96,11 +111,6 @@ public class ViolatorFragment extends BaseFragment
 
   @Override public void showMessage(int resId) {
     Snackbar.make(containerView, resId, Snackbar.LENGTH_SHORT).show();
-  }
-
-  @Override public void onDestroyView() {
-    presenter.onDestroyView();
-    super.onDestroyView();
   }
 
   @Override public void onSearchQuery(String query) {

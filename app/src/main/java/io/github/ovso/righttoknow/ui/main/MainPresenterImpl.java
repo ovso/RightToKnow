@@ -1,7 +1,6 @@
 package io.github.ovso.righttoknow.ui.main;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -19,7 +18,6 @@ public class MainPresenterImpl implements MainPresenter {
   MainPresenterImpl(MainPresenter.View view, ResourceProvider $resourceProvider) {
     this.view = view;
     resourceProvider = $resourceProvider;
-    view.changeTheme();
   }
 
   @Override public void onNewIntent(Intent intent) {
@@ -116,32 +114,5 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
     return true;
-  }
-
-  private String getTitle(int position) {
-    Resources res = App.getInstance().getResources();
-    String title = res.getString(R.string.title_vioation_facility_inquiry);
-    switch (position) {
-      case Constants.ITEM_VIOLATION_FACILITY:
-        title = res.getString(R.string.title_vioation_facility_inquiry);
-        break;
-      case Constants.ITEM_VIOLATOR:
-        title = res.getString(R.string.title_violator_inquiry);
-        break;
-      case Constants.ITEM_CERTIFIED:
-        title =
-            res.getString(R.string.title_certified) + " " + res.getString(R.string.day_care_center);
-        break;
-      case Constants.ITEM_NEWS:
-        title = res.getString(R.string.title_news);
-        break;
-      case Constants.ITEM_VIDEO:
-        title = res.getString(R.string.title_video);
-        break;
-      default:
-
-        break;
-    }
-    return title;
   }
 }

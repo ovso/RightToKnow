@@ -1,112 +1,90 @@
 package io.github.ovso.righttoknow.ui.main.violator;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.App;
-import io.github.ovso.righttoknow.framework.utils.Constants;
-import io.github.ovso.righttoknow.framework.utils.TimeoutMillis;
-import io.github.ovso.righttoknow.ui.main.violationfacility.Sido;
-import io.github.ovso.righttoknow.ui.main.violator.model.Violator;
+import io.github.ovso.righttoknow.data.Sido;
+import io.github.ovso.righttoknow.data.network.model.VioData;
+import io.github.ovso.righttoknow.data.network.model.violators.Violator;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
+import io.github.ovso.righttoknow.utils.ResourceProvider;
+import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.disposables.Disposable;
 import java.util.List;
-import java.util.concurrent.Callable;
-import org.jsoup.Jsoup;
 import timber.log.Timber;
 
-/**
- * Created by jaeho on 2017. 8. 3
- */
-
 public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter {
-  private ViolatorFragmentPresenter.View view;
-  private ViolatorAdapterDataModel adapterDataModel;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
-  private String connectUrl;
+  private ViolatorFragmentPresenter.View view;
+  private BaseAdapterDataModel<Violator> adapterDataModel;
+  private SchedulersFacade schedulersFacade;
+  private ResourceProvider resourceProvider;
+  private VioData vioData;
 
-  ViolatorFragmentPresenterImpl(ViolatorFragmentPresenter.View view) {
-    this.view = view;
-    connectUrl = Constants.BASE_URL + Constants.VIOLATOR_LIST_PATH_QUERY;
+  ViolatorFragmentPresenterImpl(ViolatorFragmentPresenter.View $view,
+      SchedulersFacade $schedulersFacade, ResourceProvider $resourceProvider,
+      BaseAdapterDataModel<Violator> $adapterDataModel,
+      VioData $vioData) {
+    view = $view;
+    schedulersFacade = $schedulersFacade;
+    resourceProvider = $resourceProvider;
+    adapterDataModel = $adapterDataModel;
+    vioData = $vioData;
   }
 
   @Override public void onActivityCreate(Bundle savedInstanceState) {
     view.showLoading();
     view.setListener();
-    view.setAdapter();
-    view.setRecyclerView();
-    req();
+    view.setupAdapter();
+    view.setupRecyclerView();
+    updateAdapter(vioData.violator.items);
   }
 
-  private void req() {
-    compositeDisposable.add(Observable.fromCallable(new Callable<List<Violator>>() {
-      @Override public List<Violator> call() throws Exception {
-        return Violator.convertToItems(
-            Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
-      }
-    })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Consumer<List<Violator>>() {
-          @Override public void accept(List<Violator> items) throws Exception {
-            adapterDataModel.addAll(items);
-            view.refresh();
-            view.hideLoading();
-          }
-        }, new Consumer<Throwable>() {
-          @Override public void accept(Throwable throwable) throws Exception {
-            Timber.d(throwable);
-            view.showMessage(R.string.error_server);
-            view.hideLoading();
-          }
-        }));
-  }
-
-  @Override public void setAdapterModel(ViolatorAdapterDataModel adapterDataModel) {
-    this.adapterDataModel = adapterDataModel;
+  private void updateAdapter(List<Violator> $items) {
+    adapterDataModel.clear();
+    adapterDataModel.addAll($items);
+    view.refresh();
+    view.hideLoading();
   }
 
   @Override public void onRecyclerItemClick(Violator violator) {
-    view.navigateToViolatorDetail(violator.getLink(), violator.getAddress());
+    view.navigateToViolatorDetail(violator);
   }
 
-  @Override public void onDestroyView() {
+  @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+  private void clear() {
     compositeDisposable.clear();
   }
 
   @Override public void onRefresh() {
-    adapterDataModel.clear();
-    view.refresh();
-    view.setSearchResultText(R.string.empty);
-    req();
+    updateAdapter(vioData.violator.items);
   }
 
   @Override public void onSearchQuery(final String query) {
-    view.showLoading();
-    adapterDataModel.clear();
-    view.refresh();
-    compositeDisposable.add(Observable.fromCallable(new Callable<List<Violator>>() {
-      @Override public List<Violator> call() throws Exception {
-        List<Violator> items = Violator.convertToItems(
-            Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
-        return Violator.searchResultItems(query, items);
-      }
-    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-        new Consumer<List<Violator>>() {
-          @Override public void accept(List<Violator> items) throws Exception {
-            adapterDataModel.addAll(items);
-            view.refresh();
-            view.hideLoading();
-          }
-        }, new Consumer<Throwable>() {
-      @Override public void accept(Throwable throwable) throws Exception {
-        Timber.d(throwable);
-        view.hideLoading();
-      }
-    }));
+    Observable.fromIterable(vioData.violator.items)
+        .filter(item -> item.sido.contains(query))
+        .toList()
+        .subscribeOn(schedulersFacade.io())
+        .observeOn(schedulersFacade.ui())
+        .subscribe(
+            new SingleObserver<List<Violator>>() {
+              @Override public void onSubscribe(Disposable d) {
+                compositeDisposable.add(d);
+              }
+
+              @Override public void onSuccess(List<Violator> violators) {
+                updateAdapter(violators);
+              }
+
+              @Override public void onError(Throwable e) {
+                Timber.d(e);
+              }
+            });
   }
 
   @Override public void onOptionsItemSelected(int itemId) {
