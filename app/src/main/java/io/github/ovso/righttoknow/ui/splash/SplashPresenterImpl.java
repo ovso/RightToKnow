@@ -25,7 +25,6 @@ public class SplashPresenterImpl implements SplashPresenter {
   private SplashPresenter.View view;
   private ResourceProvider rProvider;
   private VioRequest vioRequest;
-  private boolean isError;
   private SchedulersFacade schedulers;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private VioDataWrapper vioDataWrapper;
@@ -36,7 +35,6 @@ public class SplashPresenterImpl implements SplashPresenter {
     rProvider = $rp;
     vioRequest = $vioReq;
     schedulers = $schedulers;
-    isError = false;
     vioDataWrapper = $viodatawrapper;
   }
 
@@ -73,27 +71,23 @@ public class SplashPresenterImpl implements SplashPresenter {
   }
 
   @Override public void onError(String msg) {
-    if (!isError) {
-      isError = true;
-      RxFirebaseDatabase.data(getRef())
-          .subscribeOn(schedulers.io())
-          .map(dataSnapshot -> dataSnapshot.getValue(VioData.class))
-          .subscribe(new SingleObserver<VioData>() {
-            @Override public void onSubscribe(Disposable d) {
-              compositeDisposable.add(d);
-            }
+    RxFirebaseDatabase.data(getRef())
+        .subscribeOn(schedulers.io())
+        .map(dataSnapshot -> dataSnapshot.getValue(VioData.class))
+        .subscribe(new SingleObserver<VioData>() {
+          @Override public void onSubscribe(Disposable d) {
+            compositeDisposable.add(d);
+          }
 
-            @Override public void onSuccess(VioData vioData) {
-              vioDataWrapper.vioData = vioData;
-              view.navigateToMain();
-              isError = false;
-            }
+          @Override public void onSuccess(VioData vioData) {
+            vioDataWrapper.vioData = vioData;
+            view.navigateToMain();
+          }
 
-            @Override public void onError(Throwable e) {
-              Timber.d(e);
-            }
-          });
-    }
+          @Override public void onError(Throwable e) {
+            Timber.d(e);
+          }
+        });
   }
 
   private DatabaseReference getRef() {
