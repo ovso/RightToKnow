@@ -23,6 +23,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.joda.time.DateTime;
@@ -42,6 +43,7 @@ public class VioRequest implements LifecycleObserver {
 
   private OnVioDataLoadCompleteListener onVioDataLoadCompleteListener;
   private VioData vioData;
+  private AtomicInteger progressAtomicInteger = new AtomicInteger(0);
 
   private VioRequest(Builder builder) {
     onVioDataLoadCompleteListener = builder.listener;
@@ -110,6 +112,8 @@ public class VioRequest implements LifecycleObserver {
   }
 
   private void completeLoad() {
+    progressAtomicInteger.incrementAndGet();
+    onVioDataLoadCompleteListener.onCompleteCount(progressAtomicInteger.get());
     if (onVioDataLoadCompleteListener != null) {
       if (vioData.violation != null && vioData.violator != null && vioData.certified != null) {
         Timber.d("complete full data");
@@ -229,6 +233,8 @@ public class VioRequest implements LifecycleObserver {
     void onComplete(VioData vioData);
 
     void onError(String msg);
+
+    void onCompleteCount(int count);
   }
 
   public static class Builder implements IBuilder<VioRequest> {
