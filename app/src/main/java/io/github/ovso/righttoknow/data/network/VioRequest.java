@@ -23,6 +23,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.joda.time.DateTime;
@@ -42,6 +43,7 @@ public class VioRequest implements LifecycleObserver {
 
   private OnVioDataLoadCompleteListener onVioDataLoadCompleteListener;
   private VioData vioData;
+  private AtomicInteger progressAtomicInteger = new AtomicInteger(0);
 
   private VioRequest(Builder builder) {
     onVioDataLoadCompleteListener = builder.listener;
@@ -56,7 +58,7 @@ public class VioRequest implements LifecycleObserver {
 
   private void reqViolation(String url) {
     Timber.d("start reqViolation");
-    Single.fromCallable(() -> Violation.toObjects(getDoc(url)))
+    Single.fromCallable(() -> Violation.toObjects(getDocViolation(url)))
         .subscribeOn(schedulersFacade.io())
         .subscribe(new SingleObserver<List<Violation>>() {
           @Override public void onSubscribe(Disposable d) {
@@ -64,49 +66,54 @@ public class VioRequest implements LifecycleObserver {
           }
 
           @Override public void onSuccess(List<Violation> $violations) {
-            List<Observable<ViolationContents>> observables = new ArrayList<>();
-            for (Violation violation : $violations) {
-              Observable<ViolationContents> contentsObservable =
-                  Observable.fromCallable(
-                      () -> ViolationContents.toObject(getDoc(violation.link)))
-                      .map(contents -> violation.contents = contents);
-              observables.add(contentsObservable);
+            if (!$violations.isEmpty()) {
+              List<Observable<ViolationContents>> observables = new ArrayList<>();
+              for (Violation violation : $violations) {
+                Observable<ViolationContents> contentsObservable =
+                    Observable.fromCallable(
+                        () -> ViolationContents.toObject(getDocViolation(violation.link)))
+                        .map(contents -> violation.contents = contents);
+                observables.add(contentsObservable);
+              }
+              Observable.concat(observables)
+                  .subscribe(new Observer<ViolationContents>() {
+                    @Override public void onSubscribe(Disposable d) {
+                      compositeDisposable.add(d);
+                    }
+
+                    @Override public void onNext(ViolationContents contents) {
+
+                    }
+
+                    @Override public void onError(Throwable e) {
+                      error(e);
+                    }
+
+                    @Override public void onComplete() {
+                      Timber.d("complete reqViolation");
+                      ViolationData violationData = new ViolationData();
+                      violationData.date = DateTime.now().toString();
+                      violationData.items = $violations;
+                      vioData.violation = violationData;
+                      vioData.date = DateTime.now().toString();
+
+                      completeLoad();
+                    }
+                  });
+            } else {
+              error(new RuntimeException("Empty $certifieds"));
             }
-            Observable.concat(observables)
-                .subscribe(new Observer<ViolationContents>() {
-                  @Override public void onSubscribe(Disposable d) {
-                    compositeDisposable.add(d);
-                  }
-
-                  @Override public void onNext(ViolationContents contents) {
-
-                  }
-
-                  @Override public void onError(Throwable e) {
-                    Timber.d(e);
-                  }
-
-                  @Override public void onComplete() {
-                    Timber.d("complete reqViolation");
-                    ViolationData violationData = new ViolationData();
-                    violationData.date = DateTime.now().toString();
-                    violationData.items = $violations;
-                    vioData.violation = violationData;
-                    vioData.date = DateTime.now().toString();
-
-                    completeLoad();
-                  }
-                });
           }
 
           @Override public void onError(Throwable e) {
-            Timber.d(e);
             error(e);
           }
         });
   }
 
   private void completeLoad() {
+    progressAtomicInteger.incrementAndGet();
+    onVioDataLoadCompleteListener.onCompleteCount(progressAtomicInteger.get());
     if (onVioDataLoadCompleteListener != null) {
       if (vioData.violation != null && vioData.violator != null && vioData.certified != null) {
         Timber.d("complete full data");
@@ -115,16 +122,19 @@ public class VioRequest implements LifecycleObserver {
     }
   }
 
-  private void error(Throwable t) {
+  private synchronized void error(Throwable t) {
+    Timber.d(t);
+    compositeDisposable.clear();
     if (onVioDataLoadCompleteListener != null) {
       String msg = t.getMessage();
       onVioDataLoadCompleteListener.onError(msg);
+      onVioDataLoadCompleteListener = null;
     }
   }
 
   private void reqViolators(String url) {
     Timber.d("start reqViolator");
-    Single.fromCallable(() -> Violator.toObjects(getDoc(url)))
+    Single.fromCallable(() -> Violator.toObjects(getDocViolators(url)))
         .subscribeOn(schedulersFacade.io())
         .subscribe(new SingleObserver<List<Violator>>() {
           @Override public void onSubscribe(Disposable d) {
@@ -132,41 +142,45 @@ public class VioRequest implements LifecycleObserver {
           }
 
           @Override public void onSuccess(List<Violator> $violators) {
-            List<Observable<ViolatorContents>> observables = new ArrayList<>();
-            for (Violator violator : $violators) {
+            if (!$violators.isEmpty()) {
+              List<Observable<ViolatorContents>> observables = new ArrayList<>();
+              for (Violator violator : $violators) {
 
-              Observable<ViolatorContents> contentsObservable =
-                  Observable.fromCallable(
-                      () -> ViolatorContents.toObject(getDoc(violator.link)))
-                      .map(contents -> violator.contents = contents);
+                Observable<ViolatorContents> contentsObservable =
+                    Observable.fromCallable(
+                        () -> ViolatorContents.toObject(getDocViolators(violator.link)))
+                        .map(contents -> violator.contents = contents);
 
-              observables.add(contentsObservable);
+                observables.add(contentsObservable);
+              }
+              Observable.concat(observables)
+                  .subscribe(new Observer<ViolatorContents>() {
+                    @Override public void onSubscribe(Disposable d) {
+                      compositeDisposable.add(d);
+                    }
+
+                    @Override public void onNext(ViolatorContents violatorContents) {
+
+                    }
+
+                    @Override public void onError(Throwable e) {
+                      error(e);
+                    }
+
+                    @Override public void onComplete() {
+                      Timber.d("complete reqViolator");
+
+                      ViolatorData violatorData = new ViolatorData();
+                      violatorData.date = DateTime.now().toString();
+                      violatorData.items = $violators;
+                      vioData.violator = violatorData;
+
+                      completeLoad();
+                    }
+                  });
+            } else {
+              error(new RuntimeException("Empty violators"));
             }
-            Observable.concat(observables)
-                .subscribe(new Observer<ViolatorContents>() {
-                  @Override public void onSubscribe(Disposable d) {
-                    compositeDisposable.add(d);
-                  }
-
-                  @Override public void onNext(ViolatorContents violatorContents) {
-
-                  }
-
-                  @Override public void onError(Throwable e) {
-                    Timber.d(e);
-                  }
-
-                  @Override public void onComplete() {
-                    Timber.d("complete reqViolator");
-
-                    ViolatorData violatorData = new ViolatorData();
-                    violatorData.date = DateTime.now().toString();
-                    violatorData.items = $violators;
-                    vioData.violator = violatorData;
-
-                    completeLoad();
-                  }
-                });
           }
 
           @Override public void onError(Throwable e) {
@@ -177,7 +191,7 @@ public class VioRequest implements LifecycleObserver {
 
   private void reqCertified(String url) {
     Timber.d("start reqCertified");
-    Single.fromCallable(() -> Certified.toObjects(getDoc(url)))
+    Single.fromCallable(() -> Certified.toObjects(getDocCertified(url)))
         .subscribeOn(schedulersFacade.io())
         .subscribe(new SingleObserver<List<Certified>>() {
           @Override public void onSubscribe(Disposable d) {
@@ -185,12 +199,16 @@ public class VioRequest implements LifecycleObserver {
           }
 
           @Override public void onSuccess(List<Certified> $certifieds) {
-            Timber.d("complete reqCertified");
-            CertifiedData certifiedData = new CertifiedData();
-            certifiedData.date = DateTime.now().toString();
-            certifiedData.items = $certifieds;
-            vioData.certified = certifiedData;
-            completeLoad();
+            if (!$certifieds.isEmpty()) {
+              Timber.d("complete reqCertified");
+              CertifiedData certifiedData = new CertifiedData();
+              certifiedData.date = DateTime.now().toString();
+              certifiedData.items = $certifieds;
+              vioData.certified = certifiedData;
+              completeLoad();
+            } else {
+              error(new RuntimeException("Empty $certifieds"));
+            }
           }
 
           @Override public void onError(Throwable e) {
@@ -199,7 +217,15 @@ public class VioRequest implements LifecycleObserver {
         });
   }
 
-  private Document getDoc(String url) throws Exception {
+  private synchronized Document getDocViolation(String url) throws Exception {
+    return Jsoup.connect(url).timeout(TimeoutMillis.JSOUP.getValue()).get();
+  }
+
+  private synchronized Document getDocViolators(String url) throws Exception {
+    return Jsoup.connect(url).timeout(TimeoutMillis.JSOUP.getValue()).get();
+  }
+
+  private synchronized Document getDocCertified(String url) throws Exception {
     return Jsoup.connect(url).timeout(TimeoutMillis.JSOUP.getValue()).get();
   }
 
@@ -207,6 +233,8 @@ public class VioRequest implements LifecycleObserver {
     void onComplete(VioData vioData);
 
     void onError(String msg);
+
+    void onCompleteCount(int count);
   }
 
   public static class Builder implements IBuilder<VioRequest> {

@@ -34,4 +34,15 @@
       app:layout_constraintHorizontal_bias="0.485"
       app:layout_constraintStart_toStartOf="parent"
       />
+  <android.support.v4.widget.ContentLoadingProgressBar
+      android:id="@+id/progress_bar"
+      android:layout_width="match_parent"
+      android:layout_height="5dp"
+      android:progress="0"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      style="@style/ProgressBarHorizontal"
+      />
+
 </android.support.constraint.ConstraintLayout>

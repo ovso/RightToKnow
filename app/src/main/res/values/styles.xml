@@ -66,4 +66,10 @@
     <item name="android:hint">@string/search_hint</item>
   </style>
 
+  <style name="ProgressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">
+    <item name="android:minHeight">40dip</item>
+    <item name="android:maxHeight">40dip</item>
+    <item name="android:progressDrawable">@drawable/progress_horizontal_web</item>
+  </style>
+
 </resources>
