@@ -13,6 +13,7 @@ import io.github.ovso.righttoknow.data.network.VioRequest;
 import io.github.ovso.righttoknow.data.network.model.VioData;
 import io.github.ovso.righttoknow.data.network.model.certified.VioDataWrapper;
 import io.github.ovso.righttoknow.ui.splash.vo.SplashArguments;
+import io.github.ovso.righttoknow.utils.DateUtils;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
@@ -36,11 +37,31 @@ public class SplashPresenterImpl implements SplashPresenter {
   }
 
   @Override public void onCreate() {
-    if (vioDataWrapper.vioData != null) {
-      onError(null);
-    } else {
-      vioRequest.execute();
-    }
+    handleReq();
+  }
+
+  private void handleReq() {
+    getRef().child("date").addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        String date = dataSnapshot.getValue().toString();
+        DateTime fibDate = DateTime.parse(date);
+        DateTime nowDate = DateTime.now();
+        long diffOfDate = DateUtils.diffOfDate(fibDate, nowDate);
+        if (diffOfDate > 2) {
+          if (vioDataWrapper.vioData != null) {
+            reqFirebaseDate();
+          } else {
+            vioRequest.execute();
+          }
+        } else {
+          reqFirebaseDate();
+        }
+      }
+
+      @Override public void onCancelled(@NonNull DatabaseError databaseError) {
+        Timber.d("databaseError = " + databaseError);
+      }
+    });
   }
 
   @Override public void onComplete(VioData $vioData) {
@@ -55,6 +76,8 @@ public class SplashPresenterImpl implements SplashPresenter {
         String date = dataSnapshot.getValue().toString();
         DateTime fibDate = DateTime.parse(date);
         DateTime nowDate = DateTime.now();
+        Timber.d("fibdate = " + fibDate.getDayOfMonth());
+        Timber.d("nowdate = " + nowDate.getDayOfMonth());
         if (fibDate.getDayOfMonth() != nowDate.getDayOfMonth()) {
           getRef().setValue(vioDataWrapper.vioData,
               ((databaseError, databaseReference) -> Timber.d("updateFirebase complete")));
@@ -68,6 +91,10 @@ public class SplashPresenterImpl implements SplashPresenter {
   }
 
   @Override public void onError(String msg) {
+    reqFirebaseDate();
+  }
+
+  private void reqFirebaseDate() {
     RxFirebaseDatabase.data(getRef())
         .subscribeOn(schedulers.io())
         .map(dataSnapshot -> dataSnapshot.getValue(VioData.class))
