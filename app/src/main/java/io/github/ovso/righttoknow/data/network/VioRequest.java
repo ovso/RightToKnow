@@ -50,13 +50,13 @@ public class VioRequest implements LifecycleObserver {
     vioData = builder.vioData;
   }
 
-  public void execute() {
+  public void execute() throws Exception {
     reqCertified(URL_CERTIFIED);
     reqViolators(URL_VIOLATORS);
     reqViolation(URL_VIOLATION);
   }
 
-  private void reqViolation(String url) {
+  private void reqViolation(String url) throws Exception {
     Timber.d("start reqViolation");
     Single.fromCallable(() -> Violation.toObjects(getDocViolation(url)))
         .subscribeOn(schedulersFacade.io())
@@ -132,7 +132,7 @@ public class VioRequest implements LifecycleObserver {
     }
   }
 
-  private void reqViolators(String url) {
+  private void reqViolators(String url) throws Exception {
     Timber.d("start reqViolator");
     Single.fromCallable(() -> Violator.toObjects(getDocViolators(url)))
         .subscribeOn(schedulersFacade.io())
@@ -189,7 +189,7 @@ public class VioRequest implements LifecycleObserver {
         });
   }
 
-  private void reqCertified(String url) {
+  private void reqCertified(String url) throws Exception {
     Timber.d("start reqCertified");
     Single.fromCallable(() -> Certified.toObjects(getDocCertified(url)))
         .subscribeOn(schedulersFacade.io())

@@ -51,7 +51,11 @@ public class SplashPresenterImpl implements SplashPresenter {
           if (vioDataWrapper.vioData != null) {
             reqFirebaseDate();
           } else {
-            vioRequest.execute();
+            try {
+              vioRequest.execute();
+            } catch (Exception e) {
+              onError(e.getMessage());
+            }
           }
         } else {
           reqFirebaseDate();
