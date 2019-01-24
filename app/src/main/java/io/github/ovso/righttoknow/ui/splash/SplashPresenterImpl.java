@@ -12,7 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import io.github.ovso.righttoknow.data.network.VioRequest;
 import io.github.ovso.righttoknow.data.network.model.VioData;
 import io.github.ovso.righttoknow.data.network.model.certified.VioDataWrapper;
-import io.github.ovso.righttoknow.utils.ResourceProvider;
+import io.github.ovso.righttoknow.ui.splash.vo.SplashArguments;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
@@ -23,19 +23,16 @@ import timber.log.Timber;
 public class SplashPresenterImpl implements SplashPresenter {
 
   private SplashPresenter.View view;
-  private ResourceProvider rProvider;
   private VioRequest vioRequest;
   private SchedulersFacade schedulers;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private VioDataWrapper vioDataWrapper;
 
-  SplashPresenterImpl(SplashPresenter.View $view, ResourceProvider $rp, VioRequest $vioReq,
-      SchedulersFacade $schedulers, VioDataWrapper $viodatawrapper) {
-    view = $view;
-    rProvider = $rp;
-    vioRequest = $vioReq;
-    schedulers = $schedulers;
-    vioDataWrapper = $viodatawrapper;
+  SplashPresenterImpl(SplashArguments args) {
+    view = args.getView();
+    vioRequest = args.getVioRequest();
+    schedulers = args.getSchedulers();
+    vioDataWrapper = args.getVioDataWrapper();
   }
 
   @Override public void onCreate() {

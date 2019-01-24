@@ -13,6 +13,7 @@ import io.github.ovso.righttoknow.data.network.VioRequest;
 import io.github.ovso.righttoknow.data.network.model.VioData;
 import io.github.ovso.righttoknow.data.network.model.certified.VioDataWrapper;
 import io.github.ovso.righttoknow.ui.main.MainActivity;
+import io.github.ovso.righttoknow.ui.splash.vo.SplashArguments;
 import io.github.ovso.righttoknow.utils.ResourceProvider;
 import io.github.ovso.righttoknow.utils.SchedulersFacade;
 
@@ -32,24 +33,29 @@ public class SplashActivity extends AppCompatActivity
   }
 
   private void setupProgressBar() {
-    progressBar.setMax(3);;
+    progressBar.setMax(3);
+    ;
   }
 
   private SplashPresenter createPresenter() {
+    SplashPresenter presenter = new SplashPresenterImpl(provideSplashArguments());
+    getLifecycle().addObserver(presenter);
+    return presenter;
+  }
+
+  private SplashArguments provideSplashArguments() {
     SplashPresenter.View view = this;
     ResourceProvider rp = new ResourceProvider(this);
     VioRequest vioRequest = new VioRequest.Builder().setListener(this).build();
     getLifecycle().addObserver(vioRequest);
     SchedulersFacade schedulers = new SchedulersFacade();
     VioDataWrapper vioDataWrapper = ((App) getApplication()).getVioDataWrapper();
-    SplashPresenter presenter = new SplashPresenterImpl(
-        view,
-        rp,
-        vioRequest,
-        schedulers,
-        vioDataWrapper);
-    getLifecycle().addObserver(presenter);
-    return presenter;
+    return new SplashArguments.Builder().setView(view)
+        .setResourceProvider(rp)
+        .setSchedulers(schedulers)
+        .setVioDataWrapper(vioDataWrapper)
+        .setVioRequest(vioRequest)
+        .build();
   }
 
   @Override
