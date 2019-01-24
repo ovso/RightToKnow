@@ -47,7 +47,7 @@ public class SplashPresenterImpl implements SplashPresenter {
         DateTime fibDate = DateTime.parse(date);
         DateTime nowDate = DateTime.now();
         long diffOfDate = DateUtils.diffOfDate(fibDate, nowDate);
-        if (diffOfDate > 2) {
+        if (diffOfDate > 5) {
           if (vioDataWrapper.vioData != null) {
             reqFirebaseDate();
           } else {
