@@ -10,11 +10,11 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 
 android {
-  compileSdkVersion 27
+  compileSdkVersion 28
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 21
-    targetSdkVersion 27
+    targetSdkVersion 28
     //multiDexEnabled true
     versionCode 87
 
