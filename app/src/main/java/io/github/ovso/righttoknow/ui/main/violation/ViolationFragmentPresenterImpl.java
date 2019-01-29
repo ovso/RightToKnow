@@ -4,6 +4,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.data.Sido;
 import io.github.ovso.righttoknow.data.network.model.VioData;
 import io.github.ovso.righttoknow.data.network.model.violation.Violation;
@@ -40,7 +41,12 @@ public class ViolationFragmentPresenterImpl implements ViolationFragmentPresente
     view.setListener();
     view.setupAdapter();
     view.setupRecyclerView();
-    updateAdapter(vioData.violation.items);
+    try {
+      updateAdapter(vioData.violation.items);
+    } catch (Exception e) {
+      Timber.e(e);
+      view.showMessage(R.string.error_server);
+    }
   }
 
   private void updateAdapter(List<Violation> $items) {
@@ -55,7 +61,13 @@ public class ViolationFragmentPresenterImpl implements ViolationFragmentPresente
   }
 
   @Override public void onRefresh() {
-    updateAdapter(vioData.violation.items);
+    try {
+      updateAdapter(vioData.violation.items);
+    } catch (Exception e) {
+      e.printStackTrace();
+      view.showMessage(R.string.error_server);
+    }
+
   }
 
   @Override public void onSearchQuery(final String query) {

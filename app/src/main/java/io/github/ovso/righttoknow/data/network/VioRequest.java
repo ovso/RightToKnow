@@ -21,6 +21,7 @@ import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -50,13 +51,13 @@ public class VioRequest implements LifecycleObserver {
     vioData = builder.vioData;
   }
 
-  public void execute() {
+  public void execute() throws Exception {
     reqCertified(URL_CERTIFIED);
     reqViolators(URL_VIOLATORS);
     reqViolation(URL_VIOLATION);
   }
 
-  private void reqViolation(String url) {
+  private void reqViolation(String url) throws IOException {
     Timber.d("start reqViolation");
     Single.fromCallable(() -> Violation.toObjects(getDocViolation(url)))
         .subscribeOn(schedulersFacade.io())
@@ -101,7 +102,7 @@ public class VioRequest implements LifecycleObserver {
                     }
                   });
             } else {
-              error(new RuntimeException("Empty $certifieds"));
+              error(null);
             }
           }
 
@@ -132,7 +133,7 @@ public class VioRequest implements LifecycleObserver {
     }
   }
 
-  private void reqViolators(String url) {
+  private void reqViolators(String url) throws IOException {
     Timber.d("start reqViolator");
     Single.fromCallable(() -> Violator.toObjects(getDocViolators(url)))
         .subscribeOn(schedulersFacade.io())
@@ -179,7 +180,7 @@ public class VioRequest implements LifecycleObserver {
                     }
                   });
             } else {
-              error(new RuntimeException("Empty violators"));
+              error(null);
             }
           }
 
@@ -189,7 +190,7 @@ public class VioRequest implements LifecycleObserver {
         });
   }
 
-  private void reqCertified(String url) {
+  private void reqCertified(String url) throws IOException {
     Timber.d("start reqCertified");
     Single.fromCallable(() -> Certified.toObjects(getDocCertified(url)))
         .subscribeOn(schedulersFacade.io())
@@ -207,7 +208,7 @@ public class VioRequest implements LifecycleObserver {
               vioData.certified = certifiedData;
               completeLoad();
             } else {
-              error(new RuntimeException("Empty $certifieds"));
+              error(null);
             }
           }
 
@@ -217,15 +218,15 @@ public class VioRequest implements LifecycleObserver {
         });
   }
 
-  private synchronized Document getDocViolation(String url) throws Exception {
+  private Document getDocViolation(String url) throws IOException {
     return Jsoup.connect(url).timeout(TimeoutMillis.JSOUP.getValue()).get();
   }
 
-  private synchronized Document getDocViolators(String url) throws Exception {
+  private Document getDocViolators(String url) throws IOException {
     return Jsoup.connect(url).timeout(TimeoutMillis.JSOUP.getValue()).get();
   }
 
-  private synchronized Document getDocCertified(String url) throws Exception {
+  private Document getDocCertified(String url) throws IOException {
     return Jsoup.connect(url).timeout(TimeoutMillis.JSOUP.getValue()).get();
   }
 
