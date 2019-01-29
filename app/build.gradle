@@ -16,7 +16,7 @@ android {
     minSdkVersion 21
     targetSdkVersion 28
     //multiDexEnabled true
-    versionCode 87
+    versionCode 88
 
     int versionMajor = 0
     int versionMinor = 0
