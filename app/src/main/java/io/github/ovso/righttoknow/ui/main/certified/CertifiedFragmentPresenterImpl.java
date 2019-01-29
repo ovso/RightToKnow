@@ -33,7 +33,12 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
   @Override public void onActivityCreate(Bundle savedInstanceState) {
     view.setListener();
     view.setupRecyclerView();
-    updateAdapter(vioData.certified.items);
+    try {
+      updateAdapter(vioData.certified.items);
+    } catch (Exception e) {
+      Timber.e(e);
+      view.showMessage(R.string.error_server);
+    }
   }
 
   private void updateAdapter(List<Certified> $items) {
@@ -76,6 +81,11 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
   }
 
   @Override public void onRefresh() {
-    updateAdapter(vioData.certified.items);
+    try {
+      updateAdapter(vioData.certified.items);
+    } catch (Exception e) {
+      Timber.e(e);
+      view.showMessage(R.string.error_server);
+    }
   }
 }

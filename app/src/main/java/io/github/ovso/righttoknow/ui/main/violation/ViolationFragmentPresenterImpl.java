@@ -61,7 +61,13 @@ public class ViolationFragmentPresenterImpl implements ViolationFragmentPresente
   }
 
   @Override public void onRefresh() {
-    updateAdapter(vioData.violation.items);
+    try {
+      updateAdapter(vioData.violation.items);
+    } catch (Exception e) {
+      e.printStackTrace();
+      view.showMessage(R.string.error_server);
+    }
+
   }
 
   @Override public void onSearchQuery(final String query) {
