@@ -16,10 +16,8 @@ import com.google.android.material.snackbar.Snackbar;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.BaseFragment;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
-import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
 import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity;
-import io.github.ovso.righttoknow.ui.main.violationfacility.model.VioFac;
 import timber.log.Timber;
 
 public class ViolationFacilityFragment extends BaseFragment
