@@ -2,7 +2,7 @@ package io.github.ovso.righttoknow.ui.vfacilitydetail;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 /**
  * Created by jaeho on 2017. 8. 2

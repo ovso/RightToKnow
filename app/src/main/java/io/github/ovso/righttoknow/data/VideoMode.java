@@ -1,6 +1,6 @@
 package io.github.ovso.righttoknow.data;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public enum VideoMode {
   PORTRAIT(-1), CANCEL(-2), LANDSCAPE(-3);

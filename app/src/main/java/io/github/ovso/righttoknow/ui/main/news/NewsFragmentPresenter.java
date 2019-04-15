@@ -1,7 +1,7 @@
 package io.github.ovso.righttoknow.ui.main.news;
 
 import android.os.Bundle;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import io.github.ovso.righttoknow.ui.main.news.model.News;
 
 /**

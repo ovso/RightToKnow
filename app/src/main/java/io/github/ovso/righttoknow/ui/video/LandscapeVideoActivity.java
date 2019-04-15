@@ -1,8 +1,8 @@
 package io.github.ovso.righttoknow.ui.video;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import butterknife.ButterKnife;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;

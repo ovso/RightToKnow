@@ -1,8 +1,8 @@
 package io.github.ovso.righttoknow.ui.pdfviewer;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.MenuItem;
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import com.github.barteksc.pdfviewer.PDFView;
 import io.github.ovso.righttoknow.R;

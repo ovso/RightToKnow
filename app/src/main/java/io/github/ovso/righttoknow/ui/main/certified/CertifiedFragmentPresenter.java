@@ -1,7 +1,7 @@
 package io.github.ovso.righttoknow.ui.main.certified;
 
 import android.os.Bundle;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.ui.main.certified.model.ChildCertified;
 import java.io.File;

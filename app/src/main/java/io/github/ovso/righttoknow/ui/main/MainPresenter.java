@@ -1,10 +1,10 @@
 package io.github.ovso.righttoknow.ui.main;
 
 import android.content.Intent;
-import android.support.annotation.StringRes;
 import android.view.MenuItem;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
-import javax.annotation.Nonnull;
 
 /**
  * Created by jaeho on 2017. 7. 31
@@ -22,7 +22,7 @@ public interface MainPresenter {
 
   void onBackPressed(boolean isDrawerOpen);
 
-  void onSubmit(@Nonnull OnFragmentEventListener listener, String query);
+  void onSubmit(@NonNull OnFragmentEventListener listener, String query);
 
   void onPrepareOptionsMenu(String simpleName, MenuItem item);
 

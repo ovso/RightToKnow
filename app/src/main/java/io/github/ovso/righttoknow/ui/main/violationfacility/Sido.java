@@ -2,8 +2,8 @@ package io.github.ovso.righttoknow.ui.main.violationfacility;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.IdRes;
-import android.support.annotation.StringRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.StringRes;
 import io.github.ovso.righttoknow.R;
 
 /**

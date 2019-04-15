@@ -1,8 +1,8 @@
 package io.github.ovso.righttoknow.framework;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.MenuItem;
+import androidx.annotation.Nullable;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.InterstitialAd;
 import javax.inject.Inject;

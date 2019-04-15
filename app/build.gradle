@@ -10,11 +10,11 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 
 android {
-  compileSdkVersion 27
+  compileSdkVersion 28
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 21
-    targetSdkVersion 27
+    targetSdkVersion 28
     //multiDexEnabled true
     versionCode 82
 
@@ -62,7 +62,6 @@ android {
       proguardFile 'proguard-butterknipe.pro'
       proguardFile 'proguard-pdfviewer.pro'
       proguardFile 'proguard-avloading.pro'
-      proguardFile 'proguard-cauly.pro'
       proguardFile 'proguard-glide.pro'
       proguardFile 'proguard-retrofit.pro'
       proguardFile 'proguard-okhttp.pro'
@@ -98,7 +97,6 @@ android {
 dependencies {
   implementation fileTree(include: ['*.jar'], dir: 'libs')
   implementation files('libs/YouTubeAndroidPlayerApi.jar')
-  implementation files('libs/CaulySDK_3.4.18.jar')
 
   // test
   androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -107,15 +105,15 @@ dependencies {
   testImplementation "junit:junit:$junit_version"
 
   // support
-  implementation "com.android.support:appcompat-v7:$support_library_version"
-  implementation "com.android.support:customtabs:$support_library_version"
-  implementation "com.android.support:design:$support_library_version"
-  implementation "com.android.support:cardview-v7:$support_library_version"
-  implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+  implementation "androidx.appcompat:appcompat:1.0.2"
+  implementation "androidx.browser:browser:1.0.0"
+  implementation "com.google.android.material:material:1.1.0-alpha05"
+  implementation "androidx.cardview:cardview:1.0.0"
+  implementation "androidx.constraintlayout:constraintlayout:1.1.3"
 
   // location
-  implementation "com.google.android.gms:play-services-location:$play_services_version"
-  implementation "com.google.android.gms:play-services-maps:$play_services_version"
+  implementation "com.google.android.gms:play-services-location:$play_services_location_version"
+  implementation "com.google.android.gms:play-services-maps:$play_services_maps_version"
 
   // butter knife
   implementation "com.jakewharton:butterknife:$butterknife_version"
@@ -126,7 +124,6 @@ dependencies {
 
   // firebase
   implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
-  implementation "com.google.firebase:firebase-appindexing:$firebase_appindexing_version"
   implementation "com.google.firebase:firebase-core:$firebase_core_version"
 
   // rxjava
