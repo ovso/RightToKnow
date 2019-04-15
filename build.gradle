@@ -4,13 +4,9 @@ buildscript {
   repositories {
     jcenter()
     google()
-    maven {
-      url 'https://maven.google.com'
-    }
-
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.3.0'
+    classpath 'com.android.tools.build:gradle:3.2.1'
     //classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     classpath 'com.google.gms:google-services:4.0.1'
     //classpath 'net.sf.proguard:proguard-gradle:6.0.3'
@@ -21,11 +17,11 @@ buildscript {
 
 allprojects {
   repositories {
-    google()
     jcenter()
     maven {
-      url "https://maven.google.com"
+      url 'https://maven.google.com'
     }
+    google()
   }
 }
 

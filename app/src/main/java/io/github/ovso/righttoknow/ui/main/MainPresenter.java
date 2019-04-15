@@ -37,6 +37,8 @@ public interface MainPresenter {
 
     void invalidateOptionsMenu();
 
+    void changeTheme();
+
     void closeSearchView();
 
     void setSearchView();

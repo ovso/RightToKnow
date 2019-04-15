@@ -1,22 +1,33 @@
 package io.github.ovso.righttoknow.ui.main.certified;
 
-import android.arch.lifecycle.LifecycleObserver;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import io.github.ovso.righttoknow.data.network.model.certified.Certified;
+import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
+import io.github.ovso.righttoknow.ui.main.certified.model.ChildCertified;
 import java.io.File;
 
-public interface CertifiedFragmentPresenter extends LifecycleObserver {
+/**
+ * Created by jaeho on 2017. 8. 21
+ */
+
+public interface CertifiedFragmentPresenter {
 
   void onActivityCreate(Bundle savedInstanceState);
 
-  void onRecyclerItemClick(Certified certified);
+  void onRecyclerItemClick(ChildCertified certified);
+
+
+  void setAdapterModel(BaseAdapterDataModel<ChildCertified> adapter);
+
+  void onDestroyView();
 
   void onRefresh();
 
-  interface View {
+  public interface View {
 
-    void setupRecyclerView();
+    void setAdapter();
+
+    void setRecyclerView();
 
     void showLoading();
 

@@ -10,13 +10,13 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 
 android {
-  compileSdkVersion 28
+  compileSdkVersion 27
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 21
-    targetSdkVersion 28
+    targetSdkVersion 27
     //multiDexEnabled true
-    versionCode 88
+    versionCode 82
 
     int versionMajor = 0
     int versionMinor = 0
@@ -62,6 +62,7 @@ android {
       proguardFile 'proguard-butterknipe.pro'
       proguardFile 'proguard-pdfviewer.pro'
       proguardFile 'proguard-avloading.pro'
+      proguardFile 'proguard-cauly.pro'
       proguardFile 'proguard-glide.pro'
       proguardFile 'proguard-retrofit.pro'
       proguardFile 'proguard-okhttp.pro'
@@ -97,6 +98,7 @@ android {
 dependencies {
   implementation fileTree(include: ['*.jar'], dir: 'libs')
   implementation files('libs/YouTubeAndroidPlayerApi.jar')
+  implementation files('libs/CaulySDK_3.4.18.jar')
 
   // test
   androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -123,12 +125,9 @@ dependencies {
   implementation "com.jakewharton.timber:timber:$timber_version"
 
   // firebase
-  implementation "com.google.firebase:firebase-config:$firebase_config_version"
   implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
+  implementation "com.google.firebase:firebase-appindexing:$firebase_appindexing_version"
   implementation "com.google.firebase:firebase-core:$firebase_core_version"
-  implementation "com.google.firebase:firebase-database:$firebase_database_version"
-  implementation "com.androidhuman.rxfirebase2:firebase-database:$rxfirebase_database_version"
-  implementation "com.androidhuman.rxfirebase2:firebase-core:$rxfirebase_core_version"
 
   // rxjava
   implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
@@ -162,21 +161,7 @@ dependencies {
   implementation "com.google.dagger:dagger-android-support:$dagger_version"
   annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
   annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
-
-  // joda-time
-  implementation "net.danlew:android.joda:$joda_version"
-
-  // guava
-  implementation "com.google.guava:guava:$guava_version"
-
-  // parceler
-  implementation "org.parceler:parceler-api:$parceler_version"
-  annotationProcessor "org.parceler:parceler:$parceler_version"
-
-  // lottie
-  implementation "com.airbnb.android:lottie:$lottie_version"
 }
 
 // Add to the bottom of the file
 apply plugin: 'com.google.gms.google-services'
-

@@ -10,23 +10,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.Toast;
 import butterknife.BindView;
-import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
-import io.github.ovso.righttoknow.data.network.model.certified.Certified;
-import io.github.ovso.righttoknow.data.network.model.certified.VioDataWrapper;
 import io.github.ovso.righttoknow.framework.BaseFragment;
-import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView;
 import io.github.ovso.righttoknow.ui.pdfviewer.PDFViewerActivity;
 import java.io.File;
 
 public class CertifiedFragment extends BaseFragment implements CertifiedFragmentPresenter.View {
-
-  @BindView(R.id.recyclerview) RecyclerView recyclerView;
-
   private CertifiedFragmentPresenter presenter;
-  private CertifiedAdapter adapter = new CertifiedAdapter();
-  private BaseAdapterView adapterView;
 
   @Override public int getLayoutResId() {
     return R.layout.fragment_certified;
@@ -40,30 +31,26 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     setHasOptionsMenu(true);
-    presenter = createPresenter();
+    presenter = new CertifiedFragmentPresenterImpl(this);
     presenter.onActivityCreate(savedInstanceState);
   }
 
-  private CertifiedFragmentPresenter createPresenter() {
-    CertifiedFragmentPresenter.View view = this;
-    BaseAdapterDataModel<Certified> adapterDataModel = adapter;
-    getLifecycle().addObserver(adapter);
-    VioDataWrapper wrapper = ((App) getActivity().getApplication()).getVioDataWrapper();
-    CertifiedFragmentPresenterImpl p =
-        new CertifiedFragmentPresenterImpl(
-            view, adapterDataModel, wrapper.vioData
-        );
-    getLifecycle().addObserver(p);
-    return p;
+  private CertifiedAdapter adapter;
+  private BaseAdapterView adapterView;
+
+  @Override public void setAdapter() {
+    adapter = new CertifiedAdapter();
+    presenter.setAdapterModel(adapter);
+    adapterView = adapter;
+    adapter.setOnRecyclerItemClickListener(certified -> presenter.onRecyclerItemClick(certified));
   }
 
-  @Override public void setupRecyclerView() {
+  @BindView(R.id.recyclerview) RecyclerView recyclerView;
 
-    adapterView = adapter;
+  @Override public void setRecyclerView() {
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(adapter);
-    adapter.setOnRecyclerItemClickListener(certified -> presenter.onRecyclerItemClick(certified));
   }
 
   @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
@@ -96,6 +83,7 @@ public class CertifiedFragment extends BaseFragment implements CertifiedFragment
   }
 
   @Override public void onDestroyView() {
+    presenter.onDestroyView();
     adapter.onDestroyView();
     super.onDestroyView();
   }

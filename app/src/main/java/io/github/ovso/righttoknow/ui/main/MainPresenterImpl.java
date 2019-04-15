@@ -18,6 +18,7 @@ public class MainPresenterImpl implements MainPresenter {
   MainPresenterImpl(MainPresenter.View view, ResourceProvider $resourceProvider) {
     this.view = view;
     resourceProvider = $resourceProvider;
+    view.changeTheme();
   }
 
   @Override public void onNewIntent(Intent intent) {
