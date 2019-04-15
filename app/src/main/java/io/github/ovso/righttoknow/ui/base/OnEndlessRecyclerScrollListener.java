@@ -1,7 +1,7 @@
 package io.github.ovso.righttoknow.ui.base;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 

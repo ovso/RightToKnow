@@ -2,20 +2,20 @@ package io.github.ovso.righttoknow.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.BaseActivity;
 import io.github.ovso.righttoknow.framework.customview.BottomNavigationViewBehavior;
@@ -23,7 +23,7 @@ import io.github.ovso.righttoknow.ui.childabuse.ChildAbuseActivity;
 import io.github.ovso.righttoknow.ui.main.certified.CertifiedFragment;
 import io.github.ovso.righttoknow.ui.main.news.NewsFragment;
 import io.github.ovso.righttoknow.ui.main.video.VideoFragment;
-import io.github.ovso.righttoknow.ui.main.violation.ViolationFragment;
+import io.github.ovso.righttoknow.ui.main.violationfacility.ViolationFacilityFragment;
 import io.github.ovso.righttoknow.ui.main.violator.ViolatorFragment;
 import io.github.ovso.righttoknow.ui.settings.SettingsActivity;
 import javax.inject.Inject;
@@ -105,6 +105,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     versionNameView.setText(versionName);
   }
 
+  @Override public void changeTheme() {
+    setTheme(R.style.AppTheme_NoActionBar);
+  }
+
   @Override public void closeSearchView() {
   }
 
@@ -125,7 +129,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     getSupportFragmentManager().beginTransaction()
         .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
             R.animator.enter_animation, R.animator.exit_animation)
-        .replace(R.id.fragment_container, ViolationFragment.newInstance())
+        .replace(R.id.fragment_container, ViolationFacilityFragment.newInstance())
         .commit();
   }
 

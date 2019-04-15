@@ -1,9 +1,9 @@
 package io.github.ovso.righttoknow.ui.main;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import androidx.annotation.NonNull;
 import io.github.ovso.righttoknow.App;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener;
@@ -18,6 +18,7 @@ public class MainPresenterImpl implements MainPresenter {
   MainPresenterImpl(MainPresenter.View view, ResourceProvider $resourceProvider) {
     this.view = view;
     resourceProvider = $resourceProvider;
+    view.changeTheme();
   }
 
   @Override public void onNewIntent(Intent intent) {

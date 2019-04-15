@@ -3,7 +3,7 @@ package io.github.ovso.righttoknow.ui.main.video;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import io.github.ovso.righttoknow.data.network.model.video.SearchItem;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 

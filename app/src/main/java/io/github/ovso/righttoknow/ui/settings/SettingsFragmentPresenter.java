@@ -1,7 +1,7 @@
 package io.github.ovso.righttoknow.ui.settings;
 
 import android.os.Bundle;
-import android.support.annotation.XmlRes;
+import androidx.annotation.XmlRes;
 import de.psdev.licensesdialog.model.Notices;
 
 /**
