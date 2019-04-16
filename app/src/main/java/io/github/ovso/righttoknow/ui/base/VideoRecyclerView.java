@@ -1,10 +1,10 @@
 package io.github.ovso.righttoknow.ui.base;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import io.github.ovso.righttoknow.framework.utils.ObjectUtils;
 import io.github.ovso.righttoknow.ui.main.video.VideoAdapter;
 import lombok.Getter;

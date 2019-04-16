@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:toos="http://schemas.android.com/tools"
@@ -10,12 +10,12 @@
     android:layout_marginTop="16dp"
     app:cardCornerRadius="10dp"
     >
-  <android.support.constraint.ConstraintLayout
+  <androidx.constraintlayout.widget.ConstraintLayout
       android:id="@id/root_view"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       >
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/thumbnail_image_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -77,5 +77,5 @@
         app:srcCompat="@drawable/ic_play_arrow"
         />
 
-  </android.support.constraint.ConstraintLayout>
-</android.support.v7.widget.CardView>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

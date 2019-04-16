@@ -2,8 +2,8 @@ package io.github.ovso.righttoknow.ui.map;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.MenuItem;
+import androidx.annotation.Nullable;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;

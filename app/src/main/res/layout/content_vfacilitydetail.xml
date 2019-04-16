@@ -10,7 +10,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_vfacilitydetail"
     >
-  <android.support.v4.widget.SwipeRefreshLayout
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
       android:id="@+id/swipe_refresh"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
@@ -60,5 +60,5 @@
       </LinearLayout>
       <include layout="@layout/adview_standalone"/>
     </LinearLayout>
-  </android.support.v4.widget.SwipeRefreshLayout>
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
