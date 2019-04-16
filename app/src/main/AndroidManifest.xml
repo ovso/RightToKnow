@@ -15,7 +15,7 @@
       android:supportsRtl="true"
       android:usesCleartextTraffic="true"
       android:theme="@style/AppTheme"
-      tools:ignore="GoogleAppIndexingWarning">
+      tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
 
     <meta-data
         android:name="com.google.android.gms.ads.AD_MANAGER_APP"
