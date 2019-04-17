@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import timber.log.Timber;
 
 public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresenter {
@@ -45,25 +46,20 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
     adapterDataModel.clear();
     view.refresh();
     compositeDisposable.add(
-        Maybe.fromCallable(new Callable<List<ChildCertified>>() {
-          @Override public List<ChildCertified> call() throws Exception {
-            return ChildCertified.convertToItems(
-                Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
-          }
-        })
+        Maybe.fromCallable(
+            () -> ChildCertified.convertToItems(
+                Jsoup.connect(connectUrl).timeout(
+                    TimeoutMillis.JSOUP.getValue()
+                ).get()))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Consumer<List<ChildCertified>>() {
-              @Override public void accept(List<ChildCertified> items) throws Exception {
-                adapterDataModel.addAll(items);
-                view.refresh();
-                view.hideLoading();
-              }
-            }, new Consumer<Throwable>() {
-              @Override public void accept(Throwable throwable) throws Exception {
-                view.showMessage(R.string.error_server);
-                view.hideLoading();
-              }
+            .subscribe(items -> {
+              adapterDataModel.addAll(items);
+              view.refresh();
+              view.hideLoading();
+            }, throwable -> {
+              view.showMessage(R.string.error_server);
+              view.hideLoading();
             }));
   }
 

@@ -115,7 +115,6 @@ public class ViolatorFragment extends BaseFragment
   }
 
   @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    menu.findItem(R.id.option_menu_search).setVisible(false);
     super.onCreateOptionsMenu(menu, inflater);
   }
 }
