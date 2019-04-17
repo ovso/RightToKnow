@@ -19,12 +19,5 @@
         app:popupTheme="@style/AppTheme.PopupOverlay"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         />
-    <com.miguelcatalan.materialsearchview.MaterialSearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_all_search"
-        style="@style/MaterialSearchViewStyle"
-        />
   </FrameLayout>
 </com.google.android.material.appbar.AppBarLayout>

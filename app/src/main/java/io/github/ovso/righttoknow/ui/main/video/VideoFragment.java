@@ -138,7 +138,6 @@ public class VideoFragment extends DaggerFragment implements VideoFragmentPresen
   }
 
   @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    menu.findItem(R.id.option_menu_search).setVisible(false);
     menu.findItem(R.id.option_menu_sort).setVisible(false);
     super.onCreateOptionsMenu(menu, inflater);
   }

@@ -2,21 +2,15 @@ package io.github.ovso.righttoknow.ui.main.violator.model;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-/**
- * Created by jaeho on 2017. 8. 3
- */
 
 @Getter @ToString public class Violator {
   private String name;
@@ -29,7 +23,7 @@ import org.jsoup.select.Elements;
   private String link;
 
   public static List<Violator> convertToItems(Document doc)
-      throws JSONException, IOException, IndexOutOfBoundsException {
+      throws Exception {
     JSONArray jsonArray = new JSONArray();
 
     Elements tableElements = doc.select("tbody");
