@@ -15,27 +15,12 @@ android {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 21
     targetSdkVersion 28
-    //multiDexEnabled true
-    versionCode 82
 
-    int versionMajor = 0
+    int versionMajor = 1
     int versionMinor = 0
-    int versionPatch = versionCode
+    int versionPatch = 0
 
-    if (1000 > versionPatch && versionPatch > 99) {
-      versionMajor = versionPatch / 100
-      versionMinor = (versionPatch % 100) / 10
-      versionPatch = (versionPatch % 100) % 10
-    } else if (100 > versionCode && versionPatch > 9) {
-      versionMajor = 0
-      versionMinor = versionPatch / 10
-      versionPatch = versionPatch % 10
-    } else if (versionPatch < 10) {
-      versionMajor = 0
-      versionMinor = 0
-      versionPatch = versionPatch / 1
-    }
-
+    versionCode versionMajor * 1000000 + versionMinor * 1000 + versionPatch
     versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
@@ -142,7 +127,6 @@ dependencies {
   annotationProcessor "org.projectlombok:lombok:$lombok_version"
 
   implementation "de.psdev.licensesdialog:licensesdialog:$licensesdialog_version"
-  implementation "com.miguelcatalan:materialsearchview:$materialsearchview_version"
   implementation "com.wang.avi:library:$avi_library_version"
   implementation "com.github.bumptech.glide:glide:$glide_version"
   annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
