@@ -49,8 +49,12 @@ public class ViolationFacilityPresenterImpl implements ViolationFacilityPresente
         .subscribe(items -> {
           adapterDataModel.addAll(items);
           view.refresh();
+          if (items.isEmpty()) {
+            view.showMessage(R.string.error_server);
+          }
           view.hideLoading();
         }, throwable -> {
+          Timber.e(throwable);
           view.showMessage(R.string.error_server);
           view.hideLoading();
         }));

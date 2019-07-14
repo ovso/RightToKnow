@@ -27,7 +27,7 @@ import org.jsoup.select.Elements;
   private String link;
 
   public static List<VioFac> convertToItems(Document doc)
-      throws JSONException, IOException, IndexOutOfBoundsException {
+      throws JSONException, IndexOutOfBoundsException {
     JSONArray jsonArray = new JSONArray();
 
     Elements tableElements = doc.select("tbody");
