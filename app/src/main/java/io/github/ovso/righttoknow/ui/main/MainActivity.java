@@ -3,11 +3,9 @@ package io.github.ovso.righttoknow.ui.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -63,24 +61,16 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     toggle.syncState();
 
     navigationView.setNavigationItemSelectedListener(
-        new NavigationView.OnNavigationItemSelectedListener() {
-          @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            presenter.onNavigationItemSelected(item.getItemId());
-            drawer.closeDrawer(GravityCompat.START);
-            return true;
-          }
+        item -> {
+          presenter.onNavigationItemSelected(item.getItemId());
+          drawer.closeDrawer(GravityCompat.START);
+          return true;
         });
     bottomNavigationView.setOnNavigationItemSelectedListener(
-        new BottomNavigationView.OnNavigationItemSelectedListener() {
-          @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            return presenter.onBottomNavigationItemSelected(item.getItemId());
-          }
-        });
+        item -> presenter.onBottomNavigationItemSelected(item.getItemId()));
     bottomNavigationView.setOnNavigationItemReselectedListener(
-        new BottomNavigationView.OnNavigationItemReselectedListener() {
-          @Override public void onNavigationItemReselected(@NonNull MenuItem item) {
-            // Do nothing..
-          }
+        item -> {
+          // Do nothing..
         });
   }
 

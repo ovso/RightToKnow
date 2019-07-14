@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,8 +32,7 @@ public class ViolationFacilityFragment extends BaseFragment
   private ViolationFacilityPresenter presenter;
 
   public static ViolationFacilityFragment newInstance() {
-    ViolationFacilityFragment f = new ViolationFacilityFragment();
-    return f;
+    return new ViolationFacilityFragment();
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class ViolationFacilityFragment extends BaseFragment
   }
 
   @Override public void navigateToViolationFacilityDetail(String webLink, String address) {
-    Timber.d("webLink = " + webLink);
+    Timber.d("webLink = %s", webLink);
     Intent intent = new Intent(getContext(), VFacilityDetailActivity.class);
     intent.putExtra("vio_fac_link", webLink);
     intent.putExtra("address", address);
@@ -80,11 +80,7 @@ public class ViolationFacilityFragment extends BaseFragment
   }
 
   @Override public void setListener() {
-    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-      @Override public void onRefresh() {
-        presenter.onRefresh();
-      }
-    });
+    swipeRefresh.setOnRefreshListener(() -> presenter.onRefresh());
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
     setHasOptionsMenu(true);
   }
@@ -110,17 +106,19 @@ public class ViolationFacilityFragment extends BaseFragment
     presenter.onSearchQuery(query);
   }
 
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     presenter.onOptionsItemSelected(item.getItemId());
     return super.onOptionsItemSelected(item);
   }
 
   @Override public void onResume() {
     super.onResume();
-    getActivity().setTitle(R.string.title_vioation_facility_inquiry);
+    if (getActivity() != null) {
+      getActivity().setTitle(R.string.title_vioation_facility_inquiry);
+    }
   }
 
-  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+  @Override public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
   }
 }
