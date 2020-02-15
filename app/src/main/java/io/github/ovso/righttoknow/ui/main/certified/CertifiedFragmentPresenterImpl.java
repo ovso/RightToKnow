@@ -34,6 +34,7 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
     view.setListener();
     view.setAdapter();
     view.setRecyclerView();
+
     req();
   }
 
