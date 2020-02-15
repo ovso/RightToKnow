@@ -13,13 +13,9 @@ import io.github.ovso.righttoknow.ui.main.certified.model.ChildCertified;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import java.io.File;
-import java.util.List;
-import java.util.concurrent.Callable;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import timber.log.Timber;
 
 public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresenter {
