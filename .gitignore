@@ -1,6 +1,6 @@
-.idea
-*.iml
 /build
+*.iml
 .gradle
-app/build/
-local.properties
+.idea
+iml
+app/build
