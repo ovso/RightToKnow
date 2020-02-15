@@ -7,7 +7,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.support.DaggerAppCompatActivity;
@@ -16,21 +15,26 @@ import io.github.ovso.righttoknow.framework.ad.MyAdView;
 
 public abstract class BaseActivity extends DaggerAppCompatActivity {
 
-  protected @BindView(R.id.toolbar) Toolbar toolbar;
-  protected @BindView(R.id.ad_container) ViewGroup adContainer;
   private Unbinder unbinder;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(getLayoutResId());
     unbinder = ButterKnife.bind(this);
-    setSupportActionBar(toolbar);
+    final Toolbar toolbar = findViewById(R.id.toolbar);
+    if (toolbar != null) {
+      setSupportActionBar(toolbar);
+    }
+
     setNavigationBarColor();
     showAd();
   }
 
   protected void showAd() {
-    adContainer.addView(MyAdView.getAdmobAdView(getApplicationContext()));
+    ViewGroup adContainer = findViewById(R.id.ad_container);
+    if (adContainer != null) {
+      adContainer.addView(MyAdView.getAdmobAdView(getApplicationContext()));
+    }
   }
 
   private void setNavigationBarColor() {
@@ -47,6 +51,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
   }
 
   protected Toolbar getToolbar() {
-    return toolbar;
+    return findViewById(R.id.toolbar);
   }
 }
