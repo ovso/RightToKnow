@@ -6,7 +6,6 @@ import android.view.MenuItem;
 import androidx.annotation.Nullable;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.InterstitialAd;
-import io.github.ovso.righttoknow.framework.ad.MyAdView;
 import javax.inject.Inject;
 
 public abstract class AdsActivity2 extends Activity {

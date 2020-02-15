@@ -7,7 +7,7 @@ import dagger.Module;
 import dagger.Provides;
 import io.github.ovso.righttoknow.framework.ad.MyAdView;
 
-@Module public class AppModule {
+@Module class AppModule {
   @Provides Context provideContext(Application application) {
     return application;
   }
