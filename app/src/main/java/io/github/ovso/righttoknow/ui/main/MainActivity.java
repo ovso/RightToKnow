@@ -31,7 +31,9 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @Inject MainPresenter presenter;
 
   @BindView(R.id.drawer_layout) DrawerLayout drawer;
+
   @BindView(R.id.nav_view) NavigationView navigationView;
+
   @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
 
   @Override public void onCreate(Bundle savedInstanceState) {

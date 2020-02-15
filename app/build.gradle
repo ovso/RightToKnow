@@ -8,7 +8,6 @@ def keystoreProperties = new Properties()
 // keystore.properties 파일을 keystoreProperties 객체에 로드한다.
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
-
 android {
   compileSdkVersion 28
   defaultConfig {
