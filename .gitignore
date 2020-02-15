@@ -1,4 +1,7 @@
-keystore.properties
-/app/src/main/java/io/github/ovso/righttoknow/Security.java
+/build
+*.iml
+.gradle
 .idea
-google-services.json
+iml
+app/build
+

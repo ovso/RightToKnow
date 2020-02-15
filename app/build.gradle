@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 //apply plugin: 'hugo'
 
 // keystorePropertiesFile 변수를 만들고 프로젝트 폴더의 keystore.properties 파일로 초기화 한다.
-def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystorePropertiesFile = rootProject.file("../jks/righttoknow_keystore.properties")
 // keystoreProperties 변수를 만들고 Properties() 객체를 초기화 한다.
 def keystoreProperties = new Properties()
 // keystore.properties 파일을 keystoreProperties 객체에 로드한다.

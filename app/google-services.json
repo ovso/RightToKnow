@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "652901357106",
+    "firebase_url": "https://righttoknow-5295d.firebaseio.com",
+    "project_id": "righttoknow-5295d",
+    "storage_bucket": "righttoknow-5295d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652901357106:android:1345af96c8147ca3",
+        "android_client_info": {
+          "package_name": "io.github.ovso.righttoknow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "652901357106-gc7dv51fgjcspjln8391ptvnvd3nh5se.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.ovso.righttoknow",
+            "certificate_hash": "8fdfc8195fdc18dae9ad59eb409ad6a40e7c47ea"
+          }
+        },
+        {
+          "client_id": "652901357106-onvkbfco0v524vcndoqrodn56orfip56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKvYty-wiL5x5jUtAGVejQdyrHi1GD8GE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "652901357106-onvkbfco0v524vcndoqrodn56orfip56.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-8679189423397017~9361379422"
+    }
+  ],
+  "configuration_version": "1"
+}
