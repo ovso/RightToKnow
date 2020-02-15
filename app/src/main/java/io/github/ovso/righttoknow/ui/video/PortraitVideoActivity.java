@@ -35,6 +35,6 @@ public class PortraitVideoActivity extends AdsActivity {
   }
 
   @Override protected int getLayoutResId() {
-    return R.layout.activity_fullscreen_video;
+    return R.layout.activity_fullscreen_portrait_video;
   }
 }
