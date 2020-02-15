@@ -9,11 +9,11 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-  compileSdkVersion 28
+  compileSdkVersion 29
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 21
-    targetSdkVersion 28
+    targetSdkVersion 29
 
     int versionMajor = 1
     int versionMinor = 0
