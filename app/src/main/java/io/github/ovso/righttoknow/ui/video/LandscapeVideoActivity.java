@@ -3,19 +3,16 @@ package io.github.ovso.righttoknow.ui.video;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
-import butterknife.ButterKnife;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.Security;
-import io.github.ovso.righttoknow.framework.AdsActivity2;
+import io.github.ovso.righttoknow.framework.AdsActivity;
 
-public class LandscapeVideoActivity extends AdsActivity2 {
+public class LandscapeVideoActivity extends AdsActivity {
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_fullscreen_video);
-    ButterKnife.bind(this);
     if (getIntent().hasExtra("video_id")) {
       YouTubePlayerFragment youTubePlayerFragment =
           (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
@@ -34,5 +31,9 @@ public class LandscapeVideoActivity extends AdsActivity2 {
       Toast.makeText(this, R.string.no_videos_found, Toast.LENGTH_SHORT).show();
       finish();
     }
+  }
+
+  @Override protected int getLayoutResId() {
+    return R.layout.activity_fullscreen_video;
   }
 }

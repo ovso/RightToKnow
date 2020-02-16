@@ -9,15 +9,15 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-  compileSdkVersion 28
+  compileSdkVersion 29
   defaultConfig {
     applicationId "io.github.ovso.righttoknow"
     minSdkVersion 21
-    targetSdkVersion 28
+    targetSdkVersion 29
 
     int versionMajor = 1
     int versionMinor = 0
-    int versionPatch = 2
+    int versionPatch = 4
 
     versionCode versionMajor * 1000000 + versionMinor * 1000 + versionPatch
     versionName "${versionMajor}.${versionMinor}.${versionPatch}"
@@ -89,9 +89,9 @@ dependencies {
   testImplementation "junit:junit:$junit_version"
 
   // support
-  implementation "androidx.appcompat:appcompat:1.0.2"
-  implementation "androidx.browser:browser:1.0.0"
-  implementation "com.google.android.material:material:1.1.0-alpha05"
+  implementation "androidx.appcompat:appcompat:1.1.0"
+  implementation "androidx.browser:browser:1.2.0"
+  implementation "com.google.android.material:material:1.2.0-alpha04"
   implementation "androidx.cardview:cardview:1.0.0"
   implementation "androidx.constraintlayout:constraintlayout:1.1.3"
 
