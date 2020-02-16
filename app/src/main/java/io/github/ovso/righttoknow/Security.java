@@ -24,5 +24,4 @@ import lombok.Getter;
   Security(String value) {
     this.value = value;
   }
-
 }
