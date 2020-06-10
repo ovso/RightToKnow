@@ -3,3 +3,4 @@ RightToKnow
 
 - Java
 - MVP
+- RxJava
