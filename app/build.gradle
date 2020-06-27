@@ -53,6 +53,10 @@ android {
       proguardFile 'proguard-jsoup.pro'
       proguardFile 'proguard-lombok.pro'
 
+      resValue("string", "ads_app_id", "ca-app-pub-8679189423397017~9361379422")
+      resValue("string", "ads_banner_unit_id", "ca-app-pub-8679189423397017/8758744192")
+      resValue("string", "ads_interstitial_id", "ca-app-pub-8679189423397017/2384988367")
+
       signingConfig signingConfigs.release
 
       android.applicationVariants.all { variant ->
@@ -65,6 +69,11 @@ android {
       }
     }
     debug {
+
+      resValue("string", "ads_app_id", "ca-app-pub-3940256099942544~3347511713")
+      resValue("string", "ads_banner_unit_id", "ca-app-pub-3940256099942544/6300978111")
+      resValue("string", "ads_interstitial_id", "ca-app-pub-3940256099942544/1033173712")
+
     }
   }
 
@@ -87,6 +96,8 @@ dependencies {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
   testImplementation "junit:junit:$junit_version"
+
+  implementation 'com.google.android.gms:play-services-ads:19.2.0'
 
   // support
   implementation "androidx.appcompat:appcompat:1.1.0"

@@ -18,7 +18,8 @@ public final class AppInitUtils {
   private AppInitUtils() {}
 
   public static void ad(Context context) {
-    MobileAds.initialize(context, Security.ADMOB_APP_ID.getValue());
+//    MobileAds.initialize(context, Security.ADMOB_APP_ID.getValue());
+    MobileAds.initialize(context, initializationStatus -> {});
     // do something..
   }
 
