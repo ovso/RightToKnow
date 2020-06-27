@@ -18,72 +18,94 @@ import javax.inject.Inject;
 public class VFacilityDetailActivity extends AdsActivity implements VFacilityDetailPresenter.View {
 
   @Inject VFacilityDetailPresenter presenter;
-  @BindView(R.id.contents_textview) TextView contentsTextView;
-  @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipe;
-  @BindView(R.id.share_button) Button shareButton;
-  @BindView(R.id.location_button) Button locationButton;
 
-  @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+  @BindView(R.id.contents_textview)
+  TextView contentsTextView;
+
+  @BindView(R.id.swipe_refresh)
+  SwipeRefreshLayout swipe;
+
+  @BindView(R.id.share_button)
+  Button shareButton;
+
+  @BindView(R.id.location_button)
+  Button locationButton;
+
+  @Override
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     presenter.onCreate(savedInstanceState, getIntent());
   }
 
-  @Override public void setTitle(int titleId) {
+  @Override
+  public void setTitle(int titleId) {
     super.setTitle(titleId);
   }
 
-  @Override protected int getLayoutResId() {
+  @Override
+  protected int getLayoutResId() {
     return R.layout.activity_vfacilitydetail;
   }
 
-  @Override public void setSupportActionBar() {
+  @Override
+  public void setSupportActionBar() {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
   }
 
-  @Override public void showContents(String contents) {
+  @Override
+  public void showContents(String contents) {
     contentsTextView.setText(contents);
   }
 
-  @Override public void setListener() {
+  @Override
+  public void setListener() {
     swipe.setColorSchemeResources(R.color.colorPrimary);
     swipe.setOnRefreshListener(() -> presenter.onRefresh(VFacilityDetailActivity.this.getIntent()));
   }
 
-  @Override public void showLoading() {
+  @Override
+  public void showLoading() {
     swipe.setRefreshing(true);
   }
 
-  @Override public void hideLoading() {
+  @Override
+  public void hideLoading() {
     swipe.setRefreshing(false);
   }
 
-  @Override public void showMessage(int resId) {
-    new AlertDialog.Builder(this).setMessage(resId)
-        .setPositiveButton(android.R.string.ok,
-            (dialogInterface, which) -> dialogInterface.dismiss())
+  @Override
+  public void showMessage(int resId) {
+    new AlertDialog.Builder(this)
+        .setMessage(resId)
+        .setPositiveButton(
+            android.R.string.ok, (dialogInterface, which) -> dialogInterface.dismiss())
         .show();
   }
 
-  @Override public void navigateToMap(double[] locations, String facName) {
+  @Override
+  public void navigateToMap(double[] locations, String facName) {
     Intent intent = new Intent(this, MapActivity.class);
     intent.putExtra("locations", locations);
     intent.putExtra("facName", facName);
     startActivity(intent);
   }
 
-  @Override public void hideButton() {
+  @Override
+  public void hideButton() {
     locationButton.setVisibility(View.INVISIBLE);
     shareButton.setVisibility(View.INVISIBLE);
   }
 
-  @Override public void showButton() {
+  @Override
+  public void showButton() {
     locationButton.setVisibility(View.VISIBLE);
     shareButton.setVisibility(View.VISIBLE);
   }
 
-  @OnClick(R.id.share_button) void onShareClick() {
+  @OnClick(R.id.share_button)
+  void onShareClick() {
     Intent intent = new Intent();
     intent.setAction(Intent.ACTION_SEND);
     intent.setType("text/plain");
@@ -93,16 +115,19 @@ public class VFacilityDetailActivity extends AdsActivity implements VFacilityDet
     startActivity(chooser);
   }
 
-  @OnClick(R.id.location_button) void onMapClick() {
+  @OnClick(R.id.location_button)
+  void onMapClick() {
     presenter.onMapClick(getIntent());
   }
 
-  @Override protected void onDestroy() {
+  @Override
+  protected void onDestroy() {
     super.onDestroy();
     presenter.onDestroy();
   }
 
-  @Override protected void onResume() {
+  @Override
+  protected void onResume() {
     super.onResume();
     if (getIntent().hasExtra("vio_fac_link")) {
       setTitle(R.string.title_vioation_facility_inquiry_detail);
