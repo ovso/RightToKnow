@@ -37,7 +37,9 @@ public class VFacilityDetailActivity extends AdsActivity implements VFacilityDet
   }
 
   @Override public void setSupportActionBar() {
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
   }
 
   @Override public void showContents(String contents) {
@@ -58,7 +60,6 @@ public class VFacilityDetailActivity extends AdsActivity implements VFacilityDet
   }
 
   @Override public void showMessage(int resId) {
-    //Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
     new AlertDialog.Builder(this).setMessage(resId)
         .setPositiveButton(android.R.string.ok,
             (dialogInterface, which) -> dialogInterface.dismiss())
@@ -66,7 +67,7 @@ public class VFacilityDetailActivity extends AdsActivity implements VFacilityDet
   }
 
   @Override public void navigateToMap(double[] locations, String facName) {
-    Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+    Intent intent = new Intent(this, MapActivity.class);
     intent.putExtra("locations", locations);
     intent.putExtra("facName", facName);
     startActivity(intent);
