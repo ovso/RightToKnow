@@ -19,7 +19,7 @@ android {
 
     int versionMajor = 1
     int versionMinor = 0
-    int versionPatch = 4
+    int versionPatch = 5
 
     versionCode versionMajor * 1000000 + versionMinor * 1000 + versionPatch
     versionName "${versionMajor}.${versionMinor}.${versionPatch}"
@@ -34,6 +34,8 @@ android {
       storePassword keystoreProperties['storePassword']
       keyPassword keystoreProperties['keyPassword']
       storeFile file(keystoreProperties['storeFile'])
+      v1SigningEnabled true
+      v2SigningEnabled true
     }
   }
 
@@ -54,11 +56,11 @@ android {
       proguardFile 'proguard-jsoup.pro'
       proguardFile 'proguard-lombok.pro'
 
+      signingConfig signingConfigs.release
+
       resValue("string", "ads_app_id", "ca-app-pub-8679189423397017~9361379422")
       resValue("string", "ads_banner_unit_id", "ca-app-pub-8679189423397017/8758744192")
       resValue("string", "ads_interstitial_id", "ca-app-pub-8679189423397017/2384988367")
-
-      signingConfig signingConfigs.release
 
       android.applicationVariants.all { variant ->
         variant.outputs.all {
