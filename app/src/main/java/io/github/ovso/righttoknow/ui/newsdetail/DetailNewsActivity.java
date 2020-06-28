@@ -66,14 +66,12 @@ public class DetailNewsActivity extends AdsActivity {
   }
 
   private void loadUrl() {
-//    swipeRefresh.setRefreshing(true);
     webView.loadUrl(news.getLink());
   }
 
   private void setInit() {
     news = (News) getIntent().getSerializableExtra("news");
   }
-
 
   @SuppressLint("SetJavaScriptEnabled")
   private void setWebView() {
