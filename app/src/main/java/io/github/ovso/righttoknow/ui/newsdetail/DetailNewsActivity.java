@@ -14,7 +14,6 @@ import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
 import androidx.core.widget.ContentLoadingProgressBar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
@@ -24,9 +23,6 @@ import io.github.ovso.righttoknow.ui.main.news.model.News;
 public class DetailNewsActivity extends AdsActivity {
   @BindView(R.id.webview)
   WebView webView;
-
-  @BindView(R.id.swipe_refresh)
-  SwipeRefreshLayout swipeRefresh;
 
   @BindView(R.id.pb_new_detail)
   ContentLoadingProgressBar progressBar;
@@ -46,7 +42,6 @@ public class DetailNewsActivity extends AdsActivity {
     if (intent.hasExtra("news")) {
       setInit();
       setWebView();
-      setSwipeRefresh();
       setTitle();
       loadUrl();
     }
@@ -79,10 +74,6 @@ public class DetailNewsActivity extends AdsActivity {
     news = (News) getIntent().getSerializableExtra("news");
   }
 
-  private void setSwipeRefresh() {
-    swipeRefresh.setOnRefreshListener(() -> webView.loadUrl(news.getLink()));
-    swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
-  }
 
   @SuppressLint("SetJavaScriptEnabled")
   private void setWebView() {
@@ -173,5 +164,14 @@ public class DetailNewsActivity extends AdsActivity {
     void onPageFinish();
 
     void onProgressChanged(int newProgress);
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (!webView.canGoBack()) {
+      super.onBackPressed();
+    } else {
+      webView.goBack();
+    }
   }
 }
