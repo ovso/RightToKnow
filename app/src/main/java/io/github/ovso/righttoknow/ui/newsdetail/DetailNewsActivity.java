@@ -92,6 +92,12 @@ public class DetailNewsActivity extends AdsActivity {
     webView.setWebViewClient(new MyWebViewClient(webClientListener));
   }
 
+  @Override
+  protected void onDestroy() {
+    webView.destroy();
+    super.onDestroy();
+  }
+
   static class MyWebChromeClient extends WebChromeClient {
 
     private final WebClientListener l;
