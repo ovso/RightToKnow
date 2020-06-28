@@ -11,8 +11,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
 import androidx.annotation.Nullable;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import butterknife.BindView;
 import io.github.ovso.righttoknow.R;
 import io.github.ovso.righttoknow.framework.AdsActivity;
@@ -25,6 +28,9 @@ public class DetailNewsActivity extends AdsActivity {
   @BindView(R.id.swipe_refresh)
   SwipeRefreshLayout swipeRefresh;
 
+  @BindView(R.id.pb_new_detail)
+  ContentLoadingProgressBar progressBar;
+
   private News news;
 
   @Override
@@ -35,6 +41,7 @@ public class DetailNewsActivity extends AdsActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    progressBar.hide();
     Intent intent = getIntent();
     if (intent.hasExtra("news")) {
       setInit();
@@ -64,7 +71,7 @@ public class DetailNewsActivity extends AdsActivity {
   }
 
   private void loadUrl() {
-    swipeRefresh.setRefreshing(true);
+//    swipeRefresh.setRefreshing(true);
     webView.loadUrl(news.getLink());
   }
 
@@ -126,16 +133,19 @@ public class DetailNewsActivity extends AdsActivity {
         @Override
         public void onPageStarted() {
           super.onPageStarted();
+          progressBar.show();
         }
 
         @Override
         public void onPageFinish() {
           super.onPageFinish();
+          progressBar.hide();
         }
 
         @Override
         public void onProgressChanged(int newProgress) {
           super.onProgressChanged(newProgress);
+          progressBar.setProgress(newProgress);
         }
       };
 
