@@ -17,15 +17,21 @@ import io.github.ovso.righttoknow.framework.AdsActivity;
 import io.github.ovso.righttoknow.ui.main.news.model.News;
 
 public class DetailNewsActivity extends AdsActivity {
-  @BindView(R.id.webview) WebView webView;
-  @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
+  @BindView(R.id.webview)
+  WebView webView;
+
+  @BindView(R.id.swipe_refresh)
+  SwipeRefreshLayout swipeRefresh;
+
   private News news;
 
-  @Override protected int getLayoutResId() {
+  @Override
+  protected int getLayoutResId() {
     return R.layout.activity_detail_news;
   }
 
-  @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+  @Override
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Intent intent = getIntent();
     if (intent.hasExtra("news")) {
@@ -37,7 +43,8 @@ public class DetailNewsActivity extends AdsActivity {
     }
   }
 
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
     activityFinish();
     return super.onOptionsItemSelected(item);
   }
@@ -62,11 +69,13 @@ public class DetailNewsActivity extends AdsActivity {
   }
 
   private void setSwipeRefresh() {
-    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-      @Override public void onRefresh() {
-        webView.loadUrl(news.getLink());
-      }
-    });
+    swipeRefresh.setOnRefreshListener(
+        new SwipeRefreshLayout.OnRefreshListener() {
+          @Override
+          public void onRefresh() {
+            webView.loadUrl(news.getLink());
+          }
+        });
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }
 
@@ -78,7 +87,8 @@ public class DetailNewsActivity extends AdsActivity {
   }
 
   class MyWebViewClient extends WebViewClient {
-    @Override public void onPageFinished(WebView view, String url) {
+    @Override
+    public void onPageFinished(WebView view, String url) {
       super.onPageFinished(view, url);
       if (swipeRefresh != null) {
         swipeRefresh.setRefreshing(false);
