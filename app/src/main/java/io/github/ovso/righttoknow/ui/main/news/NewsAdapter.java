@@ -40,19 +40,13 @@ public class NewsAdapter extends BaseRecyclerAdapter
       holder.countTextview.setText(String.valueOf(position+1));
       String date = Utility.convertDate(news.getPubDate(), "yy-MM-dd");
       holder.dateTextView.setText(date);
-      holder.itemView.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View view) {
-          if (onRecyclerItemClickListener != null) {
-            onRecyclerItemClickListener.onItemClick(news);
-          }
+      holder.itemView.setOnClickListener(view -> {
+        if (onRecyclerItemClickListener != null) {
+          onRecyclerItemClickListener.onItemClick(news);
         }
       });
       holder.imageView.setOnClickListener(
-          new View.OnClickListener() {
-            @Override public void onClick(View view) {
-              onRecyclerItemClickListener.onSimpleNewsItemClick(news);
-            }
-          });
+              view -> onRecyclerItemClickListener.onSimpleNewsItemClick(news));
     }
   }
 
