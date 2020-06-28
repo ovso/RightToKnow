@@ -1,6 +1,8 @@
 package io.github.ovso.righttoknow.ui.newsdetail;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.SpannableString;
@@ -55,8 +57,10 @@ public class DetailNewsActivity extends AdsActivity {
   }
 
   private void setTitle() {
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setTitle(new SpannableString(Html.fromHtml(news.getTitle())));
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setTitle(new SpannableString(Html.fromHtml(news.getTitle())));
+    }
   }
 
   private void loadUrl() {
@@ -69,30 +73,89 @@ public class DetailNewsActivity extends AdsActivity {
   }
 
   private void setSwipeRefresh() {
-    swipeRefresh.setOnRefreshListener(
-        new SwipeRefreshLayout.OnRefreshListener() {
-          @Override
-          public void onRefresh() {
-            webView.loadUrl(news.getLink());
-          }
-        });
+    swipeRefresh.setOnRefreshListener(() -> webView.loadUrl(news.getLink()));
     swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
   }
 
+  @SuppressLint("SetJavaScriptEnabled")
   private void setWebView() {
     WebSettings settings = webView.getSettings();
     settings.setJavaScriptEnabled(true);
-    webView.setWebChromeClient(new WebChromeClient());
-    webView.setWebViewClient(new MyWebViewClient());
+    webView.setWebChromeClient(new MyWebChromeClient(webClientListener));
+    webView.setWebViewClient(new MyWebViewClient(webClientListener));
   }
 
-  class MyWebViewClient extends WebViewClient {
+  static class MyWebChromeClient extends WebChromeClient {
+
+    private final WebClientListener l;
+
+    public MyWebChromeClient(WebClientListener l) {
+      this.l = l;
+    }
+
+    @Override
+    public void onProgressChanged(WebView view, int newProgress) {
+      super.onProgressChanged(view, newProgress);
+      if (l != null) l.onProgressChanged(newProgress);
+    }
+  }
+
+  static class MyWebViewClient extends WebViewClient {
+
+    private final WebClientListener l;
+
+    MyWebViewClient(WebClientListener l) {
+      this.l = l;
+    }
+
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+      super.onPageStarted(view, url, favicon);
+      if (l != null) l.onPageStarted();
+    }
+
     @Override
     public void onPageFinished(WebView view, String url) {
       super.onPageFinished(view, url);
-      if (swipeRefresh != null) {
-        swipeRefresh.setRefreshing(false);
-      }
+      if (l != null) l.onPageFinish();
     }
+  }
+
+  private SimpleWebClientListener webClientListener =
+      new SimpleWebClientListener() {
+        @Override
+        public void onPageStarted() {
+          super.onPageStarted();
+        }
+
+        @Override
+        public void onPageFinish() {
+          super.onPageFinish();
+        }
+
+        @Override
+        public void onProgressChanged(int newProgress) {
+          super.onProgressChanged(newProgress);
+        }
+      };
+
+  static class SimpleWebClientListener implements WebClientListener {
+
+    @Override
+    public void onPageStarted() {}
+
+    @Override
+    public void onPageFinish() {}
+
+    @Override
+    public void onProgressChanged(int newProgress) {}
+  }
+
+  interface WebClientListener {
+    void onPageStarted();
+
+    void onPageFinish();
+
+    void onProgressChanged(int newProgress);
   }
 }
