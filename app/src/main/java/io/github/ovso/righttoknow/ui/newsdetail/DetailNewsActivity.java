@@ -30,11 +30,6 @@ public class DetailNewsActivity extends AdsActivity {
   private News news;
 
   @Override
-  protected int getLayoutResId() {
-    return R.layout.activity_detail_news;
-  }
-
-  @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     progressBar.hide();

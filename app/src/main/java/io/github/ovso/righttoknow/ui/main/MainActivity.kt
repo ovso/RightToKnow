@@ -46,10 +46,6 @@ class MainActivity : BaseActivity(), MainPresenter.View {
     return true
   }
 
-  public override fun getLayoutResId(): Int {
-    return R.layout.activity_main
-  }
-
   override fun setListener() {
     val toggle = ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open,
       R.string.navigation_drawer_close)

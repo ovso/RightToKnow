@@ -19,7 +19,7 @@ import lombok.Getter;
       App.DEBUG ?
           "ca-app-pub-3940256099942544/1033173712" :
           "ca-app-pub-8679189423397017/2384988367");
-  private String value;
+  public String value;
 
   Security(String value) {
     this.value = value;
