@@ -10,7 +10,9 @@
     tools:openDrawer="start"
     >
 
-  <include layout="@layout/app_bar_main"/>
+  <include
+      android:id="@+id/include_content_container"
+      layout="@layout/app_bar_main"/>
 
   <com.google.android.material.navigation.NavigationView
       android:id="@+id/nav_view"

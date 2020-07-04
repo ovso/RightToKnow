@@ -11,157 +11,161 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-  compileSdkVersion 29
-  defaultConfig {
-    applicationId "io.github.ovso.righttoknow"
-    minSdkVersion 21
-    targetSdkVersion 29
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "io.github.ovso.righttoknow"
+        minSdkVersion 21
+        targetSdkVersion 29
 
-    int versionMajor = 1
-    int versionMinor = 0
-    int versionPatch = 7
+        int versionMajor = 1
+        int versionMinor = 0
+        int versionPatch = 7
 
-    versionCode versionMajor * 1000000 + versionMinor * 1000 + versionPatch
-    versionName "${versionMajor}.${versionMinor}.${versionPatch}"
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-  }
-  lintOptions {
-    abortOnError false
-  }
-  signingConfigs {
-    release {
-      keyAlias keystoreProperties['keyAlias']
-      storePassword keystoreProperties['storePassword']
-      keyPassword keystoreProperties['keyPassword']
-      storeFile file(keystoreProperties['storeFile'])
-      v1SigningEnabled true
-      v2SigningEnabled true
+        versionCode versionMajor * 1000000 + versionMinor * 1000 + versionPatch
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-  }
-
-  buildTypes {
-    release {
-      minifyEnabled false
-      shrinkResources false
-      proguardFile getDefaultProguardFile('proguard-android.txt')
-      proguardFile 'proguard-rules.pro'
-      proguardFile 'proguard-firebase.pro'
-      proguardFile 'proguard-butterknipe.pro'
-      proguardFile 'proguard-pdfviewer.pro'
-      proguardFile 'proguard-avloading.pro'
-      proguardFile 'proguard-glide.pro'
-      proguardFile 'proguard-retrofit.pro'
-      proguardFile 'proguard-okhttp.pro'
-      proguardFile 'proguard-dagger.pro'
-      proguardFile 'proguard-jsoup.pro'
-      proguardFile 'proguard-lombok.pro'
-
-      signingConfig signingConfigs.release
-
-      resValue("string", "ads_app_id", "ca-app-pub-8679189423397017~9361379422")
-      resValue("string", "ads_banner_unit_id", "ca-app-pub-8679189423397017/8758744192")
-      resValue("string", "ads_interstitial_id", "ca-app-pub-8679189423397017/2384988367")
-
-      android.applicationVariants.all { variant ->
-        variant.outputs.all {
-          def formattedDate = new Date().format('yyyyMMddHHmmss')
-          def appName = variant.getApplicationId().split(/[.]/)[3]
-          outputFileName =
-              "${appName}-${variant.name}-${variant.versionCode}-${variant.versionName}-${formattedDate}.apk"
+    lintOptions {
+        abortOnError false
+    }
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            storePassword keystoreProperties['storePassword']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            v1SigningEnabled true
+            v2SigningEnabled true
         }
-      }
     }
-    debug {
 
-      resValue("string", "ads_app_id", "ca-app-pub-3940256099942544~3347511713")
-      resValue("string", "ads_banner_unit_id", "ca-app-pub-3940256099942544/6300978111")
-      resValue("string", "ads_interstitial_id", "ca-app-pub-3940256099942544/1033173712")
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+            proguardFile 'proguard-rules.pro'
+            proguardFile 'proguard-firebase.pro'
+            proguardFile 'proguard-butterknipe.pro'
+            proguardFile 'proguard-pdfviewer.pro'
+            proguardFile 'proguard-avloading.pro'
+            proguardFile 'proguard-glide.pro'
+            proguardFile 'proguard-retrofit.pro'
+            proguardFile 'proguard-okhttp.pro'
+            proguardFile 'proguard-dagger.pro'
+            proguardFile 'proguard-jsoup.pro'
+            proguardFile 'proguard-lombok.pro'
 
+            signingConfig signingConfigs.release
+
+            resValue("string", "ads_app_id", "ca-app-pub-8679189423397017~9361379422")
+            resValue("string", "ads_banner_unit_id", "ca-app-pub-8679189423397017/8758744192")
+            resValue("string", "ads_interstitial_id", "ca-app-pub-8679189423397017/2384988367")
+
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def formattedDate = new Date().format('yyyyMMddHHmmss')
+                    def appName = variant.getApplicationId().split(/[.]/)[3]
+                    outputFileName =
+                            "${appName}-${variant.name}-${variant.versionCode}-${variant.versionName}-${formattedDate}.apk"
+                }
+            }
+        }
+        debug {
+
+            resValue("string", "ads_app_id", "ca-app-pub-3940256099942544~3347511713")
+            resValue("string", "ads_banner_unit_id", "ca-app-pub-3940256099942544/6300978111")
+            resValue("string", "ads_interstitial_id", "ca-app-pub-3940256099942544/1033173712")
+
+        }
     }
-  }
 
-  lintOptions {
-    disable 'LongLogTag'
-  }
+    lintOptions {
+        disable 'LongLogTag'
+    }
 
-  compileOptions {
-    targetCompatibility JavaVersion.VERSION_1_8
-    sourceCompatibility JavaVersion.VERSION_1_8
-  }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
 
-  kotlinOptions {
-    jvmTarget = "1.8"
-  }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-  implementation fileTree(include: ['*.jar'], dir: 'libs')
-  implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
-  // test
-  androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
-  testImplementation "junit:junit:$junit_version"
+    // test
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testImplementation "junit:junit:$junit_version"
 
-  implementation 'com.google.android.gms:play-services-ads:19.2.0'
+    implementation 'com.google.android.gms:play-services-ads:19.2.0'
 
-  // support
-  implementation "androidx.appcompat:appcompat:1.1.0"
-  implementation "androidx.browser:browser:1.2.0"
-  implementation "com.google.android.material:material:1.3.0-alpha01"
-  implementation "androidx.cardview:cardview:1.0.0"
-  implementation "androidx.constraintlayout:constraintlayout:1.1.3"
+    // support
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.browser:browser:1.2.0"
+    implementation "com.google.android.material:material:1.3.0-alpha01"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
 
-  // location
-  implementation "com.google.android.gms:play-services-location:$play_services_location_version"
-  implementation "com.google.android.gms:play-services-maps:$play_services_maps_version"
+    // location
+    implementation "com.google.android.gms:play-services-location:$play_services_location_version"
+    implementation "com.google.android.gms:play-services-maps:$play_services_maps_version"
 
-  // butter knife
-  implementation "com.jakewharton:butterknife:$butterknife_version"
-  annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
+    // butter knife
+    implementation "com.jakewharton:butterknife:$butterknife_version"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
 
-  // debug
-  implementation "com.jakewharton.timber:timber:$timber_version"
+    // debug
+    implementation "com.jakewharton.timber:timber:$timber_version"
 
-  // firebase
-  implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
-  implementation "com.google.firebase:firebase-core:$firebase_core_version"
+    // firebase
+    implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
+    implementation "com.google.firebase:firebase-core:$firebase_core_version"
 
-  // rxjava
-  implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
-  implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
-  implementation "com.jakewharton.rxbinding2:rxbinding:$rxbinding2_version"
+    // rxjava
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rxbinding2_version"
 
-  // network
-  implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-  implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-  implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-  implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
-  implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
+    // network
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
 
-  compileOnly "org.projectlombok:lombok:$lombok_version"
-  annotationProcessor "org.projectlombok:lombok:$lombok_version"
+    compileOnly "org.projectlombok:lombok:$lombok_version"
+    annotationProcessor "org.projectlombok:lombok:$lombok_version"
 
-  implementation "de.psdev.licensesdialog:licensesdialog:$licensesdialog_version"
-  implementation "com.wang.avi:library:$avi_library_version"
-  implementation "com.github.bumptech.glide:glide:$glide_version"
-  annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
-  implementation "org.jsoup:jsoup:$rootProject.jsoup_version"
+    implementation "de.psdev.licensesdialog:licensesdialog:$licensesdialog_version"
+    implementation "com.wang.avi:library:$avi_library_version"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    implementation "org.jsoup:jsoup:$rootProject.jsoup_version"
 
-  // pdf
-  implementation "com.github.barteksc:android-pdf-viewer:$pdf_viewer_version"
-  // downloader
-  implementation "com.mindorks.android:prdownloader:$rootProject.prdownloader_version"
+    // pdf
+    implementation "com.github.barteksc:android-pdf-viewer:$pdf_viewer_version"
+    // downloader
+    implementation "com.mindorks.android:prdownloader:$rootProject.prdownloader_version"
 
-  // dagger2
-  implementation "com.google.dagger:dagger:$dagger_version"
-  implementation "com.google.dagger:dagger-android-support:$dagger_version"
-  annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
-  annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    // dagger2
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
 
-  implementation "androidx.core:core-ktx:1.3.0"
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "androidx.core:core-ktx:1.3.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 // Add to the bottom of the file
