@@ -7,6 +7,8 @@
     >
 
   <include layout="@layout/app_bar_layout"/>
-  <include layout="@layout/content_pdf_viewer"/>
+  <include
+      android:id="@+id/include_pdfviewer_conents_container"
+      layout="@layout/content_pdf_viewer"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

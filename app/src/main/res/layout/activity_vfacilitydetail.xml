@@ -8,6 +8,7 @@
     >
 
   <include
+      android:id="@+id/include_vfacilitydetail_appbar_container"
       layout="@layout/app_bar_vfacilitydetail"
       android:layout_width="match_parent"
       android:layout_height="match_parent"

@@ -6,6 +6,8 @@
     >
 
   <include layout="@layout/app_bar_layout"/>
-  <include layout="@layout/content_abuse"/>
+  <include
+      android:id="@+id/include_child_abuse_content_container"
+      layout="@layout/content_abuse"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

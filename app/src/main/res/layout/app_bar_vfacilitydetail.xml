@@ -8,6 +8,8 @@
     >
 
   <include layout="@layout/app_bar_layout"/>
-  <include layout="@layout/content_vfacilitydetail"/>
+  <include
+      android:id="@+id/include_vfacilitydetail_contents_container"
+      layout="@layout/content_vfacilitydetail"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -7,7 +7,9 @@
     android:fitsSystemWindows="true"
     >
 
-  <include layout="@layout/app_bar_abuse"/>
+  <include
+      android:id="@+id/include_child_abuse_appbar_container"
+      layout="@layout/app_bar_abuse"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
 

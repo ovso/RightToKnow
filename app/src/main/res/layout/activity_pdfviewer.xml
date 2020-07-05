@@ -7,7 +7,9 @@
     android:fitsSystemWindows="true"
     >
 
-  <include layout="@layout/app_bar_pdfviewer"/>
+  <include
+      android:id="@+id/include_pdfviewer_container"
+      layout="@layout/app_bar_pdfviewer"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
