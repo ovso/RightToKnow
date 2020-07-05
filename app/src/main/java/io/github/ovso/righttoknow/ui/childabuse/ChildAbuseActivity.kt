@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.ui.childabuse
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import android.webkit.WebChromeClient
@@ -14,6 +15,7 @@ class ChildAbuseActivity : AdsActivity() {
 
   private val binding by viewBinding(ActivityChildAbuseBinding::inflate)
 
+  @SuppressLint("SetJavaScriptEnabled")
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(binding.root)
