@@ -21,32 +21,41 @@ import io.github.ovso.righttoknow.ui.video.LandscapeVideoActivity;
 import io.github.ovso.righttoknow.ui.video.PortraitVideoActivity;
 import javax.inject.Singleton;
 
-@Module(includes = { AndroidSupportInjectionModule.class })
+@Module(includes = {AndroidSupportInjectionModule.class})
 public abstract class ActivityBuilder {
-  @Singleton @ContributesAndroidInjector(modules = { MainActivityModule.class })
+  @Singleton
+  @ContributesAndroidInjector(modules = {MainActivityModule.class})
   abstract MainActivity bindMainActivity();
 
-  @Singleton @ContributesAndroidInjector(modules = { VFacilityDetailActivityModule.class })
+  @Singleton
+  @ContributesAndroidInjector(modules = {VFacilityDetailActivityModule.class})
   abstract VFacilityDetailActivity bindVFacilityDetailActivity();
 
-  @Singleton @ContributesAndroidInjector(modules = { MapActivityActivityModule.class })
+  @Singleton
+  @ContributesAndroidInjector(modules = {MapActivityActivityModule.class})
   abstract MapActivity bindMapActivity();
 
-  @Singleton @ContributesAndroidInjector(modules = { PDFViewerActivityModule.class })
+  @Singleton
+  @ContributesAndroidInjector(modules = {PDFViewerActivityModule.class})
   abstract PDFViewerActivity bindPDFViewerActivity();
 
-  @Singleton @ContributesAndroidInjector(modules = { DetailNewsActivityModule.class })
+  @Singleton
+  @ContributesAndroidInjector(modules = {DetailNewsActivityModule.class})
   abstract DetailNewsActivity bindDetailNewsActivity();
 
-  @Singleton @ContributesAndroidInjector(modules = { SettingsActivityModule.class })
+  @Singleton
+  @ContributesAndroidInjector(modules = {SettingsActivityModule.class})
   abstract SettingsActivity bindSettingsActivity();
 
-  @Singleton @ContributesAndroidInjector(modules = { ChildAbuseActivityModule.class })
+  @Singleton
+  @ContributesAndroidInjector(modules = {ChildAbuseActivityModule.class})
   abstract ChildAbuseActivity bindChildAbuseActivity();
 
-  @Singleton @ContributesAndroidInjector(modules = {})
+  @Singleton
+  @ContributesAndroidInjector(modules = {})
   abstract LandscapeVideoActivity bindLandscapeVideoActivity();
 
-  @Singleton @ContributesAndroidInjector(modules = {})
+  @Singleton
+  @ContributesAndroidInjector(modules = {})
   abstract PortraitVideoActivity bindPortraitVideoActivity();
 }
