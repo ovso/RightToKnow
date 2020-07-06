@@ -7,10 +7,6 @@ import java.io.IOException;
 import java.util.List;
 import timber.log.Timber;
 
-/**
- * Created by jaeho on 2018. 3. 15
- */
-
 public class AddressUtils {
 
   public static double[] getFromLocation(Context context, String address) {
