@@ -7,5 +7,5 @@ import retrofit2.http.QueryMap
 
 interface VideoService {
   @GET("youtube/v3/search")
-  fun getResult(@QueryMap queryMap: Map<String?, Any?>?): Single<Search?>?
+  fun getResult(@QueryMap queryMap: Map<String, Any>): Single<Search>
 }

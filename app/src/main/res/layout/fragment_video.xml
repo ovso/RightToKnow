@@ -6,12 +6,12 @@
     android:id="@id/root_view"
     >
   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-      android:id="@+id/swipe_refresh"
+      android:id="@+id/srl_video"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       >
     <io.github.ovso.righttoknow.ui.base.VideoRecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/rv_video"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

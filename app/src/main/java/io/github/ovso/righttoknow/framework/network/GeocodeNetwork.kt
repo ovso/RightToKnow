@@ -15,23 +15,23 @@ class GeocodeNetwork(
   context,
   baseUrl
 ) {
-  override fun getApiClass(): Class<GeocoderApi> {
-    return GeocoderApi::class.java
-  }
-
-  override fun createRequst(original: Request): Request {
-    return original.newBuilder().header("Content-Type", "plain/text").build()
-  }
 
   fun getGoogleGeocode(address: String): Single<GoogleGeocode> {
     val queryMap = HashMap<String, String>()
     queryMap["address"] = address
     queryMap["language"] = "ko"
-    queryMap["key"] = Security.GOOGLE_API_KEY.getValue()
-    return api!!.getGeocode(queryMap)
+    queryMap["key"] = Security.GOOGLE_API_KEY.value
+    return api.getGeocode(queryMap)
   }
 
   companion object {
     const val GEOCODING_BASE_URL = "https://maps.googleapis.com"
+  }
+
+  override val apiClass: Class<GeocoderApi>
+    get() = GeocoderApi::class.java
+
+  override fun createRequst(original: Request): Request {
+    return original.newBuilder().header("Content-Type", "plain/text").build()
   }
 }

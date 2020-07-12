@@ -4,34 +4,17 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AlertDialog
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
-import butterknife.OnClick
 import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.databinding.ActivityVfacilitydetailBinding
 import io.github.ovso.righttoknow.exts.viewBinding
 import io.github.ovso.righttoknow.framework.AdsActivity
 import io.github.ovso.righttoknow.ui.map.MapActivity
-import javax.inject.Inject
+import kotlinx.android.synthetic.main.content_vfacilitydetail.*
 
 class VFacilityDetailActivity : AdsActivity(), VFacilityDetailPresenter.View {
-  @Inject
   lateinit var presenter: VFacilityDetailPresenter
-
-  @JvmField
-  @BindView(R.id.swipe_refresh)
-  var swipe: SwipeRefreshLayout? = null
-
-  @JvmField
-  @BindView(R.id.share_button)
-  var shareButton: Button? = null
-
-  @JvmField
-  @BindView(R.id.location_button)
-  var locationButton: Button? = null
-
+  
   private val binding by viewBinding(ActivityVfacilitydetailBinding::inflate)
   private val contentsTextView = binding.includeVfacilitydetailAppbarContainer.includeVfacilitydetailContentsContainer.contentsTextview
 
@@ -39,6 +22,20 @@ class VFacilityDetailActivity : AdsActivity(), VFacilityDetailPresenter.View {
     super.onCreate(savedInstanceState)
     setContentView(binding.root)
     presenter.onCreate(savedInstanceState, intent)
+
+
+    btn_vfac_share.setOnClickListener {
+      val intent = Intent()
+      intent.action = Intent.ACTION_SEND
+      intent.type = "text/plain"
+      intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_message))
+      intent.putExtra(Intent.EXTRA_TEXT, contentsTextView.text.toString())
+      val chooser = Intent.createChooser(intent, getString(R.string.share_message))
+      startActivity(chooser)
+    }
+    btn_vfac_location.setOnClickListener {
+      presenter.onMapClick(intent)
+    }
   }
 
   override fun setTitle(titleId: Int) {
@@ -56,16 +53,16 @@ class VFacilityDetailActivity : AdsActivity(), VFacilityDetailPresenter.View {
   }
 
   override fun setListener() {
-    swipe!!.setColorSchemeResources(R.color.colorPrimary)
-    swipe!!.setOnRefreshListener { presenter.onRefresh(this@VFacilityDetailActivity.intent) }
+    srl_vfac.setColorSchemeResources(R.color.colorPrimary)
+    srl_vfac.setOnRefreshListener { presenter.onRefresh(this@VFacilityDetailActivity.intent) }
   }
 
   override fun showLoading() {
-    swipe!!.isRefreshing = true
+    srl_vfac.isRefreshing = true
   }
 
   override fun hideLoading() {
-    swipe!!.isRefreshing = false
+    srl_vfac.isRefreshing = false
   }
 
   override fun showMessage(resId: Int) {
@@ -84,30 +81,15 @@ class VFacilityDetailActivity : AdsActivity(), VFacilityDetailPresenter.View {
   }
 
   override fun hideButton() {
-    locationButton!!.visibility = View.INVISIBLE
-    shareButton!!.visibility = View.INVISIBLE
+    btn_vfac_location.visibility = View.INVISIBLE
+    btn_vfac_share.visibility = View.INVISIBLE
   }
 
   override fun showButton() {
-    locationButton!!.visibility = View.VISIBLE
-    shareButton!!.visibility = View.VISIBLE
+    btn_vfac_location.visibility = View.VISIBLE
+    btn_vfac_share.visibility = View.VISIBLE
   }
 
-  @OnClick(R.id.share_button)
-  fun onShareClick() {
-    val intent = Intent()
-    intent.action = Intent.ACTION_SEND
-    intent.type = "text/plain"
-    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_message))
-    intent.putExtra(Intent.EXTRA_TEXT, contentsTextView.text.toString())
-    val chooser = Intent.createChooser(intent, getString(R.string.share_message))
-    startActivity(chooser)
-  }
-
-  @OnClick(R.id.location_button)
-  fun onMapClick() {
-    presenter.onMapClick(intent)
-  }
 
   override fun onDestroy() {
     super.onDestroy()

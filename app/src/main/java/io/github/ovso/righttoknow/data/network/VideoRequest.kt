@@ -7,9 +7,8 @@ import io.github.ovso.righttoknow.data.network.model.video.Search
 import io.reactivex.Single
 import okhttp3.Headers
 import java.util.*
-import javax.inject.Inject
 
-class VideoRequest @Inject constructor() : BaseRequest<VideoService>() {
+class VideoRequest : BaseRequest<VideoService>() {
   override val apiClass: Class<VideoService>
     protected get() = VideoService::class.java
 
@@ -33,7 +32,7 @@ class VideoRequest @Inject constructor() : BaseRequest<VideoService>() {
     queryMap[KeyName.ORDER.get()] = "date"
     queryMap[KeyName.TYPE.get()] = "video"
     queryMap[KeyName.VIDEO_SYNDICATED.get()] = "true"
-    queryMap[KeyName.KEY.get()] = Security.GOOGLE_API_KEY.getValue()
+    queryMap[KeyName.KEY.get()] = Security.GOOGLE_API_KEY.value
     queryMap[KeyName.PART.get()] = "snippet"
     if (!TextUtils.isEmpty(pageToken)) {
       queryMap[KeyName.PAGE_TOKEN.get()] = pageToken

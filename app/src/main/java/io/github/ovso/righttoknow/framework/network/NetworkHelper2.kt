@@ -16,7 +16,7 @@ abstract class NetworkHelper2<T>(protected var context: Context, private val bas
     get() = createRetrofit().create(apiClass)
 
   protected abstract val apiClass: Class<T>
-  protected abstract fun createRequst(original: Request?): Request?
+  protected abstract fun createRequst(original: Request): Request
   private fun createRetrofit(): Retrofit {
     return Retrofit.Builder().baseUrl(baseUrl)
       .addConverterFactory(GsonConverterFactory.create())

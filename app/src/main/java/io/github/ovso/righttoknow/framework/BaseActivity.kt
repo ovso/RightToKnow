@@ -3,13 +3,13 @@ package io.github.ovso.righttoknow.framework
 import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import dagger.android.support.DaggerAppCompatActivity
 import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.framework.ad.MyAdView
 
-abstract class BaseActivity : DaggerAppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     val toolbar = findViewById<Toolbar>(R.id.toolbar)

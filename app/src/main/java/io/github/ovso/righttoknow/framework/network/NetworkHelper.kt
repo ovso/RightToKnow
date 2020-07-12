@@ -35,8 +35,8 @@ open class NetworkHelper(protected var context: Context, private val baseUrl: St
         val original = chain.request()
         val requestBuilder = original.newBuilder()
           .header("Content-Type", "plain/text")
-          .addHeader("X-Naver-Client-Id", Security.NAVER_CLIENT_ID.getValue())
-          .addHeader("X-Naver-Client-Secret", Security.NAVER_CLIENT_SECRET.getValue())
+          .addHeader("X-Naver-Client-Id", Security.NAVER_CLIENT_ID.value)
+          .addHeader("X-Naver-Client-Secret", Security.NAVER_CLIENT_SECRET.value)
         val request = requestBuilder.build()
         return chain.proceed(request)
       }

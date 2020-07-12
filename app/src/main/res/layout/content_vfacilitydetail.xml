@@ -11,7 +11,7 @@
     tools:showIn="@layout/app_bar_vfacilitydetail"
     >
   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-      android:id="@+id/swipe_refresh"
+      android:id="@+id/srl_vfac"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       >
@@ -40,7 +40,7 @@
           android:orientation="horizontal"
           >
         <Button
-            android:id="@+id/share_button"
+            android:id="@+id/btn_vfac_share"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -49,7 +49,7 @@
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             />
         <Button
-            android:id="@+id/location_button"
+            android:id="@+id/btn_vfac_location"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
