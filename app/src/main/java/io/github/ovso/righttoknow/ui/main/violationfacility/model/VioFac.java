@@ -16,15 +16,15 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 @Getter @ToString @EqualsAndHashCode(callSuper = false) public class VioFac {
-  private int order;
-  private String sido;
-  private String sigungu;
-  private String type;
-  private String master;
-  private String director;
-  private String fac_name;
-  private String address;
-  private String link;
+  public int order;
+  public String sido;
+  public String sigungu;
+  public String type;
+  public String master;
+  public String director;
+  public String fac_name;
+  public String address;
+  public String link;
 
   public static List<VioFac> convertToItems(Document doc)
       throws JSONException, IndexOutOfBoundsException {

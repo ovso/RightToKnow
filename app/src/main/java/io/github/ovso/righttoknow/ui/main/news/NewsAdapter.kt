@@ -1,21 +1,20 @@
 package io.github.ovso.righttoknow.ui.main.news
 
-import android.text.Html
 import android.text.SpannableString
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import butterknife.BindView
+import androidx.core.text.HtmlCompat
 import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView
 import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter
 import io.github.ovso.righttoknow.framework.utils.Utility
 import io.github.ovso.righttoknow.ui.main.news.model.News
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.fragment_news_item.*
 import java.util.*
 
 class NewsAdapter : BaseRecyclerAdapter(), NewsAdapterDataModel, BaseAdapterView {
   private val items: MutableList<News> = ArrayList()
-  override fun createViewHolder(view: View?, viewType: Int): BaseViewHolder {
+  override fun createViewHolder(view: View, viewType: Int): BaseViewHolder {
     return NewsViewHolder(view)
   }
 
@@ -23,22 +22,17 @@ class NewsAdapter : BaseRecyclerAdapter(), NewsAdapterDataModel, BaseAdapterView
     return R.layout.fragment_news_item
   }
 
-  override fun onBindViewHolder(viewHolder: BaseViewHolder, position: Int) {
-    if (viewHolder is NewsViewHolder) {
-      val holder = viewHolder
-      val news = items[position]
-      val title = news.title
-      val spannableString = SpannableString(Html.fromHtml(title))
-      holder.titleTextview!!.text = spannableString
-      holder.countTextview!!.text = (position + 1).toString()
-      val date = Utility.convertDate(news.pubDate, "yy-MM-dd")
-      holder.dateTextView!!.text = date
-      holder.itemView.setOnClickListener { view: View? ->
+  override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+    if (holder is NewsViewHolder) {
+      holder.onBindViewHolder(getItem(position), position)
+      holder.itemView.setOnClickListener {
         if (onRecyclerItemClickListener != null) {
-          onRecyclerItemClickListener!!.onItemClick(news)
+          onRecyclerItemClickListener!!.onItemClick(getItem(position))
         }
       }
-      holder.imageView!!.setOnClickListener { view: View? -> onRecyclerItemClickListener!!.onSimpleNewsItemClick(news) }
+      holder.simple_news_imageview.setOnClickListener {
+        onRecyclerItemClickListener!!.onSimpleNewsItemClick(getItem(position))
+      }
     }
   }
 
@@ -82,17 +76,15 @@ class NewsAdapter : BaseRecyclerAdapter(), NewsAdapterDataModel, BaseAdapterView
     onRecyclerItemClickListener = listener
   }
 
-  internal class NewsViewHolder(itemView: View?) : BaseViewHolder(itemView) {
-    @BindView(R.id.title_textview)
-    var titleTextview: TextView? = null
+  internal class NewsViewHolder(override val containerView: View?) : BaseViewHolder(containerView!!), LayoutContainer {
 
-    @BindView(R.id.count_textview)
-    var countTextview: TextView? = null
-
-    @BindView(R.id.date_textview)
-    var dateTextView: TextView? = null
-
-    @BindView(R.id.simple_news_imageview)
-    var imageView: ImageView? = null
+    fun onBindViewHolder(_item: News, position: Int) {
+      val title = _item.title
+      val spannableString = SpannableString(HtmlCompat.fromHtml(title, HtmlCompat.FROM_HTML_MODE_COMPACT))
+      title_textview.text = spannableString
+      count_textview.text = (position + 1).toString()
+      val date = Utility.convertDate(_item.pubDate, "yy-MM-dd")
+      date_textview.text = date
+    }
   }
 }

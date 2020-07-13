@@ -18,7 +18,7 @@ class App : Application() {
   companion object {
     var DEBUG = false
     @JvmStatic
-    var instance: App? = null
+    lateinit var instance: App
       private set
   }
 }
