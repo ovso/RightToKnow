@@ -11,11 +11,10 @@ import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener
 import io.github.ovso.righttoknow.ui.main.certified.model.ChildCertified
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class CertifiedAdapter() : BaseRecyclerAdapter(), BaseAdapterView, BaseAdapterDataModel<ChildCertified?> {
+class CertifiedAdapter : BaseRecyclerAdapter(), BaseAdapterView, BaseAdapterDataModel<ChildCertified> {
   private val items: MutableList<ChildCertified> = ArrayList()
   private val compositeDisposable = CompositeDisposable()
   override fun createViewHolder(view: View, viewType: Int): BaseViewHolder {
@@ -28,14 +27,13 @@ class CertifiedAdapter() : BaseRecyclerAdapter(), BaseAdapterView, BaseAdapterDa
 
   override fun onBindViewHolder(baseHolder: BaseViewHolder, position: Int) {
     if (baseHolder is CertifiedViewHolder) {
-      val holder = baseHolder
       val item = items[position]
-      holder.titleTextview!!.text = item.title.trim { it <= ' ' }.replace(" ", "\u00A0")
-      holder.orderTextview!!.text = item.order.toString()
+      baseHolder.titleTextview!!.text = item.title.trim { it <= ' ' }.replace(" ", "\u00A0")
+      baseHolder.orderTextview!!.text = item.order.toString()
       //holder.itemView.setOnClickListener(view -> onRecyclerItemClickListener.onItemClick(item));
-      compositeDisposable.add(RxView.clicks(holder.itemView)
+      compositeDisposable.add(RxView.clicks(baseHolder.itemView)
         .throttleFirst(1, TimeUnit.SECONDS)
-        .subscribe(Consumer { onRecyclerItemClickListener!!.onItemClick(item) }))
+        .subscribe({ onRecyclerItemClickListener!!.onItemClick(item) }))
     }
   }
 
@@ -51,7 +49,7 @@ class CertifiedAdapter() : BaseRecyclerAdapter(), BaseAdapterView, BaseAdapterDa
     items.add(item)
   }
 
-  fun addAll(items: List<ChildCertified>) {
+  override fun addAll(items: List<ChildCertified>) {
     this.items.addAll(items)
   }
 
@@ -74,7 +72,6 @@ class CertifiedAdapter() : BaseRecyclerAdapter(), BaseAdapterView, BaseAdapterDa
     items.clear()
   }
 
-  @Setter
   private val onRecyclerItemClickListener: OnRecyclerItemClickListener<ChildCertified>? = null
   fun onDestroyView() {
     compositeDisposable.dispose()
