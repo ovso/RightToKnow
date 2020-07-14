@@ -13,14 +13,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 @Getter @ToString public class Violator {
-  private String name;
-  private String history;
-  private String order;
-  private String sido;
-  private String sigungu;
-  private String fac_name;
-  private String address;
-  private String link;
+  public String name;
+  public String history;
+  public String order;
+  public String sido;
+  public String sigungu;
+  public String fac_name;
+  public String address;
+  public String link;
 
   public static List<Violator> convertToItems(Document doc)
       throws Exception {

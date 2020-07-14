@@ -10,23 +10,36 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.ovso.righttoknow.R
+import io.github.ovso.righttoknow.data.network.VideoRequest
 import io.github.ovso.righttoknow.data.network.model.video.SearchItem
 import io.github.ovso.righttoknow.framework.BaseFragment
+import io.github.ovso.righttoknow.framework.ad.MyAdView
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView
 import io.github.ovso.righttoknow.ui.base.OnEndlessRecyclerScrollListener
 import io.github.ovso.righttoknow.ui.base.OnEndlessRecyclerScrollListener.OnLoadMoreListener
 import io.github.ovso.righttoknow.ui.base.OnRecyclerViewItemClickListener
 import io.github.ovso.righttoknow.ui.video.LandscapeVideoActivity
 import io.github.ovso.righttoknow.ui.video.PortraitVideoActivity
+import io.github.ovso.righttoknow.utils.ResourceProvider
+import io.github.ovso.righttoknow.utils.SchedulersFacade
 import kotlinx.android.synthetic.main.fragment_video.*
 
-class VideoFragment : BaseFragment(), VideoFragmentPresenter.View, OnLoadMoreListener, OnRecyclerViewItemClickListener<SearchItem> {
-  var presenter: VideoFragmentPresenter? = null
+class VideoFragment : BaseFragment(), VideoFragmentPresenter.View, OnLoadMoreListener,
+  OnRecyclerViewItemClickListener<SearchItem> {
+  private lateinit var presenter: VideoFragmentPresenter
   private var adapterView: BaseAdapterView? = null
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
     setHasOptionsMenu(true)
-    presenter!!.onActivityCreated(savedInstanceState)
+    presenter = VideoFragmentPresenterImpl(
+      this,
+      MyAdView.getInterstitalAd(requireContext()),
+      VideoRequest(),
+      ResourceProvider(requireContext()),
+      SchedulersFacade
+    )
+
+    presenter.onActivityCreated(savedInstanceState)
   }
 
   override fun getLayoutResId(): Int {
@@ -36,7 +49,7 @@ class VideoFragment : BaseFragment(), VideoFragmentPresenter.View, OnLoadMoreLis
   override fun setRecyclerView() {
     val layout = LinearLayoutManager(context)
     val adapter = VideoAdapter()
-    presenter!!.setAdapterDataModel(adapter)
+    presenter.setAdapterDataModel(adapter)
     adapterView = adapter
     rv_video.layoutManager = layout
     rv_video.adapter = adapter
@@ -53,7 +66,7 @@ class VideoFragment : BaseFragment(), VideoFragmentPresenter.View, OnLoadMoreLis
   }
 
   override fun setRefreshLayout() {
-    srl_video.setOnRefreshListener { presenter!!.onRefresh() }
+    srl_video.setOnRefreshListener { presenter.onRefresh() }
     srl_video.setColorSchemeResources(R.color.colorPrimary)
   }
 
@@ -74,7 +87,7 @@ class VideoFragment : BaseFragment(), VideoFragmentPresenter.View, OnLoadMoreLis
   }
 
   override fun onDestroyView() {
-    presenter!!.onDestroyView()
+    presenter.onDestroyView()
     super.onDestroyView()
   }
 
@@ -85,22 +98,25 @@ class VideoFragment : BaseFragment(), VideoFragmentPresenter.View, OnLoadMoreLis
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
-    presenter!!.onActivityResult(requestCode, resultCode, data)
+    presenter.onActivityResult(requestCode, resultCode, data)
   }
 
   override fun onLoadMore() {
-    presenter!!.onLoadMore()
+    presenter.onLoadMore()
   }
 
   override fun onItemClick(view: View, data: SearchItem, itemPosition: Int) {
-    presenter!!.onItemClick(data)
+    presenter.onItemClick(data)
   }
 
   override fun showVideoTypeDialog(onClickListener: DialogInterface.OnClickListener) {
     AlertDialog.Builder(context).setMessage(
-      R.string.please_select_the_player_mode)
-      .setPositiveButton(R.string.portrait_mode,
-        onClickListener)
+      R.string.please_select_the_player_mode
+    )
+      .setPositiveButton(
+        R.string.portrait_mode,
+        onClickListener
+      )
       .setNeutralButton(R.string.landscape_mode, onClickListener)
       .setNegativeButton(android.R.string.cancel, onClickListener)
       .show()

@@ -19,15 +19,15 @@ import org.jsoup.select.Elements;
  */
 
 @Getter @ToString public class ChildCertified {
-  private int order;
-  private String title;
-  private String regDate;
-  private int hits;
-  private String link;
-  private String BBSGB;
-  private String BID;
-  private String flag;
-  private String downloadUrl;
+  public int order;
+  public String title;
+  public String regDate;
+  public int hits;
+  public String link;
+  public String BBSGB;
+  public String BID;
+  public String flag;
+  public String downloadUrl;
 
   public static List<ChildCertified> convertToItems(Document doc)
       throws JSONException, IOException, IndexOutOfBoundsException {

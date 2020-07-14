@@ -14,7 +14,8 @@ import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class CertifiedAdapter : BaseRecyclerAdapter(), BaseAdapterView, BaseAdapterDataModel<ChildCertified> {
+class CertifiedAdapter : BaseRecyclerAdapter(), BaseAdapterView,
+  BaseAdapterDataModel<ChildCertified> {
   private val items: MutableList<ChildCertified> = ArrayList()
   private val compositeDisposable = CompositeDisposable()
   override fun createViewHolder(view: View, viewType: Int): BaseViewHolder {
@@ -30,10 +31,9 @@ class CertifiedAdapter : BaseRecyclerAdapter(), BaseAdapterView, BaseAdapterData
       val item = items[position]
       baseHolder.titleTextview!!.text = item.title.trim { it <= ' ' }.replace(" ", "\u00A0")
       baseHolder.orderTextview!!.text = item.order.toString()
-      //holder.itemView.setOnClickListener(view -> onRecyclerItemClickListener.onItemClick(item));
       compositeDisposable.add(RxView.clicks(baseHolder.itemView)
         .throttleFirst(1, TimeUnit.SECONDS)
-        .subscribe({ onRecyclerItemClickListener!!.onItemClick(item) }))
+        .subscribe { onRecyclerItemClickListener!!.onItemClick(item) })
     }
   }
 
@@ -72,7 +72,7 @@ class CertifiedAdapter : BaseRecyclerAdapter(), BaseAdapterView, BaseAdapterData
     items.clear()
   }
 
-  private val onRecyclerItemClickListener: OnRecyclerItemClickListener<ChildCertified>? = null
+  var onRecyclerItemClickListener: OnRecyclerItemClickListener<ChildCertified>? = null
   fun onDestroyView() {
     compositeDisposable.dispose()
     compositeDisposable.clear()
