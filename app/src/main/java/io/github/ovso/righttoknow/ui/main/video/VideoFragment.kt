@@ -39,7 +39,7 @@ class VideoFragment : BaseFragment(), VideoFragmentPresenter.View, OnLoadMoreLis
       SchedulersFacade
     )
 
-    presenter.onActivityCreated(savedInstanceState)
+    presenter.onActivityCreated()
   }
 
   override fun getLayoutResId(): Int {

@@ -1,8 +1,6 @@
 package io.github.ovso.righttoknow.ui.main.certified
 
 import android.view.View
-import android.widget.TextView
-import butterknife.BindView
 import com.jakewharton.rxbinding2.view.RxView
 import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel
@@ -11,6 +9,8 @@ import io.github.ovso.righttoknow.framework.adapter.BaseRecyclerAdapter
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener
 import io.github.ovso.righttoknow.ui.main.certified.model.ChildCertified
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.fragment_certified_item.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -26,12 +26,11 @@ class CertifiedAdapter : BaseRecyclerAdapter(), BaseAdapterView,
     return R.layout.fragment_certified_item
   }
 
-  override fun onBindViewHolder(baseHolder: BaseViewHolder, position: Int) {
-    if (baseHolder is CertifiedViewHolder) {
+  override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+    if (holder is CertifiedViewHolder) {
       val item = items[position]
-      baseHolder.titleTextview!!.text = item.title.trim { it <= ' ' }.replace(" ", "\u00A0")
-      baseHolder.orderTextview!!.text = item.order.toString()
-      compositeDisposable.add(RxView.clicks(baseHolder.itemView)
+      holder.onBindViewHolder(item)
+      compositeDisposable.add(RxView.clicks(holder.itemView)
         .throttleFirst(1, TimeUnit.SECONDS)
         .subscribe { onRecyclerItemClickListener!!.onItemClick(item) })
     }
@@ -78,13 +77,12 @@ class CertifiedAdapter : BaseRecyclerAdapter(), BaseAdapterView,
     compositeDisposable.clear()
   }
 
-  internal class CertifiedViewHolder(itemView: View?) : BaseViewHolder((itemView)!!) {
-    @JvmField
-    @BindView(R.id.title_textview)
-    var titleTextview: TextView? = null
-
-    @JvmField
-    @BindView(R.id.order_textview)
-    var orderTextview: TextView? = null
+  internal class CertifiedViewHolder(override val containerView: View?) :
+    BaseViewHolder(containerView!!),
+    LayoutContainer {
+    fun onBindViewHolder(item: ChildCertified) {
+      title_textview.text = item.title.trim { it <= ' ' }.replace(" ", "\u00A0")
+      order_textview.text = item.order.toString()
+    }
   }
 }

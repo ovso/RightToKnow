@@ -18,14 +18,16 @@ import io.github.ovso.righttoknow.utils.SchedulersFacade
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class VideoFragmentPresenterImpl internal constructor(private val view: VideoFragmentPresenter.View, private val interstitialAd: InterstitialAd,
-                                                      private val videoRequest: VideoRequest, private val resourceProvider: ResourceProvider,
-                                                      private val schedulersFacade: SchedulersFacade) : VideoFragmentPresenter {
+class VideoFragmentPresenterImpl internal constructor(
+  private val view: VideoFragmentPresenter.View, private val interstitialAd: InterstitialAd,
+  private val videoRequest: VideoRequest, private val resourceProvider: ResourceProvider,
+  private val schedulersFacade: SchedulersFacade
+) : VideoFragmentPresenter {
   private var adapterDataModel: BaseAdapterDataModel<SearchItem>? = null
   private val compositeDisposable = CompositeDisposable()
   private var pageToken: String? = null
   private var q: String? = null
-  override fun onActivityCreated(savedInstanceState: Bundle) {
+  override fun onActivityCreated() {
     view.setRefreshLayout()
     view.setRecyclerView()
     req()
@@ -34,7 +36,7 @@ class VideoFragmentPresenterImpl internal constructor(private val view: VideoFra
   private fun req() {
     view.showLoading()
     q = resourceProvider.getString(R.string.video_query)
-    val disposable = videoRequest.getResult(q!!, pageToken!!)
+    val disposable = videoRequest.getResult(q!!, pageToken)
       .subscribeOn(schedulersFacade.io())
       .observeOn(schedulersFacade.ui())
       .subscribe({ (_, _, nextPageToken, _, _, items) ->

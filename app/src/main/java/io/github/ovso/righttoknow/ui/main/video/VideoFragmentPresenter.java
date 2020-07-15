@@ -9,7 +9,7 @@ import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 
 public interface VideoFragmentPresenter {
 
-  void onActivityCreated(Bundle savedInstanceState);
+  void onActivityCreated();
 
   void setAdapterDataModel(BaseAdapterDataModel<SearchItem> dataModel);
 
