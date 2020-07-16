@@ -13,23 +13,21 @@ import io.github.ovso.righttoknow.ui.map.MapActivity
 import kotlinx.android.synthetic.main.content_vfacilitydetail.*
 
 class VFacilityDetailActivity : AdsActivity(), VFacilityDetailPresenter.View {
-  lateinit var presenter: VFacilityDetailPresenter
-  
+  private val presenter by lazy { VFacilityDetailPresenterImpl(this) }
+
   private val binding by viewBinding(ActivityVfacilitydetailBinding::inflate)
-  private val contentsTextView = binding.includeVfacilitydetailAppbarContainer.includeVfacilitydetailContentsContainer.contentsTextview
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(binding.root)
     presenter.onCreate(savedInstanceState, intent)
 
-
     btn_vfac_share.setOnClickListener {
       val intent = Intent()
       intent.action = Intent.ACTION_SEND
       intent.type = "text/plain"
       intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_message))
-      intent.putExtra(Intent.EXTRA_TEXT, contentsTextView.text.toString())
+      intent.putExtra(Intent.EXTRA_TEXT, contents_textview.text.toString())
       val chooser = Intent.createChooser(intent, getString(R.string.share_message))
       startActivity(chooser)
     }
@@ -49,7 +47,7 @@ class VFacilityDetailActivity : AdsActivity(), VFacilityDetailPresenter.View {
   }
 
   override fun showContents(contents: String) {
-    contentsTextView.text = contents
+    contents_textview.text = contents
   }
 
   override fun setListener() {
@@ -69,7 +67,8 @@ class VFacilityDetailActivity : AdsActivity(), VFacilityDetailPresenter.View {
     AlertDialog.Builder(this)
       .setMessage(resId)
       .setPositiveButton(
-        android.R.string.ok) { dialogInterface: DialogInterface, which: Int -> dialogInterface.dismiss() }
+        android.R.string.ok
+      ) { dialogInterface: DialogInterface, which: Int -> dialogInterface.dismiss() }
       .show()
   }
 
