@@ -6,11 +6,11 @@ import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.databinding.ActivityPdfviewerBinding
 import io.github.ovso.righttoknow.exts.viewBinding
 import io.github.ovso.righttoknow.framework.AdsActivity
+import kotlinx.android.synthetic.main.content_pdf_viewer.*
 import java.io.File
 
 class PDFViewerActivity : AdsActivity() {
   private val binding by viewBinding(ActivityPdfviewerBinding::inflate)
-  private val pdfView = binding.includePdfviewerContainer.includePdfviewerConentsContainer.pdfView
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -19,7 +19,7 @@ class PDFViewerActivity : AdsActivity() {
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
     if (intent.hasExtra("file")) {
       val file = intent.getSerializableExtra("file") as File
-      pdfView.fromFile(file).load()
+      pdf_view.fromFile(file).load()
     }
   }
 
