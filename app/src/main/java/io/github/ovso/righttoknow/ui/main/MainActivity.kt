@@ -32,6 +32,7 @@ class MainActivity : BaseActivity(), MainPresenter.View {
   public override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(binding.root)
+    setSupportActionBar(toolbar)
     presenter = MainPresenterImpl(this, ResourceProvider(this))
     presenter.onCreate(intent)
   }
