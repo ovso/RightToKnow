@@ -1,15 +1,10 @@
 package io.github.ovso.righttoknow.ui.main.video
 
-import android.content.ActivityNotFoundException
-import android.content.DialogInterface
 import android.content.Intent
-import android.os.Bundle
 import android.text.TextUtils
 import com.google.android.gms.ads.InterstitialAd
 import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.data.ActivityReqCode
-import io.github.ovso.righttoknow.data.VideoMode
-import io.github.ovso.righttoknow.data.VideoMode.Companion.toMode
 import io.github.ovso.righttoknow.data.network.VideoRequest
 import io.github.ovso.righttoknow.data.network.model.video.SearchItem
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel
@@ -86,23 +81,7 @@ class VideoFragmentPresenterImpl internal constructor(
   }
 
   override fun onItemClick(data: SearchItem) {
-    val onClickListener = DialogInterface.OnClickListener { dialog: DialogInterface, which: Int ->
-      dialog.dismiss()
-      try {
-        dialog.dismiss()
-        val videoId = data.id.videoId
-        when (toMode(which)) {
-          VideoMode.PORTRAIT -> view.showPortraitVideo(videoId)
-          VideoMode.LANDSCAPE -> view.showLandscapeVideo(videoId)
-          VideoMode.CANCEL -> {
-          }
-        }
-      } catch (e: ActivityNotFoundException) {
-        e.printStackTrace()
-        view.showYoutubeUseWarningDialog()
-      }
-    }
-    view.showVideoTypeDialog(onClickListener)
+    view.navigateToPlayer(data.id.videoId)
   }
 
 }

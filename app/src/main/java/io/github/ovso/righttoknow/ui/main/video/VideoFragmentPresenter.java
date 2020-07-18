@@ -4,6 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.StringRes;
+
+import org.jetbrains.annotations.NotNull;
+
 import io.github.ovso.righttoknow.data.network.model.video.SearchItem;
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterDataModel;
 
@@ -46,5 +49,7 @@ public interface VideoFragmentPresenter {
     void showYoutubeUseWarningDialog();
 
     void showVideoTypeDialog(DialogInterface.OnClickListener onClickListener);
+
+    void navigateToPlayer(@NotNull String videoId);
   }
 }

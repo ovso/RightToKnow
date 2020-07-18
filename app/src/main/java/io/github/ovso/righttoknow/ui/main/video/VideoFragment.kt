@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.data.network.VideoRequest
 import io.github.ovso.righttoknow.data.network.model.video.SearchItem
+import io.github.ovso.righttoknow.exts.launchActivity
 import io.github.ovso.righttoknow.framework.BaseFragment
 import io.github.ovso.righttoknow.framework.ad.MyAdView
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView
@@ -68,6 +69,12 @@ class VideoFragment : BaseFragment(), VideoFragmentPresenter.View, OnLoadMoreLis
   override fun setRefreshLayout() {
     srl_video.setOnRefreshListener { presenter.onRefresh() }
     srl_video.setColorSchemeResources(R.color.colorPrimary)
+  }
+
+  override fun navigateToPlayer(videoId: String) {
+    launchActivity<PortraitVideoActivity> {
+      putExtra("video_id", videoId)
+    }
   }
 
   override fun showLoading() {

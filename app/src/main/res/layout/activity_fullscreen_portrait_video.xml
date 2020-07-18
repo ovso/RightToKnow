@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/browser_actions_bg_grey"
     android:orientation="vertical">
 
-    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-        android:id="@+id/youtubeFullscreenPortrait"
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/youtubeView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:autoPlay="false"
-        app:showFullScreenButton="false" />
+        android:layout_height="wrap_content" />
 
     <FrameLayout
         android:id="@+id/ad_container"
+        android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-</LinearLayout>
+</FrameLayout>

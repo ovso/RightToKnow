@@ -1,45 +1,84 @@
 package io.github.ovso.righttoknow.ui.video
 
 import android.os.Bundle
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
-import io.github.ovso.righttoknow.databinding.ActivityFullscreenPortraitVideoBinding
-import io.github.ovso.righttoknow.exts.viewBinding
-import io.github.ovso.righttoknow.framework.AdsActivity
+import android.widget.Toast
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.youtube.player.YouTubeBaseActivity
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubePlayer
+import io.github.ovso.righttoknow.R
+import io.github.ovso.righttoknow.framework.ad.MyAdView
+import kotlinx.android.synthetic.main.activity_fullscreen_portrait_video.*
 
 
-class PortraitVideoActivity : AdsActivity() {
-  private val binding by viewBinding(ActivityFullscreenPortraitVideoBinding::inflate)
+class PortraitVideoActivity : YouTubeBaseActivity() {
+  lateinit var interstitialAd: InterstitialAd
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(binding.root)
+    setContentView(R.layout.activity_fullscreen_portrait_video)
+    setupAds()
+    playVideo()
+  }
 
-    lifecycle.addObserver(binding.youtubeFullscreenPortrait)
-    binding.youtubeFullscreenPortrait.getYouTubePlayerWhenReady(object : YouTubePlayerCallback {
-      override fun onYouTubePlayer(youTubePlayer: com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer) {
-        intent.getStringExtra("video_id")?.let { videoId ->
-          youTubePlayer.cueVideo(videoId, 0F)
+  private fun playVideo() {
+    val videoId = intent.getStringExtra("video_id")
+    youtubeView.initialize("develop", object : YouTubePlayer.OnInitializedListener {
+      override fun onInitializationSuccess(
+        provider: YouTubePlayer.Provider,
+        player: YouTubePlayer,
+        wasRestored: Boolean
+      ) {
+        if (!wasRestored) {
+          player.cueVideo(videoId)
         }
-
-      }
-    })
-/*
-    if (intent.hasExtra("video_id")) {
-      val youTubePlayerFragment = supportFragmentManager.findFragmentById(R.id.youtube_fragment) as YouTubePlayerFragment
-      youTubePlayerFragment.initialize(Security.GOOGLE_API_KEY.value,
-        object : YouTubePlayer.OnInitializedListener {
-          override fun onInitializationSuccess(provider: YouTubePlayer.Provider,
-                                               youTubePlayer: YouTubePlayer, b: Boolean) {
-            youTubePlayer.loadVideo(intent.getStringExtra("video_id"))
-          }
-
-          override fun onInitializationFailure(provider: YouTubePlayer.Provider,
-                                               youTubeInitializationResult: YouTubeInitializationResult) {
+        player.setPlayerStateChangeListener(object : YouTubePlayer.PlayerStateChangeListener {
+          override fun onAdStarted() {}
+          override fun onLoading() {}
+          override fun onVideoStarted() {}
+          override fun onVideoEnded() {}
+          override fun onError(p0: YouTubePlayer.ErrorReason) {}
+          override fun onLoaded(videoId: String) {
+            player.play()
           }
         })
+      }
+
+      override fun onInitializationFailure(
+        p0: YouTubePlayer.Provider?,
+        p1: YouTubeInitializationResult?
+      ) {
+        Toast.makeText(this@PortraitVideoActivity, "재생할 수 없습니다.", Toast.LENGTH_SHORT).show()
+        finish()
+      }
+    })
+  }
+
+  private fun setupAds() {
+    ad_container.addView(MyAdView.getAdmobAdView(applicationContext))
+    val interstitialAdListener: AdListener = object : AdListener() {
+      override fun onAdClosed() {
+        super.onAdClosed()
+        finish()
+      }
+    }
+
+    interstitialAd = MyAdView.getInterstitalAd(this)
+    interstitialAd.adListener = interstitialAdListener
+
+
+  }
+
+  private fun showInterstitialAd() {
+    if (interstitialAd.isLoaded) {
+      interstitialAd.show()
     } else {
-      Toast.makeText(this, R.string.no_videos_found, Toast.LENGTH_SHORT).show()
       finish()
     }
-*/
+  }
+
+  override fun onBackPressed() {
+    showInterstitialAd()
   }
 }
