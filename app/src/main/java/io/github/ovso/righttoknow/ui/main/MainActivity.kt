@@ -63,6 +63,9 @@ class MainActivity : BaseActivity(), MainPresenter.View {
           item.itemId
         )
       }
+      setOnNavigationItemReselectedListener {
+
+      }
     }
   }
 
