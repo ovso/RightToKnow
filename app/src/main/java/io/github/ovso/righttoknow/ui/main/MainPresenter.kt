@@ -7,7 +7,6 @@ interface MainPresenter {
   fun onCreate(intent: Intent)
   fun onNavigationItemSelected(id: Int)
   fun onBottomNavigationItemSelected(id: Int): Boolean
-  fun onNewIntent(intent: Intent)
   fun onBackPressed(isDrawerOpen: Boolean)
   interface View {
     fun setListener()

@@ -40,11 +40,6 @@ class MainActivity : BaseActivity(), MainPresenter.View {
     presenter.onCreate(intent)
   }
 
-  override fun onNewIntent(intent: Intent) {
-    super.onNewIntent(intent)
-    presenter.onNewIntent(intent)
-  }
-
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
     menuInflater.inflate(R.menu.main, menu)
     return true
