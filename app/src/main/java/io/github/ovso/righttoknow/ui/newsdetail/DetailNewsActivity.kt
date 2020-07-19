@@ -22,6 +22,7 @@ class DetailNewsActivity : AdsActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_detail_news)
+    setSupportActionBar(toolbar)
     pb_new_detail.hide()
     val intent = intent
     if (intent.hasExtra("news")) {
