@@ -19,14 +19,14 @@ import timber.log.Timber;
 
 @ToString @Getter public class ViolatorDe {
 
-  private String sido;
-  private String sigungu;
-  private String name;
-  private String facName;
-  private String history;
-  private String address;
-  private String action;
-  private String disposal;
+  public String sido;
+  public String sigungu;
+  public String name;
+  public String facName;
+  public String history;
+  public String address;
+  public String action;
+  public String disposal;
 
   public static ViolatorDe convertToItem(Document doc) throws JSONException, IOException {
     Elements tbodyElements = doc.body().select("tbody");
@@ -75,23 +75,23 @@ import timber.log.Timber;
     Resources res = App.getInstance().getResources();
     StringBuilder builder = new StringBuilder();
     //sido
-    builder.append(res.getString(R.string.detail_sido)).append(violator.getSido());
+    builder.append(res.getString(R.string.detail_sido)).append(violator.sido);
     builder.append("\n\n");
     //sigungu
-    builder.append(res.getString(R.string.detail_sigungu)).append(violator.getSigungu());
+    builder.append(res.getString(R.string.detail_sigungu)).append(violator.sigungu);
     builder.append("\n\n");
     //name
-    builder.append(res.getString(R.string.detail_violator_name)).append(violator.getName());
+    builder.append(res.getString(R.string.detail_violator_name)).append(violator.name);
     builder.append("\n\n");
     //old center name
     builder.append(res.getString(R.string.detail_vio_old_center_name))
-        .append(violator.getFacName());
+        .append(violator.facName);
     builder.append("\n\n");
     //history
-    builder.append(res.getString(R.string.detail_violation_history)).append(violator.getHistory());
+    builder.append(res.getString(R.string.detail_violation_history)).append(violator.history);
     builder.append("\n\n");
     //address
-    builder.append(res.getString(R.string.detail_address)).append(violator.getAddress());
+    builder.append(res.getString(R.string.detail_address)).append(violator.address);
     builder.append("\n\n");
     //action
     //builder.append(res.getString(R.string.detail_violator_action)).append(violator.getAction());

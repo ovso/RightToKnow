@@ -13,27 +13,23 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import timber.log.Timber;
 
-/**
- * Created by jaeho on 2017. 8. 2
- */
-
 @Getter @ToString public class VioFacDe {
-  private String sido;
-  private String sigungu;
-  private String type;
+  public String sido;
+  public String sigungu;
+  public String type;
 
-  private String nowFacName;
-  private String nowMaster;
-  private String nowDirector;
+  public String nowFacName;
+  public String nowMaster;
+  public String nowDirector;
 
-  private String vioFacName;
-  private String vioMaster;
-  private String vioDirector;
+  public String vioFacName;
+  public String vioMaster;
+  public String vioDirector;
 
-  private String address;
+  public String address;
 
-  private String action;
-  private String disposal;
+  public String action;
+  public String disposal;
 
   public static VioFacDe convertToItem(Document doc) throws JSONException, IOException {
     Elements tbodyElements = doc.body().select("tbody");
@@ -102,41 +98,41 @@ import timber.log.Timber;
 
     StringBuilder builder = new StringBuilder();
     //sido
-    builder.append(res.getString(R.string.detail_sido)).append(o.getSido());
+    builder.append(res.getString(R.string.detail_sido)).append(o.sido);
     builder.append("\n\n");
     //sigungu
-    builder.append(res.getString(R.string.detail_sigungu)).append(o.getSigungu());
+    builder.append(res.getString(R.string.detail_sigungu)).append(o.sigungu);
     builder.append("\n\n");
     //type
-    builder.append(res.getString(R.string.detail_type)).append(o.getType());
+    builder.append(res.getString(R.string.detail_type)).append(o.type);
     builder.append("\n\n");
     //now
     builder.append(res.getString(R.string.detail_now));
     builder.append("\n");
-    builder.append(res.getString(R.string.detail_daycare_center)).append(o.getNowFacName());
+    builder.append(res.getString(R.string.detail_daycare_center)).append(o.nowFacName);
     builder.append("\n");
-    builder.append(res.getString(R.string.detail_boss)).append(o.getNowMaster());
+    builder.append(res.getString(R.string.detail_boss)).append(o.nowMaster);
     builder.append("\n");
-    builder.append(res.getString(R.string.detail_director)).append(o.getNowDirector());
+    builder.append(res.getString(R.string.detail_director)).append(o.nowDirector);
     builder.append("\n\n");
     //old
     builder.append(res.getString(R.string.detail_vio_old));
     builder.append("\n");
-    builder.append(res.getString(R.string.detail_daycare_center)).append(o.getVioFacName());
+    builder.append(res.getString(R.string.detail_daycare_center)).append(o.vioFacName);
     builder.append("\n");
-    builder.append(res.getString(R.string.detail_boss)).append(o.getVioMaster());
+    builder.append(res.getString(R.string.detail_boss)).append(o.vioMaster);
     builder.append("\n");
-    builder.append(res.getString(R.string.detail_director)).append(o.getVioDirector());
+    builder.append(res.getString(R.string.detail_director)).append(o.vioDirector);
     builder.append("\n\n");
     //address
-    builder.append(res.getString(R.string.detail_address)).append(o.getAddress());
+    builder.append(res.getString(R.string.detail_address)).append(o.address);
     builder.append("\n\n");
     //action
-    builder.append(res.getString(R.string.detail_vio_action)).append(o.getAction());
+    builder.append(res.getString(R.string.detail_vio_action)).append(o.action);
 
     builder.append("\n\n");
     //disposal
-    builder.append(res.getString(R.string.detail_vio_disposal)).append(o.getDisposal());
+    builder.append(res.getString(R.string.detail_vio_disposal)).append(o.disposal);
     builder.append("\n");
     builder.append("\n");
     return builder.toString();
