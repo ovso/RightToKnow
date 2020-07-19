@@ -1,6 +1,5 @@
 package io.github.ovso.righttoknow.ui.main.violationfacility
 
-import android.content.Context
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
