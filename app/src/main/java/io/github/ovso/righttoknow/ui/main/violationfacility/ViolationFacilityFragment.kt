@@ -1,5 +1,6 @@
 package io.github.ovso.righttoknow.ui.main.violationfacility
 
+import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import com.google.android.material.snackbar.Snackbar
@@ -22,6 +23,7 @@ class ViolationFacilityFragment : BaseFragment(), ViolationFacilityPresenter.Vie
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
     setHasOptionsMenu(true)
+    requireActivity().setTitle(R.string.title_vioation_facility_inquiry)
     presenter = ViolationFacilityPresenterImpl(this)
     presenter.onActivityCreated(savedInstanceState)
   }
@@ -57,8 +59,8 @@ class ViolationFacilityFragment : BaseFragment(), ViolationFacilityPresenter.Vie
   }
 
   override fun navigateToViolationFacilityDetail(
-    webLink: String,
-    address: String
+    webLink: String?,
+    address: String?
   ) {
     launchActivity<VFacilityDetailActivity> {
       putExtra("vio_fac_link", webLink)
@@ -92,13 +94,6 @@ class ViolationFacilityFragment : BaseFragment(), ViolationFacilityPresenter.Vie
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     presenter.onOptionsItemSelected(item.itemId)
     return super.onOptionsItemSelected(item)
-  }
-
-  override fun onResume() {
-    super.onResume()
-    if (activity != null) {
-      requireActivity().setTitle(R.string.title_vioation_facility_inquiry)
-    }
   }
 
   companion object {
