@@ -53,13 +53,13 @@ import org.jsoup.select.Elements;
       throws IndexOutOfBoundsException {
     final ArrayList<Violator> items = new ArrayList<>();
     for (Violator violator : all) {
-      if (violator.getSido().contains(query)
-          || violator.getSigungu().contains(query)
-          || violator.getAddress().contains(query)
-          || violator.getFac_name().contains(query)
-          || violator.getHistory().contains(query)
-          || violator.getName().contains(query)
-          || violator.getOrder().contains(query)) {
+      if (violator.sido.contains(query)
+          || violator.sigungu.contains(query)
+          || violator.address.contains(query)
+          || violator.fac_name.contains(query)
+          || violator.history.contains(query)
+          || violator.name.contains(query)
+          || violator.order.contains(query)) {
         items.add(violator);
       }
     }
