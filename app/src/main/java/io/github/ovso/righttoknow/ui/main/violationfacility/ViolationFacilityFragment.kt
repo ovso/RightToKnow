@@ -1,13 +1,10 @@
 package io.github.ovso.righttoknow.ui.main.violationfacility
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import io.github.ovso.righttoknow.R
+import io.github.ovso.righttoknow.exts.launchActivity
 import io.github.ovso.righttoknow.framework.BaseFragment
 import io.github.ovso.righttoknow.framework.adapter.BaseAdapterView
 import io.github.ovso.righttoknow.framework.adapter.OnRecyclerItemClickListener
@@ -15,7 +12,6 @@ import io.github.ovso.righttoknow.framework.listener.OnFragmentEventListener
 import io.github.ovso.righttoknow.ui.main.violationfacility.model.VioFac
 import io.github.ovso.righttoknow.ui.vfacilitydetail.VFacilityDetailActivity
 import kotlinx.android.synthetic.main.fragment_violation.*
-import timber.log.Timber
 
 class ViolationFacilityFragment : BaseFragment(), ViolationFacilityPresenter.View,
   OnFragmentEventListener {
@@ -35,8 +31,6 @@ class ViolationFacilityFragment : BaseFragment(), ViolationFacilityPresenter.Vie
   }
 
   override fun setRecyclerView() {
-    val layoutManager = LinearLayoutManager(context)
-    recyclerview.layoutManager = layoutManager
     recyclerview.adapter = adapter
   }
 
@@ -66,11 +60,10 @@ class ViolationFacilityFragment : BaseFragment(), ViolationFacilityPresenter.Vie
     webLink: String,
     address: String
   ) {
-    Timber.d("webLink = %s", webLink)
-    val intent = Intent(context, VFacilityDetailActivity::class.java)
-    intent.putExtra("vio_fac_link", webLink)
-    intent.putExtra("address", address)
-    startActivity(intent)
+    launchActivity<VFacilityDetailActivity> {
+      putExtra("vio_fac_link", webLink)
+      putExtra("address", address)
+    }
   }
 
   override fun setListener() {
@@ -106,13 +99,6 @@ class ViolationFacilityFragment : BaseFragment(), ViolationFacilityPresenter.Vie
     if (activity != null) {
       requireActivity().setTitle(R.string.title_vioation_facility_inquiry)
     }
-  }
-
-  override fun onCreateOptionsMenu(
-    menu: Menu,
-    inflater: MenuInflater
-  ) {
-    super.onCreateOptionsMenu(menu, inflater)
   }
 
   companion object {
