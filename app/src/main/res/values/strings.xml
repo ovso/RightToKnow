@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">설정</string>
+    <string name="action_oss">오픈소스 라이선스</string>
     <string name="detail_sido">✔︎ 시도 :&#160;</string>
     <string name="detail_sigungu">✔︎ 시군구 :&#160;</string>
     <string name="detail_type">✔︎ 어린이집 유형 :&#160;</string>

@@ -19,7 +19,7 @@ class SettingsActivity : BaseActivity() {
   override fun setSupportActionBar(toolbar: Toolbar?) {
     super.setSupportActionBar(toolbar)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    supportActionBar?.setTitle(R.string.action_settings)
+    supportActionBar?.setTitle(R.string.action_oss)
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
