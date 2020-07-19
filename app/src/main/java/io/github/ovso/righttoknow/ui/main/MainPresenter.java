@@ -70,5 +70,7 @@ public interface MainPresenter {
     void showSearchView();
 
     void navigateToShare();
+
+      void navigateToOssLicensesMenu();
   }
 }

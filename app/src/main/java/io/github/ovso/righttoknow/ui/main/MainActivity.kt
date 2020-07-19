@@ -10,8 +10,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.databinding.ActivityMainBinding
+import io.github.ovso.righttoknow.exts.launchActivity
 import io.github.ovso.righttoknow.exts.viewBinding
 import io.github.ovso.righttoknow.framework.BaseActivity
 import io.github.ovso.righttoknow.framework.customview.BottomNavigationViewBehavior
@@ -23,6 +25,7 @@ import io.github.ovso.righttoknow.ui.main.violationfacility.ViolationFacilityFra
 import io.github.ovso.righttoknow.ui.main.violator.ViolatorFragment
 import io.github.ovso.righttoknow.ui.settings.SettingsActivity
 import io.github.ovso.righttoknow.utils.ResourceProvider
+
 
 class MainActivity : BaseActivity(), MainPresenter.View {
   lateinit var presenter: MainPresenter
@@ -48,8 +51,10 @@ class MainActivity : BaseActivity(), MainPresenter.View {
   }
 
   override fun setListener() {
-    val toggle = ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open,
-      R.string.navigation_drawer_close)
+    val toggle = ActionBarDrawerToggle(
+      this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open,
+      R.string.navigation_drawer_close
+    )
     binding.drawerLayout.addDrawerListener(toggle)
     toggle.syncState()
     binding.navView.setNavigationItemSelectedListener { item: MenuItem ->
@@ -58,7 +63,11 @@ class MainActivity : BaseActivity(), MainPresenter.View {
       true
     }
     with(binding.includeContentContainer.includeMainContainer.bottomNavigationView) {
-      setOnNavigationItemSelectedListener { item: MenuItem -> presenter.onBottomNavigationItemSelected(item.itemId) }
+      setOnNavigationItemSelectedListener { item: MenuItem ->
+        presenter.onBottomNavigationItemSelected(
+          item.itemId
+        )
+      }
     }
   }
 
@@ -72,8 +81,13 @@ class MainActivity : BaseActivity(), MainPresenter.View {
     }
   }
 
+  override fun navigateToOssLicensesMenu() {
+    launchActivity<OssLicensesMenuActivity> { }
+  }
+
   override fun setCheckedBottomNavigationView(position: Int) {
-    binding.includeContentContainer.includeMainContainer.bottomNavigationView.menu.getItem(position).isChecked = true
+    binding.includeContentContainer.includeMainContainer.bottomNavigationView.menu.getItem(position).isChecked =
+      true
   }
 
   override fun setVersionName(versionName: String) {
@@ -100,40 +114,50 @@ class MainActivity : BaseActivity(), MainPresenter.View {
 
   override fun showViolationFragment() {
     supportFragmentManager.beginTransaction()
-      .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
-        R.animator.enter_animation, R.animator.exit_animation)
+      .setCustomAnimations(
+        R.animator.enter_animation, R.animator.exit_animation,
+        R.animator.enter_animation, R.animator.exit_animation
+      )
       .replace(R.id.fragment_container, ViolationFacilityFragment.newInstance())
       .commit()
   }
 
   override fun showViolatorFragment() {
     supportFragmentManager.beginTransaction()
-      .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
-        R.animator.enter_animation, R.animator.exit_animation)
+      .setCustomAnimations(
+        R.animator.enter_animation, R.animator.exit_animation,
+        R.animator.enter_animation, R.animator.exit_animation
+      )
       .replace(R.id.fragment_container, ViolatorFragment.newInstance())
       .commit()
   }
 
   override fun showCertifiedFragment() {
     supportFragmentManager.beginTransaction()
-      .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
-        R.animator.enter_animation, R.animator.exit_animation)
+      .setCustomAnimations(
+        R.animator.enter_animation, R.animator.exit_animation,
+        R.animator.enter_animation, R.animator.exit_animation
+      )
       .replace(R.id.fragment_container, CertifiedFragment.newInstance())
       .commit()
   }
 
   override fun showNewsFragment() {
     supportFragmentManager.beginTransaction()
-      .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
-        R.animator.enter_animation, R.animator.exit_animation)
+      .setCustomAnimations(
+        R.animator.enter_animation, R.animator.exit_animation,
+        R.animator.enter_animation, R.animator.exit_animation
+      )
       .replace(R.id.fragment_container, NewsFragment.newInstance())
       .commit()
   }
 
   override fun showVideoFragment() {
     supportFragmentManager.beginTransaction()
-      .setCustomAnimations(R.animator.enter_animation, R.animator.exit_animation,
-        R.animator.enter_animation, R.animator.exit_animation)
+      .setCustomAnimations(
+        R.animator.enter_animation, R.animator.exit_animation,
+        R.animator.enter_animation, R.animator.exit_animation
+      )
       .replace(R.id.fragment_container, VideoFragment.newInstance())
       .commit()
   }

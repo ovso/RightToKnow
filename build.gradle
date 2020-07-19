@@ -8,9 +8,10 @@ buildscript {
   }
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    classpath 'com.android.tools.build:gradle:4.0.0'
+    classpath 'com.android.tools.build:gradle:4.0.1'
     classpath 'com.google.gms:google-services:4.3.3'
     classpath 'net.sf.proguard:proguard-gradle:6.2.2'
+    classpath 'com.google.android.gms:oss-licenses-plugin:0.10.2'
   }
 }
 

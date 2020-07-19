@@ -82,8 +82,8 @@ public class MainPresenterImpl implements MainPresenter {
       case R.id.nav_child_abuse:
         view.navigateToChildAbuse();
         break;
-      case R.id.nav_settings:
-        view.navigateToSettings();
+      case R.id.nav_opensource:
+        view.navigateToOssLicensesMenu();
         break;
       case R.id.nav_help:
         String msg = resourceProvider.getString(R.string.help_content);
