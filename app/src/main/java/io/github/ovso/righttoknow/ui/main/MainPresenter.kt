@@ -31,5 +31,6 @@ interface MainPresenter {
     fun showSearchView()
     fun navigateToShare()
     fun navigateToOssLicensesMenu()
+    fun showBanner()
   }
 }

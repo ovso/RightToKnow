@@ -28,6 +28,7 @@ class MainPresenterImpl internal constructor(
     view.setListener()
     view.setSearchView()
     view.showViolationFragment()
+    view.showBanner()
 //    fcmNav(intent)
   }
 

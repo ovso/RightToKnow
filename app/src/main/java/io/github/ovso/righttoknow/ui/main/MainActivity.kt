@@ -66,6 +66,9 @@ class MainActivity : BaseActivity(), MainPresenter.View {
     }
   }
 
+  override fun showBanner() {
+    showAd()
+  }
   override fun setBottomNavigationViewBehavior() {
     try {
       val bnv = binding.includeContentContainer.includeMainContainer.bottomNavigationView

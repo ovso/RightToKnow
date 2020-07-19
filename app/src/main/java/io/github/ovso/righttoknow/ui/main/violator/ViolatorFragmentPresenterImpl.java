@@ -19,12 +19,11 @@ import timber.log.Timber;
 public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter {
   private ViolatorFragmentPresenter.View view;
   private ViolatorAdapterDataModel adapterDataModel;
-  private CompositeDisposable compositeDisposable = new CompositeDisposable();
-  private String connectUrl;
+  private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+  private final String connectUrl = Constants.BASE_URL + Constants.VIOLATOR_LIST_PATH_QUERY;
 
   ViolatorFragmentPresenterImpl(ViolatorFragmentPresenter.View view) {
     this.view = view;
-    connectUrl = Constants.BASE_URL + Constants.VIOLATOR_LIST_PATH_QUERY;
   }
 
   @Override public void onActivityCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
   }
 
   @Override public void onRecyclerItemClick(Violator violator) {
-    view.navigateToViolatorDetail(violator.getLink(), violator.getAddress());
+    view.navigateToViolatorDetail(violator.link, violator.address);
   }
 
   @Override public void onDestroyView() {
