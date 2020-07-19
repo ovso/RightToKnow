@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_violator_item.*
 import java.util.*
 
 class ViolatorAdapter : BaseRecyclerAdapter(), BaseAdapterView,
-  ViolatorAdapterDataModel<Violator?> {
+  ViolatorAdapterDataModel<Violator> {
   private val items: MutableList<Violator> = ArrayList()
   override fun createViewHolder(view: View, viewType: Int): BaseViewHolder {
     return ViolatorViewHolder(view)
@@ -25,7 +25,7 @@ class ViolatorAdapter : BaseRecyclerAdapter(), BaseAdapterView,
     if (holder is ViolatorViewHolder) {
       holder.onBindViewHolder(getItem(position))
       holder.itemView.setOnClickListener {
-        onRecyclerItemClickListener!!.onItemClick(
+        onRecyclerItemClickListener.onItemClick(
           getItem(
             position
           )
@@ -65,7 +65,7 @@ class ViolatorAdapter : BaseRecyclerAdapter(), BaseAdapterView,
   override val size: Int
     get() = items.size
 
-  var onRecyclerItemClickListener: OnRecyclerItemClickListener<Violator>? = null
+  lateinit var onRecyclerItemClickListener: OnRecyclerItemClickListener<Violator>
 
   internal class ViolatorViewHolder(override val containerView: View?) :
     BaseViewHolder(containerView!!), LayoutContainer {
