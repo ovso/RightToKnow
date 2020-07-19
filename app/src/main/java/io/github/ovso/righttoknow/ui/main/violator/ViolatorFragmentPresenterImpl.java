@@ -37,7 +37,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
 
   private void req() {
     compositeDisposable.add(Observable.fromCallable(() -> Violator.convertToItems(
-        Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get()))
+        Jsoup.connect(connectUrl).timeout(TimeoutMillis.TIME.getValue()).get()))
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(items -> {
@@ -76,7 +76,7 @@ public class ViolatorFragmentPresenterImpl implements ViolatorFragmentPresenter 
     view.refresh();
     compositeDisposable.add(Observable.fromCallable(() -> {
       List<Violator> items = Violator.convertToItems(
-          Jsoup.connect(connectUrl).timeout(TimeoutMillis.JSOUP.getValue()).get());
+          Jsoup.connect(connectUrl).timeout(TimeoutMillis.TIME.getValue()).get());
       return Violator.searchResultItems(query, items);
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
         items -> {

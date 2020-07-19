@@ -55,7 +55,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
                   () -> {
                     VioFacDe vioFacDe =
                         VioFacDe.convertToItem(
-                            Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
+                            Jsoup.connect(link).timeout(TimeoutMillis.TIME.getValue()).get());
                     facName = vioFacDe.getVioFacName();
                     Timber.d("facName = %s", facName);
                     fullAddress = vioFacDe.getAddress();
@@ -81,7 +81,7 @@ public class VFacilityDetailPresenterImpl implements VFacilityDetailPresenter {
                   () -> {
                     ViolatorDe violatorDe =
                         ViolatorDe.convertToItem(
-                            Jsoup.connect(link).timeout(TimeoutMillis.JSOUP.getValue()).get());
+                            Jsoup.connect(link).timeout(TimeoutMillis.TIME.getValue()).get());
                     facName = violatorDe.getFacName();
                     Timber.d("facName = %s", facName);
                     fullAddress = violatorDe.getAddress();

@@ -46,7 +46,7 @@ public class CertifiedFragmentPresenterImpl implements CertifiedFragmentPresente
         Maybe.fromCallable(
             () -> ChildCertified.convertToItems(
                 Jsoup.connect(connectUrl).timeout(
-                    TimeoutMillis.JSOUP.getValue()
+                    TimeoutMillis.TIME.getValue()
                 ).get()))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

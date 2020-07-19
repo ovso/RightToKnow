@@ -2,12 +2,7 @@ package io.github.ovso.righttoknow.ui.main.violationfacility.model;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,7 +10,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-@Getter @ToString @EqualsAndHashCode(callSuper = false) public class VioFac {
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter @ToString @EqualsAndHashCode() public class VioFac {
   public int order;
   public String sido;
   public String sigungu;
@@ -52,7 +54,6 @@ import org.jsoup.select.Elements;
 
       jsonArray.put(object);
     }
-    String json = jsonArray.toString();
     return new Gson().fromJson(jsonArray.toString(), new TypeToken<ArrayList<VioFac>>() {
     }.getType());
   }
@@ -61,13 +62,13 @@ import org.jsoup.select.Elements;
       throws IndexOutOfBoundsException {
     final List<VioFac> items = new ArrayList<>();
     for (VioFac vioFac : all) {
-      if (vioFac.getSido().contains(query)
-          || vioFac.getSigungu().contains(query)
-          || vioFac.getAddress().contains(query)
-          || vioFac.getType().contains(query)
-          || vioFac.getMaster().contains(query)
-          || vioFac.getDirector().contains(query)
-          || vioFac.getFac_name().contains(query)) {
+      if (vioFac.sido.contains(query)
+          || vioFac.sigungu.contains(query)
+          || vioFac.address.contains(query)
+          || vioFac.type.contains(query)
+          || vioFac.master.contains(query)
+          || vioFac.director.contains(query)
+          || vioFac.fac_name.contains(query)) {
         items.add(vioFac);
       }
     }
