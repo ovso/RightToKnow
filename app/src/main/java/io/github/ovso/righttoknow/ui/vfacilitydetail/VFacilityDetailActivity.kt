@@ -20,6 +20,8 @@ class VFacilityDetailActivity : AdsActivity(), VFacilityDetailPresenter.View {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(binding.root)
+    setSupportActionBar(toolbar)
+    setTitle(R.string.title_vioation_facility_inquiry_detail)
     presenter.onCreate(savedInstanceState, intent)
 
     btn_vfac_share.setOnClickListener {
@@ -34,10 +36,6 @@ class VFacilityDetailActivity : AdsActivity(), VFacilityDetailPresenter.View {
     btn_vfac_location.setOnClickListener {
       presenter.onMapClick(intent)
     }
-  }
-
-  override fun setTitle(titleId: Int) {
-    super.setTitle(titleId)
   }
 
   override fun setSupportActionBar() {
