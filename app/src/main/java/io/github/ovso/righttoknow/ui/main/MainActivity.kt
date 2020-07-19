@@ -83,11 +83,6 @@ class MainActivity : BaseActivity(), MainPresenter.View {
     launchActivity<OssLicensesMenuActivity> { }
   }
 
-  override fun setCheckedBottomNavigationView(position: Int) {
-    binding.includeContentContainer.includeMainContainer.bottomNavigationView.menu.getItem(position).isChecked =
-      true
-  }
-
   override fun setVersionName(versionName: String) {
     val view = binding.navView.getHeaderView(0)
     val versionNameView = view.findViewById<TextView>(R.id.version_name_textview)

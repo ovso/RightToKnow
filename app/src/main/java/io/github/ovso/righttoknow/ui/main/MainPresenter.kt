@@ -11,7 +11,6 @@ interface MainPresenter {
   interface View {
     fun setListener()
     fun setBottomNavigationViewBehavior()
-    fun setCheckedBottomNavigationView(position: Int)
     fun setVersionName(versionName: String)
     fun changeTheme()
     fun closeSearchView()
