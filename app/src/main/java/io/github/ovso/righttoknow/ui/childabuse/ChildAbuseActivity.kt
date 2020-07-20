@@ -19,6 +19,7 @@ class ChildAbuseActivity : AdsActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(binding.root)
+    setSupportActionBar(toolbar)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
     setTitle(R.string.child_abuse)
     val settings = webview.settings
@@ -31,7 +32,8 @@ class ChildAbuseActivity : AdsActivity() {
     webview.webViewClient = WebViewClient()
     webview.webChromeClient = WebChromeClient()
     webview.loadUrl(
-      "http://m.post.naver.com/viewer/postView.nhn?volumeNo=9367173&memberNo=22718804&vType=VERTICAL")
+      "http://m.post.naver.com/viewer/postView.nhn?volumeNo=9367173&memberNo=22718804&vType=VERTICAL"
+    )
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
