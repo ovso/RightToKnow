@@ -1,6 +1,6 @@
 # RightToKnow
 RightToKnow
 
-- Java
+- Kotlin, Java
 - MVP
 - RxJava
