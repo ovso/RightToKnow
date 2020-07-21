@@ -19,6 +19,11 @@ abstract class AdsActivity : BaseActivity() {
       super.onAdClosed()
       finish()
     }
+
+    override fun onAdFailedToLoad(p0: Int) {
+      super.onAdFailedToLoad(p0)
+      finish()
+    }
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
