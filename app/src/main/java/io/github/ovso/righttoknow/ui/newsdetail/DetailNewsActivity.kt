@@ -24,6 +24,7 @@ class DetailNewsActivity : AdsActivity() {
     setContentView(R.layout.activity_detail_news)
     setSupportActionBar(toolbar)
     pb_new_detail.hide()
+    showAd()
     val intent = intent
     if (intent.hasExtra("news")) {
       setInit()

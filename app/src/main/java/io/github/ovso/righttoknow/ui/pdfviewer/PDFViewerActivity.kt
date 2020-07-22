@@ -21,6 +21,7 @@ class PDFViewerActivity : AdsActivity() {
       val file = intent.getSerializableExtra("file") as File
       pdf_view.fromFile(file).load()
     }
+    showAd()
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
