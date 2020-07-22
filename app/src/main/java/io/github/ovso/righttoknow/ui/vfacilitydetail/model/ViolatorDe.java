@@ -102,9 +102,11 @@ public class ViolatorDe {
         builder.append("\n\n");
         //action
         builder.append(res.getString(R.string.detail_violator_action)).append(violator.action);
+//        builder.append(violator.action);
         builder.append("\n\n");
         //disposal
         builder.append(res.getString(R.string.detail_violator_disposal)).append(violator.disposal);
+//        builder.append(violator.disposal);
         builder.append("\n\n");
         return builder.toString();
     }

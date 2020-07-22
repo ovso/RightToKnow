@@ -61,9 +61,7 @@ class ViolationFacilityPresenterImpl internal constructor(private val view: Viol
   }
 
   override fun onRecyclerItemClick(vioFac: VioFac) {
-    val webLink: String = vioFac.link
-    val address: String = vioFac.address
-    view.navigateToViolationFacilityDetail(webLink, address)
+    view.navigateToViolationFacilityDetail(vioFac.link, vioFac.address)
   }
 
   override fun onRefresh() {

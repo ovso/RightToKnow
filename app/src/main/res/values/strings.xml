@@ -15,9 +15,9 @@
     <string name="detail_vio_old">✔︎︎ 위반당시</string>
     <string name="detail_address">✔︎︎ 주소 :&#160;</string>
     <string name="detail_vio_action">✔︎︎ 위반행위 : </string>
-    <string name="detail_violator_action">✔︎︎ 위반행위의 내용</string>
+    <string name="detail_violator_action">✔︎︎ 위반행위의 내용: </string>
     <string name="detail_vio_disposal">✔︎︎ 처분내용 : </string>
-    <string name="detail_violator_disposal">✔︎︎ 행정처분의 내용</string>
+    <string name="detail_violator_disposal">✔︎︎ 행정처분의 내용: </string>
     <string name="turn">순번</string>
     <string name="sido">시도</string>
     <string name="sigungu">시군구</string>

@@ -15,16 +15,16 @@ import io.github.ovso.righttoknow.framework.BaseActivity
 
 class MapActivity : BaseActivity(), OnMapReadyCallback {
 
-  private val binding by viewBinding(ActivityMapBinding::inflate)
+//  private val binding by viewBinding(ActivityMapBinding::inflate)
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(binding.root)
-
+    setContentView(R.layout.activity_map)
+    setSupportActionBar(toolbar)
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
     setTitle(R.string.vio_fac_loc)
-    supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-    val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment
-    mapFragment.getMapAsync(this)
+    val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as? MapFragment
+    mapFragment?.getMapAsync(this)
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
