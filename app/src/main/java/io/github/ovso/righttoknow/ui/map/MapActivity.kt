@@ -2,10 +2,7 @@ package io.github.ovso.righttoknow.ui.map
 
 import android.os.Bundle
 import android.view.MenuItem
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapFragment
-import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import io.github.ovso.righttoknow.R
@@ -15,16 +12,18 @@ import io.github.ovso.righttoknow.framework.BaseActivity
 
 class MapActivity : BaseActivity(), OnMapReadyCallback {
 
-//  private val binding by viewBinding(ActivityMapBinding::inflate)
+  private val binding by viewBinding(ActivityMapBinding::inflate)
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_map)
+    setContentView(binding.root)
     setSupportActionBar(toolbar)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
     setTitle(R.string.vio_fac_loc)
-    val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as? MapFragment
+    val mapFragment =
+      supportFragmentManager.findFragmentById(R.id.map_fragment) as? SupportMapFragment
     mapFragment?.getMapAsync(this)
+    showAd()
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -34,13 +33,15 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
 
   override fun onMapReady(googleMap: GoogleMap) {
     val locations = intent.getDoubleArrayExtra("locations")
-    val latlng = LatLng(locations[0], locations[1])
-    val markerOptions = MarkerOptions()
-    markerOptions.anchor(0.0f, 1.0f)
-    markerOptions.position(latlng)
-    markerOptions.title(intent.getStringExtra("facName"))
-    googleMap.addMarker(markerOptions)
-    googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng))
-    googleMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
+    locations?.let {
+      val latLng = LatLng(it[0], it[1])
+      val markerOptions = MarkerOptions()
+      markerOptions.anchor(0.0f, 1.0f)
+      markerOptions.position(latLng)
+      markerOptions.title(intent.getStringExtra("facName"))
+      googleMap.addMarker(markerOptions)
+      googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+      googleMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
+    }
   }
 }
