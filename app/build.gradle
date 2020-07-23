@@ -12,11 +12,11 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 28
     defaultConfig {
         applicationId "io.github.ovso.righttoknow"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 28
 
         int versionMajor = 1
         int versionMinor = 0
@@ -136,6 +136,8 @@ dependencies {
     // firebase
     implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
     implementation "com.google.firebase:firebase-core:$firebase_core_version"
+    implementation 'com.google.firebase:firebase-config-ktx:19.2.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx:17.4.4'
 
     // rxjava
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
