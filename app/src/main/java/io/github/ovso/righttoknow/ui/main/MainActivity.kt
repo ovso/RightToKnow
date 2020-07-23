@@ -11,6 +11,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.get
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.databinding.ActivityMainBinding
 import io.github.ovso.righttoknow.exts.launchActivity
@@ -25,11 +32,12 @@ import io.github.ovso.righttoknow.ui.main.violationfacility.ViolationFacilityFra
 import io.github.ovso.righttoknow.ui.main.violator.ViolatorFragment
 import io.github.ovso.righttoknow.ui.settings.SettingsActivity
 import io.github.ovso.righttoknow.utils.ResourceProvider
+import timber.log.Timber
 
 
 class MainActivity : BaseActivity(), MainPresenter.View {
   lateinit var presenter: MainPresenter
-
+  private lateinit var remoteConfig: FirebaseRemoteConfig
   private val binding by viewBinding(ActivityMainBinding::inflate)
 
   public override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +47,36 @@ class MainActivity : BaseActivity(), MainPresenter.View {
     presenter = MainPresenterImpl(this, ResourceProvider(this))
     presenter.onCreate(intent)
     showAd()
+    getRemoteData()
+  }
+
+  private fun getRemoteData() {
+    remoteConfig = Firebase.remoteConfig
+    val configSettings = remoteConfigSettings {
+      minimumFetchIntervalInSeconds = 3600
+    }
+    remoteConfig.setConfigSettingsAsync(configSettings)
+    remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+    remoteConfig.fetchAndActivate()
+      .addOnCompleteListener(this) { task ->
+        if (task.isSuccessful) {
+          val updated = task.result
+          Toast.makeText(
+            this, "Fetch and activate succeeded",
+            Toast.LENGTH_SHORT
+          ).show()
+        } else {
+          Toast.makeText(
+            this, "Fetch failed",
+            Toast.LENGTH_SHORT
+          ).show()
+        }
+        val adType = Gson().fromJson(remoteConfig["ad_type"].asString(), AdType::class.java)
+        val type = adType.type.toString()
+        val imgUrl = adType.imgUrl
+        val navUrl = adType.navUrl
+        showHelpAlert("$type, $imgUrl, $navUrl")
+      }
   }
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -189,3 +227,12 @@ class MainActivity : BaseActivity(), MainPresenter.View {
     AlertDialog.Builder(this).setTitle(R.string.help).setMessage(msg).show()
   }
 }
+
+data class AdType(
+  @SerializedName("type")
+  val type: Int,
+  @SerializedName("img_url")
+  val imgUrl: String,
+  @SerializedName("nav_url")
+  val navUrl: String
+)

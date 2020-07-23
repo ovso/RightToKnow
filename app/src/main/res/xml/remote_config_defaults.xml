@@ -2,12 +2,12 @@
 <!-- START xml_defaults -->
 <defaultsMap>
   <entry>
-    <key>adview_type</key>
+    <key>ad_type</key>
     <value>admob</value>
   </entry>
   <entry>
-    <key>adview_type</key>
-    <value>cauly</value>
+    <key>ad_type</key>
+    <value>other</value>
   </entry>
 </defaultsMap>
     <!-- END xml_defaults -->
