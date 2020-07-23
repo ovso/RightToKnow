@@ -4,7 +4,7 @@ ext {
   play_services_maps_version = '17.0.0'
 
   firebase_ads_version = '19.2.0'
-  firebase_core_version = '17.4.3'
+  firebase_core_version = '17.4.4'
   firebase_database_version = '16.0.1'
   firebase_storage_version = '16.0.1'
   firebase_messaging_version = '17.0.0'
