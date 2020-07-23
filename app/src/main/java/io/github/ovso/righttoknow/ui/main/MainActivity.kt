@@ -38,6 +38,7 @@ class MainActivity : BaseActivity(), MainPresenter.View {
     setSupportActionBar(toolbar)
     presenter = MainPresenterImpl(this, ResourceProvider(this))
     presenter.onCreate(intent)
+    showAd()
   }
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
