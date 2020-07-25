@@ -1,14 +1,18 @@
 package io.github.ovso.righttoknow.ui.main
 
 import android.content.Intent
+import com.google.gson.Gson
 import io.github.ovso.righttoknow.App.Companion.instance
 import io.github.ovso.righttoknow.R
+import io.github.ovso.righttoknow.data.network.Repository
 import io.github.ovso.righttoknow.framework.utils.Utility
 import io.github.ovso.righttoknow.utils.ResourceProvider
+import timber.log.Timber
 
 class MainPresenterImpl internal constructor(
   private val view: MainPresenter.View,
-  private val resourceProvider: ResourceProvider
+  private val resourceProvider: ResourceProvider,
+  private val repository: Repository
 ) : MainPresenter {
 
   override fun onBackPressed(isDrawerOpen: Boolean) {
@@ -29,7 +33,21 @@ class MainPresenterImpl internal constructor(
     view.setSearchView()
     view.showViolationFragment()
     view.showBanner()
-//    fcmNav(intent)
+    reqAdsData()
+  }
+
+  private fun reqAdsData() {
+    repository.fetchAdsData().addOnCompleteListener { task ->
+      if (task.isSuccessful) {
+        val updated = task.result
+        val adType = Gson().fromJson(repository.getAdsValue("ad_type"), AdType::class.java)
+        val type = adType.type.toString()
+        val imgUrl = adType.imgUrl
+        val navUrl = adType.navUrl
+        Timber.d("$type, $imgUrl, $navUrl")
+      }
+    }
+
   }
 
   override fun onNavigationItemSelected(id: Int) {

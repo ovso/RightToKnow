@@ -19,6 +19,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import io.github.ovso.righttoknow.R
+import io.github.ovso.righttoknow.data.network.Repository
 import io.github.ovso.righttoknow.databinding.ActivityMainBinding
 import io.github.ovso.righttoknow.exts.launchActivity
 import io.github.ovso.righttoknow.exts.viewBinding
@@ -32,7 +33,6 @@ import io.github.ovso.righttoknow.ui.main.violationfacility.ViolationFacilityFra
 import io.github.ovso.righttoknow.ui.main.violator.ViolatorFragment
 import io.github.ovso.righttoknow.ui.settings.SettingsActivity
 import io.github.ovso.righttoknow.utils.ResourceProvider
-import timber.log.Timber
 
 
 class MainActivity : BaseActivity(), MainPresenter.View {
@@ -44,10 +44,14 @@ class MainActivity : BaseActivity(), MainPresenter.View {
     super.onCreate(savedInstanceState)
     setContentView(binding.root)
     setSupportActionBar(toolbar)
-    presenter = MainPresenterImpl(this, ResourceProvider(this))
+    presenter = MainPresenterImpl(
+      this,
+      ResourceProvider(this),
+      Repository(Firebase)
+    )
     presenter.onCreate(intent)
     showAd()
-    getRemoteData()
+//    getRemoteData()
   }
 
   private fun getRemoteData() {

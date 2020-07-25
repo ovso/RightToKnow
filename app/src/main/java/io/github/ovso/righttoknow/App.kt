@@ -1,8 +1,7 @@
 package io.github.ovso.righttoknow
 
 import android.app.Application
-import io.github.ovso.righttoknow.framework.utils.AppInitUtils
-import io.github.ovso.righttoknow.framework.utils.MessagingHandler
+import io.github.ovso.righttoknow.framework.utils.SystemUtils
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
@@ -13,11 +12,8 @@ class App : Application() {
   override fun onCreate() {
     super.onCreate()
     instance = this
-    DEBUG = AppInitUtils.debug(applicationContext)
-    AppInitUtils.ad(applicationContext)
-    AppInitUtils.timber(DEBUG)
-    AppInitUtils.prDownloader(applicationContext)
-    MessagingHandler.createChannelToShowNotifications()
+    DEBUG = SystemUtils.isDebuggable(this)
+    Library.init(this)
     setupRxJavaHandling()
   }
 
