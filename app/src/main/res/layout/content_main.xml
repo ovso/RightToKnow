@@ -5,19 +5,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-  <FrameLayout
-      android:id="@id/fragment_container"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      />
-  <include layout="@layout/adview_standalone" />
-  <com.google.android.material.bottomnavigation.BottomNavigationView
-      android:id="@id/bottom_navigation_view"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="bottom"
-      android:background="?android:attr/windowBackground"
-      app:menu="@menu/navigation"
-      />
+
+    <FrameLayout
+        android:id="@id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <include layout="@layout/layout_main_other_ads_container" />
+
+    <include layout="@layout/adview_standalone" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@id/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/navigation" />
 </LinearLayout>

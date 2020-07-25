@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
+import com.bumptech.glide.Glide
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.firebase.ktx.Firebase
 import com.google.gson.annotations.SerializedName
@@ -28,10 +29,11 @@ import io.github.ovso.righttoknow.ui.main.violationfacility.ViolationFacilityFra
 import io.github.ovso.righttoknow.ui.main.violator.ViolatorFragment
 import io.github.ovso.righttoknow.ui.settings.SettingsActivity
 import io.github.ovso.righttoknow.utils.ResourceProvider
+import kotlinx.android.synthetic.main.layout_main_other_ads_container.*
 
 
 class MainActivity : BaseActivity(), MainPresenter.View {
-  lateinit var presenter: MainPresenter
+  private lateinit var presenter: MainPresenter
   private val binding by viewBinding(ActivityMainBinding::inflate)
 
   public override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,7 +96,10 @@ class MainActivity : BaseActivity(), MainPresenter.View {
   }
 
   override fun showOtherBanner(imgUrl: String, navUrl: String) {
-    Log.d("imgUrl = $imgUrl, navUrl = $navUrl")
+    Glide.with(ivMainOtherAds).load(imgUrl).into(ivMainOtherAds)
+    ivMainOtherAds.setOnClickListener {
+      Toast.makeText(it.context, "광고 클릭!!", Toast.LENGTH_SHORT).show()
+    }
   }
 
   override fun setVersionName(versionName: String) {

@@ -43,7 +43,9 @@ class MainPresenterImpl internal constructor(
         val updated = task.result
         Log.d("updated = $updated")
         val adsType = Gson().fromJson(repository.getAdsValue("ad_type"), AdsType::class.java)
-        when (adsType.type) {
+        var type = adsType.type
+        type = 1
+        when (type) {
           0 -> { // admob
             Log.d("admob")
             view.showBanner()
