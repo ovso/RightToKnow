@@ -1,6 +1,7 @@
 package io.github.ovso.righttoknow.ui.main
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -103,8 +104,16 @@ class MainActivity : BaseActivity(), MainPresenter.View {
       height = resources.getDimensionPixelSize(R.dimen.main_other_ads_height)
     }
     ivMainOtherAds.setOnClickListener {
-      Toast.makeText(it.context, "광고 클릭!!", Toast.LENGTH_SHORT).show()
+      navigateExternalBrowser(navUrl)
     }
+  }
+
+  private fun navigateExternalBrowser(navUrl: String) {
+    startActivity(
+      Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(navUrl)
+      }
+    )
   }
 
   override fun setVersionName(versionName: String) {
