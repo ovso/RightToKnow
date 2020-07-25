@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
+import androidx.core.view.updateLayoutParams
 import com.bumptech.glide.Glide
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.firebase.ktx.Firebase
@@ -97,6 +99,9 @@ class MainActivity : BaseActivity(), MainPresenter.View {
 
   override fun showOtherBanner(imgUrl: String, navUrl: String) {
     Glide.with(ivMainOtherAds).load(imgUrl).into(ivMainOtherAds)
+    ivMainOtherAds.updateLayoutParams<LinearLayout.LayoutParams> {
+      height = resources.getDimensionPixelSize(R.dimen.main_other_ads_height)
+    }
     ivMainOtherAds.setOnClickListener {
       Toast.makeText(it.context, "광고 클릭!!", Toast.LENGTH_SHORT).show()
     }
