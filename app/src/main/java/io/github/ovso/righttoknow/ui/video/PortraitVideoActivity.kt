@@ -56,7 +56,6 @@ class PortraitVideoActivity : YouTubeBaseActivity() {
   }
 
   private fun setupAds() {
-    ad_container.addView(MyAdView.getAdmobAdView(applicationContext))
     val interstitialAdListener: AdListener = object : AdListener() {
       override fun onAdClosed() {
         super.onAdClosed()
