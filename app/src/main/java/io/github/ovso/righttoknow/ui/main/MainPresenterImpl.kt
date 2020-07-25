@@ -2,12 +2,14 @@ package io.github.ovso.righttoknow.ui.main
 
 import android.content.Intent
 import com.google.gson.Gson
+import com.orhanobut.logger.Logger
 import io.github.ovso.righttoknow.App.Companion.instance
 import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.data.network.Repository
 import io.github.ovso.righttoknow.framework.utils.Utility
 import io.github.ovso.righttoknow.utils.ResourceProvider
-import timber.log.Timber
+
+typealias Log = Logger
 
 class MainPresenterImpl internal constructor(
   private val view: MainPresenter.View,
@@ -40,14 +42,14 @@ class MainPresenterImpl internal constructor(
     repository.fetchAdsData().addOnCompleteListener { task ->
       if (task.isSuccessful) {
         val updated = task.result
+        Log.d("updated = $updated")
         val adType = Gson().fromJson(repository.getAdsValue("ad_type"), AdType::class.java)
         val type = adType.type.toString()
         val imgUrl = adType.imgUrl
         val navUrl = adType.navUrl
-        Timber.d("$type, $imgUrl, $navUrl")
+        Log.d("$type, $imgUrl, $navUrl")
       }
     }
-
   }
 
   override fun onNavigationItemSelected(id: Int) {
