@@ -12,11 +12,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.get
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.data.network.Repository
@@ -37,7 +32,6 @@ import io.github.ovso.righttoknow.utils.ResourceProvider
 
 class MainActivity : BaseActivity(), MainPresenter.View {
   lateinit var presenter: MainPresenter
-  private lateinit var remoteConfig: FirebaseRemoteConfig
   private val binding by viewBinding(ActivityMainBinding::inflate)
 
   public override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,37 +44,6 @@ class MainActivity : BaseActivity(), MainPresenter.View {
       Repository(Firebase)
     )
     presenter.onCreate(intent)
-    showAd()
-//    getRemoteData()
-  }
-
-  private fun getRemoteData() {
-    remoteConfig = Firebase.remoteConfig
-    val configSettings = remoteConfigSettings {
-      minimumFetchIntervalInSeconds = 3600
-    }
-    remoteConfig.setConfigSettingsAsync(configSettings)
-    remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
-    remoteConfig.fetchAndActivate()
-      .addOnCompleteListener(this) { task ->
-        if (task.isSuccessful) {
-          val updated = task.result
-          Toast.makeText(
-            this, "Fetch and activate succeeded",
-            Toast.LENGTH_SHORT
-          ).show()
-        } else {
-          Toast.makeText(
-            this, "Fetch failed",
-            Toast.LENGTH_SHORT
-          ).show()
-        }
-        val adType = Gson().fromJson(remoteConfig["ad_type"].asString(), AdType::class.java)
-        val type = adType.type.toString()
-        val imgUrl = adType.imgUrl
-        val navUrl = adType.navUrl
-        showHelpAlert("$type, $imgUrl, $navUrl")
-      }
   }
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -112,10 +75,6 @@ class MainActivity : BaseActivity(), MainPresenter.View {
     }
   }
 
-  override fun showBanner() {
-    showAd()
-  }
-
   override fun setBottomNavigationViewBehavior() {
     try {
       val bnv = binding.includeContentContainer.includeMainContainer.bottomNavigationView
@@ -128,6 +87,14 @@ class MainActivity : BaseActivity(), MainPresenter.View {
 
   override fun navigateToOssLicensesMenu() {
     launchActivity<OssLicensesMenuActivity> { }
+  }
+
+  override fun showBanner() {
+    showAds()
+  }
+
+  override fun showOtherBanner(imgUrl: String, navUrl: String) {
+    Log.d("imgUrl = $imgUrl, navUrl = $navUrl")
   }
 
   override fun setVersionName(versionName: String) {
@@ -232,7 +199,7 @@ class MainActivity : BaseActivity(), MainPresenter.View {
   }
 }
 
-data class AdType(
+data class AdsType(
   @SerializedName("type")
   val type: Int,
   @SerializedName("img_url")

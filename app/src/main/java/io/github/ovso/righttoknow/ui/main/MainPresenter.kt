@@ -31,5 +31,6 @@ interface MainPresenter {
     fun navigateToShare()
     fun navigateToOssLicensesMenu()
     fun showBanner()
+    fun showOtherBanner(imgUrl: String, navUrl: String)
   }
 }

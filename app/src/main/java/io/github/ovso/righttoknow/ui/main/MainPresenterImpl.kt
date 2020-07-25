@@ -34,7 +34,6 @@ class MainPresenterImpl internal constructor(
     view.setListener()
     view.setSearchView()
     view.showViolationFragment()
-    view.showBanner()
     reqAdsData()
   }
 
@@ -43,11 +42,22 @@ class MainPresenterImpl internal constructor(
       if (task.isSuccessful) {
         val updated = task.result
         Log.d("updated = $updated")
-        val adType = Gson().fromJson(repository.getAdsValue("ad_type"), AdType::class.java)
-        val type = adType.type.toString()
-        val imgUrl = adType.imgUrl
-        val navUrl = adType.navUrl
-        Log.d("$type, $imgUrl, $navUrl")
+        val adsType = Gson().fromJson(repository.getAdsValue("ad_type"), AdsType::class.java)
+        when (adsType.type) {
+          0 -> { // admob
+            Log.d("admob")
+            view.showBanner()
+          }
+          1 -> { // admob + other
+            Log.d("admob + other")
+            view.showBanner()
+            view.showOtherBanner(adsType.imgUrl, adsType.navUrl)
+          }
+          2 -> { // other
+            Log.d("other")
+            view.showOtherBanner(adsType.imgUrl, adsType.navUrl)
+          }
+        }
       }
     }
   }

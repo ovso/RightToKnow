@@ -23,7 +23,7 @@ class VFacilityDetailActivity : AdsActivity(), VFacilityDetailPresenter.View {
     setSupportActionBar(toolbar)
     setTitle(R.string.title_vioation_facility_inquiry_detail)
     presenter.onCreate(savedInstanceState, intent)
-    showAd()
+    showAds()
 
     btn_vfac_share.setOnClickListener {
       val intent = Intent()

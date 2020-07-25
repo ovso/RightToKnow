@@ -15,10 +15,9 @@ abstract class BaseActivity : AppCompatActivity() {
     val toolbar = findViewById<Toolbar>(R.id.toolbar)
     toolbar?.let { setSupportActionBar(it) }
     setNavigationBarColor()
-    showAd()
   }
 
-  protected fun showAd() {
+  protected fun showAds() {
     val adContainer = findViewById<ViewGroup>(R.id.ad_container)
     adContainer?.addView(MyAdView.getAdmobAdView(applicationContext))
   }

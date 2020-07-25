@@ -23,7 +23,7 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
     val mapFragment =
       supportFragmentManager.findFragmentById(R.id.map_fragment) as? SupportMapFragment
     mapFragment?.getMapAsync(this)
-    showAd()
+    showAds()
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
