@@ -1,20 +1,24 @@
 package io.github.ovso.righttoknow.ui.main
 
 import android.content.Intent
-import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import io.github.ovso.righttoknow.App.Companion.instance
 import io.github.ovso.righttoknow.R
 import io.github.ovso.righttoknow.data.network.Repository
+import io.github.ovso.righttoknow.data.toObject
+import io.github.ovso.righttoknow.exts.plusAssign
 import io.github.ovso.righttoknow.framework.utils.Utility
 import io.github.ovso.righttoknow.utils.ResourceProvider
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 typealias Log = Logger
 
 class MainPresenterImpl internal constructor(
   private val view: MainPresenter.View,
   private val resourceProvider: ResourceProvider,
-  private val repository: Repository
+  private val repository: Repository,
+  private val compositeDisposable: CompositeDisposable
 ) : MainPresenter {
 
   override fun onBackPressed(isDrawerOpen: Boolean) {
@@ -42,19 +46,17 @@ class MainPresenterImpl internal constructor(
       if (task.isSuccessful) {
         val updated = task.result
         Log.d("updated = $updated")
-        val adsType = Gson().fromJson(repository.getAdsValue("ad_type"), AdsType::class.java)
-        when (adsType.type) {
-          0 -> { // admob
-            view.showBanner()
-          }
-          1 -> { // admob + other
-            view.showBanner()
-            view.showOtherBanner(adsType.imgUrl, adsType.navUrl)
-          }
-          2 -> { // other
-            view.showOtherBanner(adsType.imgUrl, adsType.navUrl)
-          }
-        }
+        compositeDisposable += repository.getAdsValue("ad_type").toObject<AdsData>()
+          .subscribe({
+            when (it.type) {
+              0 -> view.showBanner() // admob
+              1 -> { // admob + other
+                view.showBanner()
+                view.showOtherBanner(it.imgUrl, it.navUrl)
+              }
+              2 -> view.showOtherBanner(it.imgUrl, it.navUrl) // other
+            }
+          }, Logger::d)
       }
     }
   }

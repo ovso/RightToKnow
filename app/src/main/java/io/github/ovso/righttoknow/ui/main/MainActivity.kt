@@ -32,12 +32,16 @@ import io.github.ovso.righttoknow.ui.main.violationfacility.ViolationFacilityFra
 import io.github.ovso.righttoknow.ui.main.violator.ViolatorFragment
 import io.github.ovso.righttoknow.ui.settings.SettingsActivity
 import io.github.ovso.righttoknow.utils.ResourceProvider
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.layout_main_other_ads_container.*
 
 
 class MainActivity : BaseActivity(), MainPresenter.View {
   private lateinit var presenter: MainPresenter
   private val binding by viewBinding(ActivityMainBinding::inflate)
+  private val compositeDisposable by lazy {
+    CompositeDisposable()
+  }
 
   public override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -46,7 +50,8 @@ class MainActivity : BaseActivity(), MainPresenter.View {
     presenter = MainPresenterImpl(
       this,
       ResourceProvider(this),
-      Repository(Firebase)
+      Repository(Firebase),
+      CompositeDisposable()
     )
     presenter.onCreate(intent)
   }
@@ -216,9 +221,14 @@ class MainActivity : BaseActivity(), MainPresenter.View {
   override fun showHelpAlert(msg: String) {
     AlertDialog.Builder(this).setTitle(R.string.help).setMessage(msg).show()
   }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    compositeDisposable.clear()
+  }
 }
 
-data class AdsType(
+data class AdsData(
   @SerializedName("type")
   val type: Int,
   @SerializedName("img_url")
