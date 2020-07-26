@@ -4,6 +4,7 @@ import android.content.Intent
 import com.orhanobut.logger.Logger
 import io.github.ovso.righttoknow.App.Companion.instance
 import io.github.ovso.righttoknow.R
+import io.github.ovso.righttoknow.data.SchedulerProvider
 import io.github.ovso.righttoknow.data.network.Repository
 import io.github.ovso.righttoknow.data.toObject
 import io.github.ovso.righttoknow.exts.plusAssign
@@ -46,6 +47,7 @@ class MainPresenterImpl internal constructor(
         val updated = task.result
         Log.d("updated = $updated")
         compositeDisposable += repository.getAdsValue("ad_type").toObject<AdsData>()
+          .observeOn(SchedulerProvider.ui())
           .subscribe({
             when (it.type) {
               0 -> view.showBanner() // admob
