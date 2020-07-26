@@ -19,8 +19,8 @@ android {
         targetSdkVersion 29
 
         int versionMajor = 1
-        int versionMinor = 0
-        int versionPatch = 7
+        int versionMinor = 1
+        int versionPatch = 0
 
         versionCode versionMajor * 1000000 + versionMinor * 1000 + versionPatch
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
