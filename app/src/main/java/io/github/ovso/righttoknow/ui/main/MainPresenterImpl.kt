@@ -10,7 +10,6 @@ import io.github.ovso.righttoknow.exts.plusAssign
 import io.github.ovso.righttoknow.framework.utils.Utility
 import io.github.ovso.righttoknow.utils.ResourceProvider
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 
 typealias Log = Logger
 
